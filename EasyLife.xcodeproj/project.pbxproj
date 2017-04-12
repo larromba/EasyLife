@@ -114,12 +114,7 @@
 				7FAC2C9D1E9ECAA900F14ECB /* Class */,
 				7FAC2CA01E9ECAD400F14ECB /* Protocol */,
 				7FAC2C9A1E9ECA9700F14ECB /* Extension */,
-				7FAC2C601E9E673400F14ECB /* Main.storyboard */,
-				7FAC2CA51E9ED2FB00F14ECB /* Components.storyboard */,
-				7FAC2C661E9E673400F14ECB /* Assets.xcassets */,
-				7FAC2C681E9E673400F14ECB /* LaunchScreen.storyboard */,
-				7FAC2C6B1E9E673400F14ECB /* Info.plist */,
-				7FAC2C631E9E673400F14ECB /* EasyLife.xcdatamodeld */,
+				7FAC2CAE1E9EF53A00F14ECB /* Resources */,
 			);
 			path = EasyLife;
 			sourceTree = "<group>";
@@ -136,10 +131,9 @@
 		7FAC2C991E9ECA8400F14ECB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7FAC2CA91E9EED0000F14ECB /* TodoItem+CoreDataClass.swift */,
-				7FAC2CAA1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift */,
 				7FAC2C971E9EC91400F14ECB /* Repeat.swift */,
 				7FAC2C931E9EBC9A00F14ECB /* TodoItem+Utility.swift */,
+				7FAC2CAD1E9EF4FB00F14ECB /* _Generated */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -187,6 +181,28 @@
 				7FAC2C951E9EBF6400F14ECB /* ResponderSelection.swift */,
 			);
 			name = Protocol;
+			sourceTree = "<group>";
+		};
+		7FAC2CAD1E9EF4FB00F14ECB /* _Generated */ = {
+			isa = PBXGroup;
+			children = (
+				7FAC2CA91E9EED0000F14ECB /* TodoItem+CoreDataClass.swift */,
+				7FAC2CAA1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift */,
+			);
+			name = _Generated;
+			sourceTree = "<group>";
+		};
+		7FAC2CAE1E9EF53A00F14ECB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7FAC2C6B1E9E673400F14ECB /* Info.plist */,
+				7FAC2C661E9E673400F14ECB /* Assets.xcassets */,
+				7FAC2C631E9E673400F14ECB /* EasyLife.xcdatamodeld */,
+				7FAC2C601E9E673400F14ECB /* Main.storyboard */,
+				7FAC2CA51E9ED2FB00F14ECB /* Components.storyboard */,
+				7FAC2C681E9E673400F14ECB /* LaunchScreen.storyboard */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
