@@ -32,6 +32,7 @@
 		7FAC2CB21E9F7EDF00F14ECB /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CB11E9F7EDF00F14ECB /* Notification+Name.swift */; };
 		7FAC2CB41E9F88A200F14ECB /* UIColor+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CB31E9F88A200F14ECB /* UIColor+Style.swift */; };
 		7FAC2CB61E9F9B0E00F14ECB /* UITableView+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CB51E9F9B0E00F14ECB /* UITableView+Style.swift */; };
+		7FAC2CB81E9FA8AE00F14ECB /* UITextField+ReadOnly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CB71E9FA8AE00F14ECB /* UITextField+ReadOnly.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		7FAC2CB11E9F7EDF00F14ECB /* Notification+Name.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		7FAC2CB31E9F88A200F14ECB /* UIColor+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Style.swift"; sourceTree = "<group>"; };
 		7FAC2CB51E9F9B0E00F14ECB /* UITableView+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Style.swift"; sourceTree = "<group>"; };
+		7FAC2CB71E9FA8AE00F14ECB /* UITextField+ReadOnly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+ReadOnly.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 				7FAC2CB11E9F7EDF00F14ECB /* Notification+Name.swift */,
 				7FAC2CB31E9F88A200F14ECB /* UIColor+Style.swift */,
 				7FAC2CB51E9F9B0E00F14ECB /* UITableView+Style.swift */,
+				7FAC2CB71E9FA8AE00F14ECB /* UITextField+ReadOnly.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 			files = (
 				7FAC2C921E9E7EEA00F14ECB /* PlanCell.swift in Sources */,
 				7FAC2C961E9EBF6400F14ECB /* ResponderSelection.swift in Sources */,
+				7FAC2CB81E9FA8AE00F14ECB /* UITextField+ReadOnly.swift in Sources */,
 				7FAC2C5F1E9E673400F14ECB /* PlanViewController.swift in Sources */,
 				7FAC2CB61E9F9B0E00F14ECB /* UITableView+Style.swift in Sources */,
 				7FAC2CB41E9F88A200F14ECB /* UIColor+Style.swift in Sources */,
