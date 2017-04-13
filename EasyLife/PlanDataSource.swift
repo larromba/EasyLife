@@ -75,19 +75,18 @@ class PlanDataSource {
             return
         }
         let item = sections[indexPath.section][indexPath.row]
-        if let date = item.date {
-            switch item.repeatsState! {
-            case .none:
-                item.done = true
-            case .daily:
-                item.date = Calendar.current.date(byAdding: .day, value: 1, to: date as Date) as NSDate?
-            case .weekly:
-                item.date = Calendar.current.date(byAdding: .weekOfMonth, value: 1, to: date as Date) as NSDate?
-            case .monthly:
-                item.date = Calendar.current.date(byAdding: .month, value: 1, to: date as Date) as NSDate?
-            case .yearly:
-                item.date = Calendar.current.date(byAdding: .year, value: 1, to: date as Date) as NSDate?
-            }
+        let date = item.date as? Date ?? Date()
+        switch item.repeatsState! {
+        case .none:
+            item.done = true
+        case .daily:
+            item.date = Calendar.current.date(byAdding: .day, value: 1, to: date as Date) as NSDate?
+        case .weekly:
+            item.date = Calendar.current.date(byAdding: .weekOfMonth, value: 1, to: date as Date) as NSDate?
+        case .monthly:
+            item.date = Calendar.current.date(byAdding: .month, value: 1, to: date as Date) as NSDate?
+        case .yearly:
+            item.date = Calendar.current.date(byAdding: .year, value: 1, to: date as Date) as NSDate?
         }
         dataManager.save(success: { [weak self] in
             self?.load()
