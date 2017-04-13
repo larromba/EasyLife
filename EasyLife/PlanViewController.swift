@@ -97,7 +97,7 @@ extension PlanViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = dataSource.sections[indexPath.section][indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlanCell", for: indexPath) as! PlanCell
-        cell.titleLabel.text = item.name
+        cell.titleLabel.text = item.name ?? "<unnamed>" //TODO:localise
         return cell
     }
     
