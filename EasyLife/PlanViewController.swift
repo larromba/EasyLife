@@ -60,7 +60,7 @@ extension PlanViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return dataSource.titleFor(section: section)
+        return dataSource.title(forSection: section)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

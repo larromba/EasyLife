@@ -42,7 +42,13 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         let datePicker = UIDatePicker()
         datePicker.minimumDate = Date()
         datePicker.minuteInterval = 15
+        datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dateTapped(_:)))
+        tap.numberOfTapsRequired = 2
+        tap.cancelsTouchesInView = false
+        tap.delaysTouchesEnded = false
+        datePicker.addGestureRecognizer(tap)
         return datePicker
     }()
     
@@ -56,7 +62,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     required init?(coder aDecoder: NSCoder) {
         dataManager = DataManager.shared
         dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy hh:mm a"
+        dateFormatter.dateFormat = "EEEE dd/MM/yyyy" //TODO: localise
         super.init(coder: aDecoder)
     }
     
@@ -76,11 +82,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         dateTextField.inputAccessoryView = toolbar
         titleTextField.inputAccessoryView = toolbar
         textView.inputAccessoryView = toolbar
-        textView.layer.cornerRadius = 5.0
-        textView.layer.borderColor = UIColor(red: 205.0/255.0, green: 205.0/255.0, blue: 205.0/255.0, alpha: 1.0).cgColor
-        textView.layer.borderWidth = 0.5
-        textView.textContainerInset.left = 2.0
-        textView.textContainerInset.right = 2.0
+        textView.applyAppleStyle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -102,14 +104,14 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     
     fileprivate func loadItem(_ item: TodoItem?) {
         guard let item = item else {
+            // load default
             titleTextField.text = nil
-            textView.text = nil
+            dateTextField.text = nil
             repeatsTextField.text = nil
             textView.text = nil
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(savePressed(_:)))
             return
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:)))
         titleTextField.text = item.name
         if let date = item.date as? Date {
             dateTextField.text = dateFormatter.string(from: date)
@@ -117,6 +119,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         repeatsTextField.text = item.repeatsState?.stringValue()
         textView.text = item.notes
         repeatPickerView.selectRow(Int(item.repeats), inComponent: 0, animated: true)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:)))
     }
     
     fileprivate func writeItem(_ item: TodoItem) {
@@ -129,13 +132,13 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     }
     
     fileprivate func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
     
     fileprivate func tearDownNotifications() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
     
     // MARK: - action
@@ -176,14 +179,18 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         dateTextField.text = dateFormatter.string(from: sender.date)
     }
     
-    @objc fileprivate func keyboardWillShow(_ notification: NSNotification) {
+    @objc fileprivate func dateTapped(_ sender: UIDatePicker) {
+        dateTextField.text = dateFormatter.string(from: datePicker.date)
+    }
+    
+    @objc fileprivate func keyboardWillShow(_ notification: Notification) {
         guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
         scrollView.contentSize.height = origContentSize.height + height.cgRectValue.height
     }
     
-    @objc fileprivate func keyboardWillHide(_ notification: NSNotification) {
+    @objc fileprivate func keyboardWillHide(_ notification: Notification) {
         scrollView.contentSize.height = origContentSize.height
     }
 }
@@ -208,7 +215,7 @@ extension ItemDetailViewController: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 5
+        return Repeat.MAX.rawValue
     }
 }
 

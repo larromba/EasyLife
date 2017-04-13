@@ -17,15 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     override init() {
         dataManager = DataManager.shared
         super.init()
+        setupNotifications()
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        dataManager.load { [weak self] (error: Error?) in
-            if let error = error, let fatalViewController = UIStoryboard.components().instantiateViewController(withIdentifier: "FatalViewController") as? FatalViewController {
-                fatalViewController.error = error
-                self?.window?.rootViewController = fatalViewController
-            }
-        }
+        dataManager.load()
         return true
     }
 
@@ -51,5 +47,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         dataManager.save()
+    }
+    
+    // MARK: - private
+    
+    fileprivate func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidReceiveFatalError(_:)), name: .applicationDidReceiveFatalError, object: nil)
+    }
+    
+    @objc fileprivate func applicationDidReceiveFatalError(_ notification: Notification) {
+        print("applicationDidReceiveFatalError")
+        if let error = notification.object as? Error, let fatalViewController = UIStoryboard.components().instantiateViewController(withIdentifier: "FatalViewController") as? FatalViewController {
+            print(error)
+            fatalViewController.error = error
+            window?.rootViewController = fatalViewController
+        }
     }
 }

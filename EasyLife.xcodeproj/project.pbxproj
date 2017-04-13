@@ -28,6 +28,8 @@
 		7FAC2CA81E9ED67200F14ECB /* Array+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CA71E9ED67200F14ECB /* Array+Utility.swift */; };
 		7FAC2CAB1E9EED0000F14ECB /* TodoItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CA91E9EED0000F14ECB /* TodoItem+CoreDataClass.swift */; };
 		7FAC2CAC1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CAA1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift */; };
+		7FAC2CB01E9F7B3D00F14ECB /* UITextView+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CAF1E9F7B3D00F14ECB /* UITextView+Style.swift */; };
+		7FAC2CB21E9F7EDF00F14ECB /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CB11E9F7EDF00F14ECB /* Notification+Name.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,8 @@
 		7FAC2CA71E9ED67200F14ECB /* Array+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Utility.swift"; sourceTree = "<group>"; };
 		7FAC2CA91E9EED0000F14ECB /* TodoItem+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TodoItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		7FAC2CAA1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TodoItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		7FAC2CAF1E9F7B3D00F14ECB /* UITextView+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+Style.swift"; sourceTree = "<group>"; };
+		7FAC2CB11E9F7EDF00F14ECB /* Notification+Name.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +148,8 @@
 				7FAC2C9E1E9ECACB00F14ECB /* Date+Utility.swift */,
 				7FAC2CA11E9ED15100F14ECB /* UIStoryboard+Utility.swift */,
 				7FAC2CA71E9ED67200F14ECB /* Array+Utility.swift */,
+				7FAC2CAF1E9F7B3D00F14ECB /* UITextView+Style.swift */,
+				7FAC2CB11E9F7EDF00F14ECB /* Notification+Name.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -326,7 +332,9 @@
 				7FAC2CA81E9ED67200F14ECB /* Array+Utility.swift in Sources */,
 				7FAC2CA21E9ED15100F14ECB /* UIStoryboard+Utility.swift in Sources */,
 				7FAC2C5D1E9E673400F14ECB /* AppDelegate.swift in Sources */,
+				7FAC2CB01E9F7B3D00F14ECB /* UITextView+Style.swift in Sources */,
 				7FAC2C651E9E673400F14ECB /* EasyLife.xcdatamodeld in Sources */,
+				7FAC2CB21E9F7EDF00F14ECB /* Notification+Name.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

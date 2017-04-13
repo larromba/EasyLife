@@ -18,7 +18,7 @@ class PlanDataSource {
     var sections: [[TodoItem]]
     weak var delegate: PlanDataSourceDelegate?
     
-    fileprivate lazy var backlogPredicate: NSPredicate = {
+    fileprivate lazy var missedPredicate: NSPredicate = {
         return NSPredicate(format: "%K < %@ AND %K = NULL", argumentArray: ["date", Date().earliest(), "done"])
     }()
     
@@ -45,10 +45,9 @@ class PlanDataSource {
     // MARK: - public
 
     func delete(at indexPath: IndexPath) {
-        guard indexPath.section < sections.endIndex && indexPath.row < sections[indexPath.section].endIndex else {
+        guard let item = data(at: indexPath) else {
             return
         }
-        let item = sections[indexPath.section][indexPath.row]
         dataManager.delete(item)
         dataManager.save(success: { [weak self] in
             guard let `self` = self else {
@@ -60,33 +59,29 @@ class PlanDataSource {
     }
     
     func later(at indexPath: IndexPath) {
-        guard indexPath.section < sections.endIndex && indexPath.row < sections[indexPath.section].endIndex else {
+        guard let item = data(at: indexPath) else {
             return
         }
-        let item = sections[indexPath.section][indexPath.row]
-        item.date = nil
+        switch item.repeatsState! {
+        case .none:
+            item.date = nil
+        default:
+            item.incrementDate()
+        }
         dataManager.save(success: { [weak self] in
             self?.load()
         })
     }
     
     func done(at indexPath: IndexPath) {
-        guard indexPath.section < sections.endIndex && indexPath.row < sections[indexPath.section].endIndex else {
+        guard let item = data(at: indexPath) else {
             return
         }
-        let item = sections[indexPath.section][indexPath.row]
-        let date = item.date as? Date ?? Date()
         switch item.repeatsState! {
         case .none:
             item.done = true
-        case .daily:
-            item.date = Calendar.current.date(byAdding: .day, value: 1, to: date as Date) as NSDate?
-        case .weekly:
-            item.date = Calendar.current.date(byAdding: .weekOfMonth, value: 1, to: date as Date) as NSDate?
-        case .monthly:
-            item.date = Calendar.current.date(byAdding: .month, value: 1, to: date as Date) as NSDate?
-        case .yearly:
-            item.date = Calendar.current.date(byAdding: .year, value: 1, to: date as Date) as NSDate?
+        default:
+            item.incrementDate()
         }
         dataManager.save(success: { [weak self] in
             self?.load()
@@ -94,13 +89,12 @@ class PlanDataSource {
     }
     
     func load() {
-        dataManager.fetch(entityClass: TodoItem.self, predicate: backlogPredicate, success: { [weak self] (result: [Any]?) in
+        dataManager.fetch(entityClass: TodoItem.self, predicate: missedPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {
                 return
             }
             self.sections.replace(items, at: 0)
             self.delegate?.dataSorceDidLoad(self)
-        }, failure: { (error: Error?) in
         })
         dataManager.fetch(entityClass: TodoItem.self, predicate: todayPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {
@@ -108,7 +102,6 @@ class PlanDataSource {
             }
             self.sections.replace(items, at: 1)
             self.delegate?.dataSorceDidLoad(self)
-        }, failure: { (error: Error?) in
         })
         dataManager.fetch(entityClass: TodoItem.self, predicate: laterPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {
@@ -116,17 +109,16 @@ class PlanDataSource {
             }
             self.sections.replace(items, at: 2)
             self.delegate?.dataSorceDidLoad(self)
-        }, failure: { (error: Error?) in
         })
     }
     
-    func titleFor(section: Int) -> String? {
+    func title(forSection section: Int) -> String? {
         guard sections[section].count > 0 else {
             return nil
         }
         switch section {
         case 0:
-            return "Backlog" //TODO:localise
+            return "Missed..." //TODO:localise
         case 1:
             return "Today"
         case 2:
@@ -134,5 +126,14 @@ class PlanDataSource {
         default:
             return nil
         }
+    }
+    
+    // MARK: - private
+    
+    fileprivate func data(at indexPath: IndexPath) -> TodoItem? {
+        guard indexPath.section < sections.endIndex && indexPath.row < sections[indexPath.section].endIndex else {
+            return nil
+        }
+        return sections[indexPath.section][indexPath.row]
     }
 }

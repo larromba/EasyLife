@@ -19,4 +19,11 @@ extension TodoItem {
             repeats = Int16(value)
         }
     }
+    
+    func incrementDate() {
+        guard let oldDate = date, let repeatsState = repeatsState else {
+            return
+        }
+        date = repeatsState.increment(date: oldDate as Date) as NSDate?
+    }
 }
