@@ -85,6 +85,15 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         titleTextField.readonly = true
         textView.inputAccessoryView = toolbar
         textView.applyTextFieldStyle()
+        textView.dataDetectorTypes = .all //TODO: this
+        textView.isEditable = false
+        textView.delegate = self
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(textViewTapped(_:)))
+        tap.numberOfTapsRequired = 1
+        tap.cancelsTouchesInView = false
+        tap.delaysTouchesEnded = false
+        textView.addGestureRecognizer(tap)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -143,6 +152,13 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
     
+    fileprivate func makeFirstResponder(_ responder: UIResponder?) {
+        if responder == textView {
+            textView.isEditable = true
+        }
+        responder?.becomeFirstResponder()
+    }
+    
     // MARK: - action
     
     @IBAction fileprivate func savePressed(_ sender: UIBarButtonItem?) {
@@ -166,11 +182,11 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     }
     
     @objc fileprivate func prevPressed(_ sender: UIBarButtonItem) {
-        previous()
+        makeFirstResponder(previousResponder)
     }
     
-    @objc fileprivate func nextPressed(_ sender: UIBarButtonItem?) {
-        next()
+    @objc fileprivate func nextPressed(_ sender: UIBarButtonItem) {
+        makeFirstResponder(nextResponder)
     }
     
     @objc fileprivate func donePressed(_ sender: UIBarButtonItem) {
@@ -183,6 +199,10 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     
     @objc fileprivate func dateTapped(_ sender: UIDatePicker) {
         dateTextField.text = dateFormatter.string(from: datePicker.date)
+    }
+    
+    @objc fileprivate func textViewTapped(_ sender: UIDatePicker) {
+        makeFirstResponder(textView)
     }
     
     @objc fileprivate func keyboardWillShow(_ notification: Notification) {
@@ -225,7 +245,7 @@ extension ItemDetailViewController: UIPickerViewDataSource {
 
 extension ItemDetailViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        nextPressed(nil)
+        makeFirstResponder(nextResponder)
         return false
     }
     
@@ -242,5 +262,13 @@ extension ItemDetailViewController: UITextFieldDelegate {
         default:
             break
         }
+    }
+}
+
+// MARK: - UITextViewDelegate
+
+extension ItemDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        textView.isEditable = false
     }
 }
