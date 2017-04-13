@@ -30,6 +30,7 @@
 		7FAC2CAC1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CAA1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift */; };
 		7FAC2CB01E9F7B3D00F14ECB /* UITextView+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CAF1E9F7B3D00F14ECB /* UITextView+Style.swift */; };
 		7FAC2CB21E9F7EDF00F14ECB /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CB11E9F7EDF00F14ECB /* Notification+Name.swift */; };
+		7FAC2CB41E9F88A200F14ECB /* UIColor+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CB31E9F88A200F14ECB /* UIColor+Style.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		7FAC2CAA1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TodoItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7FAC2CAF1E9F7B3D00F14ECB /* UITextView+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+Style.swift"; sourceTree = "<group>"; };
 		7FAC2CB11E9F7EDF00F14ECB /* Notification+Name.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
+		7FAC2CB31E9F88A200F14ECB /* UIColor+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Style.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 				7FAC2CA71E9ED67200F14ECB /* Array+Utility.swift */,
 				7FAC2CAF1E9F7B3D00F14ECB /* UITextView+Style.swift */,
 				7FAC2CB11E9F7EDF00F14ECB /* Notification+Name.swift */,
+				7FAC2CB31E9F88A200F14ECB /* UIColor+Style.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				7FAC2C921E9E7EEA00F14ECB /* PlanCell.swift in Sources */,
 				7FAC2C961E9EBF6400F14ECB /* ResponderSelection.swift in Sources */,
 				7FAC2C5F1E9E673400F14ECB /* PlanViewController.swift in Sources */,
+				7FAC2CB41E9F88A200F14ECB /* UIColor+Style.swift in Sources */,
 				7FAC2C821E9E692E00F14ECB /* ItemDetailViewController.swift in Sources */,
 				7FAC2CAC1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift in Sources */,
 				7FAC2CA41E9ED1C800F14ECB /* FatalViewController.swift in Sources */,

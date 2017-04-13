@@ -134,7 +134,7 @@
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="oAJ-uY-2IT"/>
                                                 </constraints>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="qZo-Tc-21E" id="dIx-bd-5Nz"/>
@@ -147,7 +147,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="ylj-cB-Bbb"/>
                                                 </constraints>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="qZo-Tc-21E" id="GF2-UD-75l"/>
@@ -160,7 +160,7 @@
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="kdb-Hl-8kZ"/>
                                                 </constraints>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="qZo-Tc-21E" id="pNh-X4-BF4"/>

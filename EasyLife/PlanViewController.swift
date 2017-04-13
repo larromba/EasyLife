@@ -71,10 +71,11 @@ extension PlanViewController: UITableViewDelegate {
         let delete = UITableViewRowAction(style: .destructive, title: "Delete", handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
             self?.dataSource.delete(at: indexPath)
         })
+        delete.backgroundColor = UIColor.lightRed
         let done = UITableViewRowAction(style: .normal, title: "Done", handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
             self?.dataSource.done(at: indexPath)
         })
-        done.backgroundColor = UIColor.green
+        done.backgroundColor = UIColor.lightGreen
         switch indexPath.section {
         case 1:
             let later = UITableViewRowAction(style: .normal, title: "Later", handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
@@ -99,8 +100,16 @@ extension PlanViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlanCell", for: indexPath) as! PlanCell
         if item.name?.characters.count == 0 {
             cell.titleLabel.text = "[no name]" //TODO:localise
+            cell.titleLabel.textColor = UIColor.appleGrey
         } else {
             cell.titleLabel.text = item.name
+            cell.titleLabel.textColor = UIColor.black
+        }
+        switch indexPath.section {
+        case 1:
+            cell.backgroundColor = UIColor.lightBlue
+        default:
+            cell.backgroundColor = UIColor.white
         }
         return cell
     }
