@@ -107,7 +107,7 @@ extension PlanViewController: UITableViewDataSource {
         }
         switch indexPath.section {
         case 1:
-            cell.backgroundColor = UIColor.lightBlue
+            cell.backgroundColor = UIColor.lightGrey
         default:
             cell.backgroundColor = UIColor.white
         }

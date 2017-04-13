@@ -34,7 +34,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         spacer.width = 10.0
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed(_:)))
-        toolbar.setItems([prev, spacer, next, flexSpace, save, spacer, done], animated: false)
+        toolbar.setItems([prev, spacer, next, flexSpace, spacer, done], animated: false)
         return toolbar
     }()
 
