@@ -116,6 +116,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         }
         repeatsTextField.text = item.repeatsState?.stringValue()
         textView.text = item.notes
+        repeatPickerView.selectRow(Int(item.repeats), inComponent: 0, animated: true)
     }
     
     fileprivate func writeItem(_ item: TodoItem) {
