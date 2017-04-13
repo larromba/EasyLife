@@ -22,8 +22,8 @@ class PlanViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.tableFooterView = UIView()
         tableView.isHidden = true
+        tableView.applyDefaultStyleFix()
     }
     
     override func viewWillAppear(_ animated: Bool) {

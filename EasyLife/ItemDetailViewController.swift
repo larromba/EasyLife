@@ -82,7 +82,6 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         dateTextField.inputAccessoryView = toolbar
         titleTextField.inputAccessoryView = toolbar
         textView.inputAccessoryView = toolbar
-        textView.applyAppleStyle()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -9,7 +9,7 @@
 import UIKit
 
 extension UITextView {
-    func applyAppleStyle() {
+    func applyTextFieldStyle() {
         layer.cornerRadius = 5.0
         layer.borderColor = UIColor.appleGrey.cgColor
         layer.borderWidth = 0.5
