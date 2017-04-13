@@ -98,7 +98,7 @@ extension PlanViewController: UITableViewDataSource {
         let item = dataSource.sections[indexPath.section][indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlanCell", for: indexPath) as! PlanCell
         if item.name?.characters.count == 0 {
-            cell.titleLabel.text = "<< unnamed >>" //TODO:localise
+            cell.titleLabel.text = "[no name]" //TODO:localise
         } else {
             cell.titleLabel.text = item.name
         }
