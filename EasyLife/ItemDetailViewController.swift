@@ -85,9 +85,8 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         titleTextField.readonly = true
         textView.inputAccessoryView = toolbar
         textView.applyTextFieldStyle()
-        textView.dataDetectorTypes = .all //TODO: this
+        textView.dataDetectorTypes = .all
         textView.isEditable = false
-        textView.delegate = self
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(textViewTapped(_:)))
         tap.numberOfTapsRequired = 1

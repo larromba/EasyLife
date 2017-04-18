@@ -113,7 +113,7 @@ class PlanDataSource {
     }
     
     func title(forSection section: Int) -> String? {
-        guard sections[section].count > 0 else {
+        guard section >= 0 && section < sections.count && sections[section].count > 0 else {
             return nil
         }
         switch section {
@@ -131,9 +131,14 @@ class PlanDataSource {
     // MARK: - private
     
     fileprivate func data(at indexPath: IndexPath) -> TodoItem? {
-        guard indexPath.section < sections.endIndex && indexPath.row < sections[indexPath.section].endIndex else {
+        guard indexPath.section >= sections.startIndex && indexPath.section < sections.endIndex else {
             return nil
         }
-        return sections[indexPath.section][indexPath.row]
+        let section = sections[indexPath.section]
+        guard indexPath.row >= section.startIndex && indexPath.row < section.endIndex else {
+            return nil
+        }
+        let row = section[indexPath.row]
+        return row
     }
 }

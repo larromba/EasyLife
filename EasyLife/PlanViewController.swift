@@ -106,10 +106,12 @@ extension PlanViewController: UITableViewDataSource {
             cell.titleLabel.textColor = UIColor.black
         }
         switch indexPath.section {
+        case 0:
+            cell.titleLabel.textColor = UIColor.lightRed
         case 1:
-            cell.backgroundColor = UIColor.white
+            cell.titleLabel.textColor = UIColor.black
         default:
-            cell.backgroundColor = UIColor.lightGrey
+            cell.titleLabel.textColor = UIColor.appleGrey
         }
         return cell
     }

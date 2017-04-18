@@ -10,18 +10,24 @@ import UIKit
 
 extension UIColor {
     class var appleGrey: UIColor {
-        return UIColor(red: 205.0/255.0, green: 205.0/255.0, blue: 205.0/255.0, alpha: 1.0)
+        return r(205.0, g: 205.0, b: 205.0)
     }
     
     class var lightGrey: UIColor {
-        return UIColor(red: 250.0/255.0, green: 250.0/255.0, blue: 250.0/255.0, alpha: 1.0)
+        return r(241.0, g: 241.0, b: 242.0)
     }
     
     class var lightGreen: UIColor {
-        return UIColor(red: 156.0/255.0, green: 230.0/255.0, blue: 151.0/255.0, alpha: 1.0)
+        return r(116.0, g: 230.0, b: 131.0)
     }
     
     class var lightRed: UIColor {
-        return UIColor(red: 242.0/255.0, green: 158.0/255.0, blue: 148.0/255.0, alpha: 1.0)
+        return r(230.0, g: 98.0, b: 88.0)
+    }
+    
+    // MARK: - private
+    
+    fileprivate class func r(_ r: CGFloat, g: CGFloat, b: CGFloat) -> UIColor {
+        return UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: 1.0)
     }
 }
