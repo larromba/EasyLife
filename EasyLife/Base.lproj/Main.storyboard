@@ -28,7 +28,7 @@
         <!--Todo-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="PlanViewController" customModule="EasyLife" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlanViewController" automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="PlanViewController" customModule="EasyLife" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -112,7 +112,7 @@
         <!--Event Detail-->
         <scene sceneID="zZo-yR-UZI">
             <objects>
-                <viewController title="Event Detail" automaticallyAdjustsScrollViewInsets="NO" id="qZo-Tc-21E" customClass="ItemDetailViewController" customModule="EasyLife" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ItemDetailViewController" title="Event Detail" automaticallyAdjustsScrollViewInsets="NO" id="qZo-Tc-21E" customClass="ItemDetailViewController" customModule="EasyLife" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5t7-wH-uqC"/>
                         <viewControllerLayoutGuide type="bottom" id="GRS-uV-Qel"/>

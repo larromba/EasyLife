@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @objc private func applicationDidReceiveFatalError(_ notification: Notification) {
         log("applicationDidReceiveFatalError \(notification.object)")
-        if let window = window, let error = notification.object as? Error, let fatalViewController = UIStoryboard.components().instantiateViewController(withIdentifier: "FatalViewController") as? FatalViewController {
+        if let window = window, let error = notification.object as? Error, let fatalViewController = UIStoryboard.components.instantiateViewController(withIdentifier: "FatalViewController") as? FatalViewController {
             fatalViewController.error = error
             window.rootViewController = fatalViewController
         }

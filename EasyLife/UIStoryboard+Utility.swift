@@ -9,11 +9,11 @@
 import UIKit
 
 extension UIStoryboard {
-    class func main() -> UIStoryboard {
+    static var main: UIStoryboard {
         return UIStoryboard(name: "Main", bundle: nil)
     }
     
-    class func components() -> UIStoryboard {
+    static var components: UIStoryboard {
         return UIStoryboard(name: "Components", bundle: nil)
     }
 }

@@ -101,10 +101,9 @@ extension PlanViewController: UITableViewDataSource {
         if item.name?.characters.count == 0 {
             cell.titleLabel.text = "[no name]" //TODO:localise
             cell.titleLabel.textColor = UIColor.appleGrey
-        } else {
-            cell.titleLabel.text = item.name
-            cell.titleLabel.textColor = UIColor.black
+            return cell
         }
+        cell.titleLabel.text = item.name
         switch indexPath.section {
         case 0:
             cell.titleLabel.textColor = UIColor.lightRed

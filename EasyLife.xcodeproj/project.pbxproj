@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7F9054871EA790E3006D8F73 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9054861EA790E3006D8F73 /* Log.swift */; };
+		7F9054891EA79435006D8F73 /* stories.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7F9054881EA79435006D8F73 /* stories.txt */; };
+		7F90548B1EA7B6DF006D8F73 /* MockTodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90548A1EA7B6DF006D8F73 /* MockTodoItem.swift */; };
 		7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */; };
 		7F93792F1EA7661B009E33FA /* DateSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792E1EA7661B009E33FA /* DateSegment.swift */; };
 		7FAC2C5D1E9E673400F14ECB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C5C1E9E673400F14ECB /* AppDelegate.swift */; };
@@ -16,7 +18,7 @@
 		7FAC2C651E9E673400F14ECB /* EasyLife.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C631E9E673400F14ECB /* EasyLife.xcdatamodeld */; };
 		7FAC2C671E9E673400F14ECB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FAC2C661E9E673400F14ECB /* Assets.xcassets */; };
 		7FAC2C6A1E9E673400F14ECB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FAC2C681E9E673400F14ECB /* LaunchScreen.storyboard */; };
-		7FAC2C751E9E673400F14ECB /* EasyLifeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C741E9E673400F14ECB /* EasyLifeTests.swift */; };
+		7FAC2C751E9E673400F14ECB /* PlanViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C741E9E673400F14ECB /* PlanViewControllerTests.swift */; };
 		7FAC2C801E9E676A00F14ECB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C7F1E9E676A00F14ECB /* DataManager.swift */; };
 		7FAC2C821E9E692E00F14ECB /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C811E9E692E00F14ECB /* ItemDetailViewController.swift */; };
 		7FAC2C841E9E71BA00F14ECB /* PlanDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C831E9E71BA00F14ECB /* PlanDataSource.swift */; };
@@ -36,6 +38,9 @@
 		7FAC2CB41E9F88A200F14ECB /* UIColor+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CB31E9F88A200F14ECB /* UIColor+Style.swift */; };
 		7FAC2CB61E9F9B0E00F14ECB /* UITableView+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CB51E9F9B0E00F14ECB /* UITableView+Style.swift */; };
 		7FAC2CB81E9FA8AE00F14ECB /* UITextField+ReadOnly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CB71E9FA8AE00F14ECB /* UITextField+ReadOnly.swift */; };
+		7FCEC91F1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC91E1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift */; };
+		7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */; };
+		7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +55,8 @@
 
 /* Begin PBXFileReference section */
 		7F9054861EA790E3006D8F73 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		7F9054881EA79435006D8F73 /* stories.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stories.txt; sourceTree = "<group>"; };
+		7F90548A1EA7B6DF006D8F73 /* MockTodoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTodoItem.swift; sourceTree = "<group>"; };
 		7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleDatePicker.swift; sourceTree = "<group>"; };
 		7F93792E1EA7661B009E33FA /* DateSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegment.swift; sourceTree = "<group>"; };
 		7FAC2C591E9E673400F14ECB /* EasyLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,7 +68,7 @@
 		7FAC2C691E9E673400F14ECB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7FAC2C6B1E9E673400F14ECB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7FAC2C701E9E673400F14ECB /* EasyLifeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyLifeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7FAC2C741E9E673400F14ECB /* EasyLifeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyLifeTests.swift; sourceTree = "<group>"; };
+		7FAC2C741E9E673400F14ECB /* PlanViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanViewControllerTests.swift; sourceTree = "<group>"; };
 		7FAC2C761E9E673400F14ECB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7FAC2C7F1E9E676A00F14ECB /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		7FAC2C811E9E692E00F14ECB /* ItemDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +89,9 @@
 		7FAC2CB31E9F88A200F14ECB /* UIColor+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Style.swift"; sourceTree = "<group>"; };
 		7FAC2CB51E9F9B0E00F14ECB /* UITableView+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Style.swift"; sourceTree = "<group>"; };
 		7FAC2CB71E9FA8AE00F14ECB /* UITextField+ReadOnly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+ReadOnly.swift"; sourceTree = "<group>"; };
+		7FCEC91E1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailsViewControllerTests.swift; sourceTree = "<group>"; };
+		7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatTests.swift; sourceTree = "<group>"; };
+		7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegmentTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,8 +148,13 @@
 		7FAC2C731E9E673400F14ECB /* EasyLifeTests */ = {
 			isa = PBXGroup;
 			children = (
-				7FAC2C741E9E673400F14ECB /* EasyLifeTests.swift */,
+				7FCEC9201EA7BB4500BA5187 /* Helper */,
+				7FAC2C741E9E673400F14ECB /* PlanViewControllerTests.swift */,
+				7FCEC91E1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift */,
+				7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */,
+				7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */,
 				7FAC2C761E9E673400F14ECB /* Info.plist */,
+				7F9054881EA79435006D8F73 /* stories.txt */,
 			);
 			path = EasyLifeTests;
 			sourceTree = "<group>";
@@ -227,6 +242,14 @@
 				7FAC2C681E9E673400F14ECB /* LaunchScreen.storyboard */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		7FCEC9201EA7BB4500BA5187 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				7F90548A1EA7B6DF006D8F73 /* MockTodoItem.swift */,
+			);
+			name = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -325,6 +348,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F9054891EA79435006D8F73 /* stories.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,7 +390,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FAC2C751E9E673400F14ECB /* EasyLifeTests.swift in Sources */,
+				7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */,
+				7F90548B1EA7B6DF006D8F73 /* MockTodoItem.swift in Sources */,
+				7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */,
+				7FCEC91F1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift in Sources */,
+				7FAC2C751E9E673400F14ECB /* PlanViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

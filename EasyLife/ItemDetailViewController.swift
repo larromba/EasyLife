@@ -66,7 +66,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         return datePicker
     }()
     
-    lazy var repeatPickerView: UIPickerView = {
+    lazy var repeatPicker: UIPickerView = {
         let pickerView = UIPickerView()
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -91,9 +91,9 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
             textView
         ]
         
-        repeatsTextField.inputView = repeatPickerView
+        repeatsTextField.inputView = repeatPicker
         repeatsTextField.inputAccessoryView = toolbar
-        dateTextField.inputView = datePicker
+        dateTextField.inputView = simpleDatePicker
         dateTextField.inputAccessoryView = toolbar
         dateTextField.readonly = true
         titleTextField.inputAccessoryView = toolbar
@@ -134,24 +134,22 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
             dateTextField.text = nil
             repeatsTextField.text = nil
             textView.text = nil
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(savePressed(_:)))
+            saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(savePressed(_:)))
             return
         }
         titleTextField.text = item.name
         date = item.date as Date?
         repeatsTextField.text = item.repeatsState?.stringValue()
         textView.text = item.notes
-        repeatPickerView.selectRow(Int(item.repeats), inComponent: 0, animated: true)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:)))
+        repeatPicker.selectRow(Int(item.repeats), inComponent: 0, animated: true)
+        saveButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:)))
     }
     
     fileprivate func writeItem(_ item: TodoItem) {
         item.name = titleTextField.text
         item.notes = textView.text
-        if let dateText = dateTextField.text {
-            item.date = dateFormatter.date(from: dateText) as NSDate?
-        }
-        item.repeats = Int16(repeatPickerView.selectedRow(inComponent: 0))
+        item.date = date as NSDate?
+        item.repeats = Int16(repeatPicker.selectedRow(inComponent: 0))
     }
     
     private func setupNotifications() {
@@ -278,12 +276,12 @@ extension ItemDetailViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
         case dateTextField:
-            if textField.inputView == datePicker, let text = textField.text, let date = dateFormatter.date(from: text) {
+            if textField.inputView == datePicker, let date = date {
                 datePicker.setDate(date, animated: true)
             }
         case repeatsTextField:
             if let text = repeatsTextField.text, let row = Repeat(rawString: text)?.rawValue {
-                repeatPickerView.selectRow(Int(row), inComponent: 0, animated: true)
+                repeatPicker.selectRow(Int(row), inComponent: 0, animated: true)
             }
         default:
             break
