@@ -13,6 +13,7 @@
 * done increments if repeat
 * later nils date if no repeat
 * later increments if repeat
+
 * date is in missed if < current
 * date is in today if == current
 * date is in later if > current

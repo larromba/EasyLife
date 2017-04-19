@@ -41,6 +41,7 @@
 		7FCEC91F1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC91E1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift */; };
 		7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */; };
 		7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */; };
+		7FCEC9261EA7CD0500BA5187 /* PlanDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9251EA7CD0500BA5187 /* PlanDataSourceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		7FCEC91E1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailsViewControllerTests.swift; sourceTree = "<group>"; };
 		7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatTests.swift; sourceTree = "<group>"; };
 		7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegmentTests.swift; sourceTree = "<group>"; };
+		7FCEC9251EA7CD0500BA5187 /* PlanDataSourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanDataSourceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 				7FCEC91E1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift */,
 				7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */,
 				7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */,
+				7FCEC9251EA7CD0500BA5187 /* PlanDataSourceTests.swift */,
 				7FAC2C761E9E673400F14ECB /* Info.plist */,
 				7F9054881EA79435006D8F73 /* stories.txt */,
 			);
@@ -391,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */,
+				7FCEC9261EA7CD0500BA5187 /* PlanDataSourceTests.swift in Sources */,
 				7F90548B1EA7B6DF006D8F73 /* MockTodoItem.swift in Sources */,
 				7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */,
 				7FCEC91F1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift in Sources */,
