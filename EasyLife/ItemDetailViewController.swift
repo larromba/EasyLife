@@ -20,6 +20,16 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     var item: TodoItem?
     var dateFormatter: DateFormatter
     var responders: [UIResponder]!
+    fileprivate var now: Date
+    fileprivate var date: Date? {
+        didSet {
+            if let date = date {
+                dateTextField.text = dateFormatter.string(from: date)
+            } else {
+                dateTextField.text = nil
+            }
+        }
+    }
    
     lazy var origContentSize: CGSize = {
         return self.scrollView.contentSize
@@ -40,8 +50,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
 
     lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
-        datePicker.minimumDate = Date()
-        datePicker.minuteInterval = 15
+        datePicker.minimumDate = self.now
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
         let tap = UITapGestureRecognizer(target: self, action: #selector(dateTapped(_:)))
@@ -49,6 +58,11 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         tap.cancelsTouchesInView = false
         tap.delaysTouchesEnded = false
         datePicker.addGestureRecognizer(tap)
+        return datePicker
+    }()
+   
+    lazy var simpleDatePicker: SimpleDatePicker = {
+        let datePicker = SimpleDatePicker(delegate: self, date: self.now)
         return datePicker
     }()
     
@@ -63,6 +77,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         dataManager = DataManager.shared
         dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE dd/MM/yyyy" //TODO: localise
+        now = Date()
         super.init(coder: aDecoder)
     }
     
@@ -123,9 +138,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
             return
         }
         titleTextField.text = item.name
-        if let date = item.date as? Date {
-            dateTextField.text = dateFormatter.string(from: date)
-        }
+        date = item.date as Date?
         repeatsTextField.text = item.repeatsState?.stringValue()
         textView.text = item.notes
         repeatPickerView.selectRow(Int(item.repeats), inComponent: 0, animated: true)
@@ -193,11 +206,11 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     }
     
     @objc fileprivate func dateChanged(_ sender: UIDatePicker) {
-        dateTextField.text = dateFormatter.string(from: sender.date)
+        date = sender.date as Date?
     }
     
     @objc fileprivate func dateTapped(_ sender: UIDatePicker) {
-        dateTextField.text = dateFormatter.string(from: datePicker.date)
+        date = sender.date as Date?
     }
     
     @objc fileprivate func textViewTapped(_ sender: UIDatePicker) {
@@ -248,10 +261,24 @@ extension ItemDetailViewController: UITextFieldDelegate {
         return false
     }
     
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        switch textField {
+        case dateTextField:
+            if textField.text?.characters.count == 0 {
+                textField.inputView = simpleDatePicker
+            } else {
+                textField.inputView = datePicker
+            }
+        default:
+            break
+        }
+        return true
+    }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
         case dateTextField:
-            if let text = dateTextField.text, let date = dateFormatter.date(from: text) {
+            if textField.inputView == datePicker, let text = textField.text, let date = dateFormatter.date(from: text) {
                 datePicker.setDate(date, animated: true)
             }
         case repeatsTextField:
@@ -269,5 +296,13 @@ extension ItemDetailViewController: UITextFieldDelegate {
 extension ItemDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.isEditable = false
+    }
+}
+
+// MARK: - SimpleDatePickerDelegate
+
+extension ItemDetailViewController: SimpleDatePickerDelegate {
+    func datePicker(_ picker: SimpleDatePicker, didSelectDate date: Date?) {
+        self.date = date
     }
 }

@@ -73,25 +73,26 @@ enum Repeat: Int {
     }
     
     func increment(date: Date) -> Date? {
+        let calendar = Calendar.current
         switch self {
         case .daily:
-            return Calendar.current.date(byAdding: .day, value: 1, to: date)
+            return calendar.date(byAdding: .day, value: 1, to: date)
         case .weekday:
-            return Calendar.current.date(byAdding: .weekday, value: 1, to: date)
+            return calendar.date(byAdding: .weekday, value: 1, to: date)
         case .weekly:
-            return Calendar.current.date(byAdding: .weekOfMonth, value: 1, to: date)
+            return calendar.date(byAdding: .weekOfMonth, value: 1, to: date)
         case .biweekly:
-            return Calendar.current.date(byAdding: .weekOfMonth, value: 2, to: date)
+            return calendar.date(byAdding: .weekOfMonth, value: 2, to: date)
         case .triweekly:
-            return Calendar.current.date(byAdding: .weekOfMonth, value: 3, to: date)
+            return calendar.date(byAdding: .weekOfMonth, value: 3, to: date)
         case .monthly:
-            return Calendar.current.date(byAdding: .month, value: 1, to: date)
+            return calendar.date(byAdding: .month, value: 1, to: date)
         case .quarterly:
-            return Calendar.current.date(byAdding: .month, value: 3, to: date)
+            return calendar.date(byAdding: .month, value: 3, to: date)
         case .halfyear:
-            return Calendar.current.date(byAdding: .month, value: 6, to: date)
+            return calendar.date(byAdding: .month, value: 6, to: date)
         case .yearly:
-            return Calendar.current.date(byAdding: .year, value: 1, to: date)
+            return calendar.date(byAdding: .year, value: 1, to: date)
         case .none, .MAX:
             return date
         }
