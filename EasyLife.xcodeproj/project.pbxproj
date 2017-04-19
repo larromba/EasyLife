@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F9054871EA790E3006D8F73 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9054861EA790E3006D8F73 /* Log.swift */; };
 		7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */; };
 		7F93792F1EA7661B009E33FA /* DateSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792E1EA7661B009E33FA /* DateSegment.swift */; };
 		7FAC2C5D1E9E673400F14ECB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C5C1E9E673400F14ECB /* AppDelegate.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7F9054861EA790E3006D8F73 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleDatePicker.swift; sourceTree = "<group>"; };
 		7F93792E1EA7661B009E33FA /* DateSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegment.swift; sourceTree = "<group>"; };
 		7FAC2C591E9E673400F14ECB /* EasyLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,6 +194,7 @@
 			children = (
 				7FAC2C831E9E71BA00F14ECB /* PlanDataSource.swift */,
 				7FAC2C7F1E9E676A00F14ECB /* DataManager.swift */,
+				7F9054861EA790E3006D8F73 /* Log.swift */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				7FAC2C9F1E9ECACB00F14ECB /* Date+Utility.swift in Sources */,
 				7FAC2C981E9EC91400F14ECB /* Repeat.swift in Sources */,
 				7FAC2C801E9E676A00F14ECB /* DataManager.swift in Sources */,
+				7F9054871EA790E3006D8F73 /* Log.swift in Sources */,
 				7FAC2C841E9E71BA00F14ECB /* PlanDataSource.swift in Sources */,
 				7FAC2CAB1E9EED0000F14ECB /* TodoItem+CoreDataClass.swift in Sources */,
 				7FAC2C941E9EBC9A00F14ECB /* TodoItem+Utility.swift in Sources */,

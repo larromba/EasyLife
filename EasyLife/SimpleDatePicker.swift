@@ -13,7 +13,7 @@ protocol SimpleDatePickerDelegate: class {
 }
 
 class SimpleDatePicker: UIPickerView {
-    fileprivate var date: Date?
+    var date: Date?
     weak var datePickerDelegate: SimpleDatePickerDelegate?
     
     init(delegate: SimpleDatePickerDelegate?, date: Date?){
@@ -30,11 +30,11 @@ class SimpleDatePicker: UIPickerView {
 }
 
 extension SimpleDatePicker: UIPickerViewDelegate {
-    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return DateSegment(rawValue: row)?.stringValue()
     }
     
-    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let date = date {
             datePickerDelegate?.datePicker(self, didSelectDate: DateSegment(rawValue: row)?.increment(date: date))
         } else {
@@ -44,11 +44,11 @@ extension SimpleDatePicker: UIPickerViewDelegate {
 }
 
 extension SimpleDatePicker: UIPickerViewDataSource {
-    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return DateSegment.MAX.rawValue
     }
 }

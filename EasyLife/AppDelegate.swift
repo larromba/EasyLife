@@ -10,7 +10,6 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
     var dataManager: DataManager
 
@@ -18,6 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dataManager = DataManager.shared
         super.init()
         setupNotifications()
+    }
+    
+    deinit {
+        tearDownNotifications()
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -51,16 +54,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - private
     
-    fileprivate func setupNotifications() {
+    private func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidReceiveFatalError(_:)), name: .applicationDidReceiveFatalError, object: nil)
     }
     
-    @objc fileprivate func applicationDidReceiveFatalError(_ notification: Notification) {
-        print("applicationDidReceiveFatalError")
-        if let error = notification.object as? Error, let fatalViewController = UIStoryboard.components().instantiateViewController(withIdentifier: "FatalViewController") as? FatalViewController {
-            print(error)
+    private func tearDownNotifications() {
+        NotificationCenter.default.removeObserver(self, name: .applicationDidReceiveFatalError, object: nil)
+    }
+    
+    @objc private func applicationDidReceiveFatalError(_ notification: Notification) {
+        log("applicationDidReceiveFatalError \(notification.object)")
+        if let window = window, let error = notification.object as? Error, let fatalViewController = UIStoryboard.components().instantiateViewController(withIdentifier: "FatalViewController") as? FatalViewController {
             fatalViewController.error = error
-            window?.rootViewController = fatalViewController
+            window.rootViewController = fatalViewController
         }
     }
 }

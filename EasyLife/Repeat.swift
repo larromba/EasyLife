@@ -42,7 +42,7 @@ enum Repeat: Int {
         case "yearly":
             self.init(rawValue: Repeat.yearly.rawValue)
         default:
-            print("unknown rawString: \(rawString)")
+            log("unknown rawString: \(rawString)")
             return nil
         }
     }

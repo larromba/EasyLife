@@ -27,7 +27,7 @@ class DataManager {
         let context = persistentContainer.viewContext
         let entityName = NSStringFromClass(entityClass).components(separatedBy: ".").last!
         guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-            print("couldnt make entityDescription")
+            log("couldnt make entityDescription")
             return nil
         }
         return NSManagedObject(entity: entityDescription, insertInto: context) as? T
@@ -53,7 +53,7 @@ class DataManager {
                 let result = try context?.fetch(request)
                 success(result)
             } catch {
-                print(error)
+                log(error)
                 failure?(error)
             }
         })

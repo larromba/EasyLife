@@ -13,10 +13,6 @@ extension UIColor {
         return r(205.0, g: 205.0, b: 205.0)
     }
     
-    class var lightGrey: UIColor {
-        return r(241.0, g: 241.0, b: 242.0)
-    }
-    
     class var lightGreen: UIColor {
         return r(116.0, g: 230.0, b: 131.0)
     }

@@ -20,8 +20,8 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     var item: TodoItem?
     var dateFormatter: DateFormatter
     var responders: [UIResponder]!
-    fileprivate var now: Date
-    fileprivate var date: Date? {
+    var now: Date
+    var date: Date? {
         didSet {
             if let date = date {
                 dateTextField.text = dateFormatter.string(from: date)
@@ -154,12 +154,12 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         item.repeats = Int16(repeatPickerView.selectedRow(inComponent: 0))
     }
     
-    fileprivate func setupNotifications() {
+    private func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    fileprivate func tearDownNotifications() {
+    private func tearDownNotifications() {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -173,7 +173,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     
     // MARK: - action
     
-    @IBAction fileprivate func savePressed(_ sender: UIBarButtonItem?) {
+    @IBAction private func savePressed(_ sender: UIBarButtonItem?) {
         guard let item = dataManager.insert(entityClass: TodoItem.self) else {
             return
         }
@@ -183,7 +183,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         })
     }
     
-    @IBAction fileprivate func deletePressed(_ sender: UIBarButtonItem?) {
+    @IBAction private func deletePressed(_ sender: UIBarButtonItem?) {
         guard let item = item else {
             return
         }
@@ -193,38 +193,38 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         })
     }
     
-    @objc fileprivate func prevPressed(_ sender: UIBarButtonItem) {
+    @objc private func prevPressed(_ sender: UIBarButtonItem) {
         makeFirstResponder(previousResponder)
     }
     
-    @objc fileprivate func nextPressed(_ sender: UIBarButtonItem) {
+    @objc private func nextPressed(_ sender: UIBarButtonItem) {
         makeFirstResponder(nextResponder)
     }
     
-    @objc fileprivate func donePressed(_ sender: UIBarButtonItem) {
+    @objc private func donePressed(_ sender: UIBarButtonItem) {
         view.endEditing(true)
     }
     
-    @objc fileprivate func dateChanged(_ sender: UIDatePicker) {
+    @objc private func dateChanged(_ sender: UIDatePicker) {
         date = sender.date as Date?
     }
     
-    @objc fileprivate func dateTapped(_ sender: UIDatePicker) {
+    @objc private func dateTapped(_ sender: UIDatePicker) {
         date = sender.date as Date?
     }
     
-    @objc fileprivate func textViewTapped(_ sender: UIDatePicker) {
+    @objc private func textViewTapped(_ sender: UIDatePicker) {
         makeFirstResponder(textView)
     }
     
-    @objc fileprivate func keyboardWillShow(_ notification: Notification) {
+    @objc private func keyboardWillShow(_ notification: Notification) {
         guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
         scrollView.contentSize.height = origContentSize.height + height.cgRectValue.height
     }
     
-    @objc fileprivate func keyboardWillHide(_ notification: Notification) {
+    @objc private func keyboardWillHide(_ notification: Notification) {
         scrollView.contentSize.height = origContentSize.height
     }
 }

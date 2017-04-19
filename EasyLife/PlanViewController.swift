@@ -42,7 +42,7 @@ class PlanViewController: UIViewController {
     
     // MARK: - action
     
-    @IBAction fileprivate func addButtonPressed(_ sender: UIBarButtonItem) {
+    @IBAction private func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "openEventDetailViewController", sender: nil)
     }
 }
