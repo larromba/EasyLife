@@ -58,6 +58,7 @@ class DataManager {
             } catch {
                 log(error)
                 failure?(error)
+                Analytics.shared.sendErrorEvent(error, classId: DataManager.self)
             }
         })
     }
@@ -69,6 +70,7 @@ class DataManager {
                 return
             }
             failure?(error)
+            Analytics.shared.sendErrorEvent(error, classId: DataManager.self)
             NotificationCenter.default.post(name: .applicationDidReceiveFatalError, object: error)
         })
     }
@@ -84,6 +86,7 @@ class DataManager {
                 success?()
             } catch {
                 failure?(error)
+                Analytics.shared.sendErrorEvent(error, classId: DataManager.self)
                 NotificationCenter.default.post(name: .applicationDidReceiveFatalError, object: error)
             }
         })

@@ -172,8 +172,14 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     // MARK: - action
     
     @IBAction private func savePressed(_ sender: UIBarButtonItem?) {
-        guard let item = dataManager.insert(entityClass: TodoItem.self) else {
-            return
+        var item: TodoItem
+        if let currentItem = self.item {
+            item = currentItem
+        } else {
+            guard let newItem = dataManager.insert(entityClass: TodoItem.self) else {
+                return
+            }
+            item = newItem
         }
         writeItem(item)
         dataManager.save(success: { [weak self] in
@@ -286,6 +292,18 @@ extension ItemDetailViewController: UITextFieldDelegate {
         default:
             break
         }
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        switch textField {
+        case dateTextField:
+            date = nil
+        case repeatsTextField:
+            repeatPicker.selectRow(0, inComponent: 0, animated: false)
+        default:
+            break
+        }
+        return true
     }
 }
 

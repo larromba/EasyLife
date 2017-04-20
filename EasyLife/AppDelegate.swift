@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,7 +26,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        #if DEBUG
+            debugPrint("DEBUG BUILD")
+        #endif
+        
+        Fabric.with([Crashlytics.self])
+        
+        do {
+            try Analytics.shared.setup()
+        } catch _ {
+            debugPrint("Analytics setup failed")
+        }
+        Analytics.shared.startSession()
         dataManager.load()
+
         return true
     }
 
@@ -67,6 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let window = window, let error = notification.object as? Error, let fatalViewController = UIStoryboard.components.instantiateViewController(withIdentifier: "FatalViewController") as? FatalViewController {
             fatalViewController.error = error
             window.rootViewController = fatalViewController
+            Analytics.shared.sendErrorEvent(error, classId: AppDelegate.self)
         }
     }
 }
