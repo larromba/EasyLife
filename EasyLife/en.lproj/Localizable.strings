@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  EasyLife
+
+  Created by Lee Arromba on 20/04/2017.
+  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
+*/
+
+"Missed..." = "Missed...";
+"Today" = "Today";
+"Later..." = "Later...";
+"Delete" = "Delete";
+"Done" = "Done";
+"Later" = "Later";
+"[no name]" = "[no name]";
+"Error loading data. Please restart the app and try again.\n\nDetailed error:\n%@" = "Error loading data. Please restart the app and try again.\n\nDetailed error:\n%@";

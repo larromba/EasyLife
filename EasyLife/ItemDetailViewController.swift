@@ -76,7 +76,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     required init?(coder aDecoder: NSCoder) {
         dataManager = DataManager.shared
         dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE dd/MM/yyyy" //TODO: localise
+        dateFormatter.dateFormat = "EEEE dd/MM/yyyy"
         now = Date()
         super.init(coder: aDecoder)
     }

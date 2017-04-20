@@ -1,0 +1,24 @@
+
+/* Class = "UITextField"; placeholder = "Title"; ObjectID = "8Zj-lH-Rwk"; */
+"8Zj-lH-Rwk.placeholder" = "Title";
+
+/* Class = "UITextField"; placeholder = "Date"; ObjectID = "N9X-29-Ok4"; */
+"N9X-29-Ok4.placeholder" = "Date";
+
+/* Class = "UINavigationItem"; title = "Todo"; ObjectID = "PlY-GS-r5t"; */
+"PlY-GS-r5t.title" = "Todo";
+
+/* Class = "UITextField"; placeholder = "Repeats"; ObjectID = "UrS-ej-3Q4"; */
+"UrS-ej-3Q4.placeholder" = "Repeats";
+
+/* Class = "UILabel"; text = "You're done!"; ObjectID = "bQP-vu-GI4"; */
+"bQP-vu-GI4.text" = "You're done!";
+
+/* Class = "UINavigationItem"; title = "Detail"; ObjectID = "oyB-LV-uAX"; */
+"oyB-LV-uAX.title" = "Detail";
+
+/* Class = "UIViewController"; title = "Event Detail"; ObjectID = "qZo-Tc-21E"; */
+"qZo-Tc-21E.title" = "Event Detail";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "xz2-u3-w40"; */
+"xz2-u3-w40.text" = "Label";

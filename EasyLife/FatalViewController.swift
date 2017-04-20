@@ -15,7 +15,7 @@ class FatalViewController: UIViewController {
     
     override func viewDidLoad() {
         if let error = error {
-            label.text = "Error loading data. Please restart the app and try again.\n\nDetailed error:\n\(error.localizedDescription)"//TODO: localise
+            label.text = String(format: "Error loading data. Please restart the app and try again.\n\nDetailed error:\n%@".localized, error.localizedDescription)
         }
     }
 }

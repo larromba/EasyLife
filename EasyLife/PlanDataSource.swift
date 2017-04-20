@@ -120,11 +120,11 @@ class PlanDataSource {
         }
         switch section {
         case 0:
-            return "Missed..." //TODO:localise
+            return "Missed...".localized
         case 1:
-            return "Today"
+            return "Today".localized
         case 2:
-            return "Later..."
+            return "Later...".localized
         default:
             return nil
         }

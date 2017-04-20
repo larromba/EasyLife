@@ -67,18 +67,18 @@ extension PlanViewController: UITableViewDelegate {
         return true
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {//TODO:localise
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete", handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
             self?.dataSource.delete(at: indexPath)
         })
         delete.backgroundColor = UIColor.lightRed
-        let done = UITableViewRowAction(style: .normal, title: "Done", handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
+        let done = UITableViewRowAction(style: .normal, title: "Done".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
             self?.dataSource.done(at: indexPath)
         })
         done.backgroundColor = UIColor.lightGreen
         switch indexPath.section {
         case 1:
-            let later = UITableViewRowAction(style: .normal, title: "Later", handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
+            let later = UITableViewRowAction(style: .normal, title: "Later".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
                 self?.dataSource.later(at: indexPath)
             })
             return [done, delete, later]
@@ -99,7 +99,7 @@ extension PlanViewController: UITableViewDataSource {
         let item = dataSource.sections[indexPath.section][indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlanCell", for: indexPath) as! PlanCell
         if item.name == nil || item.name!.characters.count == 0 {
-            cell.titleLabel.text = "[no name]" //TODO:localise
+            cell.titleLabel.text = "[no name]".localized
             cell.titleLabel.textColor = UIColor.appleGrey
             return cell
         }
