@@ -16,6 +16,9 @@ class DataManager {
     
     static let shared = DataManager()
     fileprivate var persistentContainer: NSPersistentContainer!
+    var mainContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
     
     init() {
         persistentContainer = NSPersistentContainer(name: "EasyLife")
@@ -24,7 +27,7 @@ class DataManager {
     // MARK: - public
     
     func insert<T:NSManagedObject>(entityClass:T.Type) -> T? {
-        let context = persistentContainer.viewContext
+        let context = mainContext
         let entityName = NSStringFromClass(entityClass).components(separatedBy: ".").last!
         guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
             log("couldnt make entityDescription")
@@ -34,7 +37,7 @@ class DataManager {
     }
     
     func delete<T:NSManagedObject>(_ entity:T)  {
-        let context = persistentContainer.viewContext
+        let context = mainContext
         context.delete(entity)
     }
     
@@ -47,7 +50,7 @@ class DataManager {
             request.sortDescriptors = [NSSortDescriptor(key:sortBy, ascending:isAscending)]
         }
         
-        let context = persistentContainer.viewContext
+        let context = mainContext
         context.perform({ [weak context] in
             do {
                 let result = try context?.fetch(request)
@@ -71,7 +74,7 @@ class DataManager {
     }
     
     func save(success: Success? = nil, failure: Failure? = nil) {
-        let context = persistentContainer.viewContext
+        let context = mainContext
         guard context.hasChanges else {
             return
         }

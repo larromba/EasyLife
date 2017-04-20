@@ -29,7 +29,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         
         // prepare
-        _ = vc.view
+        UIApplication.shared.keyWindow!.rootViewController = vc
         
         // test
         XCTAssertEqual(vc.titleTextField.keyboardType, .default)
@@ -52,8 +52,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         let next = vc.toolbar.items![2]
         
         // prepare
-        _ = vc.view
-        UIApplication.shared.keyWindow?.rootViewController = vc
+        UIApplication.shared.keyWindow!.rootViewController = vc
 
         // test
         vc.titleTextField.becomeFirstResponder()
@@ -72,8 +71,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         let done = vc.toolbar.items!.last!
         
         // prepare
-        _ = vc.view
-        UIApplication.shared.keyWindow?.rootViewController = vc
+        UIApplication.shared.keyWindow!.rootViewController = vc
         
         // test
         vc.titleTextField.becomeFirstResponder()
@@ -101,8 +99,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         let date = Date()
         
         // prepare
-        _ = vc.view
-        UIApplication.shared.keyWindow?.rootViewController = vc
+        UIApplication.shared.keyWindow!.rootViewController = vc
         vc.titleTextField.text = "title"
         vc.date = date
         vc.repeatPicker.selectRow(3, inComponent: 0, animated: false)
@@ -150,7 +147,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         nav.delegate = delegate
         delegate.exp = exp
         vc.dataManager = dataManager
-        UIApplication.shared.keyWindow?.rootViewController = nav
+        UIApplication.shared.keyWindow!.rootViewController = nav
         
         // test
         UIApplication.shared.sendAction(vc.saveButton.action!, to: vc.saveButton.target!, from: nil, for: nil)
@@ -173,8 +170,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         let item = MockTodoItem()
         
         // prepare
-        _ = vc.view
-        UIApplication.shared.keyWindow?.rootViewController = vc
+        UIApplication.shared.keyWindow!.rootViewController = vc
         vc.dataManager = dataManager
         vc.item = item
         
@@ -200,8 +196,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         let item = MockTodoItem()
         
         // prepare
-        _ = vc.view
-        UIApplication.shared.keyWindow?.rootViewController = vc
+        UIApplication.shared.keyWindow!.rootViewController = vc
         vc.item = item
         dataManager.item = item
         vc.dataManager = dataManager
@@ -238,7 +233,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         
         // prepare
         _ = vc.view
-        UIApplication.shared.keyWindow?.rootViewController = nav
+        UIApplication.shared.keyWindow!.rootViewController = nav
         vc.item = item
         nav.pushViewController(vc, animated: false)
         nav.delegate = delegate

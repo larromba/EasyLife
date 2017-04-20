@@ -66,7 +66,7 @@ class PlanViewControllerTests: XCTestCase {
         // prepare
         delegate.exp = exp
         nav.delegate = delegate
-        UIApplication.shared.keyWindow?.rootViewController = nav
+        UIApplication.shared.keyWindow!.rootViewController = nav
         
         // test
         UIApplication.shared.sendAction(vc.addButton.action!, to: vc.addButton.target!, from: nil, for: nil)
@@ -112,7 +112,7 @@ class PlanViewControllerTests: XCTestCase {
         dataManager.item = item
         tableView.delegate = vc
         nav.delegate = delegate
-        UIApplication.shared.keyWindow?.rootViewController = nav
+        UIApplication.shared.keyWindow!.rootViewController = nav
         
         // test
         dataSource.load()
@@ -120,5 +120,86 @@ class PlanViewControllerTests: XCTestCase {
         waitForExpectations(timeout: 1.0) { (err: Error?) in
             XCTAssertNil(err)
         }
+    }
+    
+    // load called on viewWillAppear
+    func test4() {
+        // mocks
+        class MockPlanDataSource: PlanDataSource {
+            var didLoad = false
+            override func load() {
+                didLoad = true
+            }
+        }
+        let dataSource = MockPlanDataSource()
+        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        
+        // prepare
+        vc.dataSource = dataSource
+        
+        // test
+        vc.viewWillAppear(false)
+        XCTAssertTrue(dataSource.didLoad)
+    }
+    
+    // cell text color and actions
+    func test5() {
+        // mocks
+        let dataSource = PlanDataSource()
+        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        let missedItem = MockTodoItem()
+        let nowItem = MockTodoItem()
+        let nowItemNoName = MockTodoItem()
+        let laterItem = MockTodoItem()
+        let sections = [
+            [missedItem],
+            [nowItem, nowItemNoName],
+            [laterItem]
+        ]
+        
+        // prepare
+        missedItem.name = "missed"
+        nowItem.name = "now"
+        laterItem.name = "later"
+        vc.dataSource = dataSource
+        dataSource.sections = sections
+        UIApplication.shared.keyWindow!.rootViewController = vc
+        
+        // test
+        vc.dataSorceDidLoad(dataSource)
+        
+        // cells
+        let cellMissed = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as! PlanCell
+        XCTAssertEqual(cellMissed.titleLabel.text, "missed")
+        XCTAssertEqual(cellMissed.titleLabel.textColor, UIColor.lightRed)
+        
+        let cellNow = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 1)) as! PlanCell
+        XCTAssertEqual(cellNow.titleLabel.text, "now")
+        XCTAssertEqual(cellNow.titleLabel.textColor, UIColor.black)
+        
+        let cellNowNoName = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 1, section: 1)) as! PlanCell
+        XCTAssertEqual(cellNowNoName.titleLabel.textColor, UIColor.appleGrey)
+        XCTAssertEqual(cellNowNoName.titleLabel.text, "[no name]")
+
+        let cellLater = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 2)) as! PlanCell
+        XCTAssertEqual(cellLater.titleLabel.textColor, UIColor.appleGrey)
+        XCTAssertEqual(cellLater.titleLabel.text, "later")
+        
+        // edit actions
+        let missedActions = vc.tableView(vc.tableView, editActionsForRowAt: IndexPath(row: 0, section: 0))
+        XCTAssertEqual(missedActions?.count, 2)
+        XCTAssertEqual(missedActions?[1].title, "Delete")
+        XCTAssertEqual(missedActions?[0].title, "Done")
+        
+        let todayActions = vc.tableView(vc.tableView, editActionsForRowAt: IndexPath(row: 0, section: 1))
+        XCTAssertEqual(todayActions?.count, 3)
+        XCTAssertEqual(todayActions?[2].title, "Later")
+        XCTAssertEqual(todayActions?[1].title, "Delete")
+        XCTAssertEqual(todayActions?[0].title, "Done")
+        
+        let laterActions = vc.tableView(vc.tableView, editActionsForRowAt: IndexPath(row: 0, section: 2))
+        XCTAssertEqual(laterActions?.count, 2)
+        XCTAssertEqual(laterActions?[1].title, "Delete")
+        XCTAssertEqual(laterActions?[0].title, "Done")
     }
 }

@@ -41,6 +41,9 @@ Please restart the app and try again.</string>
                             <constraint firstItem="kM8-Bd-IpQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KCm-8v-HPU" secondAttribute="leading" id="x49-Ip-OvA"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="label" destination="kM8-Bd-IpQ" id="bPO-xZ-UqV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ffa-nM-gDB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

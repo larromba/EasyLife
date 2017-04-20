@@ -98,7 +98,7 @@ extension PlanViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = dataSource.sections[indexPath.section][indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlanCell", for: indexPath) as! PlanCell
-        if item.name?.characters.count == 0 {
+        if item.name == nil || item.name!.characters.count == 0 {
             cell.titleLabel.text = "[no name]" //TODO:localise
             cell.titleLabel.textColor = UIColor.appleGrey
             return cell

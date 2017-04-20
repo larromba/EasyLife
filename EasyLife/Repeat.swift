@@ -11,7 +11,6 @@ import Foundation
 enum Repeat: Int {
     case none
     case daily
-    case weekday
     case weekly
     case biweekly
     case triweekly
@@ -23,10 +22,8 @@ enum Repeat: Int {
     
     init?(rawString: String) {
         switch rawString {
-        case "every day":
+        case "daily":
             self.init(rawValue: Repeat.daily.rawValue)
-        case "every weekday":
-            self.init(rawValue: Repeat.weekday.rawValue)
         case "weekly":
             self.init(rawValue: Repeat.weekly.rawValue)
         case "bi-weekly":
@@ -50,9 +47,7 @@ enum Repeat: Int {
     func stringValue() -> String? {
         switch self {
         case .daily:
-            return "every day"
-        case .weekday:
-            return "every weekday"
+            return "daily"
         case .weekly:
             return "weekly"
         case .biweekly:
@@ -77,8 +72,6 @@ enum Repeat: Int {
         switch self {
         case .daily:
             return calendar.date(byAdding: .day, value: 1, to: date)
-        case .weekday:
-            return calendar.date(byAdding: .weekday, value: 1, to: date)
         case .weekly:
             return calendar.date(byAdding: .weekOfMonth, value: 1, to: date)
         case .biweekly:

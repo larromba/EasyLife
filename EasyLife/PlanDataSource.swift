@@ -18,19 +18,21 @@ class PlanDataSource {
     var sections: [[TodoItem]]
     weak var delegate: PlanDataSourceDelegate?
     
-    fileprivate lazy var missedPredicate: NSPredicate = {
-        return NSPredicate(format: "%K < %@ AND %K = NULL", argumentArray: ["date", Date().earliest(), "done"])
-    }()
-    
-    fileprivate lazy var todayPredicate: NSPredicate = {
-        let date = Date()
-        return NSPredicate(format: "%K >= %@ AND %K <= %@ AND %K = NULL", argumentArray: ["date", date.earliest(), "date", date.latest(), "done"])
-    }()
-    
-    fileprivate lazy var laterPredicate: NSPredicate = {
-        return NSPredicate(format: "%K > %@ OR %K = NULL AND %K = NULL", argumentArray: ["date", Date().latest(), "date", "done"])
-    }()
-    
+    fileprivate var missedPredicate: NSPredicate {
+        let date = today
+        return NSPredicate(format: "%K < %@ AND %K = NULL", argumentArray: ["date", date.earliest, "done"])
+    }
+    fileprivate var todayPredicate: NSPredicate {
+        let date = today
+        return NSPredicate(format: "%K >= %@ AND %K <= %@ AND %K = NULL", argumentArray: ["date", date.earliest, "date", date.latest, "done"])
+    }
+    fileprivate var laterPredicate: NSPredicate {
+        let date = today
+        return NSPredicate(format: "%K > %@ OR %K = NULL AND %K = NULL", argumentArray: ["date", date.latest, "date", "done"])
+    }
+    var today: Date {
+        return Date()
+    }
     var total: Int {
         return sections.reduce(0) { (result: Int, item: [TodoItem]) -> Int in
             return result + item.count

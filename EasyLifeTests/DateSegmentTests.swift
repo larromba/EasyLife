@@ -6,4 +6,54 @@
 //  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
 //
 
-import Foundation
+import XCTest
+import CoreData
+@testable import EasyLife
+
+class DateSegmentTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
+    
+    // test increment
+    func test1() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: "GMT")
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        let date = dateFormatter.date(from: "21/04/2017")!
+        for i in 1..<DateSegment.MAX.rawValue {
+            let a = DateSegment(rawValue: i)!
+            let date2 = a.increment(date: date)
+            switch a {
+            case .today:
+                XCTAssertEqual(dateFormatter.date(from: "21/04/2017")!, date2)
+            case .tomorrow:
+                XCTAssertEqual(dateFormatter.date(from: "22/04/2017")!, date2)
+            case .fewDays:
+                XCTAssertEqual(dateFormatter.date(from: "24/04/2017")!, date2)
+            case .week:
+                XCTAssertEqual(dateFormatter.date(from: "28/04/2017")!, date2)
+            case .biweek:
+                XCTAssertEqual(dateFormatter.date(from: "05/05/2017")!, date2)
+            case .triweek:
+                XCTAssertEqual(dateFormatter.date(from: "12/05/2017")!, date2)
+            case .month:
+                XCTAssertEqual(dateFormatter.date(from: "21/05/2017")!, date2)
+            case .quarter:
+                XCTAssertEqual(dateFormatter.date(from: "21/07/2017")!, date2)
+            case .halfyear:
+                XCTAssertEqual(dateFormatter.date(from: "21/10/2017")!, date2)
+            case .year:
+                XCTAssertEqual(dateFormatter.date(from: "21/04/2018")!, date2)
+            case .none, .MAX:
+                break
+            }
+        }
+    }
+}
