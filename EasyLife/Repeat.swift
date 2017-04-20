@@ -22,21 +22,21 @@ enum Repeat: Int {
     
     init?(rawString: String) {
         switch rawString {
-        case "daily":
+        case "daily".localized:
             self.init(rawValue: Repeat.daily.rawValue)
-        case "weekly":
+        case "weekly".localized:
             self.init(rawValue: Repeat.weekly.rawValue)
-        case "bi-weekly":
+        case "bi-weekly".localized:
             self.init(rawValue: Repeat.biweekly.rawValue)
-        case "tri-weekly":
+        case "tri-weekly".localized:
             self.init(rawValue: Repeat.triweekly.rawValue)
-        case "monthly":
+        case "monthly".localized:
             self.init(rawValue: Repeat.monthly.rawValue)
-        case "quarterly":
+        case "quarterly".localized:
             self.init(rawValue: Repeat.quarterly.rawValue)
-        case "every 6 months":
+        case "every 6 months".localized:
             self.init(rawValue: Repeat.halfyear.rawValue)
-        case "yearly":
+        case "yearly".localized:
             self.init(rawValue: Repeat.yearly.rawValue)
         default:
             log("unknown rawString: \(rawString)")
@@ -47,21 +47,21 @@ enum Repeat: Int {
     func stringValue() -> String? {
         switch self {
         case .daily:
-            return "daily"
+            return "daily".localized
         case .weekly:
-            return "weekly"
+            return "weekly".localized
         case .biweekly:
-            return "bi-weekly"
+            return "bi-weekly".localized
         case .triweekly:
-            return "tri-weekly"
+            return "tri-weekly".localized
         case .monthly:
-            return "monthly"
+            return "monthly".localized
         case .quarterly:
-            return "quarterly"
+            return "quarterly".localized
         case .halfyear:
-            return "every 6 months"
+            return "every 6 months".localized
         case .yearly:
-            return "yearly"
+            return "yearly".localized
         case .none, .MAX:
             return nil
         }

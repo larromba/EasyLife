@@ -25,25 +25,25 @@ enum DateSegment: Int {
     func stringValue() -> String? {
         switch self {
         case .today:
-            return "today"
+            return "today".localized
         case .tomorrow:
-            return "tomorow"
+            return "tomorow".localized
         case .fewDays:
-            return "a few days"
+            return "a few days".localized
         case .week:
-            return "next week"
+            return "next week".localized
         case .biweek:
-            return "2 weeks"
+            return "2 weeks".localized
         case .triweek:
-            return "3 weeks"
+            return "3 weeks".localized
         case .month:
-            return "1 month"
+            return "1 month".localized
         case .quarter:
-            return "a few months"
+            return "a few months".localized
         case .halfyear:
-            return "half a year"
+            return "half a year".localized
         case .year:
-            return "next year"
+            return "next year".localized
         case .none, .MAX:
             return nil
         }
