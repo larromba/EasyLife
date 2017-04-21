@@ -142,8 +142,30 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertTrue(dataSource.didLoad)
     }
     
-    // cell text color and actions
+    // load called on UIApplicationWillEnterForeground notification
     func test5() {
+        // mocks
+        class MockPlanDataSource: PlanDataSource {
+            var didLoad = false
+            override func load() {
+                didLoad = true
+            }
+        }
+        let dataSource = MockPlanDataSource()
+        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        
+        // prepare
+        vc.dataSource = dataSource
+        vc.viewWillAppear(false)
+        dataSource.didLoad = false
+        
+        // test
+        NotificationCenter.default.post(name: .UIApplicationWillEnterForeground, object: nil)
+        XCTAssertTrue(dataSource.didLoad)
+    }
+    
+    // cell text color and actions
+    func test6() {
         // mocks
         let dataSource = PlanDataSource()
         let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController

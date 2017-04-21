@@ -28,7 +28,13 @@ class PlanViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupNotifications()
         dataSource.load()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tearDownNotifications()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -40,10 +46,24 @@ class PlanViewController: UIViewController {
         }
     }
     
+    // MARK: - private
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterForeground(_:)), name: .UIApplicationWillEnterForeground, object: nil)
+    }
+    
+    private func tearDownNotifications() {
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
+    }
+    
     // MARK: - action
     
     @IBAction private func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "openEventDetailViewController", sender: nil)
+    }
+    
+    @objc private func applicationDidEnterForeground(_ notification: Notification) {
+        dataSource.load()
     }
 }
 

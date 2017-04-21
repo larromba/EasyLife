@@ -129,20 +129,20 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     
     fileprivate func loadItem(_ item: TodoItem?) {
         guard let item = item else {
-            // load default
+            // load empty state
             titleTextField.text = nil
-            dateTextField.text = nil
+            date = nil
             repeatsTextField.text = nil
             textView.text = nil
-            saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(savePressed(_:)))
+            setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(savePressed(_:))))
             return
         }
+        // load item
         titleTextField.text = item.name
         date = item.date as Date?
         repeatsTextField.text = item.repeatsState?.stringValue()
         textView.text = item.notes
-        repeatPicker.selectRow(Int(item.repeats), inComponent: 0, animated: true)
-        saveButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:)))
+        setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:))))
     }
     
     fileprivate func writeItem(_ item: TodoItem) {
@@ -162,6 +162,11 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
     
+    private func setRightBarButtonItem(_ item: UIBarButtonItem) {
+        saveButton = item
+        navigationItem.rightBarButtonItem = item
+    }
+    
     fileprivate func makeFirstResponder(_ responder: UIResponder?) {
         if responder == textView {
             textView.isEditable = true
@@ -172,14 +177,8 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     // MARK: - action
     
     @IBAction private func savePressed(_ sender: UIBarButtonItem?) {
-        var item: TodoItem
-        if let currentItem = self.item {
-            item = currentItem
-        } else {
-            guard let newItem = dataManager.insert(entityClass: TodoItem.self) else {
-                return
-            }
-            item = newItem
+        guard let item = dataManager.insert(entityClass: TodoItem.self) else {
+            return
         }
         writeItem(item)
         dataManager.save(success: { [weak self] in
@@ -268,10 +267,10 @@ extension ItemDetailViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         switch textField {
         case dateTextField:
-            if textField.text?.characters.count == 0 {
-                textField.inputView = simpleDatePicker
-            } else {
+            if let _ = date {
                 textField.inputView = datePicker
+            } else  {
+                textField.inputView = simpleDatePicker
             }
         default:
             break
@@ -284,10 +283,14 @@ extension ItemDetailViewController: UITextFieldDelegate {
         case dateTextField:
             if textField.inputView == datePicker, let date = date {
                 datePicker.setDate(date, animated: true)
+            } else if textField.inputView == simpleDatePicker {
+                simpleDatePicker.selectRow(0, inComponent: 0, animated: true)
             }
         case repeatsTextField:
             if let text = repeatsTextField.text, let row = Repeat(rawString: text)?.rawValue {
                 repeatPicker.selectRow(Int(row), inComponent: 0, animated: true)
+            } else {
+                repeatPicker.selectRow(0, inComponent: 0, animated: true)
             }
         default:
             break

@@ -39,7 +39,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         _ = vc.dateTextField.delegate!.textFieldShouldBeginEditing!(vc.dateTextField)
         XCTAssertEqual(vc.dateTextField.inputView, vc.simpleDatePicker)
         
-        vc.dateTextField.text = "having text should change input view"
+        vc.date = Date()
         _ = vc.dateTextField.delegate!.textFieldShouldBeginEditing!(vc.dateTextField)
         XCTAssertEqual(vc.dateTextField.inputView, vc.datePicker)
     }

@@ -30,7 +30,11 @@ class DataManager {
         let context = mainContext
         let entityName = NSStringFromClass(entityClass).components(separatedBy: ".").last!
         guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-            log("couldnt make entityDescription")
+            log("couldnt make entityDescription for: \(entityName)")
+            let error = NSError(domain: "", code: 0, userInfo: [
+                NSLocalizedDescriptionKey: "couldnt make entityDescription for: \(entityName)"
+                ])
+            Analytics.shared.sendErrorEvent(error, classId: DataManager.self)
             return nil
         }
         return NSManagedObject(entity: entityDescription, insertInto: context) as? T
