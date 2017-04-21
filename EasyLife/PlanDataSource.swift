@@ -45,6 +45,34 @@ class PlanDataSource {
     }
     
     // MARK: - public
+    
+    func itunesConnect() {
+        let missed1 = dataManager.insert(entityClass: TodoItem.self)!
+        missed1.date = Date().addingTimeInterval(-24*60*60) as NSDate?
+        missed1.name = "send letter"
+        
+        let now1 = dataManager.insert(entityClass: TodoItem.self)!
+        now1.date = Date() as NSDate?
+        now1.name = "fix bike"
+        
+        let now2 = dataManager.insert(entityClass: TodoItem.self)!
+        now2.date = Date() as NSDate?
+        now2.name = "get party food!"
+        
+        let later1 = dataManager.insert(entityClass: TodoItem.self)!
+        later1.date = Date().addingTimeInterval(24*60*60) as NSDate?
+        later1.name = "phone mum"
+        
+        let later2 = dataManager.insert(entityClass: TodoItem.self)!
+        later2.date = Date().addingTimeInterval(24*60*60) as NSDate?
+        later2.name = "clean flat"
+        
+        let later3 = dataManager.insert(entityClass: TodoItem.self)!
+        later3.date = Date().addingTimeInterval(24*60*60) as NSDate?
+        later3.name = "call landlord"
+        
+        dataManager.save()
+    }
 
     func delete(at indexPath: IndexPath) {
         guard let item = data(at: indexPath) else {

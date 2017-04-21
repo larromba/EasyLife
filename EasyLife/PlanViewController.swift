@@ -16,6 +16,9 @@ class PlanViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         dataSource = PlanDataSource()
+        #if DEBUG
+            //dataSource.itunesConnect()
+        #endif
         super.init(coder: aDecoder)
         dataSource.delegate = self
     }
