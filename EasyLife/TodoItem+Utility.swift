@@ -10,20 +10,19 @@ import Foundation
 import CoreData
 
 extension TodoItem {
-    var repeatsState: Repeat? {
+    var repeatState: RepeatState? {
         get {
-            return Repeat(rawValue: Int(repeats))
+            return RepeatState(rawValue: Int(repeats))
         }
         set {
-            let value = newValue?.rawValue ?? 0
-            repeats = Int16(value)
+            repeats = Int16(newValue?.rawValue ?? 0)
         }
     }
     
     func incrementDate() {
-        guard let oldDate = date, let repeatsState = repeatsState else {
+        guard let oldDate = date, let repeatState = repeatState else {
             return
         }
-        date = repeatsState.increment(date: oldDate as Date) as NSDate?
+        date = repeatState.increment(date: oldDate as Date) as NSDate?
     }
 }

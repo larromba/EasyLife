@@ -1,5 +1,5 @@
 //
-//  RepeatTests.swift
+//  RepeatStateTests.swift
 //  EasyLife
 //
 //  Created by Lee Arromba on 19/04/2017.
@@ -10,7 +10,7 @@ import XCTest
 import CoreData
 @testable import EasyLife
 
-class RepeatTests: XCTestCase {
+class RepeatStateTests: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -21,14 +21,9 @@ class RepeatTests: XCTestCase {
         super.tearDown()
     }
     
-    // test strings
+    // test display
     func test1() {
-        // test
-        for i in 1..<Repeat.MAX.rawValue {
-            let a = Repeat(rawValue: i)!
-            let b = Repeat(rawString: a.stringValue()!)
-            XCTAssertEqual(a, b)
-        }
+        XCTAssertEqual(RepeatState.display.count, 9)
     }
     
     // test increment
@@ -40,8 +35,8 @@ class RepeatTests: XCTestCase {
         let date = dateFormatter.date(from: "21/04/2017")!
         
         // test
-        for i in 1..<Repeat.MAX.rawValue {
-            let a = Repeat(rawValue: i)!
+        for i in 1..<RepeatState.display.count {
+            let a = RepeatState.display[i]
             let date2 = a.increment(date: date)
             switch a {
             case .daily:
@@ -60,7 +55,7 @@ class RepeatTests: XCTestCase {
                 XCTAssertEqual(dateFormatter.date(from: "21/10/2017")!, date2)
             case .yearly:
                 XCTAssertEqual(dateFormatter.date(from: "21/04/2018")!, date2)
-            case .none, .MAX:
+            case .none:
                 break
             }
         }

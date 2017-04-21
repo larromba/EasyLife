@@ -64,7 +64,7 @@ class PlanDataSource {
         guard let item = data(at: indexPath) else {
             return
         }
-        switch item.repeatsState! {
+        switch item.repeatState! {
         case .none:
             item.date = nil
         default:
@@ -79,7 +79,7 @@ class PlanDataSource {
         guard let item = data(at: indexPath) else {
             return
         }
-        switch item.repeatsState! {
+        switch item.repeatState! {
         case .none:
             item.done = true
         default:

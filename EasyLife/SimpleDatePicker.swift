@@ -31,12 +31,12 @@ class SimpleDatePicker: UIPickerView {
 
 extension SimpleDatePicker: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return DateSegment(rawValue: row)?.stringValue()
+        return DateSegment.display[row].stringValue()
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let date = date {
-            datePickerDelegate?.datePicker(self, didSelectDate: DateSegment(rawValue: row)?.increment(date: date))
+            datePickerDelegate?.datePicker(self, didSelectDate: DateSegment.display[row].increment(date: date))
         } else {
             datePickerDelegate?.datePicker(self, didSelectDate: nil)
         }
@@ -49,6 +49,6 @@ extension SimpleDatePicker: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return DateSegment.MAX.rawValue
+        return DateSegment.display.count
     }
 }

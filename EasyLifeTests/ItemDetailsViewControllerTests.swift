@@ -102,7 +102,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         UIApplication.shared.keyWindow!.rootViewController = vc
         vc.titleTextField.text = "title"
         vc.date = date
-        vc.repeatPicker.selectRow(3, inComponent: 0, animated: false)
+        vc.repeatPicker.delegate!.pickerView!(vc.repeatPicker, didSelectRow: 3, inComponent: 0)
         vc.textView.text = "notes"
         dataManager.item = item
         vc.dataManager = dataManager

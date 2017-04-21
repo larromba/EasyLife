@@ -143,7 +143,7 @@ class PlanDataSourceTests: XCTestCase {
     
         // prepare
         item2.date = date as NSDate?
-        item2.repeatsState = .daily
+        item2.repeatState = .daily
         dataSource.dataManager = dataManager
         dataSource.sections = sections
         
@@ -184,7 +184,7 @@ class PlanDataSourceTests: XCTestCase {
         // prepare
         item1.date = date as NSDate?
         item2.date = date as NSDate?
-        item2.repeatsState = .daily
+        item2.repeatState = .daily
         dataSource.dataManager = dataManager
         dataSource.sections = sections
         

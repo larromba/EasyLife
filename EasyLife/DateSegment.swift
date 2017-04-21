@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DateSegment: Int {
+enum DateSegment: Int, DisplayEnum {
     case none
     case today
     case tomorrow
@@ -20,7 +20,23 @@ enum DateSegment: Int {
     case quarter
     case halfyear
     case year
-    case MAX
+    // WARNING: please add new elements here. edit display for ordering
+
+    static var display: [DateSegment] {
+        return [
+            .none,
+            .today,
+            .tomorrow,
+            .fewDays,
+            .week,
+            .biweek,
+            .triweek,
+            .month,
+            .quarter,
+            .halfyear,
+            .year,
+        ]
+    }
     
     func stringValue() -> String? {
         switch self {
@@ -44,7 +60,7 @@ enum DateSegment: Int {
             return "half a year".localized
         case .year:
             return "next year".localized
-        case .none, .MAX:
+        case .none:
             return nil
         }
     }
@@ -72,7 +88,7 @@ enum DateSegment: Int {
             return calendar.date(byAdding: .year, value: 1, to: date)
         case .today:
             return date
-        case .none, .MAX:
+        case .none:
             return nil
         }
     }

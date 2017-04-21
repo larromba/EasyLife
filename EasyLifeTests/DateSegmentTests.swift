@@ -21,14 +21,19 @@ class DateSegmentTests: XCTestCase {
         super.tearDown()
     }
     
-    // test increment
+    // test display
     func test1() {
+        XCTAssertEqual(DateSegment.display.count, 11)
+    }
+    
+    // test increment
+    func test2() {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(identifier: "GMT")
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let date = dateFormatter.date(from: "21/04/2017")!
-        for i in 1..<DateSegment.MAX.rawValue {
-            let a = DateSegment(rawValue: i)!
+        for i in 1..<DateSegment.display.count {
+            let a = DateSegment.display[i]
             let date2 = a.increment(date: date)
             switch a {
             case .today:
@@ -51,7 +56,7 @@ class DateSegmentTests: XCTestCase {
                 XCTAssertEqual(dateFormatter.date(from: "21/10/2017")!, date2)
             case .year:
                 XCTAssertEqual(dateFormatter.date(from: "21/04/2018")!, date2)
-            case .none, .MAX:
+            case .none:
                 break
             }
         }

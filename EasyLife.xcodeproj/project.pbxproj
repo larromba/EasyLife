@@ -15,6 +15,8 @@
 		7F93792F1EA7661B009E33FA /* DateSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792E1EA7661B009E33FA /* DateSegment.swift */; };
 		7FA9C2141EA915B20089A87C /* String+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA9C2131EA915B20089A87C /* String+Utility.swift */; };
 		7FA9C2171EA9161C0089A87C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7FA9C2191EA9161C0089A87C /* Localizable.strings */; };
+		7FA9C21F1EAA216A0089A87C /* DisplayEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA9C21E1EAA216A0089A87C /* DisplayEnum.swift */; };
+		7FA9C2211EAA23F00089A87C /* EnumExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA9C2201EAA23F00089A87C /* EnumExtensions.swift */; };
 		7FAC2C5D1E9E673400F14ECB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C5C1E9E673400F14ECB /* AppDelegate.swift */; };
 		7FAC2C5F1E9E673400F14ECB /* PlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C5E1E9E673400F14ECB /* PlanViewController.swift */; };
 		7FAC2C621E9E673400F14ECB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FAC2C601E9E673400F14ECB /* Main.storyboard */; };
@@ -28,7 +30,7 @@
 		7FAC2C921E9E7EEA00F14ECB /* PlanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C911E9E7EEA00F14ECB /* PlanCell.swift */; };
 		7FAC2C941E9EBC9A00F14ECB /* TodoItem+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C931E9EBC9A00F14ECB /* TodoItem+Utility.swift */; };
 		7FAC2C961E9EBF6400F14ECB /* ResponderSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C951E9EBF6400F14ECB /* ResponderSelection.swift */; };
-		7FAC2C981E9EC91400F14ECB /* Repeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C971E9EC91400F14ECB /* Repeat.swift */; };
+		7FAC2C981E9EC91400F14ECB /* RepeatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C971E9EC91400F14ECB /* RepeatState.swift */; };
 		7FAC2C9F1E9ECACB00F14ECB /* Date+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C9E1E9ECACB00F14ECB /* Date+Utility.swift */; };
 		7FAC2CA21E9ED15100F14ECB /* UIStoryboard+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CA11E9ED15100F14ECB /* UIStoryboard+Utility.swift */; };
 		7FAC2CA41E9ED1C800F14ECB /* FatalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CA31E9ED1C800F14ECB /* FatalViewController.swift */; };
@@ -72,6 +74,8 @@
 		7FA9C2181EA9161C0089A87C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7FA9C21A1EA9161F0089A87C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7FA9C21C1EA917080089A87C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		7FA9C21E1EAA216A0089A87C /* DisplayEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayEnum.swift; sourceTree = "<group>"; };
+		7FA9C2201EAA23F00089A87C /* EnumExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumExtensions.swift; sourceTree = "<group>"; };
 		7FAC2C591E9E673400F14ECB /* EasyLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FAC2C5C1E9E673400F14ECB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7FAC2C5E1E9E673400F14ECB /* PlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanViewController.swift; sourceTree = "<group>"; };
@@ -89,7 +93,7 @@
 		7FAC2C911E9E7EEA00F14ECB /* PlanCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanCell.swift; sourceTree = "<group>"; };
 		7FAC2C931E9EBC9A00F14ECB /* TodoItem+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TodoItem+Utility.swift"; sourceTree = "<group>"; };
 		7FAC2C951E9EBF6400F14ECB /* ResponderSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponderSelection.swift; sourceTree = "<group>"; };
-		7FAC2C971E9EC91400F14ECB /* Repeat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repeat.swift; sourceTree = "<group>"; };
+		7FAC2C971E9EC91400F14ECB /* RepeatState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatState.swift; sourceTree = "<group>"; };
 		7FAC2C9E1E9ECACB00F14ECB /* Date+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Utility.swift"; sourceTree = "<group>"; };
 		7FAC2CA11E9ED15100F14ECB /* UIStoryboard+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Utility.swift"; sourceTree = "<group>"; };
 		7FAC2CA31E9ED1C800F14ECB /* FatalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatalViewController.swift; sourceTree = "<group>"; };
@@ -209,7 +213,7 @@
 		7FAC2C991E9ECA8400F14ECB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7FAC2C971E9EC91400F14ECB /* Repeat.swift */,
+				7FAC2C971E9EC91400F14ECB /* RepeatState.swift */,
 				7F93792E1EA7661B009E33FA /* DateSegment.swift */,
 				7FAC2C931E9EBC9A00F14ECB /* TodoItem+Utility.swift */,
 				7FAC2CAD1E9EF4FB00F14ECB /* _Generated */,
@@ -267,6 +271,8 @@
 			isa = PBXGroup;
 			children = (
 				7FAC2C951E9EBF6400F14ECB /* ResponderSelection.swift */,
+				7FA9C21E1EAA216A0089A87C /* DisplayEnum.swift */,
+				7FA9C2201EAA23F00089A87C /* EnumExtensions.swift */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -551,11 +557,13 @@
 				7FAC2CAC1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift in Sources */,
 				7FAC2CA41E9ED1C800F14ECB /* FatalViewController.swift in Sources */,
 				7FAC2C9F1E9ECACB00F14ECB /* Date+Utility.swift in Sources */,
-				7FAC2C981E9EC91400F14ECB /* Repeat.swift in Sources */,
+				7FAC2C981E9EC91400F14ECB /* RepeatState.swift in Sources */,
 				7FCEC92C1EA909DE00BA5187 /* Analytics.swift in Sources */,
 				7FAC2C801E9E676A00F14ECB /* DataManager.swift in Sources */,
 				7F9054871EA790E3006D8F73 /* Log.swift in Sources */,
+				7FA9C2211EAA23F00089A87C /* EnumExtensions.swift in Sources */,
 				7FAC2C841E9E71BA00F14ECB /* PlanDataSource.swift in Sources */,
+				7FA9C21F1EAA216A0089A87C /* DisplayEnum.swift in Sources */,
 				7FA9C2141EA915B20089A87C /* String+Utility.swift in Sources */,
 				7FAC2CAB1E9EED0000F14ECB /* TodoItem+CoreDataClass.swift in Sources */,
 				7FAC2C941E9EBC9A00F14ECB /* TodoItem+Utility.swift in Sources */,

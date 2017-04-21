@@ -16,10 +16,10 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     @IBOutlet var saveButton: UIBarButtonItem!
     @IBOutlet var scrollView: UIScrollView!
     
+    var responders: [UIResponder]!
     var dataManager: DataManager!
     var item: TodoItem?
     var dateFormatter: DateFormatter
-    var responders: [UIResponder]!
     var now: Date
     var date: Date? {
         didSet {
@@ -27,6 +27,15 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
                 dateTextField.text = dateFormatter.string(from: date)
             } else {
                 dateTextField.text = nil
+            }
+        }
+    }
+    var repeatState: RepeatState? {
+        didSet {
+            if let repeatState = repeatState {
+                repeatsTextField.text = repeatState.stringValue()
+            } else {
+                repeatsTextField.text = nil
             }
         }
     }
@@ -132,7 +141,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
             // load empty state
             titleTextField.text = nil
             date = nil
-            repeatsTextField.text = nil
+            repeatState = nil
             textView.text = nil
             setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(savePressed(_:))))
             return
@@ -140,7 +149,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         // load item
         titleTextField.text = item.name
         date = item.date as Date?
-        repeatsTextField.text = item.repeatsState?.stringValue()
+        repeatState = item.repeatState
         textView.text = item.notes
         setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:))))
     }
@@ -149,7 +158,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         item.name = titleTextField.text
         item.notes = textView.text
         item.date = date as NSDate?
-        item.repeats = Int16(repeatPicker.selectedRow(inComponent: 0))
+        item.repeatState = repeatState
     }
     
     private func setupNotifications() {
@@ -236,11 +245,11 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
 
 extension ItemDetailViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return Repeat(rawValue: row)?.stringValue()
+        return RepeatState.display[row].stringValue()
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        repeatsTextField.text = pickerView.delegate?.pickerView?(pickerView, titleForRow: row, forComponent: component)
+        repeatState = RepeatState.display[row]
     }
 }
 
@@ -252,7 +261,7 @@ extension ItemDetailViewController: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return Repeat.MAX.rawValue
+        return RepeatState.display.count
     }
 }
 
@@ -287,8 +296,8 @@ extension ItemDetailViewController: UITextFieldDelegate {
                 simpleDatePicker.selectRow(0, inComponent: 0, animated: true)
             }
         case repeatsTextField:
-            if let text = repeatsTextField.text, let row = Repeat(rawString: text)?.rawValue {
-                repeatPicker.selectRow(Int(row), inComponent: 0, animated: true)
+            if let repeatState = repeatState {
+                repeatPicker.selectRow(repeatState.rawValue, inComponent: 0, animated: true)
             } else {
                 repeatPicker.selectRow(0, inComponent: 0, animated: true)
             }
@@ -302,7 +311,7 @@ extension ItemDetailViewController: UITextFieldDelegate {
         case dateTextField:
             date = nil
         case repeatsTextField:
-            repeatPicker.selectRow(0, inComponent: 0, animated: false)
+            repeatState = nil
         default:
             break
         }

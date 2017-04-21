@@ -1,5 +1,5 @@
 //
-//  Repeat.swift
+//  RepeatState.swift
 //  EasyLife
 //
 //  Created by Lee Arromba on 12/04/2017.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Repeat: Int {
+enum RepeatState: Int, DisplayEnum {
     case none
     case daily
     case weekly
@@ -18,30 +18,20 @@ enum Repeat: Int {
     case quarterly
     case halfyear
     case yearly
-    case MAX
+    // WARNING: please add new elements here. edit display for ordering
     
-    init?(rawString: String) {
-        switch rawString {
-        case "daily".localized:
-            self.init(rawValue: Repeat.daily.rawValue)
-        case "weekly".localized:
-            self.init(rawValue: Repeat.weekly.rawValue)
-        case "bi-weekly".localized:
-            self.init(rawValue: Repeat.biweekly.rawValue)
-        case "tri-weekly".localized:
-            self.init(rawValue: Repeat.triweekly.rawValue)
-        case "monthly".localized:
-            self.init(rawValue: Repeat.monthly.rawValue)
-        case "quarterly".localized:
-            self.init(rawValue: Repeat.quarterly.rawValue)
-        case "every 6 months".localized:
-            self.init(rawValue: Repeat.halfyear.rawValue)
-        case "yearly".localized:
-            self.init(rawValue: Repeat.yearly.rawValue)
-        default:
-            log("unknown rawString: \(rawString)")
-            return nil
-        }
+    static var display: [RepeatState] {
+        return [
+            .none,
+            .daily,
+            .weekly,
+            .biweekly,
+            .triweekly,
+            .monthly,
+            .quarterly,
+            .halfyear,
+            .yearly,
+        ]
     }
     
     func stringValue() -> String? {
@@ -62,7 +52,7 @@ enum Repeat: Int {
             return "every 6 months".localized
         case .yearly:
             return "yearly".localized
-        case .none, .MAX:
+        case .none:
             return nil
         }
     }
@@ -86,7 +76,7 @@ enum Repeat: Int {
             return calendar.date(byAdding: .month, value: 6, to: date)
         case .yearly:
             return calendar.date(byAdding: .year, value: 1, to: date)
-        case .none, .MAX:
+        case .none:
             return date
         }
     }
