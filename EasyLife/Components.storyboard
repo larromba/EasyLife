@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Fatal View Controller-->
+        <scene sceneID="slV-ho-GNa">
+            <objects>
+                <viewController storyboardIdentifier="FatalViewController" id="ksd-CQ-dOW" customClass="FatalViewController" customModule="EasyLife" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="g6F-ac-sKf"/>
+                        <viewControllerLayoutGuide type="bottom" id="f3q-sp-s0c"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KCm-8v-HPU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kM8-Bd-IpQ">
+                                <rect key="frame" x="49" y="303" width="277" height="61"/>
+                                <string key="text">There has been a fatal error.
+
+Please restart the app and try again.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kM8-Bd-IpQ" secondAttribute="trailing" constant="15" id="Mg6-aE-W53"/>
+                            <constraint firstItem="kM8-Bd-IpQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="g6F-ac-sKf" secondAttribute="bottom" constant="15" id="hUO-hU-fXl"/>
+                            <constraint firstItem="f3q-sp-s0c" firstAttribute="top" relation="greaterThanOrEqual" secondItem="kM8-Bd-IpQ" secondAttribute="bottom" constant="15" id="pce-1Y-yGq"/>
+                            <constraint firstItem="kM8-Bd-IpQ" firstAttribute="centerX" secondItem="KCm-8v-HPU" secondAttribute="centerX" id="tpv-wS-9qq"/>
+                            <constraint firstItem="kM8-Bd-IpQ" firstAttribute="centerY" secondItem="KCm-8v-HPU" secondAttribute="centerY" id="uag-qK-N7e"/>
+                            <constraint firstItem="kM8-Bd-IpQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KCm-8v-HPU" secondAttribute="leading" id="x49-Ip-OvA"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="label" destination="kM8-Bd-IpQ" id="bPO-xZ-UqV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ffa-nM-gDB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1605.5999999999999" y="714.69265367316348"/>
+        </scene>
+    </scenes>
+</document>

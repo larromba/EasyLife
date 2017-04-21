@@ -1,0 +1,34 @@
+/* 
+  Localizable.strings
+  EasyLife
+
+  Created by Lee Arromba on 20/04/2017.
+  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
+*/
+
+"Missed..." = "Missed...";
+"Today" = "Today";
+"Later..." = "Later...";
+"Delete" = "Delete";
+"Done" = "Done";
+"Later" = "Later";
+"[no name]" = "[no name]";
+"Error loading data. Please restart the app and try again.\n\nDetailed error:\n%@" = "Error loading data. Please restart the app and try again.\n\nDetailed error:\n%@";
+"daily" = "daily";
+"weekly" = "weekly";
+"bi-weekly" = "bi-weekly";
+"tri-weekly" = "tri-weekly";
+"monthly" = "monthly";
+"quarterly" = "quarterly";
+"every 6 months" = "every 6 months";
+"yearly" = "yearly";
+"today" = "today";
+"tomorow" = "tomorow";
+"a few days" = "a few days";
+"next week" = "next week";
+"2 weeks" = "2 weeks";
+"3 weeks" = "3 weeks";
+"1 month" = "1 month";
+"a few months" = "a few months";
+"half a year" = "half a year";
+"next year" = "next year";
