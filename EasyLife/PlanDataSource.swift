@@ -28,7 +28,7 @@ class PlanDataSource {
     }
     fileprivate var laterPredicate: NSPredicate {
         let date = today
-        return NSPredicate(format: "%K > %@ OR %K = NULL AND %K = NULL", argumentArray: ["date", date.latest, "date", "done"])
+        return NSPredicate(format: "(%K > %@ OR %K = NULL) AND %K = NULL", argumentArray: ["date", date.latest, "date", "done"])
     }
     var today: Date {
         return Date()
