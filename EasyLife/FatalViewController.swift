@@ -9,7 +9,7 @@
 import UIKit
 
 class FatalViewController: UIViewController {
-    @IBOutlet var label: UILabel!
+    @IBOutlet weak var label: UILabel!
     
     var error: Error?
     

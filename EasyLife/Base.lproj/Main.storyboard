@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0f4-ZB-gVU">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0f4-ZB-gVU">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -47,9 +47,28 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="Go0-ZL-SoM" customClass="TableHeaderView" customModule="EasyLife" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="78"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're done for now!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yO5-Tf-OCc">
+                                            <rect key="frame" x="8" y="8" width="304" height="62"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="yO5-Tf-OCc" firstAttribute="top" secondItem="Go0-ZL-SoM" secondAttribute="top" constant="8" id="8h3-Xg-Rfd"/>
+                                        <constraint firstAttribute="bottom" secondItem="yO5-Tf-OCc" secondAttribute="bottom" constant="8" id="Crf-3Q-DWt"/>
+                                        <constraint firstAttribute="trailing" secondItem="yO5-Tf-OCc" secondAttribute="trailing" constant="8" id="P4X-at-cND"/>
+                                        <constraint firstItem="yO5-Tf-OCc" firstAttribute="leading" secondItem="Go0-ZL-SoM" secondAttribute="leading" constant="8" id="WuZ-xE-jRT"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlanCell" rowHeight="70" id="Ojs-NO-Jkr" customClass="PlanCell" customModule="EasyLife" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="70"/>
+                                        <rect key="frame" x="0.0" y="106" width="320" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ojs-NO-Jkr" id="2Gu-Iz-zYI">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="69.5"/>
@@ -61,15 +80,25 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="recurring" translatesAutoresizingMaskIntoConstraints="NO" id="hVA-th-9S2">
+                                                    <rect key="frame" x="283" y="24" width="22" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="22" id="Un1-ov-n13"/>
+                                                        <constraint firstAttribute="width" constant="22" id="W95-tk-8Fx"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="xz2-u3-w40" firstAttribute="leading" secondItem="2Gu-Iz-zYI" secondAttribute="leading" constant="15" id="V7e-wA-n5n"/>
                                                 <constraint firstAttribute="bottom" secondItem="xz2-u3-w40" secondAttribute="bottom" id="Vxm-8g-Uw0"/>
                                                 <constraint firstItem="xz2-u3-w40" firstAttribute="top" secondItem="2Gu-Iz-zYI" secondAttribute="top" id="Z8g-97-7ji"/>
+                                                <constraint firstAttribute="trailing" secondItem="hVA-th-9S2" secondAttribute="trailing" constant="15" id="hKr-TG-9uo"/>
+                                                <constraint firstItem="hVA-th-9S2" firstAttribute="centerY" secondItem="2Gu-Iz-zYI" secondAttribute="centerY" id="iGc-V7-zIP"/>
                                                 <constraint firstAttribute="trailing" secondItem="xz2-u3-w40" secondAttribute="trailing" constant="15" id="x2E-sx-8bV"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="recurringImageView" destination="hVA-th-9S2" id="tWv-cB-noM"/>
                                             <outlet property="titleLabel" destination="xz2-u3-w40" id="1lh-bj-B7H"/>
                                         </connections>
                                     </tableViewCell>
@@ -101,13 +130,14 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addButton" destination="v9L-hb-hOb" id="euw-2N-Uj4"/>
+                        <outlet property="tableHeaderView" destination="Go0-ZL-SoM" id="57a-RC-FDL"/>
                         <outlet property="tableView" destination="JxY-xr-jfn" id="wP4-ZL-zf2"/>
                         <segue destination="qZo-Tc-21E" kind="show" identifier="openEventDetailViewController" id="ie8-87-mzO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-903.20000000000005" y="35.532233883058474"/>
+            <point key="canvasLocation" x="-903.75" y="34.859154929577464"/>
         </scene>
         <!--Event Detail-->
         <scene sceneID="zZo-yR-UZI">
@@ -236,4 +266,7 @@
             <point key="canvasLocation" x="-191.19999999999999" y="35.532233883058474"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="recurring" width="66" height="66"/>
+    </resources>
 </document>

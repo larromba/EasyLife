@@ -9,13 +9,16 @@
 import UIKit
 
 class PlanViewController: UIViewController {
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet var addButton: UIBarButtonItem!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addButton: UIBarButtonItem!
+    @IBOutlet weak var tableHeaderView: TableHeaderView!
     
     var dataSource: PlanDataSource
+    var badge: Badge
     
     required init?(coder aDecoder: NSCoder) {
         dataSource = PlanDataSource()
+        badge = Badge()
         #if DEBUG
             //dataSource.itunesConnect()
         #endif
@@ -121,6 +124,7 @@ extension PlanViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = dataSource.sections[indexPath.section][indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlanCell", for: indexPath) as! PlanCell
+        cell.recurringImageView.isHidden = (item.repeatState == nil || item.repeatState == RepeatState.none)
         if item.name == nil || item.name!.characters.count == 0 {
             cell.titleLabel.text = "[no name]".localized
             cell.titleLabel.textColor = UIColor.appleGrey
@@ -147,7 +151,9 @@ extension PlanViewController: UITableViewDataSource {
 
 extension PlanViewController: PlanDataSourceDelegate {
     func dataSorceDidLoad(_ dataSource: PlanDataSource) {
-        tableView.isHidden = (dataSource.total == 0)
+        tableHeaderView.isHidden = !dataSource.isDoneForNow
+        tableView.isHidden = dataSource.isDoneTotally
         tableView.reloadData()
+        badge.number = (dataSource.totalMissed + dataSource.totalToday)
     }
 }
