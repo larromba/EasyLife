@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		3EF9156DA608838625A46955 /* Pods_EasyLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7656E35524A23C863E1263C4 /* Pods_EasyLife.framework */; };
 		62073E90C164E94A811FEF18 /* Pods_EasyLifeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4DFC5997D4CC016AB47BD3 /* Pods_EasyLifeTests.framework */; };
+		7F163D221EDCDB9400DC52B6 /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F163D211EDCDB9400DC52B6 /* TableHeaderView.swift */; };
+		7F163D251EDD716D00DC52B6 /* Components.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F163D271EDD716D00DC52B6 /* Components.storyboard */; };
+		7F163D2C1EDD746B00DC52B6 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F163D2B1EDD746B00DC52B6 /* Badge.swift */; };
+		7F163D311EDEE98D00DC52B6 /* Bundle+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F163D301EDEE98D00DC52B6 /* Bundle+Utility.swift */; };
 		7F9054871EA790E3006D8F73 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9054861EA790E3006D8F73 /* Log.swift */; };
 		7F90548B1EA7B6DF006D8F73 /* MockTodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90548A1EA7B6DF006D8F73 /* MockTodoItem.swift */; };
 		7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */; };
@@ -34,7 +38,6 @@
 		7FAC2C9F1E9ECACB00F14ECB /* Date+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C9E1E9ECACB00F14ECB /* Date+Utility.swift */; };
 		7FAC2CA21E9ED15100F14ECB /* UIStoryboard+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CA11E9ED15100F14ECB /* UIStoryboard+Utility.swift */; };
 		7FAC2CA41E9ED1C800F14ECB /* FatalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CA31E9ED1C800F14ECB /* FatalViewController.swift */; };
-		7FAC2CA61E9ED2FB00F14ECB /* Components.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FAC2CA51E9ED2FB00F14ECB /* Components.storyboard */; };
 		7FAC2CA81E9ED67200F14ECB /* Array+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CA71E9ED67200F14ECB /* Array+Utility.swift */; };
 		7FAC2CAB1E9EED0000F14ECB /* TodoItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CA91E9EED0000F14ECB /* TodoItem+CoreDataClass.swift */; };
 		7FAC2CAC1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2CAA1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift */; };
@@ -66,6 +69,13 @@
 /* Begin PBXFileReference section */
 		71E689E9778A3A27BC3A165C /* Pods-EasyLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyLife.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EasyLife/Pods-EasyLife.debug.xcconfig"; sourceTree = "<group>"; };
 		7656E35524A23C863E1263C4 /* Pods_EasyLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F163D211EDCDB9400DC52B6 /* TableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableHeaderView.swift; sourceTree = "<group>"; };
+		7F163D241EDD714400DC52B6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		7F163D281EDD717500DC52B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Components.storyboard; sourceTree = "<group>"; };
+		7F163D2A1EDD718500DC52B6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Components.strings; sourceTree = "<group>"; };
+		7F163D2B1EDD746B00DC52B6 /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		7F163D2D1EDD8F7100DC52B6 /* change-log.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "change-log.txt"; sourceTree = "<group>"; };
+		7F163D301EDEE98D00DC52B6 /* Bundle+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Utility.swift"; sourceTree = "<group>"; };
 		7F9054861EA790E3006D8F73 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		7F90548A1EA7B6DF006D8F73 /* MockTodoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTodoItem.swift; sourceTree = "<group>"; };
 		7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleDatePicker.swift; sourceTree = "<group>"; };
@@ -73,7 +83,6 @@
 		7FA9C2131EA915B20089A87C /* String+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Utility.swift"; sourceTree = "<group>"; };
 		7FA9C2181EA9161C0089A87C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7FA9C21A1EA9161F0089A87C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		7FA9C21C1EA917080089A87C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		7FA9C21E1EAA216A0089A87C /* DisplayEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayEnum.swift; sourceTree = "<group>"; };
 		7FA9C2201EAA23F00089A87C /* EnumExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumExtensions.swift; sourceTree = "<group>"; };
 		7FAC2C591E9E673400F14ECB /* EasyLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,7 +106,6 @@
 		7FAC2C9E1E9ECACB00F14ECB /* Date+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Utility.swift"; sourceTree = "<group>"; };
 		7FAC2CA11E9ED15100F14ECB /* UIStoryboard+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Utility.swift"; sourceTree = "<group>"; };
 		7FAC2CA31E9ED1C800F14ECB /* FatalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatalViewController.swift; sourceTree = "<group>"; };
-		7FAC2CA51E9ED2FB00F14ECB /* Components.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Components.storyboard; sourceTree = "<group>"; };
 		7FAC2CA71E9ED67200F14ECB /* Array+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Utility.swift"; sourceTree = "<group>"; };
 		7FAC2CA91E9EED0000F14ECB /* TodoItem+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TodoItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		7FAC2CAA1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TodoItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -163,6 +171,7 @@
 		7FAC2C501E9E673400F14ECB = {
 			isa = PBXGroup;
 			children = (
+				7F163D2D1EDD8F7100DC52B6 /* change-log.txt */,
 				7FAC2C5B1E9E673400F14ECB /* EasyLife */,
 				7FAC2C731E9E673400F14ECB /* EasyLifeTests */,
 				7FAC2C5A1E9E673400F14ECB /* Products */,
@@ -233,6 +242,7 @@
 				7FAC2CB31E9F88A200F14ECB /* UIColor+Style.swift */,
 				7FAC2CB51E9F9B0E00F14ECB /* UITableView+Style.swift */,
 				7FAC2CB71E9FA8AE00F14ECB /* UITextField+ReadOnly.swift */,
+				7F163D301EDEE98D00DC52B6 /* Bundle+Utility.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -242,6 +252,7 @@
 			children = (
 				7FAC2C911E9E7EEA00F14ECB /* PlanCell.swift */,
 				7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */,
+				7F163D211EDCDB9400DC52B6 /* TableHeaderView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -263,6 +274,7 @@
 				7FAC2C7F1E9E676A00F14ECB /* DataManager.swift */,
 				7F9054861EA790E3006D8F73 /* Log.swift */,
 				7FCEC92B1EA909DE00BA5187 /* Analytics.swift */,
+				7F163D2B1EDD746B00DC52B6 /* Badge.swift */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -292,7 +304,7 @@
 				7FAC2C661E9E673400F14ECB /* Assets.xcassets */,
 				7FAC2C631E9E673400F14ECB /* EasyLife.xcdatamodeld */,
 				7FAC2C601E9E673400F14ECB /* Main.storyboard */,
-				7FAC2CA51E9ED2FB00F14ECB /* Components.storyboard */,
+				7F163D271EDD716D00DC52B6 /* Components.storyboard */,
 				7FAC2C681E9E673400F14ECB /* LaunchScreen.storyboard */,
 				7FAC2C6B1E9E673400F14ECB /* Info.plist */,
 				7FCEC92D1EA90A0E00BA5187 /* GoogleService-Info.plist */,
@@ -407,7 +419,7 @@
 				7FA9C2171EA9161C0089A87C /* Localizable.strings in Resources */,
 				7FAC2C671E9E673400F14ECB /* Assets.xcassets in Resources */,
 				7FCEC92E1EA90A0E00BA5187 /* GoogleService-Info.plist in Resources */,
-				7FAC2CA61E9ED2FB00F14ECB /* Components.storyboard in Resources */,
+				7F163D251EDD716D00DC52B6 /* Components.storyboard in Resources */,
 				7FAC2C621E9E673400F14ECB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -553,8 +565,11 @@
 				7FAC2CB41E9F88A200F14ECB /* UIColor+Style.swift in Sources */,
 				7F93792F1EA7661B009E33FA /* DateSegment.swift in Sources */,
 				7FAC2C821E9E692E00F14ECB /* ItemDetailViewController.swift in Sources */,
+				7F163D311EDEE98D00DC52B6 /* Bundle+Utility.swift in Sources */,
+				7F163D221EDCDB9400DC52B6 /* TableHeaderView.swift in Sources */,
 				7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */,
 				7FAC2CAC1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift in Sources */,
+				7F163D2C1EDD746B00DC52B6 /* Badge.swift in Sources */,
 				7FAC2CA41E9ED1C800F14ECB /* FatalViewController.swift in Sources */,
 				7FAC2C9F1E9ECACB00F14ECB /* Date+Utility.swift in Sources */,
 				7FAC2C981E9EC91400F14ECB /* RepeatState.swift in Sources */,
@@ -602,6 +617,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		7F163D271EDD716D00DC52B6 /* Components.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7F163D281EDD717500DC52B6 /* Base */,
+				7F163D2A1EDD718500DC52B6 /* en */,
+			);
+			name = Components.storyboard;
+			sourceTree = "<group>";
+		};
 		7FA9C2191EA9161C0089A87C /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -615,7 +639,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				7FAC2C611E9E673400F14ECB /* Base */,
-				7FA9C21C1EA917080089A87C /* en */,
+				7F163D241EDD714400DC52B6 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -729,13 +753,16 @@
 			baseConfigurationReference = 71E689E9778A3A27BC3A165C /* Pods-EasyLife.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = Q25J5XBNX4;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = EasyLife/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pinkchicken.easylife;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -746,12 +773,15 @@
 			baseConfigurationReference = B9C3E26C8FE2CE874735F529 /* Pods-EasyLife.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = Q25J5XBNX4;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = EasyLife/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pinkchicken.easylife;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

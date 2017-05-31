@@ -22,3 +22,6 @@
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "xz2-u3-w40"; */
 "xz2-u3-w40.text" = "Label";
+
+/* Class = "UILabel"; text = "You're done for now!"; ObjectID = "yO5-Tf-OCc"; */
+"yO5-Tf-OCc.text" = "You're done for now!";

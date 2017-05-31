@@ -154,7 +154,7 @@ class PlanDataSourceTests: XCTestCase {
         
         dataSource.done(at: IndexPath(row: 1, section: 0))
         XCTAssertFalse(dataSource.sections[0][1].done)
-        XCTAssertEqual(dataSource.sections[0][1].date as! Date, dateFormatter.date(from: "22/04/2017")!)
+        XCTAssertEqual(dataSource.sections[0][1].date, dateFormatter.date(from: "22/04/2017")! as NSDate)
     }
     
     // later nils date / or increments
@@ -194,6 +194,6 @@ class PlanDataSourceTests: XCTestCase {
         XCTAssertNil(dataSource.sections[0][0].date)
         
         dataSource.later(at: IndexPath(row: 1, section: 0))
-        XCTAssertEqual(dataSource.sections[0][1].date as! Date, dateFormatter.date(from: "22/04/2017")!)
+        XCTAssertEqual(dataSource.sections[0][1].date, dateFormatter.date(from: "22/04/2017")! as NSDate)
     }
 }

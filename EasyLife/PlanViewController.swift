@@ -9,13 +9,17 @@
 import UIKit
 
 class PlanViewController: UIViewController {
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet var addButton: UIBarButtonItem!
-    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addButton: UIBarButtonItem!
+    @IBOutlet weak var tableHeaderView: TableHeaderView!
+    @IBOutlet weak var appVersionLabel: UILabel!
+
     var dataSource: PlanDataSource
+    var badge: Badge
     
     required init?(coder aDecoder: NSCoder) {
         dataSource = PlanDataSource()
+        badge = Badge()
         #if DEBUG
             //dataSource.itunesConnect()
         #endif
@@ -27,6 +31,7 @@ class PlanViewController: UIViewController {
         super.viewDidLoad()
         tableView.isHidden = true
         tableView.applyDefaultStyleFix()
+        appVersionLabel.text = Bundle.appVersion()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,6 +126,7 @@ extension PlanViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = dataSource.sections[indexPath.section][indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlanCell", for: indexPath) as! PlanCell
+        cell.recurringImageView.isHidden = (item.repeatState == nil || item.repeatState == RepeatState.none)
         if item.name == nil || item.name!.characters.count == 0 {
             cell.titleLabel.text = "[no name]".localized
             cell.titleLabel.textColor = UIColor.appleGrey
@@ -147,7 +153,25 @@ extension PlanViewController: UITableViewDataSource {
 
 extension PlanViewController: PlanDataSourceDelegate {
     func dataSorceDidLoad(_ dataSource: PlanDataSource) {
-        tableView.isHidden = (dataSource.total == 0)
+        tableHeaderView.isHidden = !dataSource.isDoneForNow
+        tableView.isHidden = dataSource.isDoneTotally
         tableView.reloadData()
+        badge.number = (dataSource.totalMissed + dataSource.totalToday)
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension PlanViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        UIView.animate(withDuration: 0.2) { 
+            self.appVersionLabel.alpha = 0.0
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        UIView.animate(withDuration: 0.4) {
+            self.appVersionLabel.alpha = 1.0
+        }
     }
 }

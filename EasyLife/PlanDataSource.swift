@@ -28,7 +28,7 @@ class PlanDataSource {
     }
     fileprivate var laterPredicate: NSPredicate {
         let date = today
-        return NSPredicate(format: "%K > %@ OR %K = NULL AND %K = NULL", argumentArray: ["date", date.latest, "date", "done"])
+        return NSPredicate(format: "(%K > %@ OR %K = NULL) AND %K = NULL", argumentArray: ["date", date.latest, "date", "done"])
     }
     var today: Date {
         return Date()
@@ -37,6 +37,21 @@ class PlanDataSource {
         return sections.reduce(0) { (result: Int, item: [TodoItem]) -> Int in
             return result + item.count
         }
+    }
+    var totalMissed: Int {
+        return sections[0].count
+    }
+    var totalToday: Int {
+        return sections[1].count
+    }
+    var totalLater: Int {
+        return sections[2].count
+    }
+    var isDoneTotally: Bool {
+        return total == 0
+    }
+    var isDoneForNow: Bool {
+        return totalMissed == 0 && totalToday == 0
     }
     
     init() {
