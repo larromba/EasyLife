@@ -1,14 +1,13 @@
-v1.1.0
-
+v1.1.0 (31/05/2017)
     New done message when there are no missed items, or items today
-
-    Added small icon to recurring events
 
     New badge number that shows number of missed & today items
 
+    Added small icon to recurring events
 
-v1.0.0
+    Added version number
 
+v1.0.0 (23/04/2017) (Tier: 1)
     Things you missed...
 
     Things you want to do today
@@ -16,3 +15,5 @@ v1.0.0
     Things you will do later...
 
     Items have: title, date, repeats, notes
+
+SKU: 421042017

@@ -12,7 +12,8 @@ class PlanViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIBarButtonItem!
     @IBOutlet weak var tableHeaderView: TableHeaderView!
-    
+    @IBOutlet weak var appVersionLabel: UILabel!
+
     var dataSource: PlanDataSource
     var badge: Badge
     
@@ -30,6 +31,7 @@ class PlanViewController: UIViewController {
         super.viewDidLoad()
         tableView.isHidden = true
         tableView.applyDefaultStyleFix()
+        appVersionLabel.text = Bundle.appVersion()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -155,5 +157,21 @@ extension PlanViewController: PlanDataSourceDelegate {
         tableView.isHidden = dataSource.isDoneTotally
         tableView.reloadData()
         badge.number = (dataSource.totalMissed + dataSource.totalToday)
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension PlanViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        UIView.animate(withDuration: 0.2) { 
+            self.appVersionLabel.alpha = 0.0
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        UIView.animate(withDuration: 0.4) {
+            self.appVersionLabel.alpha = 1.0
+        }
     }
 }

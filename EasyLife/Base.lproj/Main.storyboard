@@ -52,7 +52,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're done for now!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yO5-Tf-OCc">
-                                            <rect key="frame" x="8" y="8" width="304" height="62"/>
+                                            <rect key="frame" x="8" y="27" width="304" height="24"/>
                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                                             <nil key="highlightedColor"/>
@@ -60,10 +60,10 @@
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstItem="yO5-Tf-OCc" firstAttribute="top" secondItem="Go0-ZL-SoM" secondAttribute="top" constant="8" id="8h3-Xg-Rfd"/>
-                                        <constraint firstAttribute="bottom" secondItem="yO5-Tf-OCc" secondAttribute="bottom" constant="8" id="Crf-3Q-DWt"/>
+                                        <constraint firstItem="yO5-Tf-OCc" firstAttribute="centerY" secondItem="Go0-ZL-SoM" secondAttribute="centerY" id="Bic-ou-EQY"/>
                                         <constraint firstAttribute="trailing" secondItem="yO5-Tf-OCc" secondAttribute="trailing" constant="8" id="P4X-at-cND"/>
                                         <constraint firstItem="yO5-Tf-OCc" firstAttribute="leading" secondItem="Go0-ZL-SoM" secondAttribute="leading" constant="8" id="WuZ-xE-jRT"/>
+                                        <constraint firstItem="yO5-Tf-OCc" firstAttribute="centerX" secondItem="Go0-ZL-SoM" secondAttribute="centerX" id="eAR-Fe-rpB"/>
                                     </constraints>
                                 </view>
                                 <prototypes>
@@ -108,10 +108,18 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="GWp-di-u7P"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWm-jL-nc7">
+                                <rect key="frame" x="319" y="568" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="8"/>
+                                <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="bQP-vu-GI4" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="4P3-tv-rej"/>
+                            <constraint firstAttribute="trailing" secondItem="aWm-jL-nc7" secondAttribute="trailing" constant="1" id="4rS-MI-Jd7"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aWm-jL-nc7" secondAttribute="bottom" id="5Dh-ag-TVw"/>
                             <constraint firstItem="JxY-xr-jfn" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="8Qy-EX-NXg"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="JxY-xr-jfn" secondAttribute="bottom" id="Eqf-Jz-PJK"/>
                             <constraint firstAttribute="trailing" secondItem="JxY-xr-jfn" secondAttribute="trailing" id="YWt-HA-xht"/>
@@ -130,6 +138,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addButton" destination="v9L-hb-hOb" id="euw-2N-Uj4"/>
+                        <outlet property="appVersionLabel" destination="aWm-jL-nc7" id="vRA-Xi-Pni"/>
                         <outlet property="tableHeaderView" destination="Go0-ZL-SoM" id="57a-RC-FDL"/>
                         <outlet property="tableView" destination="JxY-xr-jfn" id="wP4-ZL-zf2"/>
                         <segue destination="qZo-Tc-21E" kind="show" identifier="openEventDetailViewController" id="ie8-87-mzO"/>

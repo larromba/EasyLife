@@ -12,6 +12,7 @@
 		7F163D221EDCDB9400DC52B6 /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F163D211EDCDB9400DC52B6 /* TableHeaderView.swift */; };
 		7F163D251EDD716D00DC52B6 /* Components.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F163D271EDD716D00DC52B6 /* Components.storyboard */; };
 		7F163D2C1EDD746B00DC52B6 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F163D2B1EDD746B00DC52B6 /* Badge.swift */; };
+		7F163D311EDEE98D00DC52B6 /* Bundle+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F163D301EDEE98D00DC52B6 /* Bundle+Utility.swift */; };
 		7F9054871EA790E3006D8F73 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9054861EA790E3006D8F73 /* Log.swift */; };
 		7F90548B1EA7B6DF006D8F73 /* MockTodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90548A1EA7B6DF006D8F73 /* MockTodoItem.swift */; };
 		7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */; };
@@ -74,6 +75,7 @@
 		7F163D2A1EDD718500DC52B6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Components.strings; sourceTree = "<group>"; };
 		7F163D2B1EDD746B00DC52B6 /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		7F163D2D1EDD8F7100DC52B6 /* change-log.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "change-log.txt"; sourceTree = "<group>"; };
+		7F163D301EDEE98D00DC52B6 /* Bundle+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Utility.swift"; sourceTree = "<group>"; };
 		7F9054861EA790E3006D8F73 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		7F90548A1EA7B6DF006D8F73 /* MockTodoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTodoItem.swift; sourceTree = "<group>"; };
 		7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleDatePicker.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				7FAC2CB31E9F88A200F14ECB /* UIColor+Style.swift */,
 				7FAC2CB51E9F9B0E00F14ECB /* UITableView+Style.swift */,
 				7FAC2CB71E9FA8AE00F14ECB /* UITextField+ReadOnly.swift */,
+				7F163D301EDEE98D00DC52B6 /* Bundle+Utility.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				7FAC2CB41E9F88A200F14ECB /* UIColor+Style.swift in Sources */,
 				7F93792F1EA7661B009E33FA /* DateSegment.swift in Sources */,
 				7FAC2C821E9E692E00F14ECB /* ItemDetailViewController.swift in Sources */,
+				7F163D311EDEE98D00DC52B6 /* Bundle+Utility.swift in Sources */,
 				7F163D221EDCDB9400DC52B6 /* TableHeaderView.swift in Sources */,
 				7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */,
 				7FAC2CAC1E9EED0000F14ECB /* TodoItem+CoreDataProperties.swift in Sources */,
