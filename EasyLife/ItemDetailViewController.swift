@@ -9,12 +9,12 @@
 import UIKit
 
 class ItemDetailViewController : UIViewController, ResponderSelection {
-    @IBOutlet var titleTextField: UITextField!
-    @IBOutlet var dateTextField: UITextField!
-    @IBOutlet var repeatsTextField: UITextField!
-    @IBOutlet var textView: UITextView!
-    @IBOutlet var saveButton: UIBarButtonItem!
-    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var dateTextField: UITextField!
+    @IBOutlet weak var repeatsTextField: UITextField!
+    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     var responders: [UIResponder]!
     var dataManager: DataManager!

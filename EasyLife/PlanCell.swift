@@ -9,5 +9,6 @@
 import UIKit
 
 class PlanCell: UITableViewCell {
-    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var recurringImageView: UIImageView!
 }
