@@ -168,9 +168,12 @@ class PlanViewControllerTests: XCTestCase {
         
         // prepare
         missedItem.name = "missed"
+        missedItem.date = NSDate()
         nowItem.name = "now"
+        nowItem.date = NSDate()
         laterItem.name = "later"
         laterItem.repeatState = .biweekly
+        laterItem.date = NSDate()
         vc.dataSource = dataSource
         dataSource.sections = sections
         UIApplication.shared.keyWindow!.rootViewController = vc
@@ -182,22 +185,26 @@ class PlanViewControllerTests: XCTestCase {
         let cellMissed = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as! PlanCell
         XCTAssertEqual(cellMissed.titleLabel.text, "missed")
         XCTAssertEqual(cellMissed.titleLabel.textColor, UIColor.lightRed)
-        XCTAssertTrue(cellMissed.recurringImageView.isHidden)
+        XCTAssertTrue(cellMissed.iconImageView.isHidden)
+        XCTAssertEqual(cellMissed.iconImageType, .none)
         
         let cellNow = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 1)) as! PlanCell
         XCTAssertEqual(cellNow.titleLabel.text, "now")
         XCTAssertEqual(cellNow.titleLabel.textColor, UIColor.black)
-        XCTAssertTrue(cellNow.recurringImageView.isHidden)
-       
+        XCTAssertTrue(cellNow.iconImageView.isHidden)
+        XCTAssertEqual(cellMissed.iconImageType, .none)
+        
         let cellNowNoName = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 1, section: 1)) as! PlanCell
-        XCTAssertEqual(cellNowNoName.titleLabel.textColor, UIColor.appleGrey)
         XCTAssertEqual(cellNowNoName.titleLabel.text, "[no name]")
-        XCTAssertTrue(cellNowNoName.recurringImageView.isHidden)
+        XCTAssertEqual(cellNowNoName.titleLabel.textColor, UIColor.appleGrey)
+        XCTAssertFalse(cellNowNoName.iconImageView.isHidden)
+        XCTAssertEqual(cellNowNoName.iconImageType, .noDate)
         
         let cellLater = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 2)) as! PlanCell
-        XCTAssertEqual(cellLater.titleLabel.textColor, UIColor.appleGrey)
         XCTAssertEqual(cellLater.titleLabel.text, "later")
-        XCTAssertFalse(cellLater.recurringImageView.isHidden)
+        XCTAssertEqual(cellLater.titleLabel.textColor, UIColor.appleGrey)
+        XCTAssertFalse(cellLater.iconImageView.isHidden)
+        XCTAssertEqual(cellLater.iconImageType, .recurring)
         
         // edit actions
         let missedActions = vc.tableView(vc.tableView, editActionsForRowAt: IndexPath(row: 0, section: 0))
@@ -273,4 +280,25 @@ class PlanViewControllerTests: XCTestCase {
         vc.dataSorceDidLoad(dataSource)
         XCTAssertEqual(badge.number, 2)
     }
+    
+    // archive button opens archive
+    //TODO: this
+//    func test9() {
+//        // mocks
+//        class MockTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
+//            func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+//                return nil
+//            }
+//        }
+//        let delegate = MockTransitioningDelegate()
+//        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+//        
+//        // prepare
+//        vc.transitioningDelegate = delegate
+//        UIApplication.shared.keyWindow!.rootViewController = vc
+//        
+//        // test
+//        UIApplication.shared.sendAction(vc.archiveButton.action!, to: vc.archiveButton.target!, from: nil, for: nil)
+//        
+//    }
 }

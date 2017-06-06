@@ -31,15 +31,16 @@ class PlanDataSourceTests: XCTestCase {
                 return _mainContext
             }
         }
-        class MockDelegate: PlanDataSourceDelegate {
+        class MockDelegate: TableDataSourceDelegate {
             var missedItem: TodoItem!
             var todayItem: TodoItem!
             var laterItem: TodoItem!
             var exp: XCTestExpectation!
             var loadCount = 0
-            func dataSorceDidLoad(_ dataSource: PlanDataSource) {
+            func dataSorceDidLoad(_ dataSource: TableDataSource) {
                 loadCount += 1
                 if loadCount == 3 {
+                    let dataSource = dataSource as! PlanDataSource
                     XCTAssertEqual(dataSource.sections[0].first, missedItem)
                     XCTAssertEqual(dataSource.sections[1].first, todayItem)
                     XCTAssertEqual(dataSource.sections[2].first, laterItem)
@@ -195,5 +196,66 @@ class PlanDataSourceTests: XCTestCase {
         
         dataSource.later(at: IndexPath(row: 1, section: 0))
         XCTAssertEqual(dataSource.sections[0][1].date, dateFormatter.date(from: "22/04/2017")! as NSDate)
+    }
+    
+    // later section ordering
+    func test5() {
+        // mocks
+        let exp = expectation(description: "dataSourceDidLoad(...)")
+        class MockDataManager: DataManager {
+            var _mainContext: NSManagedObjectContext!
+            override var mainContext: NSManagedObjectContext {
+                return _mainContext
+            }
+        }
+        class MockDelegate: TableDataSourceDelegate {
+            var expectedOrder: [TodoItem]!
+            var exp: XCTestExpectation!
+            var loadCount = 0
+            func dataSorceDidLoad(_ dataSource: TableDataSource) {
+                loadCount += 1
+                if loadCount == 3 {
+                    let dataSource = dataSource as! PlanDataSource
+                    XCTAssertEqual(dataSource.sections.count, dataSource.sections[2].count)
+                    for item in expectedOrder {
+                        XCTAssertEqual(item, dataSource.sections[2][expectedOrder.index(of: item)!])
+                    }
+                    exp.fulfill()
+                }
+            }
+        }
+        class MockDataSource: PlanDataSource {
+            var _today: Date!
+            override var today: Date {
+                return _today
+            }
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        let date = dateFormatter.date(from: "21/04/2017")!.earliest
+        let context = NSManagedObjectContext.test
+        let laterItem1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem
+        let laterItem2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem
+        let laterItem3 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem
+        let dataSource = MockDataSource()
+        let dataManager = MockDataManager()
+        let delegate = MockDelegate()
+        
+        // prepare
+        dataManager._mainContext = context
+        dataSource.dataManager = dataManager
+        dataSource.delegate = delegate
+        dataSource._today = date
+        laterItem1.date = date.addingTimeInterval(60*60*24) as NSDate!
+        laterItem2.date = nil
+        laterItem3.date = date.addingTimeInterval(2*60*60*24) as NSDate!
+        delegate.expectedOrder = [laterItem2, laterItem1, laterItem3]
+        delegate.exp = exp
+        
+        // test
+        dataSource.load()
+        waitForExpectations(timeout: 1.0) { (err: Error?) in
+            XCTAssertNil(err)
+        }
     }
 }

@@ -18,3 +18,15 @@ v1.0.0 (23/04/2017) (Tier: 1)
 
 SKU: 421042017
 Apple ID: 1229095589
+
+//--- todo v1.2.0:
+
+[DONE] ordering in plan view 
+
+checkout waht is done - menu top left. opens screen with search bar. table view by date. say wahat is done
+
+[DONE] ? on unassined
+
+noise when done (wahoo?)
+
+clear all in archive
