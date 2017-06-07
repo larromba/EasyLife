@@ -33,3 +33,5 @@ noise / animation when done (wahoo?)
 clear all in archive
 
 icloud backup
+
+press back on new item - want to save?
