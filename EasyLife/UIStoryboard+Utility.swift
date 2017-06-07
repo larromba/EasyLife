@@ -9,8 +9,12 @@
 import UIKit
 
 extension UIStoryboard {
-    static var main: UIStoryboard {
-        return UIStoryboard(name: "Main", bundle: nil)
+    static var plan: UIStoryboard {
+        return UIStoryboard(name: "Plan", bundle: nil)
+    }
+    
+    static var archive: UIStoryboard {
+        return UIStoryboard(name: "Archive", bundle: nil)
     }
     
     static var components: UIStoryboard {

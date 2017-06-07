@@ -9,26 +9,23 @@
 import Foundation
 import CoreData
 
-protocol PlanDataSourceDelegate: class {
-    func dataSorceDidLoad(_ dataSource: PlanDataSource)
-}
-
-class PlanDataSource {
+class PlanDataSource: NSObject { // NSObject needed to override extensions in unit test
     var dataManager: DataManager
     var sections: [[TodoItem]]
-    weak var delegate: PlanDataSourceDelegate?
+    weak var delegate: TableDataSourceDelegate?
     
+    // not lazy var as 'today' changes
     fileprivate var missedPredicate: NSPredicate {
         let date = today
-        return NSPredicate(format: "%K < %@ AND %K = NULL", argumentArray: ["date", date.earliest, "done"])
+        return NSPredicate(format: "%K < %@ AND (%K = NULL OR %K = false)", argumentArray: ["date", date.earliest, "done", "done"])
     }
     fileprivate var todayPredicate: NSPredicate {
         let date = today
-        return NSPredicate(format: "%K >= %@ AND %K <= %@ AND %K = NULL", argumentArray: ["date", date.earliest, "date", date.latest, "done"])
+        return NSPredicate(format: "%K >= %@ AND %K <= %@ AND (%K = NULL OR %K = false)", argumentArray: ["date", date.earliest, "date", date.latest, "done", "done"])
     }
     fileprivate var laterPredicate: NSPredicate {
         let date = today
-        return NSPredicate(format: "(%K > %@ OR %K = NULL) AND %K = NULL", argumentArray: ["date", date.latest, "date", "done"])
+        return NSPredicate(format: "(%K > %@ OR %K = NULL) AND (%K = NULL OR %K = false)", argumentArray: ["date", date.latest, "date", "done", "done"])
     }
     var today: Date {
         return Date()
@@ -54,13 +51,15 @@ class PlanDataSource {
         return totalMissed == 0 && totalToday == 0
     }
     
-    init() {
+    override init() {
         dataManager = DataManager.shared
         sections = [[TodoItem]](repeating: [TodoItem](), count: 3)
+        super.init()
     }
     
     // MARK: - public
     
+#if DEBUG
     func itunesConnect() {
         let missed1 = dataManager.insert(entityClass: TodoItem.self)!
         missed1.date = Date().addingTimeInterval(-24*60*60) as NSDate?
@@ -88,9 +87,10 @@ class PlanDataSource {
         
         dataManager.save()
     }
+#endif
 
     func delete(at indexPath: IndexPath) {
-        guard let item = data(at: indexPath) else {
+        guard let item = item(at: indexPath) else {
             return
         }
         dataManager.delete(item)
@@ -104,7 +104,7 @@ class PlanDataSource {
     }
     
     func later(at indexPath: IndexPath) {
-        guard let item = data(at: indexPath) else {
+        guard let item = item(at: indexPath) else {
             return
         }
         switch item.repeatState! {
@@ -119,7 +119,7 @@ class PlanDataSource {
     }
     
     func done(at indexPath: IndexPath) {
-        guard let item = data(at: indexPath) else {
+        guard let item = item(at: indexPath) else {
             return
         }
         switch item.repeatState! {
@@ -132,8 +132,12 @@ class PlanDataSource {
             self?.load()
         })
     }
-    
-    func load() {
+}
+
+// MARK: - TableDataSource
+
+extension PlanDataSource: TableDataSource {
+    open func load() {
         dataManager.fetch(entityClass: TodoItem.self, predicate: missedPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {
                 return
@@ -148,7 +152,7 @@ class PlanDataSource {
             self.sections.replace(items, at: 1)
             self.delegate?.dataSorceDidLoad(self)
         })
-        dataManager.fetch(entityClass: TodoItem.self, predicate: laterPredicate, success: { [weak self] (result: [Any]?) in
+        dataManager.fetch(entityClass: TodoItem.self, sortBy: "date", isAscending: true, predicate: laterPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {
                 return
             }
@@ -157,7 +161,7 @@ class PlanDataSource {
         })
     }
     
-    func title(forSection section: Int) -> String? {
+    func title(for section: Int) -> String? {
         guard section >= 0 && section < sections.count && sections[section].count > 0 else {
             return nil
         }
@@ -173,17 +177,22 @@ class PlanDataSource {
         }
     }
     
-    // MARK: - private
-    
-    fileprivate func data(at indexPath: IndexPath) -> TodoItem? {
-        guard indexPath.section >= sections.startIndex && indexPath.section < sections.endIndex else {
+    func item(at indexPath: IndexPath) -> TodoItem? {
+        guard let section = section(at: indexPath.section) else {
             return nil
         }
-        let section = sections[indexPath.section]
         guard indexPath.row >= section.startIndex && indexPath.row < section.endIndex else {
             return nil
         }
         let row = section[indexPath.row]
         return row
+    }
+    
+    func section(at index: Int) -> [TodoItem]? {
+        guard index >= sections.startIndex && index < sections.endIndex else {
+            return nil
+        }
+        let section = sections[index]
+        return section
     }
 }
