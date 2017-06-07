@@ -1,12 +1,6 @@
 
-/* Class = "UINavigationItem"; title = "Archive"; ObjectID = "3uq-hf-s7A"; */
-"3uq-hf-s7A.title" = "Archive";
-
 /* Class = "UITextField"; placeholder = "Title"; ObjectID = "8Zj-lH-Rwk"; */
 "8Zj-lH-Rwk.placeholder" = "Title";
-
-/* Class = "UILabel"; text = "Empty"; ObjectID = "MVh-YE-NkR"; */
-"MVh-YE-NkR.text" = "Empty";
 
 /* Class = "UITextField"; placeholder = "Date"; ObjectID = "N9X-29-Ok4"; */
 "N9X-29-Ok4.placeholder" = "Date";

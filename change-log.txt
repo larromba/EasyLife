@@ -1,3 +1,10 @@
+v1.2.0 (07/06/2017)
+    Improved ordering in later section
+
+    New archive view
+
+    New icon for items recorded without a date
+
 v1.1.0 (31/05/2017)
     New done message when there are no missed items, or items today
 
@@ -19,14 +26,10 @@ v1.0.0 (23/04/2017) (Tier: 1)
 SKU: 421042017
 Apple ID: 1229095589
 
-//--- todo v1.2.0:
+//--- todo v1.3.0
 
-[DONE] ordering in plan view 
-
-checkout waht is done - menu top left. opens screen with search bar. table view by date. say wahat is done
-
-[DONE] ? on unassined
-
-noise when done (wahoo?)
+noise / animation when done (wahoo?)
 
 clear all in archive
+
+icloud backup

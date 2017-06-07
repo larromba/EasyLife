@@ -28,7 +28,7 @@ class PlanViewControllerTests: XCTestCase {
     func test1() {
         // mocks
         let dataSource = PlanDataSource()
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
 
         // prepare
         UIApplication.shared.keyWindow!.rootViewController = vc
@@ -57,7 +57,7 @@ class PlanViewControllerTests: XCTestCase {
                 }
             }
         }
-        let nav = UIStoryboard.main.instantiateInitialViewController() as! UINavigationController
+        let nav = UIStoryboard.plan.instantiateInitialViewController() as! UINavigationController
         let vc = nav.viewControllers.first as! PlanViewController
         let delegate = MockDelegate()
         
@@ -87,7 +87,7 @@ class PlanViewControllerTests: XCTestCase {
             }
         }
         let dataSource = PlanDataSource()
-        let nav = UIStoryboard.main.instantiateInitialViewController() as! UINavigationController
+        let nav = UIStoryboard.plan.instantiateInitialViewController() as! UINavigationController
         let vc = nav.viewControllers.first as! PlanViewController
         let delegate = MockDelegate()
         let item = MockTodoItem()
@@ -119,7 +119,7 @@ class PlanViewControllerTests: XCTestCase {
             }
         }
         let dataSource = MockPlanDataSource()
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
         
         // prepare
         vc.dataSource = dataSource
@@ -139,7 +139,7 @@ class PlanViewControllerTests: XCTestCase {
             }
         }
         let dataSource = MockPlanDataSource()
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
         
         // prepare
         vc.dataSource = dataSource
@@ -151,11 +151,11 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertTrue(dataSource.didLoad)
     }
     
-    // cell text color and actions
+    // cell text color, header, actions, etc
     func test6() {
         // mocks
         let dataSource = PlanDataSource()
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
         let missedItem = MockTodoItem()
         let nowItem = MockTodoItem()
         let nowItemNoName = MockTodoItem()
@@ -206,6 +206,16 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertFalse(cellLater.iconImageView.isHidden)
         XCTAssertEqual(cellLater.iconImageType, .recurring)
         
+        // header
+        let title1 = vc.tableView(vc.tableView, titleForHeaderInSection: 0)
+        XCTAssertEqual(title1, "Missed...")
+        
+        let title2 = vc.tableView(vc.tableView, titleForHeaderInSection: 1)
+        XCTAssertEqual(title2, "Today")
+        
+        let title3 = vc.tableView(vc.tableView, titleForHeaderInSection: 2)
+        XCTAssertEqual(title3, "Later...")
+        
         // edit actions
         let missedActions = vc.tableView(vc.tableView, editActionsForRowAt: IndexPath(row: 0, section: 0))
         XCTAssertEqual(missedActions?.count, 2)
@@ -228,7 +238,7 @@ class PlanViewControllerTests: XCTestCase {
     func test7() {
         // mocks
         let dataSource = PlanDataSource()
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
         
         // prepare
         vc.dataSource = dataSource
@@ -265,7 +275,7 @@ class PlanViewControllerTests: XCTestCase {
         }
         let dataSource = PlanDataSource()
         let badge = MockBadge()
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
         
         // prepare
         vc.badge = badge
@@ -281,24 +291,18 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertEqual(badge.number, 2)
     }
     
-    // archive button opens archive
-    //TODO: this
-//    func test9() {
-//        // mocks
-//        class MockTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
-//            func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-//                return nil
-//            }
-//        }
-//        let delegate = MockTransitioningDelegate()
-//        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
-//        
-//        // prepare
-//        vc.transitioningDelegate = delegate
-//        UIApplication.shared.keyWindow!.rootViewController = vc
-//        
-//        // test
-//        UIApplication.shared.sendAction(vc.archiveButton.action!, to: vc.archiveButton.target!, from: nil, for: nil)
-//        
-//    }
+    // folder button opens archive view
+    func test9() {
+        // mocks
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        
+        // prepare
+        UIApplication.shared.keyWindow!.rootViewController = vc
+        
+        // test
+        UIApplication.shared.sendAction(vc.archiveButton.action!, to: vc.archiveButton.target!, from: nil, for: nil)
+        let navController = vc.presentedViewController as! UINavigationController
+        let rootViewController = navController.viewControllers.first!
+        XCTAssertTrue(rootViewController.classForCoder == ArchiveViewController.self)
+    }
 }

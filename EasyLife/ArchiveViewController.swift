@@ -13,11 +13,15 @@ class ArchiveViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var thingsDoneLabel: UILabel!
+    @IBOutlet weak var emptyLabelHeightLayoutConstraint: NSLayoutConstraint!
     
     var dataSource: ArchiveDataSource
-    
+
     lazy var origContentSize: CGSize = {
         return self.tableView.contentSize
+    }()
+    lazy var origEmptyLabelYConstraintHeight: CGFloat = {
+        return self.emptyLabelHeightLayoutConstraint.constant
     }()
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,8 +48,8 @@ class ArchiveViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         tearDownNotifications()
+        searchBar.resignFirstResponder()
     }
-    
     
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
@@ -75,10 +79,14 @@ class ArchiveViewController: UIViewController {
             return
         }
         tableView.contentSize.height = origContentSize.height + height.cgRectValue.height
+        emptyLabelHeightLayoutConstraint.constant = origEmptyLabelYConstraintHeight - height.cgRectValue.height / 2.0
+        view.layoutIfNeeded()
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
         tableView.contentSize.height = origContentSize.height
+        emptyLabelHeightLayoutConstraint.constant = origEmptyLabelYConstraintHeight
+        view.layoutIfNeeded()
     }
 }
 
