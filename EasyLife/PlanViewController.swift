@@ -11,6 +11,7 @@ import UIKit
 class PlanViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIBarButtonItem!
+    @IBOutlet weak var archiveButton: UIBarButtonItem!
     @IBOutlet weak var tableHeaderView: TableHeaderView!
     @IBOutlet weak var appVersionLabel: UILabel!
 
@@ -88,7 +89,7 @@ extension PlanViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return dataSource.title(forSection: section)
+        return dataSource.title(for: section)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -120,27 +121,17 @@ extension PlanViewController: UITableViewDelegate {
 
 extension PlanViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.sections[section].count
+        return dataSource.section(at: section)?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = dataSource.sections[indexPath.section][indexPath.row]
+        guard let item = dataSource.item(at: indexPath) else {
+            log("epic fail")
+            return UITableViewCell() // shouldnt happen
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlanCell", for: indexPath) as! PlanCell
-        cell.recurringImageView.isHidden = (item.repeatState == nil || item.repeatState == RepeatState.none)
-        if item.name == nil || item.name!.characters.count == 0 {
-            cell.titleLabel.text = "[no name]".localized
-            cell.titleLabel.textColor = UIColor.appleGrey
-            return cell
-        }
-        cell.titleLabel.text = item.name
-        switch indexPath.section {
-        case 0:
-            cell.titleLabel.textColor = UIColor.lightRed
-        case 1:
-            cell.titleLabel.textColor = UIColor.black
-        default:
-            cell.titleLabel.textColor = UIColor.appleGrey
-        }
+        cell.indexPath = indexPath
+        cell.item = item
         return cell
     }
     
@@ -149,14 +140,16 @@ extension PlanViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - PlanDataSourceDelegate
+// MARK: - DataSourceDelegate
 
-extension PlanViewController: PlanDataSourceDelegate {
-    func dataSorceDidLoad(_ dataSource: PlanDataSource) {
-        tableHeaderView.isHidden = !dataSource.isDoneForNow
-        tableView.isHidden = dataSource.isDoneTotally
-        tableView.reloadData()
-        badge.number = (dataSource.totalMissed + dataSource.totalToday)
+extension PlanViewController: TableDataSourceDelegate {
+    func dataSorceDidLoad(_ dataSource: TableDataSource) {
+        if let dataSource = dataSource as? PlanDataSource {
+            tableHeaderView.isHidden = !dataSource.isDoneForNow
+            tableView.isHidden = dataSource.isDoneTotally
+            tableView.reloadData()
+            badge.number = (dataSource.totalMissed + dataSource.totalToday)
+        }
     }
 }
 

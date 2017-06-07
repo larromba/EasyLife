@@ -26,7 +26,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
     // textfields have correct input views
     func test1() {
         // mocks
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         
         // prepare
         UIApplication.shared.keyWindow!.rootViewController = vc
@@ -47,7 +47,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
     // left right buttons switch input views
     func test2() {
         // mocks
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         let prev = vc.toolbar.items![0]
         let next = vc.toolbar.items![2]
         
@@ -67,7 +67,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
     // done closes input view
     func test3() {
         // mocks
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         let done = vc.toolbar.items!.last!
         
         // prepare
@@ -93,7 +93,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
                 return item as? T
             }
         }
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         let dataManager = MockDataManager()
         let item = MockTodoItem()
         let date = Date()
@@ -136,8 +136,8 @@ class ItemDetailsViewControllerTests: XCTestCase {
                 }
             }
         }
-        let nav = UIStoryboard.main.instantiateInitialViewController() as! UINavigationController
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
+        let nav = UIStoryboard.plan.instantiateInitialViewController() as! UINavigationController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         let delegate = MockDelegate()
         let dataManager = MockDataManager()
         
@@ -165,7 +165,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
                 saved = true
             }
         }
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         let dataManager = MockDataManager()
         let item = MockTodoItem()
         
@@ -191,7 +191,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
                 }
             }
         }
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         let dataManager = MockDataManager()
         let item = MockTodoItem()
         
@@ -225,8 +225,8 @@ class ItemDetailsViewControllerTests: XCTestCase {
                 }
             }
         }
-        let nav = UIStoryboard.main.instantiateInitialViewController() as! UINavigationController
-        let vc = UIStoryboard.main.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
+        let nav = UIStoryboard.plan.instantiateInitialViewController() as! UINavigationController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         let delegate = MockDelegate()
         let dataManager = MockDataManager()
         let item = MockTodoItem()

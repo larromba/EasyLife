@@ -74,13 +74,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xz2-u3-w40">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xz2-u3-w40">
                                                     <rect key="frame" x="15" y="0.0" width="290" height="69"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="recurring" translatesAutoresizingMaskIntoConstraints="NO" id="hVA-th-9S2">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hVA-th-9S2">
                                                     <rect key="frame" x="283" y="24" width="22" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="Un1-ov-n13"/>
@@ -98,7 +98,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="recurringImageView" destination="hVA-th-9S2" id="tWv-cB-noM"/>
+                                            <outlet property="iconImageView" destination="hVA-th-9S2" id="1D9-yU-Q6S"/>
                                             <outlet property="titleLabel" destination="xz2-u3-w40" id="1lh-bj-B7H"/>
                                         </connections>
                                     </tableViewCell>
@@ -130,6 +130,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Todo" id="PlY-GS-r5t">
+                        <barButtonItem key="leftBarButtonItem" systemItem="organize" id="fzJ-bl-55B">
+                            <connections>
+                                <segue destination="a9r-nq-awZ" kind="show" id="4VG-ah-fB9"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="v9L-hb-hOb">
                             <connections>
                                 <action selector="addButtonPressed:" destination="BYZ-38-t0r" id="MI3-Nf-4pH"/>
@@ -139,6 +144,7 @@
                     <connections>
                         <outlet property="addButton" destination="v9L-hb-hOb" id="euw-2N-Uj4"/>
                         <outlet property="appVersionLabel" destination="aWm-jL-nc7" id="vRA-Xi-Pni"/>
+                        <outlet property="archiveButton" destination="fzJ-bl-55B" id="R6h-br-rci"/>
                         <outlet property="tableHeaderView" destination="Go0-ZL-SoM" id="57a-RC-FDL"/>
                         <outlet property="tableView" destination="JxY-xr-jfn" id="wP4-ZL-zf2"/>
                         <segue destination="qZo-Tc-21E" kind="show" identifier="openEventDetailViewController" id="ie8-87-mzO"/>
@@ -147,6 +153,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-903.75" y="34.859154929577464"/>
+        </scene>
+        <!--Archive-->
+        <scene sceneID="1T6-kT-v5W">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Archive" id="a9r-nq-awZ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lti-eB-7XJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-904" y="489"/>
         </scene>
         <!--Event Detail-->
         <scene sceneID="zZo-yR-UZI">
@@ -275,7 +289,4 @@
             <point key="canvasLocation" x="-191.19999999999999" y="35.532233883058474"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="recurring" width="66" height="66"/>
-    </resources>
 </document>
