@@ -96,6 +96,7 @@
 		7F426E791F59B52800C55AD2 /* ProjectsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsDataSource.swift; sourceTree = "<group>"; };
 		7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
 		7F7540101F5AD1A900A0F06C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Project.storyboard; sourceTree = "<group>"; };
+		7F7540131F5AD29C00A0F06C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Project.strings; sourceTree = "<group>"; };
 		7F7770BD1EE8261200A58494 /* ArchiveViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchiveViewControllerTests.swift; sourceTree = "<group>"; };
 		7F7770C61EE827E700A58494 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Plan.strings; sourceTree = "<group>"; };
 		7F7770C81EE827F000A58494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Archive.storyboard; sourceTree = "<group>"; };
@@ -724,6 +725,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				7F7540101F5AD1A900A0F06C /* Base */,
+				7F7540131F5AD29C00A0F06C /* en */,
 			);
 			name = Project.storyboard;
 			sourceTree = "<group>";

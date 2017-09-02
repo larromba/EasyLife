@@ -24,7 +24,7 @@ class ProjectsViewControllerTests: XCTestCase {
         UIView.setAnimationsEnabled(true)
     }
     
-    // table view hide / show
+    // table view hide / show, edit button state
     func test1() {
         // mocks
         let dataSource = ProjectsDataSource()
@@ -36,6 +36,7 @@ class ProjectsViewControllerTests: XCTestCase {
         // test
         vc.dataSorceDidLoad(dataSource)
         XCTAssertTrue(vc.tableView.isHidden)
+        XCTAssertFalse(vc.editButton.isEnabled)
         
         // prepare
         dataSource.sections = [[MockProject()]]
@@ -43,6 +44,7 @@ class ProjectsViewControllerTests: XCTestCase {
         //test
         vc.dataSorceDidLoad(dataSource)
         XCTAssertFalse(vc.tableView.isHidden)
+        XCTAssertTrue(vc.editButton.isEnabled)
     }
     
     // done button closes view
@@ -111,10 +113,10 @@ class ProjectsViewControllerTests: XCTestCase {
         
         // header
         let title1 = vc.tableView(vc.tableView, titleForHeaderInSection: 0)
-        XCTAssertEqual(title1, "Priority")
+        XCTAssertEqual(title1, "Prioritized")
 
         let title2 = vc.tableView(vc.tableView, titleForHeaderInSection: 1)
-        XCTAssertEqual(title2, "Other")
+        XCTAssertEqual(title2, "Deprioritized")
         
         // edit actions
         let actions1 = vc.tableView(vc.tableView, editActionsForRowAt: IndexPath(row: 0, section: 0))

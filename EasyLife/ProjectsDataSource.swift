@@ -19,6 +19,12 @@ class ProjectsDataSource {
     var totalItems: Int {
         return sections.reduce(0, { $0 + $1.count })
     }
+    var totalPriorityItems: Int {
+        return sections[0].count
+    }
+    var isMaxPriorityItemLimitReached: Bool {
+        return totalPriorityItems >= maxPriorityItems
+    }
     var isEmpty: Bool {
         return totalItems == 0
     }
@@ -88,8 +94,8 @@ class ProjectsDataSource {
             return
         }
         fromItem.priority = Int16(toPath.row)
-        sections[0].remove(at: fromPath.row)
-        sections[0].insert(fromItem, at: toPath.row)
+        sections[fromPath.section].remove(at: fromPath.row)
+        sections[toPath.section].insert(fromItem, at: toPath.row)
         
         if toPath.row < maxPriorityItems {
             move(
@@ -145,9 +151,9 @@ extension ProjectsDataSource: TableDataSource {
         }
         switch section {
         case 0:
-            return "Priority".localized
+            return "Prioritized".localized
         case 1:
-            return "Other".localized
+            return "Deprioritized".localized
         default:
             return nil
         }

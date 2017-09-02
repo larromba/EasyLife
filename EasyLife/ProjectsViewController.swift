@@ -35,6 +35,7 @@ class ProjectsViewController: UIViewController {
         alertController.addTextField { (textField: UITextField) in
             textField.placeholder = "name".localized
             textField.clearButtonMode = .whileEditing
+            textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         }
         alertController.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil))
         alertController.addAction(UIAlertAction(title: "OK".localized, style: .default, handler: { (action: UIAlertAction) in
@@ -43,14 +44,16 @@ class ProjectsViewController: UIViewController {
             }
             self.dataSource.addProject(name: name)
         }))
+        alertController.actions[1].isEnabled = false
         present(alertController, animated: true, completion: nil)
     }
     
     fileprivate func editProject(at indexPath: IndexPath) {
+        let name = dataSource.name(at: indexPath)
         let alertController = UIAlertController(title: "Edit Project".localized, message: nil, preferredStyle: .alert)
         alertController.addTextField { (textField: UITextField) in
             textField.placeholder = "name".localized
-            textField.text = self.dataSource.name(at: indexPath)
+            textField.text = name
             textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
             textField.clearButtonMode = .whileEditing
         }
@@ -61,6 +64,7 @@ class ProjectsViewController: UIViewController {
             }
             self.dataSource.updateName(name: name, at: indexPath)
         }))
+        alertController.actions[1].isEnabled = true
         present(alertController, animated: true, completion: nil)
     }
     
@@ -108,7 +112,7 @@ extension ProjectsViewController: UITableViewDelegate {
         delete.backgroundColor = .lightRed
         switch indexPath.section {
         case 1:
-            if self.dataSource.sections[0].count >= self.dataSource.maxPriorityItems {
+            if dataSource.isMaxPriorityItemLimitReached {
                 return [delete]
             }
             let prioritize = UITableViewRowAction(style: .normal, title: "Prioritize".localized, handler: { (action: UITableViewRowAction, path: IndexPath) in
@@ -130,15 +134,13 @@ extension ProjectsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return dataSource.sections[0].count > 0
+        return indexPath.section == 0 || (indexPath.section == 1 && !dataSource.isMaxPriorityItemLimitReached && dataSource.totalPriorityItems > 0)
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        if sourceIndexPath.section == 1, destinationIndexPath.section == 0 {
-            dataSource.prioritize(at: sourceIndexPath)
-        } else if sourceIndexPath.section == 0, destinationIndexPath.section == 1 {
+        if sourceIndexPath.section == 0, destinationIndexPath.section == 1 {
             dataSource.deprioritize(at: sourceIndexPath)
-        } else if sourceIndexPath.section == 0, destinationIndexPath.section == 0 {
+        } else if (sourceIndexPath.section == 0 && destinationIndexPath.section == 0) || (sourceIndexPath.section == 1 && destinationIndexPath.section == 0) {
             dataSource.move(fromPath: sourceIndexPath, toPath: destinationIndexPath)
         }
     }
@@ -173,5 +175,6 @@ extension ProjectsViewController: TableDataSourceDelegate {
         }
         tableView.reloadData()
         tableView.isHidden = dataSource.isEmpty
+        editButton.isEnabled = !dataSource.isEmpty
     }
 }
