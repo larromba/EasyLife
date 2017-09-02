@@ -276,7 +276,7 @@ extension ItemDetailViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         switch textField {
         case dateTextField:
-            if let _ = date {
+            if date != nil {
                 textField.inputView = datePicker
             } else  {
                 textField.inputView = simpleDatePicker

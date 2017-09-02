@@ -12,6 +12,7 @@ class PlanViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIBarButtonItem!
     @IBOutlet weak var archiveButton: UIBarButtonItem!
+    @IBOutlet weak var projectsButton: UIBarButtonItem!
     @IBOutlet weak var tableHeaderView: TableHeaderView!
     @IBOutlet weak var appVersionLabel: UILabel!
 
@@ -70,7 +71,7 @@ class PlanViewController: UIViewController {
     @IBAction private func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "openEventDetailViewController", sender: nil)
     }
-    
+
     @objc private func applicationDidEnterForeground(_ notification: Notification) {
         dataSource.load()
     }
@@ -100,11 +101,11 @@ extension PlanViewController: UITableViewDelegate {
         let delete = UITableViewRowAction(style: .destructive, title: "Delete".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
             self?.dataSource.delete(at: indexPath)
         })
-        delete.backgroundColor = UIColor.lightRed
+        delete.backgroundColor = .lightRed
         let done = UITableViewRowAction(style: .normal, title: "Done".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
             self?.dataSource.done(at: indexPath)
         })
-        done.backgroundColor = UIColor.lightGreen
+        done.backgroundColor = .lightGreen
         switch indexPath.section {
         case 1:
             let later = UITableViewRowAction(style: .normal, title: "Later".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
@@ -143,13 +144,14 @@ extension PlanViewController: UITableViewDataSource {
 // MARK: - DataSourceDelegate
 
 extension PlanViewController: TableDataSourceDelegate {
-    func dataSorceDidLoad(_ dataSource: TableDataSource) {
-        if let dataSource = dataSource as? PlanDataSource {
-            tableHeaderView.isHidden = !dataSource.isDoneForNow
-            tableView.isHidden = dataSource.isDoneTotally
-            tableView.reloadData()
-            badge.number = (dataSource.totalMissed + dataSource.totalToday)
+    func dataSorceDidLoad<T: TableDataSource>(_ dataSource: T) {
+        guard let dataSource = dataSource as? PlanDataSource else {
+            return
         }
+        tableHeaderView.isHidden = !dataSource.isDoneForNow
+        tableView.isHidden = dataSource.isDoneTotally
+        tableView.reloadData()
+        badge.number = (dataSource.totalMissed + dataSource.totalToday)
     }
 }
 

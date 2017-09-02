@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Project" representedClassName=".Project" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="-1" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <entity name="TodoItem" representedClassName=".TodoItem" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="done" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -8,6 +12,7 @@
         <attribute name="repeats" optional="YES" attributeType="Integer 16" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Project" positionX="-54" positionY="27" width="128" height="75"/>
         <element name="TodoItem" positionX="-63" positionY="-18" width="128" height="120"/>
     </elements>
 </model>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0f4-ZB-gVU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0f4-ZB-gVU">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -130,11 +131,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Todo" id="PlY-GS-r5t">
-                        <barButtonItem key="leftBarButtonItem" systemItem="organize" id="fzJ-bl-55B">
-                            <connections>
-                                <segue destination="a9r-nq-awZ" kind="show" id="4VG-ah-fB9"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem systemItem="organize" id="fzJ-bl-55B">
+                                <connections>
+                                    <segue destination="a9r-nq-awZ" kind="show" id="4VG-ah-fB9"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="compose" id="m6I-wg-tY7">
+                                <connections>
+                                    <segue destination="g7F-Ih-x2N" kind="show" id="6Sj-2I-fER"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="v9L-hb-hOb">
                             <connections>
                                 <action selector="addButtonPressed:" destination="BYZ-38-t0r" id="MI3-Nf-4pH"/>
@@ -145,6 +153,7 @@
                         <outlet property="addButton" destination="v9L-hb-hOb" id="euw-2N-Uj4"/>
                         <outlet property="appVersionLabel" destination="aWm-jL-nc7" id="vRA-Xi-Pni"/>
                         <outlet property="archiveButton" destination="fzJ-bl-55B" id="R6h-br-rci"/>
+                        <outlet property="projectsButton" destination="m6I-wg-tY7" id="CkP-AW-qek"/>
                         <outlet property="tableHeaderView" destination="Go0-ZL-SoM" id="57a-RC-FDL"/>
                         <outlet property="tableView" destination="JxY-xr-jfn" id="wP4-ZL-zf2"/>
                         <segue destination="qZo-Tc-21E" kind="show" identifier="openEventDetailViewController" id="ie8-87-mzO"/>
@@ -160,7 +169,7 @@
                 <viewControllerPlaceholder storyboardName="Archive" id="a9r-nq-awZ" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lti-eB-7XJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-904" y="489"/>
+            <point key="canvasLocation" x="-1082" y="511"/>
         </scene>
         <!--Event Detail-->
         <scene sceneID="zZo-yR-UZI">
@@ -287,6 +296,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N7D-iT-MJP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-191.19999999999999" y="35.532233883058474"/>
+        </scene>
+        <!--Project-->
+        <scene sceneID="9Xp-lX-7h3">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Project" id="g7F-Ih-x2N" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sRl-eR-6yr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-739" y="511"/>
         </scene>
     </scenes>
 </document>

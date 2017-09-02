@@ -52,7 +52,7 @@ class PlanViewControllerTests: XCTestCase {
         class MockDelegate: NSObject, UINavigationControllerDelegate {
             var exp: XCTestExpectation!
             func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-                if let _ = viewController as? ItemDetailViewController {
+                if viewController is ItemDetailViewController {
                     exp.fulfill()
                 }
             }
@@ -303,6 +303,21 @@ class PlanViewControllerTests: XCTestCase {
         UIApplication.shared.sendAction(vc.archiveButton.action!, to: vc.archiveButton.target!, from: nil, for: nil)
         let navController = vc.presentedViewController as! UINavigationController
         let rootViewController = navController.viewControllers.first!
-        XCTAssertTrue(rootViewController.classForCoder == ArchiveViewController.self)
+        XCTAssertTrue(rootViewController is ArchiveViewController)
+    }
+    
+    // projects button opens projects view
+    func test10() {
+        // mocks
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        
+        // prepare
+        UIApplication.shared.keyWindow!.rootViewController = vc
+        
+        // test
+        UIApplication.shared.sendAction(vc.projectsButton.action!, to: vc.projectsButton.target!, from: nil, for: nil)
+        let navController = vc.presentedViewController as! UINavigationController
+        let rootViewController = navController.viewControllers.first!
+        XCTAssertTrue(rootViewController is ProjectsViewController)
     }
 }

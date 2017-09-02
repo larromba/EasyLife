@@ -9,14 +9,16 @@
 import Foundation
 
 protocol TableDataSourceDelegate: class {
-    func dataSorceDidLoad(_ dataSource: TableDataSource)
+    func dataSorceDidLoad<T: TableDataSource>(_ dataSource: T)
 }
 
 protocol TableDataSource {
+    associatedtype Object
+    
     weak var delegate: TableDataSourceDelegate? { get set }
     
     func load()
     func title(for section: Int) -> String?
-    func item(at indexPath: IndexPath) -> TodoItem?
-    func section(at index: Int) -> [TodoItem]?
+    func item(at indexPath: IndexPath) -> Object?
+    func section(at index: Int) -> [Object]?
 }

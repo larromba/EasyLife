@@ -31,9 +31,7 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
         return Date()
     }
     var total: Int {
-        return sections.reduce(0) { (result: Int, item: [TodoItem]) -> Int in
-            return result + item.count
-        }
+        return sections.reduce(0) { $0 + $1.count }
     }
     var totalMissed: Int {
         return sections[0].count
@@ -137,6 +135,8 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
 // MARK: - TableDataSource
 
 extension PlanDataSource: TableDataSource {
+    typealias Object = TodoItem
+    
     open func load() {
         dataManager.fetch(entityClass: TodoItem.self, predicate: missedPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {

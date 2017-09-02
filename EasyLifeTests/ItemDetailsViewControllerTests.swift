@@ -131,7 +131,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         class MockDelegate: NSObject, UINavigationControllerDelegate {
             var exp: XCTestExpectation!
             func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-                if let _ = viewController as? PlanViewController {
+                if viewController is PlanViewController {
                     exp.fulfill()
                 }
             }
@@ -220,7 +220,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         class MockDelegate: NSObject, UINavigationControllerDelegate {
             var exp: XCTestExpectation!
             func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-                if let _ = viewController as? PlanViewController {
+                if viewController is PlanViewController {
                     exp.fulfill()
                 }
             }

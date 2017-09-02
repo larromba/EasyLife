@@ -1,3 +1,6 @@
+v1.3.0 (02/09/2017)
+    New projects view
+
 v1.2.0 (07/06/2017)
     Improved ordering in later section
 
@@ -26,7 +29,7 @@ v1.0.0 (23/04/2017) (Tier: 1)
 SKU: 421042017
 Apple ID: 1229095589
 
-//--- todo v1.3.0
+//--- todo v1.4.0
 
 noise / animation when done (wahoo?)
 
@@ -35,3 +38,5 @@ clear all in archive
 icloud backup
 
 press back on new item - want to save?
+
+test datamanger?
