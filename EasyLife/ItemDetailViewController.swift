@@ -137,7 +137,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         tap.delaysTouchesEnded = false
         textView.addGestureRecognizer(tap)
         
-        dataManager.fetch(entityClass: Project.self, success: { [weak self] (items: [Any]?) in
+        dataManager.fetch(entityClass: Project.self, sortBy: "name", isAscending: true, success: { [weak self] (items: [Any]?) in
             guard let `self` = self, let items = items as? [Project] else {
                 return
             }

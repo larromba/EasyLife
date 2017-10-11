@@ -31,6 +31,8 @@ Apple ID: 1229095589
 
 //--- todo v1.4.0
 
+actual done date?
+
 noise / animation when done (wahoo?)
 
 clear all in archive
