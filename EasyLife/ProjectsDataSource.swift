@@ -41,11 +41,13 @@ class ProjectsDataSource {
             return
         }
         dataManager.delete(item)
-        dataManager.save(success: { [weak self] in
-            guard let `self` = self else {
-                return
+        sections[indexPath.section].remove(at: indexPath.row)
+        if indexPath.section == 0 {
+            for row in indexPath.row..<sections[0].count {
+                sections[0][row].priority -= 1
             }
-            self.sections[indexPath.section].remove(at: indexPath.row)
+        }
+        dataManager.save(success: {
             self.delegate?.dataSorceDidLoad(self)
         })
     }
