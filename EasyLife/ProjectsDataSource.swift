@@ -87,7 +87,7 @@ class ProjectsDataSource {
     }
     
     func move(fromPath: IndexPath, toPath: IndexPath) {
-        guard let fromItem = item(at: fromPath), item(at: toPath) != nil else {
+        guard let fromItem = item(at: fromPath) else {
             dataManager.save(success: {
                 self.delegate?.dataSorceDidLoad(self)
             })
@@ -98,6 +98,7 @@ class ProjectsDataSource {
         sections[toPath.section].insert(fromItem, at: toPath.row)
         
         if toPath.row < maxPriorityItems {
+            // acts as insert - shunts the priority of next items forward by 1
             move(
                 fromPath: IndexPath(row: toPath.row + 1, section: toPath.section),
                 toPath: IndexPath(row: toPath.row + 1, section: toPath.section)

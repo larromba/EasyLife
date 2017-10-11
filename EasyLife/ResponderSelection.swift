@@ -11,54 +11,74 @@ import UIKit
 protocol ResponderSelection {
     var responders: [UIResponder]! { get set }
     var currentResponder: UIResponder? { get }
-    var nextResponder: UIResponder? { get }
-    var previousResponder: UIResponder? { get }
+    var nextResponderInArray: UIResponder? { get }
+    var previousResponderInArray: UIResponder? { get }
     
-    func next()
-    func previous()
+    func nextResponderBecomeFirst()
+    func previousResponderBecomeFirst()
 }
 
 extension ResponderSelection {
     var currentResponder: UIResponder? {
-        for r in responders {
-            if r.isFirstResponder {
-                return r
+        for responder in responders {
+            if responder.isFirstResponder {
+                return responder
             }
         }
         return nil
     }
     
-    var nextResponder: UIResponder? {
-        var responder: UIResponder?
-        if let current = currentResponder {
-            let index = responders.index(of: current)!
-            if index+1 < responders.endIndex {
-                responder = responders[index+1]
-            } else {
-                responder = responders.first
-            }
+    var nextResponderInArray: UIResponder? {
+        if let currentResponder = currentResponder {
+            return nextResponder(after: currentResponder)
         }
-        return responder
+        return nil
     }
     
-    var previousResponder: UIResponder? {
-        var responder: UIResponder?
-        if let current = currentResponder {
-            let index = responders.index(of: current)!
-            if index-1 >= responders.startIndex {
-                responder = responders[index-1]
-            } else {
-                responder = responders.last
-            }
+    var previousResponderInArray: UIResponder? {
+        if let currentResponder = currentResponder {
+            return previousResponder(before: currentResponder)
         }
-        return responder
+        return nil
     }
     
-    func next() {
-        nextResponder?.becomeFirstResponder()
+    func nextResponderBecomeFirst() {
+        nextResponderInArray?.becomeFirstResponder()
     }
     
-    func previous() {
-        previousResponder?.becomeFirstResponder()
+    func previousResponderBecomeFirst() {
+        previousResponderInArray?.becomeFirstResponder()
+    }
+    
+    func nextResponder(after responder: UIResponder) -> UIResponder? {
+        guard let index = responders.index(of: responder) else {
+            return nil
+        }
+        let nextResponder: UIResponder
+        if index+1 < responders.endIndex {
+            nextResponder = responders[index+1]
+        } else {
+            nextResponder = responders.first!
+        }
+        if nextResponder.canBecomeFirstResponder {
+            return nextResponder
+        }
+        return self.nextResponder(after: nextResponder)
+    }
+    
+    func previousResponder(before responder: UIResponder) -> UIResponder? {
+        guard let index = responders.index(of: responder) else {
+            return nil
+        }
+        let prevResponder: UIResponder
+        if index-1 >= responders.startIndex {
+            prevResponder = responders[index-1]
+        } else {
+            prevResponder = responders.last!
+        }
+        if prevResponder.canBecomeFirstResponder {
+            return prevResponder
+        }
+        return previousResponder(before: prevResponder)
     }
 }

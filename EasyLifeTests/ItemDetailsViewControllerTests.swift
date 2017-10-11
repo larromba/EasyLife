@@ -35,7 +35,8 @@ class ItemDetailsViewControllerTests: XCTestCase {
         XCTAssertEqual(vc.titleTextField.keyboardType, .default)
         XCTAssertEqual(vc.textView.keyboardType, .default)
         XCTAssertEqual(vc.repeatsTextField.inputView, vc.repeatPicker)
-
+        XCTAssertEqual(vc.projectTextField.inputView, vc.projectPicker)
+        
         _ = vc.dateTextField.delegate!.textFieldShouldBeginEditing!(vc.dateTextField)
         XCTAssertEqual(vc.dateTextField.inputView, vc.simpleDatePicker)
         
@@ -58,10 +59,12 @@ class ItemDetailsViewControllerTests: XCTestCase {
         vc.titleTextField.becomeFirstResponder()
         UIApplication.shared.sendAction(prev.action!, to: prev.target!, from: nil, for: nil)
         XCTAssertFalse(vc.titleTextField.isFirstResponder)
+        XCTAssertTrue(vc.textView.isFirstResponder)
         
         vc.titleTextField.becomeFirstResponder()
         UIApplication.shared.sendAction(next.action!, to: next.target!, from: nil, for: nil)
         XCTAssertFalse(vc.titleTextField.isFirstResponder)
+        XCTAssertTrue(vc.dateTextField.isFirstResponder)
     }
     
     // done closes input view
@@ -85,6 +88,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         class MockDataManager: DataManager {
             var saved = false
             var item: MockTodoItem!
+            var projects: [Project]!
             override func save(success: DataManager.Success?, failure: DataManager.Failure?) {
                 saved = true
                 success!()
@@ -96,17 +100,20 @@ class ItemDetailsViewControllerTests: XCTestCase {
         let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         let dataManager = MockDataManager()
         let item = MockTodoItem()
+        let project = MockProject()
         let date = Date()
         
         // prepare
         UIApplication.shared.keyWindow!.rootViewController = vc
         vc.titleTextField.text = "title"
         vc.date = date
+        vc.projects = [project, MockProject(), MockProject()]
         vc.repeatPicker.delegate!.pickerView!(vc.repeatPicker, didSelectRow: 3, inComponent: 0)
+        vc.projectPicker.delegate!.pickerView!(vc.projectPicker, didSelectRow: 0, inComponent: 0)
         vc.textView.text = "notes"
         dataManager.item = item
         vc.dataManager = dataManager
-        
+
         // test
         UIApplication.shared.sendAction(vc.saveButton.action!, to: vc.saveButton.target!, from: nil, for: nil)
         XCTAssertTrue(dataManager.saved)
@@ -114,6 +121,7 @@ class ItemDetailsViewControllerTests: XCTestCase {
         XCTAssertEqual(item.date as Date?, date)
         XCTAssertEqual(item.notes, "notes")
         XCTAssertEqual(item.repeats, 3)
+        XCTAssertEqual(item.project, project)
     }
     
     // save pops vc

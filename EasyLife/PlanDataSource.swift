@@ -60,27 +60,27 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
 #if DEBUG
     func itunesConnect() {
         let missed1 = dataManager.insert(entityClass: TodoItem.self)!
-        missed1.date = Date().addingTimeInterval(-24*60*60) as NSDate?
+        missed1.date = Date().addingTimeInterval(-24*60*60)
         missed1.name = "send letter"
         
         let now1 = dataManager.insert(entityClass: TodoItem.self)!
-        now1.date = Date() as NSDate?
+        now1.date = Date()
         now1.name = "fix bike"
         
         let now2 = dataManager.insert(entityClass: TodoItem.self)!
-        now2.date = Date() as NSDate?
+        now2.date = Date()
         now2.name = "get party food!"
         
         let later1 = dataManager.insert(entityClass: TodoItem.self)!
-        later1.date = Date().addingTimeInterval(24*60*60) as NSDate?
+        later1.date = Date().addingTimeInterval(24*60*60)
         later1.name = "phone mum"
         
         let later2 = dataManager.insert(entityClass: TodoItem.self)!
-        later2.date = Date().addingTimeInterval(24*60*60) as NSDate?
+        later2.date = Date().addingTimeInterval(24*60*60)
         later2.name = "clean flat"
         
         let later3 = dataManager.insert(entityClass: TodoItem.self)!
-        later3.date = Date().addingTimeInterval(24*60*60) as NSDate?
+        later3.date = Date().addingTimeInterval(24*60*60)
         later3.name = "call landlord"
         
         dataManager.save()

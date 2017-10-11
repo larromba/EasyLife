@@ -2,6 +2,9 @@
 /* Class = "UITextField"; placeholder = "Title"; ObjectID = "8Zj-lH-Rwk"; */
 "8Zj-lH-Rwk.placeholder" = "Title";
 
+/* Class = "UITextField"; placeholder = "Project"; ObjectID = "AYs-OU-hc2"; */
+"AYs-OU-hc2.placeholder" = "Project";
+
 /* Class = "UITextField"; placeholder = "Date"; ObjectID = "N9X-29-Ok4"; */
 "N9X-29-Ok4.placeholder" = "Date";
 

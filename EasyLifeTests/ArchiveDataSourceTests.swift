@@ -53,9 +53,9 @@ class ArchiveDataSourceTests: XCTestCase {
         dataManager.persistentContainer = container
         dataSource.dataManager = dataManager
         dataSource.delegate = delegate
-        item1.date = date1 as NSDate!
+        item1.date = date1
         item1.done = true
-        item2.date = date2 as NSDate!
+        item2.date = date2
         item2.done = true
         delegate.expected = [
             date1: [item1],

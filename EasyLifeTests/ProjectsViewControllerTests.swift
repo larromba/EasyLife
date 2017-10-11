@@ -102,14 +102,19 @@ class ProjectsViewControllerTests: XCTestCase {
         let cell1 = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as! ProjectCell
         XCTAssertEqual(cell1.titleLabel.text, "item1")
         XCTAssertEqual(cell1.titleLabel.textColor, .black)
-        
+        XCTAssertEqual(cell1.tagView.isHidden, false)
+        XCTAssertEqual(cell1.tagView.cornerColor, .priority1)
+
         let cell2 = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 1, section: 0)) as! ProjectCell
         XCTAssertEqual(cell2.titleLabel.text, "item2")
         XCTAssertEqual(cell2.titleLabel.textColor, .black)
-
+        XCTAssertEqual(cell2.tagView.isHidden, false)
+        XCTAssertEqual(cell2.tagView.cornerColor, .priority2)
+        
         let cell3 = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 1)) as! ProjectCell
         XCTAssertEqual(cell3.titleLabel.text, "item3")
         XCTAssertEqual(cell3.titleLabel.textColor, .appleGrey)
+        XCTAssertEqual(cell3.tagView.isHidden, true)
         
         // header
         let title1 = vc.tableView(vc.tableView, titleForHeaderInSection: 0)

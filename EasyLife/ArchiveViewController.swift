@@ -160,6 +160,7 @@ extension ArchiveViewController: TableDataSourceDelegate {
         }
         tableView.reloadData()
         tableView.isHidden = dataSource.isEmpty
+        searchBar.isUserInteractionEnabled = !dataSource.isEmpty
         thingsDoneLabel.text = String(format: "%i done".localized, dataSource.totalItems)
     }
 }

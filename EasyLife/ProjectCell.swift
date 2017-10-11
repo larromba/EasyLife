@@ -10,10 +10,12 @@ import UIKit
 
 class ProjectCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var tagView: TagView!
     
     var item: Project? {
         didSet {
             titleLabel.text = item?.name
+            tagView.setup(for: item)
         }
     }
     

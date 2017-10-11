@@ -64,9 +64,9 @@ class PlanDataSourceTests: XCTestCase {
         dataSource.dataManager = dataManager
         dataSource.delegate = delegate
         dataSource._today = date
-        missedItem.date = date.addingTimeInterval(-1) as NSDate!
-        todayItem.date = date as NSDate!
-        laterItem.date = date.addingTimeInterval(60*60*24) as NSDate!
+        missedItem.date = date.addingTimeInterval(-1)
+        todayItem.date = date as Date!
+        laterItem.date = date.addingTimeInterval(60*60*24)
         delegate.missedItem = missedItem
         delegate.todayItem = todayItem
         delegate.laterItem = laterItem
@@ -137,7 +137,7 @@ class PlanDataSourceTests: XCTestCase {
         let date = dateFormatter.date(from: "21/04/2017")!
     
         // prepare
-        item2.date = date as NSDate?
+        item2.date = date as Date?
         item2.repeatState = .daily
         dataSource.dataManager = dataManager
         dataSource.sections = sections
@@ -149,7 +149,7 @@ class PlanDataSourceTests: XCTestCase {
         
         dataSource.done(at: IndexPath(row: 1, section: 0))
         XCTAssertFalse(dataSource.sections[0][1].done)
-        XCTAssertEqual(dataSource.sections[0][1].date, dateFormatter.date(from: "22/04/2017")! as NSDate)
+        XCTAssertEqual(dataSource.sections[0][1].date, dateFormatter.date(from: "22/04/2017")! as Date)
     }
     
     // later nils date / or increments
@@ -177,8 +177,8 @@ class PlanDataSourceTests: XCTestCase {
         let date = dateFormatter.date(from: "21/04/2017")!
         
         // prepare
-        item1.date = date as NSDate?
-        item2.date = date as NSDate?
+        item1.date = date as Date?
+        item2.date = date as Date?
         item2.repeatState = .daily
         dataSource.dataManager = dataManager
         dataSource.sections = sections
@@ -189,7 +189,7 @@ class PlanDataSourceTests: XCTestCase {
         XCTAssertNil(dataSource.sections[0][0].date)
         
         dataSource.later(at: IndexPath(row: 1, section: 0))
-        XCTAssertEqual(dataSource.sections[0][1].date, dateFormatter.date(from: "22/04/2017")! as NSDate)
+        XCTAssertEqual(dataSource.sections[0][1].date, dateFormatter.date(from: "22/04/2017")! as Date)
     }
     
     // later section ordering
@@ -234,9 +234,9 @@ class PlanDataSourceTests: XCTestCase {
         dataSource.dataManager = dataManager
         dataSource.delegate = delegate
         dataSource._today = date
-        laterItem1.date = date.addingTimeInterval(60*60*24) as NSDate!
+        laterItem1.date = date.addingTimeInterval(60*60*24)
         laterItem2.date = nil
-        laterItem3.date = date.addingTimeInterval(2*60*60*24) as NSDate!
+        laterItem3.date = date.addingTimeInterval(2*60*60*24)
         delegate.expectedOrder = [laterItem2, laterItem1, laterItem3]
         delegate.exp = exp
         

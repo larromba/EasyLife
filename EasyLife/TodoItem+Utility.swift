@@ -23,6 +23,6 @@ extension TodoItem {
         guard let oldDate = date, let repeatState = repeatState else {
             return
         }
-        date = repeatState.increment(date: oldDate as Date) as NSDate?
+        date = repeatState.increment(date: oldDate as Date)
     }
 }

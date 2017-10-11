@@ -24,7 +24,7 @@ class ArchiveViewControllerTests: XCTestCase {
         UIView.setAnimationsEnabled(true)
     }
     
-    // table view hide / show
+    // table view hide / show, search bar state
     func test1() {
         // mocks
         let dataSource = ArchiveDataSource()
@@ -36,6 +36,7 @@ class ArchiveViewControllerTests: XCTestCase {
         // test
         vc.dataSorceDidLoad(dataSource)
         XCTAssertTrue(vc.tableView.isHidden)
+        XCTAssertFalse(vc.searchBar.isUserInteractionEnabled)
         
         // prepare
         dataSource.data = [Date(): [MockTodoItem()]]
@@ -43,6 +44,7 @@ class ArchiveViewControllerTests: XCTestCase {
         //test
         vc.dataSorceDidLoad(dataSource)
         XCTAssertFalse(vc.tableView.isHidden)
+        XCTAssertTrue(vc.searchBar.isUserInteractionEnabled)
     }
     
     // done button closes view
