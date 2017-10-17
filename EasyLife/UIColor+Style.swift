@@ -21,6 +21,26 @@ extension UIColor {
         return r(230.0, g: 98.0, b: 88.0)
     }
     
+    class var priority1: UIColor {
+        return r(225.0, g: 105.0, b: 109.0)
+    }
+    
+    class var priority2: UIColor {
+        return r(242.0, g: 165.0, b: 65.0)
+    }
+    
+    class var priority3: UIColor {
+        return r(243.0, g: 202.0, b: 64.0)
+    }
+    
+    class var priority4: UIColor {
+        return r(210.0, g: 224.0, b: 154.0)
+    }
+    
+    class var priority5: UIColor {
+        return r(218.0, g: 214.0, b: 214.0)
+    }
+    
     // MARK: - private
     
     fileprivate class func r(_ r: CGFloat, g: CGFloat, b: CGFloat) -> UIColor {

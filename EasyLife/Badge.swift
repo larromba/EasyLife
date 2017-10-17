@@ -18,11 +18,13 @@ class Badge {
         set {
             notificationCenter.requestAuthorization(options: [.badge]) {
                 (granted, error) in
-                guard granted, error == nil else {
-                    UIApplication.shared.applicationIconBadgeNumber = 0
-                    return
+                DispatchQueue.main.async {
+                    guard granted, error == nil else {
+                        UIApplication.shared.applicationIconBadgeNumber = 0
+                        return
+                    }
+                    UIApplication.shared.applicationIconBadgeNumber = newValue
                 }
-                UIApplication.shared.applicationIconBadgeNumber = newValue
             }
         }
     }

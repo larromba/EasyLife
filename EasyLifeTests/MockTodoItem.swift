@@ -28,8 +28,8 @@ class MockTodoItem: TodoItem {
             _notes = newValue
         }
     }
-    var _date: NSDate?
-    override var date: NSDate? {
+    var _date: Date?
+    override var date: Date? {
         get {
             return _date
         }
@@ -53,6 +53,15 @@ class MockTodoItem: TodoItem {
         }
         set {
             _done = newValue
+        }
+    }
+    var _project: Project? = nil
+    override var project: Project? {
+        get {
+            return _project
+        }
+        set {
+            _project = newValue
         }
     }
 }

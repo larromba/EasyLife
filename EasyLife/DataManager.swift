@@ -11,11 +11,11 @@ import CoreData
 
 class DataManager {
     typealias FetchSuccess = ([Any]?) -> Void
-    typealias Success = (Void) -> Void
+    typealias Success = () -> Void
     typealias Failure = (Error?) -> Void
     
     static let shared = DataManager()
-    fileprivate var persistentContainer: NSPersistentContainer!
+    var persistentContainer: NSPersistentContainer
     var mainContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
@@ -23,10 +23,10 @@ class DataManager {
     init() {
         persistentContainer = NSPersistentContainer(name: "EasyLife")
     }
-    
+
     // MARK: - public
     
-    func insert<T:NSManagedObject>(entityClass:T.Type) -> T? {
+    func insert<T:NSManagedObject>(entityClass: T.Type) -> T? {
         let context = mainContext
         let entityName = NSStringFromClass(entityClass).components(separatedBy: ".").last!
         guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
@@ -45,7 +45,7 @@ class DataManager {
         context.delete(entity)
     }
     
-    func fetch<T: NSManagedObject>(entityClass:T.Type, sortBy:String? = nil, isAscending:Bool = true, predicate:NSPredicate? = nil, success: @escaping FetchSuccess, failure: Failure? = nil) {
+    func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: String? = nil, isAscending: Bool = true, predicate: NSPredicate? = nil, success: @escaping FetchSuccess, failure: Failure? = nil) {
         let entityName = NSStringFromClass(entityClass).components(separatedBy: ".").last!
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         request.returnsObjectsAsFaults = false

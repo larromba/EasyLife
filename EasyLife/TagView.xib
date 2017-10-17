@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TagView" customModule="EasyLife" customModuleProvider="target">
+            <connections>
+                <outlet property="cornerLayerView" destination="lsJ-8I-fiO" id="ykz-Oe-TUy"/>
+                <outlet property="label" destination="3MB-VT-ogY" id="Kch-QY-8cZ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="flG-I4-2Vh">
+            <rect key="frame" x="0.0" y="0.0" width="247" height="259"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lsJ-8I-fiO">
+                    <rect key="frame" x="0.0" y="0.0" width="247" height="259"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="3MB-VT-ogY">
+                    <rect key="frame" x="0.0" y="2" width="123.5" height="129.5"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="lsJ-8I-fiO" firstAttribute="leading" secondItem="bch-8e-qav" secondAttribute="leading" id="3ox-FJ-5cd"/>
+                <constraint firstItem="lsJ-8I-fiO" firstAttribute="trailing" secondItem="bch-8e-qav" secondAttribute="trailing" id="6RJ-cP-ucO"/>
+                <constraint firstItem="3MB-VT-ogY" firstAttribute="leading" secondItem="bch-8e-qav" secondAttribute="leading" id="cTQ-VG-ZKe"/>
+                <constraint firstItem="3MB-VT-ogY" firstAttribute="top" secondItem="bch-8e-qav" secondAttribute="top" constant="2" id="fZb-iq-2Fl"/>
+                <constraint firstItem="lsJ-8I-fiO" firstAttribute="bottom" secondItem="bch-8e-qav" secondAttribute="bottom" id="fj2-RW-jns"/>
+                <constraint firstItem="3MB-VT-ogY" firstAttribute="height" secondItem="flG-I4-2Vh" secondAttribute="height" multiplier="0.5" id="iYq-1M-HT6"/>
+                <constraint firstItem="3MB-VT-ogY" firstAttribute="width" secondItem="flG-I4-2Vh" secondAttribute="width" multiplier="0.5" id="nNX-tj-48D"/>
+                <constraint firstItem="lsJ-8I-fiO" firstAttribute="top" secondItem="bch-8e-qav" secondAttribute="top" id="yKa-Jb-20u"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="bch-8e-qav"/>
+            <point key="canvasLocation" x="-203.5" y="-230.5"/>
+        </view>
+    </objects>
+</document>

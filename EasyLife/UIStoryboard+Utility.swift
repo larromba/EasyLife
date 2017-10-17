@@ -17,6 +17,10 @@ extension UIStoryboard {
         return UIStoryboard(name: "Archive", bundle: nil)
     }
     
+    static var project: UIStoryboard {
+        return UIStoryboard(name: "Project", bundle: nil)
+    }
+    
     static var components: UIStoryboard {
         return UIStoryboard(name: "Components", bundle: nil)
     }
