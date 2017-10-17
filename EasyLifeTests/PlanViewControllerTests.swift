@@ -52,7 +52,7 @@ class PlanViewControllerTests: XCTestCase {
         class MockDelegate: NSObject, UINavigationControllerDelegate {
             var exp: XCTestExpectation!
             func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-                if let _ = viewController as? ItemDetailViewController {
+                if viewController is ItemDetailViewController {
                     exp.fulfill()
                 }
             }
@@ -165,15 +165,20 @@ class PlanViewControllerTests: XCTestCase {
             [nowItem, nowItemNoName],
             [laterItem]
         ]
+        let project = MockProject()
         
         // prepare
+        project.priority = 0
         missedItem.name = "missed"
-        missedItem.date = NSDate()
+        missedItem.date = Date()
+        missedItem.project = project
         nowItem.name = "now"
-        nowItem.date = NSDate()
+        nowItem.date = Date()
+        nowItem.project = project
         laterItem.name = "later"
         laterItem.repeatState = .biweekly
-        laterItem.date = NSDate()
+        laterItem.date = Date()
+        laterItem.project = project
         vc.dataSource = dataSource
         dataSource.sections = sections
         UIApplication.shared.keyWindow!.rootViewController = vc
@@ -187,12 +192,18 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertEqual(cellMissed.titleLabel.textColor, UIColor.lightRed)
         XCTAssertTrue(cellMissed.iconImageView.isHidden)
         XCTAssertEqual(cellMissed.iconImageType, .none)
+        XCTAssertEqual(cellMissed.tagView.isHidden, false)
+        XCTAssertEqual(cellMissed.tagView.cornerColor, .priority1)
+        XCTAssertEqual(cellMissed.tagView.alpha, 1.0)
         
         let cellNow = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 1)) as! PlanCell
         XCTAssertEqual(cellNow.titleLabel.text, "now")
         XCTAssertEqual(cellNow.titleLabel.textColor, UIColor.black)
         XCTAssertTrue(cellNow.iconImageView.isHidden)
-        XCTAssertEqual(cellMissed.iconImageType, .none)
+        XCTAssertEqual(cellNow.iconImageType, .none)
+        XCTAssertEqual(cellNow.tagView.isHidden, false)
+        XCTAssertEqual(cellNow.tagView.cornerColor, .priority1)
+        XCTAssertEqual(cellNow.tagView.alpha, 1.0)
         
         let cellNowNoName = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 1, section: 1)) as! PlanCell
         XCTAssertEqual(cellNowNoName.titleLabel.text, "[no name]")
@@ -205,6 +216,9 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertEqual(cellLater.titleLabel.textColor, UIColor.appleGrey)
         XCTAssertFalse(cellLater.iconImageView.isHidden)
         XCTAssertEqual(cellLater.iconImageType, .recurring)
+        XCTAssertEqual(cellLater.tagView.isHidden, false)
+        XCTAssertEqual(cellLater.tagView.cornerColor, .priority1)
+        XCTAssertEqual(cellLater.tagView.alpha, 0.5)
         
         // header
         let title1 = vc.tableView(vc.tableView, titleForHeaderInSection: 0)
@@ -303,6 +317,21 @@ class PlanViewControllerTests: XCTestCase {
         UIApplication.shared.sendAction(vc.archiveButton.action!, to: vc.archiveButton.target!, from: nil, for: nil)
         let navController = vc.presentedViewController as! UINavigationController
         let rootViewController = navController.viewControllers.first!
-        XCTAssertTrue(rootViewController.classForCoder == ArchiveViewController.self)
+        XCTAssertTrue(rootViewController is ArchiveViewController)
+    }
+    
+    // projects button opens projects view
+    func test10() {
+        // mocks
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
+        
+        // prepare
+        UIApplication.shared.keyWindow!.rootViewController = vc
+        
+        // test
+        UIApplication.shared.sendAction(vc.projectsButton.action!, to: vc.projectsButton.target!, from: nil, for: nil)
+        let navController = vc.presentedViewController as! UINavigationController
+        let rootViewController = navController.viewControllers.first!
+        XCTAssertTrue(rootViewController is ProjectsViewController)
     }
 }

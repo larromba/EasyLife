@@ -17,7 +17,8 @@ class PlanCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
-    
+    @IBOutlet weak var tagView: TagView!
+ 
     var iconImageType: ImageType = .none {
         didSet {
             switch iconImageType {
@@ -46,12 +47,13 @@ class PlanCell: UITableViewCell {
             } else {
                 iconImageType = .none
             }
+            tagView.setup(for: item.project)
             if item.name == nil || item.name!.characters.count == 0 {
                 titleLabel.text = "[no name]".localized
                 titleLabel.textColor = UIColor.appleGrey
-                return
+            } else {
+                titleLabel.text = item.name
             }
-            titleLabel.text = item.name
         }
     }
     
@@ -63,10 +65,13 @@ class PlanCell: UITableViewCell {
             switch indexPath.section {
             case 0:
                 titleLabel.textColor = UIColor.lightRed
+                tagView.alpha = 1.0
             case 1:
                 titleLabel.textColor = UIColor.black
+                tagView.alpha = 1.0
             default:
                 titleLabel.textColor = UIColor.appleGrey
+                tagView.alpha = 0.5
             }
         }
     }

@@ -51,10 +51,6 @@ class ArchiveViewController: UIViewController {
         searchBar.resignFirstResponder()
     }
     
-    @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
-    }
-    
     // MARK: - private
     
     @objc fileprivate func endEditing() {
@@ -70,6 +66,12 @@ class ArchiveViewController: UIViewController {
     private func tearDownNotifications() {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    // MARK: - action
+    
+    @IBAction private func doneButtonPressed(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - notifications
@@ -109,7 +111,7 @@ extension ArchiveViewController: UITableViewDelegate {
         let undo = UITableViewRowAction(style: .destructive, title: "Undo".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
             self?.dataSource.undo(at: indexPath)
         })
-        undo.backgroundColor = UIColor.appleGrey
+        undo.backgroundColor = .appleGrey
         return [undo]
     }
 }
@@ -152,11 +154,13 @@ extension ArchiveViewController: UISearchBarDelegate {
 // MARK: - ArchiveDataSource
 
 extension ArchiveViewController: TableDataSourceDelegate {
-    func dataSorceDidLoad(_ dataSource: TableDataSource) {
-        if let dataSource = dataSource as? ArchiveDataSource {
-            tableView.reloadData()
-            tableView.isHidden = dataSource.isEmpty
-            thingsDoneLabel.text = String(format: "%i done".localized, dataSource.totalItems)
+    func dataSorceDidLoad<T: TableDataSource>(_ dataSource: T) {
+        guard let dataSource = dataSource as? ArchiveDataSource else {
+            return
         }
+        tableView.reloadData()
+        tableView.isHidden = dataSource.isEmpty
+        searchBar.isUserInteractionEnabled = !dataSource.isEmpty
+        thingsDoneLabel.text = String(format: "%i done".localized, dataSource.totalItems)
     }
 }

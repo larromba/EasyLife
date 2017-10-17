@@ -122,6 +122,8 @@ class ArchiveDataSource {
 // MARK: - TableDataSource
 
 extension ArchiveDataSource: TableDataSource {
+    typealias Object = TodoItem
+    
     func load() {
         dataManager.fetch(entityClass: TodoItem.self, predicate: donePredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {

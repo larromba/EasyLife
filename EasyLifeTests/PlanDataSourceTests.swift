@@ -25,19 +25,13 @@ class PlanDataSourceTests: XCTestCase {
     func test1() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
-        class MockDataManager: DataManager {
-            var _mainContext: NSManagedObjectContext!
-            override var mainContext: NSManagedObjectContext {
-                return _mainContext
-            }
-        }
         class MockDelegate: TableDataSourceDelegate {
             var missedItem: TodoItem!
             var todayItem: TodoItem!
             var laterItem: TodoItem!
             var exp: XCTestExpectation!
             var loadCount = 0
-            func dataSorceDidLoad(_ dataSource: TableDataSource) {
+            func dataSorceDidLoad<T: TableDataSource>(_ dataSource: T) {
                 loadCount += 1
                 if loadCount == 3 {
                     let dataSource = dataSource as! PlanDataSource
@@ -57,22 +51,22 @@ class PlanDataSourceTests: XCTestCase {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let date = dateFormatter.date(from: "21/04/2017")!.earliest
-        let context = NSManagedObjectContext.test
-        let missedItem = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem
-        let todayItem = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem
-        let laterItem = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem
+        let container = try! NSPersistentContainer.test()
+        let missedItem = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let todayItem = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let laterItem = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let dataSource = MockDataSource()
-        let dataManager = MockDataManager()
+        let dataManager = DataManager()
         let delegate = MockDelegate()
         
         // prepare
-        dataManager._mainContext = context
+        dataManager.persistentContainer = container
         dataSource.dataManager = dataManager
         dataSource.delegate = delegate
         dataSource._today = date
-        missedItem.date = date.addingTimeInterval(-1) as NSDate!
-        todayItem.date = date as NSDate!
-        laterItem.date = date.addingTimeInterval(60*60*24) as NSDate!
+        missedItem.date = date.addingTimeInterval(-1)
+        todayItem.date = date as Date!
+        laterItem.date = date.addingTimeInterval(60*60*24)
         delegate.missedItem = missedItem
         delegate.todayItem = todayItem
         delegate.laterItem = laterItem
@@ -143,7 +137,7 @@ class PlanDataSourceTests: XCTestCase {
         let date = dateFormatter.date(from: "21/04/2017")!
     
         // prepare
-        item2.date = date as NSDate?
+        item2.date = date as Date?
         item2.repeatState = .daily
         dataSource.dataManager = dataManager
         dataSource.sections = sections
@@ -155,7 +149,7 @@ class PlanDataSourceTests: XCTestCase {
         
         dataSource.done(at: IndexPath(row: 1, section: 0))
         XCTAssertFalse(dataSource.sections[0][1].done)
-        XCTAssertEqual(dataSource.sections[0][1].date, dateFormatter.date(from: "22/04/2017")! as NSDate)
+        XCTAssertEqual(dataSource.sections[0][1].date, dateFormatter.date(from: "22/04/2017")! as Date)
     }
     
     // later nils date / or increments
@@ -183,8 +177,8 @@ class PlanDataSourceTests: XCTestCase {
         let date = dateFormatter.date(from: "21/04/2017")!
         
         // prepare
-        item1.date = date as NSDate?
-        item2.date = date as NSDate?
+        item1.date = date as Date?
+        item2.date = date as Date?
         item2.repeatState = .daily
         dataSource.dataManager = dataManager
         dataSource.sections = sections
@@ -195,24 +189,18 @@ class PlanDataSourceTests: XCTestCase {
         XCTAssertNil(dataSource.sections[0][0].date)
         
         dataSource.later(at: IndexPath(row: 1, section: 0))
-        XCTAssertEqual(dataSource.sections[0][1].date, dateFormatter.date(from: "22/04/2017")! as NSDate)
+        XCTAssertEqual(dataSource.sections[0][1].date, dateFormatter.date(from: "22/04/2017")! as Date)
     }
     
     // later section ordering
     func test5() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
-        class MockDataManager: DataManager {
-            var _mainContext: NSManagedObjectContext!
-            override var mainContext: NSManagedObjectContext {
-                return _mainContext
-            }
-        }
         class MockDelegate: TableDataSourceDelegate {
             var expectedOrder: [TodoItem]!
             var exp: XCTestExpectation!
             var loadCount = 0
-            func dataSorceDidLoad(_ dataSource: TableDataSource) {
+            func dataSorceDidLoad<T: TableDataSource>(_ dataSource: T) {
                 loadCount += 1
                 if loadCount == 3 {
                     let dataSource = dataSource as! PlanDataSource
@@ -233,22 +221,22 @@ class PlanDataSourceTests: XCTestCase {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let date = dateFormatter.date(from: "21/04/2017")!.earliest
-        let context = NSManagedObjectContext.test
-        let laterItem1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem
-        let laterItem2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem
-        let laterItem3 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem
+        let container = try! NSPersistentContainer.test()
+        let laterItem1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let laterItem2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let laterItem3 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let dataSource = MockDataSource()
-        let dataManager = MockDataManager()
+        let dataManager = DataManager()
         let delegate = MockDelegate()
         
         // prepare
-        dataManager._mainContext = context
+        dataManager.persistentContainer = container
         dataSource.dataManager = dataManager
         dataSource.delegate = delegate
         dataSource._today = date
-        laterItem1.date = date.addingTimeInterval(60*60*24) as NSDate!
+        laterItem1.date = date.addingTimeInterval(60*60*24)
         laterItem2.date = nil
-        laterItem3.date = date.addingTimeInterval(2*60*60*24) as NSDate!
+        laterItem3.date = date.addingTimeInterval(2*60*60*24)
         delegate.expectedOrder = [laterItem2, laterItem1, laterItem3]
         delegate.exp = exp
         

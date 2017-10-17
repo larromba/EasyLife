@@ -8,10 +8,12 @@
 
 import UIKit
 
+// TODO: item detail data source
 class ItemDetailViewController : UIViewController, ResponderSelection {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var repeatsTextField: UITextField!
+    @IBOutlet weak var projectTextField: UITextField!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -39,7 +41,13 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
             }
         }
     }
-   
+    var projects: [Project]?
+    var project: Project? {
+        didSet {
+            projectTextField.text = project?.name
+        }
+    }
+
     lazy var origContentSize: CGSize = {
         return self.scrollView.contentSize
     }()
@@ -82,11 +90,19 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         return pickerView
     }()
     
+    lazy var projectPicker: UIPickerView = {
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        return pickerView
+    }()
+    
     required init?(coder aDecoder: NSCoder) {
         dataManager = DataManager.shared
         dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE dd/MM/yyyy"
         now = Date()
+        
         super.init(coder: aDecoder)
     }
     
@@ -97,9 +113,12 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
             titleTextField,
             dateTextField,
             repeatsTextField,
+            projectTextField,
             textView
         ]
         
+        projectTextField.inputView = projectPicker
+        projectTextField.inputAccessoryView = toolbar
         repeatsTextField.inputView = repeatPicker
         repeatsTextField.inputAccessoryView = toolbar
         dateTextField.inputView = simpleDatePicker
@@ -117,6 +136,14 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         tap.cancelsTouchesInView = false
         tap.delaysTouchesEnded = false
         textView.addGestureRecognizer(tap)
+        
+        dataManager.fetch(entityClass: Project.self, sortBy: "name", isAscending: true, success: { [weak self] (items: [Any]?) in
+            guard let `self` = self, let items = items as? [Project] else {
+                return
+            }
+            self.projects = items
+            self.projectTextField.isUserInteractionEnabled = (items.count > 0)
+        })
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -150,6 +177,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         titleTextField.text = item.name
         date = item.date as Date?
         repeatState = item.repeatState
+        project = item.project
         textView.text = item.notes
         setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:))))
     }
@@ -157,8 +185,9 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     fileprivate func writeItem(_ item: TodoItem) {
         item.name = titleTextField.text
         item.notes = textView.text
-        item.date = date as NSDate?
+        item.date = date
         item.repeatState = repeatState
+        item.project = project
     }
     
     private func setupNotifications() {
@@ -206,11 +235,11 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     }
     
     @objc private func prevPressed(_ sender: UIBarButtonItem) {
-        makeFirstResponder(previousResponder)
+        makeFirstResponder(previousResponderInArray)
     }
     
     @objc private func nextPressed(_ sender: UIBarButtonItem) {
-        makeFirstResponder(nextResponder)
+        makeFirstResponder(nextResponderInArray)
     }
     
     @objc private func donePressed(_ sender: UIBarButtonItem) {
@@ -245,11 +274,21 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
 
 extension ItemDetailViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return RepeatState.display[row].stringValue()
+        if pickerView == repeatPicker {
+            return RepeatState.display[row].stringValue()
+        } else if pickerView == projectPicker {
+            return projects?[row].name
+        } else {
+            return nil
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        repeatState = RepeatState.display[row]
+        if pickerView == repeatPicker {
+            repeatState = RepeatState.display[row]
+        } else if pickerView == projectPicker {
+            project = projects?[row]
+        }
     }
 }
 
@@ -261,7 +300,13 @@ extension ItemDetailViewController: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return RepeatState.display.count
+        if pickerView == repeatPicker {
+            return RepeatState.display.count
+        } else if pickerView == projectPicker {
+            return projects?.count ?? 0
+        } else {
+            return 0
+        }
     }
 }
 
@@ -269,14 +314,14 @@ extension ItemDetailViewController: UIPickerViewDataSource {
 
 extension ItemDetailViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        makeFirstResponder(nextResponder)
+        makeFirstResponder(nextResponderInArray)
         return false
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         switch textField {
         case dateTextField:
-            if let _ = date {
+            if date != nil {
                 textField.inputView = datePicker
             } else  {
                 textField.inputView = simpleDatePicker
@@ -312,6 +357,8 @@ extension ItemDetailViewController: UITextFieldDelegate {
             date = nil
         case repeatsTextField:
             repeatState = nil
+        case projectTextField:
+            project = nil
         default:
             break
         }

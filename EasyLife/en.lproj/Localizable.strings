@@ -35,3 +35,12 @@
 "Undo" = "Undo";
 "%i done" = "%i done";
 "no date" = "no date";
+"New Project" = "New Project";
+"name" = "name";
+"Cancel" = "Cancel";
+"OK" = "OK";
+"Focus" = "Focus";
+"Other" = "Other";
+"Edit Project" = "Edit Project";
+"Prioritized" = "Prioritized";
+"Deprioritized" = "Deprioritized";

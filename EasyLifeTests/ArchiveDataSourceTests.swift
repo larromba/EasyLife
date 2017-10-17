@@ -25,16 +25,10 @@ class ArchiveDataSourceTests: XCTestCase {
     func test1() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
-        class MockDataManager: DataManager {
-            var _mainContext: NSManagedObjectContext!
-            override var mainContext: NSManagedObjectContext {
-                return _mainContext
-            }
-        }
         class MockDelegate: TableDataSourceDelegate {
             var expected: [Date: [TodoItem]]!
             var exp: XCTestExpectation!
-            func dataSorceDidLoad(_ dataSource: TableDataSource) {
+            func dataSorceDidLoad<T: TableDataSource>(_ dataSource: T) {
                 let dataSource = dataSource as! ArchiveDataSource
                 XCTAssertEqual(dataSource.data.count, expected.count)
                 expected.keys.forEach { (date: Date) in
@@ -45,23 +39,23 @@ class ArchiveDataSourceTests: XCTestCase {
         }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
-        let context = NSManagedObjectContext.test
-        _ = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem // shouldnt appear in data fetch
-        let item1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem
-        let item2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: context) as! TodoItem
+        let container = try! NSPersistentContainer.test()
+        _ = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem // shouldnt appear in data fetch
+        let item1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let item2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let dataSource = ArchiveDataSource()
-        let dataManager = MockDataManager()
+        let dataManager = DataManager()
         let delegate = MockDelegate()
         let date1 = dateFormatter.date(from: "21/04/2017")!.earliest
         let date2 = date1.addingTimeInterval(60*60*24)
         
         // prepare
-        dataManager._mainContext = context
+        dataManager.persistentContainer = container
         dataSource.dataManager = dataManager
         dataSource.delegate = delegate
-        item1.date = date1 as NSDate!
+        item1.date = date1
         item1.done = true
-        item2.date = date2 as NSDate!
+        item2.date = date2
         item2.done = true
         delegate.expected = [
             date1: [item1],
