@@ -140,6 +140,7 @@ class PlanDataSourceTests: XCTestCase {
         dataSource.done(at: IndexPath(row: 1, section: 0))
         XCTAssertFalse(dataSource.sections[0][1].done)
         XCTAssertGreaterThan(dataSource.sections[0][1].date!, date)
+        XCTAssertGreaterThan(dataSource.sections[0][1].date!, Date())
     }
     
     // later nils date / or increments
@@ -180,6 +181,7 @@ class PlanDataSourceTests: XCTestCase {
         
         dataSource.later(at: IndexPath(row: 1, section: 0))
         XCTAssertGreaterThan(dataSource.sections[0][1].date!, date)
+        XCTAssertGreaterThan(dataSource.sections[0][1].date!, Date())
     }
     
     // missed section ordering
