@@ -85,6 +85,7 @@ class ProjectsDataSource {
             return
         }
         item.priority = Int16(deprioritizedValue)
+        sections[indexPath.section].remove(at: indexPath.row)
         flushPriority()
         dataManager.save(success: { [weak self] in
             self?.load()

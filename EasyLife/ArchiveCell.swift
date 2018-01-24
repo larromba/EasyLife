@@ -13,12 +13,13 @@ class ArchiveCell: UITableViewCell {
     
     var item: TodoItem? {
         didSet {
-            if item?.name?.isEmpty == true {
-                titleLabel.text = "[no name]".localized
-                titleLabel.textColor = UIColor.appleGrey
+            if let name = item?.name, !name.isEmpty {
+                titleLabel.text = item?.name
+                titleLabel.textColor = .black
                 return
             }
-            titleLabel.text = item?.name
+            titleLabel.text = "[no name]".localized
+            titleLabel.textColor = .appleGrey
         }
     }
 }

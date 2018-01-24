@@ -37,7 +37,7 @@ class ArchiveViewControllerTests: XCTestCase {
         XCTAssertFalse(vc.searchBar.isUserInteractionEnabled)
         
         // prepare
-        dataSource.data = [Date(): [MockTodoItem()]]
+        dataSource.data = [Character("a"): [MockTodoItem()]]
         
         //test
         vc.dataSorceDidLoad(dataSource)
@@ -74,20 +74,16 @@ class ArchiveViewControllerTests: XCTestCase {
         // mocks
         let dataSource = ArchiveDataSource()
         let vc = UIStoryboard.archive.instantiateViewController(withIdentifier: "ArchiveViewController") as! ArchiveViewController
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy"
-        let date1 = dateFormatter.date(from: "21/04/2017")!.earliest
-        let date2 = date1.addingTimeInterval(24*60*60)
         let item1 = MockTodoItem()
         let item2 = MockTodoItem()
         let item3 = MockTodoItem()
         let data = [
-            date1: [item1, item2],
-            date2: [item3]
+            Character("-"): [item1],
+            Character("A"): [item2, item3],
         ]
         
         // prepare
-        item1.name = "item1"
+        item1.name = nil
         item2.name = "item2"
         item3.name = "item3"
         dataSource.data = data
@@ -99,24 +95,24 @@ class ArchiveViewControllerTests: XCTestCase {
         
         // cells
         let cell1 = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as! ArchiveCell
-        XCTAssertEqual(cell1.titleLabel.text, "item3")
-        XCTAssertEqual(cell1.titleLabel.textColor, UIColor.black)
+        XCTAssertEqual(cell1.titleLabel.text, "[no name]".localized)
+        XCTAssertEqual(cell1.titleLabel.textColor, UIColor.appleGrey)
         
         let cell2 = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 1)) as! ArchiveCell
-        XCTAssertEqual(cell2.titleLabel.text, "item1")
+        XCTAssertEqual(cell2.titleLabel.text, "item2")
         XCTAssertEqual(cell2.titleLabel.textColor, UIColor.black)
 
         let cell3 = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 1, section: 1)) as! ArchiveCell
-        XCTAssertEqual(cell3.titleLabel.text, "item2")
+        XCTAssertEqual(cell3.titleLabel.text, "item3")
         XCTAssertEqual(cell3.titleLabel.textColor, UIColor.black)
         
         // header
         let title1 = vc.tableView(vc.tableView, titleForHeaderInSection: 0)
-        XCTAssertEqual(title1, "Sat 22/04/2017")
+        XCTAssertEqual(title1, "-")
 
         let title2 = vc.tableView(vc.tableView, titleForHeaderInSection: 1)
-        XCTAssertEqual(title2, "Fri 21/04/2017")
-        
+        XCTAssertEqual(title2, "A")
+
         // edit actions
         let actions1 = vc.tableView(vc.tableView, editActionsForRowAt: IndexPath(row: 0, section: 0))
         XCTAssertEqual(actions1?.count, 1)
@@ -140,8 +136,8 @@ class ArchiveViewControllerTests: XCTestCase {
         let item2 = MockTodoItem()
         let item3 = MockTodoItem()
         let data = [
-            Date(): [item1, item2],
-            Date().addingTimeInterval(24*60*60): [item3]
+            Character("a"): [item1, item2],
+            Character("b"): [item3]
         ]
         
         // prepare

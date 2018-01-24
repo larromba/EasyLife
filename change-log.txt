@@ -1,6 +1,7 @@
-v1.3.2 (24/01/2018)
+v1.4.0 (24/01/2018)
     Added time indicator to later cells
     Fixed projects priority bug
+    updated archive headers to be by alphabet rather than date
 
 v1.3.1 (07/11/2017)
     Fixed bug when selecting 'later' for an event far in the past
