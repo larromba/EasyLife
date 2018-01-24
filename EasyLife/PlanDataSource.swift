@@ -130,6 +130,16 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
             self?.load()
         })
     }
+    
+    // MARK: - private
+    
+    fileprivate func sortByPriority(item1: TodoItem, item2: TodoItem) -> Bool {
+        let priority1 = item1.project?.priority ?? -1
+        let priority2 = item2.project?.priority ?? -1
+        if priority1 < 0 { return false }
+        if priority2 < 0 { return true }
+        return priority1 < priority2
+    }
 }
 
 // MARK: - TableDataSource
@@ -142,14 +152,14 @@ extension PlanDataSource: TableDataSource {
             guard let `self` = self, let items = result as? [TodoItem] else {
                 return
             }
-            self.sections.replace(items, at: 0)
+            self.sections.replace(items.sorted(by: self.sortByPriority), at: 0)
             self.delegate?.dataSorceDidLoad(self)
         })
         dataManager.fetch(entityClass: TodoItem.self, predicate: todayPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {
                 return
             }
-            self.sections.replace(items, at: 1)
+            self.sections.replace(items.sorted(by: self.sortByPriority), at: 1)
             self.delegate?.dataSorceDidLoad(self)
         })
         dataManager.fetch(entityClass: TodoItem.self, sortBy: "date", isAscending: true, predicate: laterPredicate, success: { [weak self] (result: [Any]?) in

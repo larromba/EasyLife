@@ -20,9 +20,15 @@ extension TodoItem {
     }
     
     func incrementDate() {
-        guard let oldDate = date, let repeatState = repeatState else {
-            return
+        guard
+            let oldDate = date,
+            let repeatState = repeatState,
+            let incrementedDate = repeatState.increment(date: oldDate) else {
+                return
         }
-        date = repeatState.increment(date: oldDate as Date)
+        self.date = incrementedDate
+        if incrementedDate < Date() {
+            incrementDate()
+        }
     }
 }

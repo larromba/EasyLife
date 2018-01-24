@@ -11,16 +11,6 @@ import CoreData
 @testable import EasyLife
 
 class RepeatStateTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
     // test display
     func test1() {
         XCTAssertEqual(RepeatState.display.count, 9)
