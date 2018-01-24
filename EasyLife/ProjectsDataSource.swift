@@ -85,7 +85,6 @@ class ProjectsDataSource {
             return
         }
         item.priority = Int16(deprioritizedValue)
-        sections[indexPath.section].remove(at: indexPath.row)
         flushPriority()
         dataManager.save(success: { [weak self] in
             self?.load()
@@ -120,10 +119,7 @@ class ProjectsDataSource {
         }
         item.name = name
         dataManager.save(success: { [weak self] in
-            guard let `self` = self else {
-                return
-            }
-            self.delegate?.dataSorceDidLoad(self)
+            self?.load()
         })
     }
 
