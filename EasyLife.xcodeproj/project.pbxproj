@@ -17,6 +17,7 @@
 		7F163D251EDD716D00DC52B6 /* Components.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F163D271EDD716D00DC52B6 /* Components.storyboard */; };
 		7F163D2C1EDD746B00DC52B6 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F163D2B1EDD746B00DC52B6 /* Badge.swift */; };
 		7F163D311EDEE98D00DC52B6 /* Bundle+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F163D301EDEE98D00DC52B6 /* Bundle+Utility.swift */; };
+		7F1711E91FB1B7C600ED08D8 /* TodoItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1711E81FB1B7C600ED08D8 /* TodoItemTests.swift */; };
 		7F7540111F5AD1A900A0F06C /* Project.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F75400F1F5AD1A900A0F06C /* Project.storyboard */; };
 		7F7770BE1EE8261200A58494 /* ArchiveViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7770BD1EE8261200A58494 /* ArchiveViewControllerTests.swift */; };
 		7F7770C71EE827F000A58494 /* Archive.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F7770C91EE827F000A58494 /* Archive.storyboard */; };
@@ -95,6 +96,7 @@
 		7F163D2B1EDD746B00DC52B6 /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		7F163D2D1EDD8F7100DC52B6 /* change-log.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "change-log.txt"; sourceTree = "<group>"; };
 		7F163D301EDEE98D00DC52B6 /* Bundle+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Utility.swift"; sourceTree = "<group>"; };
+		7F1711E81FB1B7C600ED08D8 /* TodoItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemTests.swift; sourceTree = "<group>"; };
 		7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
 		7F426E791F59B52800C55AD2 /* ProjectsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsDataSource.swift; sourceTree = "<group>"; };
 		7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 			children = (
 				7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */,
 				7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */,
+				7F1711E81FB1B7C600ED08D8 /* TodoItemTests.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -712,6 +715,7 @@
 				7FCEC9261EA7CD0500BA5187 /* PlanDataSourceTests.swift in Sources */,
 				7F90548B1EA7B6DF006D8F73 /* MockTodoItem.swift in Sources */,
 				7FC73E771F5AA89200A55703 /* MockProject.swift in Sources */,
+				7F1711E91FB1B7C600ED08D8 /* TodoItemTests.swift in Sources */,
 				7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */,
 				7F102DE51F5AC22200E262B1 /* DataManagerTests.swift in Sources */,
 				7F7770CF1EE83E8200A58494 /* ArchiveDataSourceTests.swift in Sources */,

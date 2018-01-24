@@ -1,3 +1,7 @@
+v1.3.1 (07/11/2017)
+    Fixed bug when selecting 'later' for an event far in the past
+    Improved ordering for 'missed' and 'today' sections
+
 v1.3.0 (12/10/2017)
     New projects view
 
