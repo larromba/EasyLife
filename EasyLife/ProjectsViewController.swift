@@ -86,7 +86,7 @@ class ProjectsViewController: UIViewController {
         guard let alertController = presentedViewController as? UIAlertController else {
             return
         }
-        alertController.actions[1].isEnabled = (textField.text?.characters.count != 0)
+        alertController.actions[1].isEnabled = (textField.text?.isEmpty == false)
     }
 }
 

@@ -13,7 +13,7 @@ class ArchiveCell: UITableViewCell {
     
     var item: TodoItem? {
         didSet {
-            if item?.name?.characters.count == 0 {
+            if item?.name?.isEmpty == true {
                 titleLabel.text = "[no name]".localized
                 titleLabel.textColor = UIColor.appleGrey
                 return

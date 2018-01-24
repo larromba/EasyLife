@@ -253,4 +253,37 @@ class ItemDetailsViewControllerTests: XCTestCase {
             XCTAssertNil(err)
         }
     }
+
+    // ui state
+    func test9() {
+        // mocks
+        class MockDataManager: DataManager {
+            var projects: [MockProject]!
+            override func fetch<T>(entityClass: T.Type, sortBy: String?, isAscending: Bool, predicate: NSPredicate?, success: @escaping DataManager.FetchSuccess, failure: DataManager.Failure?) where T : NSManagedObject {
+                success(projects)
+            }
+        }
+        let nav = UIStoryboard.plan.instantiateInitialViewController() as! UINavigationController
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
+        let dataManager = MockDataManager()
+
+        // prepare
+        _ = vc.view
+        UIApplication.shared.keyWindow!.rootViewController = nav
+        vc.dataManager = dataManager
+        dataManager.projects = [MockProject()]
+        vc.viewDidLoad()
+
+        // test
+        XCTAssertTrue(vc.projectTextField.isUserInteractionEnabled)
+        XCTAssertEqual(vc.projectTextField.alpha, 1.0)
+
+        // prepare
+        dataManager.projects = []
+        vc.viewDidLoad()
+
+        // test
+        XCTAssertFalse(vc.projectTextField.isUserInteractionEnabled)
+        XCTAssertEqual(vc.projectTextField.alpha, 0.5)
+    }
 }

@@ -60,7 +60,7 @@ class ArchiveDataSource {
         guard let allData = allData else {
             return
         }
-        guard text.characters.count > 0 else {
+        guard !text.isEmpty else {
             data = allData
             delegate?.dataSorceDidLoad(self)
             return
