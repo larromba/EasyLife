@@ -1,3 +1,8 @@
+v1.4.0 (24/01/2018)
+    Added time indicator to later cells
+    Fixed projects priority bug
+    updated archive headers to be by alphabet rather than date
+
 v1.3.1 (07/11/2017)
     Fixed bug when selecting 'later' for an event far in the past
     Improved ordering for 'missed' and 'today' sections
@@ -33,9 +38,7 @@ v1.0.0 (23/04/2017) (Tier: 1)
 SKU: 421042017
 Apple ID: 1229095589
 
-//--- todo v1.4.0
-
-actual done date?
+//--- todo v1.5.0
 
 noise / animation when done (wahoo?)
 
@@ -47,4 +50,4 @@ press back on new item - want to save?
 
 test datamanger?
 
-todo: choose emoji for project (grey if not priority)
+version label on bottom left

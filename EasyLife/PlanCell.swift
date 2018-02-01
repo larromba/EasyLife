@@ -16,9 +16,15 @@ class PlanCell: UITableViewCell {
     }
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var tagView: TagView!
- 
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        infoLabel.textColor = .appleGrey
+    }
+
     var iconImageType: ImageType = .none {
         didSet {
             switch iconImageType {
@@ -47,8 +53,14 @@ class PlanCell: UITableViewCell {
             } else {
                 iconImageType = .none
             }
+            if let date = item.date {
+                let timeInterval = Date().earliest.timeIntervalSince(date)
+                infoLabel.text = DateComponentsFormatter.timeIntervalToString(timeInterval)
+            } else {
+                infoLabel.text = ""
+            }
             tagView.setup(for: item.project)
-            if item.name == nil || item.name!.characters.count == 0 {
+            if item.name == nil || item.name!.isEmpty {
                 titleLabel.text = "[no name]".localized
                 titleLabel.textColor = UIColor.appleGrey
             } else {
@@ -66,12 +78,15 @@ class PlanCell: UITableViewCell {
             case 0:
                 titleLabel.textColor = UIColor.lightRed
                 tagView.alpha = 1.0
+                infoLabel.isHidden = true
             case 1:
                 titleLabel.textColor = UIColor.black
                 tagView.alpha = 1.0
-            default:
+                infoLabel.isHidden = true
+            default: // case 2
                 titleLabel.textColor = UIColor.appleGrey
                 tagView.alpha = 0.5
+                infoLabel.isHidden = false
             }
         }
     }

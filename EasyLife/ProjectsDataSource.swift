@@ -15,12 +15,16 @@ class ProjectsDataSource {
     fileprivate let priorityPredicate: NSPredicate
     fileprivate let otherPredicate: NSPredicate
     let maxPriorityItems = 5
+    let deprioritizedValue = -1
     var sections: [[Project]]
     var totalItems: Int {
         return sections.reduce(0, { $0 + $1.count })
     }
     var totalPriorityItems: Int {
         return sections[0].count
+    }
+    var totalNonPriorityItems: Int {
+        return sections[1].count
     }
     var isMaxPriorityItemLimitReached: Bool {
         return totalPriorityItems >= maxPriorityItems
@@ -31,8 +35,8 @@ class ProjectsDataSource {
     
     init() {
         dataManager = DataManager.shared
-        priorityPredicate = NSPredicate(format: "%K > %d", argumentArray: ["priority", -1])
-        otherPredicate = NSPredicate(format: "%K == %d", argumentArray: ["priority", -1])
+        priorityPredicate = NSPredicate(format: "%K > %d", argumentArray: ["priority", deprioritizedValue])
+        otherPredicate = NSPredicate(format: "%K == %d", argumentArray: ["priority", deprioritizedValue])
         sections = [[Project]](repeating: [Project](), count: 2)
     }
 
@@ -43,12 +47,10 @@ class ProjectsDataSource {
         dataManager.delete(item)
         sections[indexPath.section].remove(at: indexPath.row)
         if indexPath.section == 0 {
-            for row in indexPath.row..<sections[0].count {
-                sections[0][row].priority -= 1
-            }
+            flushPriority()
         }
-        dataManager.save(success: {
-            self.delegate?.dataSorceDidLoad(self)
+        dataManager.save(success: { [weak self] in
+            self?.load()
         })
     }
     
@@ -57,24 +59,24 @@ class ProjectsDataSource {
             return
         }
         project.name = name
-        dataManager.save(success: {
-            self.load()
+        dataManager.save(success: { [weak self] in
+            self?.load()
         })
     }
     
     func prioritize(at indexPath: IndexPath) {
-        guard let item = item(at: indexPath) else {
+        guard totalPriorityItems < maxPriorityItems, indexPath.section == 1, let item = item(at: indexPath) else {
             return
         }
         var available = Set(Array(0..<maxPriorityItems))
         available.subtract(sections[0].map({ Int($0.priority) }))
         let sorted = available.sorted(by: <)
-        guard let priority = sorted.first else {
+        guard let nextAvailablePriority = sorted.first else {
             return
         }
-        item.priority = Int16(priority)
-        dataManager.save(success: {
-            self.load()
+        item.priority = Int16(nextAvailablePriority)
+        dataManager.save(success: { [weak self] in
+            self?.load()
         })
     }
     
@@ -82,30 +84,27 @@ class ProjectsDataSource {
         guard let item = item(at: indexPath) else {
             return
         }
-        item.priority = -1
-        dataManager.save(success: {
-            self.load()
+        item.priority = Int16(deprioritizedValue)
+        sections[indexPath.section].remove(at: indexPath.row)
+        flushPriority()
+        dataManager.save(success: { [weak self] in
+            self?.load()
         })
     }
     
     func move(fromPath: IndexPath, toPath: IndexPath) {
         guard let fromItem = item(at: fromPath) else {
-            dataManager.save(success: {
-                self.delegate?.dataSorceDidLoad(self)
-            })
             return
         }
-        fromItem.priority = Int16(toPath.row)
         sections[fromPath.section].remove(at: fromPath.row)
         sections[toPath.section].insert(fromItem, at: toPath.row)
-        
-        if toPath.row < maxPriorityItems {
-            // acts as insert - shunts the priority of next items forward by 1
-            move(
-                fromPath: IndexPath(row: toPath.row + 1, section: toPath.section),
-                toPath: IndexPath(row: toPath.row + 1, section: toPath.section)
-            )
-        }
+
+        flushPriority()
+        flushNonPriority()
+
+        dataManager.save(success: { [weak self] in
+            self?.load()
+        })
     }
 
     func name(at indexPath: IndexPath) -> String? {
@@ -120,9 +119,29 @@ class ProjectsDataSource {
             return
         }
         item.name = name
-        dataManager.save(success: {
-            self.delegate?.dataSorceDidLoad(self)
+        dataManager.save(success: { [weak self] in
+            self?.load()
         })
+    }
+
+    // MARK: - private
+
+    func flushPriority() {
+        for i in 0..<totalPriorityItems {
+            let itemPath = IndexPath(row: i, section:0)
+            if let item = self.item(at: itemPath) {
+                item.priority = Int16(i)
+            }
+        }
+    }
+
+    func flushNonPriority() {
+        for i in 0..<totalNonPriorityItems {
+            let itemPath = IndexPath(row: i, section:1)
+            if let item = self.item(at: itemPath) {
+                item.priority = Int16(deprioritizedValue)
+            }
+        }
     }
 }
 

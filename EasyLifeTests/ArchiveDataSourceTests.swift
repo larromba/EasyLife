@@ -16,40 +16,42 @@ class ArchiveDataSourceTests: XCTestCase {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
         class MockDelegate: TableDataSourceDelegate {
-            var expected: [Date: [TodoItem]]!
+            var expected: [Character: [TodoItem]]!
             var exp: XCTestExpectation!
             func dataSorceDidLoad<T: TableDataSource>(_ dataSource: T) {
                 let dataSource = dataSource as! ArchiveDataSource
                 XCTAssertEqual(dataSource.data.count, expected.count)
-                expected.keys.forEach { (date: Date) in
-                    XCTAssertEqual(expected[date]!, dataSource.data[date]!)
+                expected.keys.forEach { (key: Character) in
+                    XCTAssertEqual(expected[key]!, dataSource.data[key]!)
                 }
                 exp.fulfill()
             }
         }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy"
         let container = try! NSPersistentContainer.test()
         _ = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem // shouldnt appear in data fetch
         let item1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let item2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let item3 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let item4 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let dataSource = ArchiveDataSource()
         let dataManager = DataManager()
         let delegate = MockDelegate()
-        let date1 = dateFormatter.date(from: "21/04/2017")!.earliest
-        let date2 = date1.addingTimeInterval(60*60*24)
-        
+
         // prepare
         dataManager.persistentContainer = container
         dataSource.dataManager = dataManager
         dataSource.delegate = delegate
-        item1.date = date1
+        item1.name = "alphazero"
         item1.done = true
-        item2.date = date2
+        item2.name = "ape"
         item2.done = true
+        item3.name = "zebra"
+        item3.done = true
+        item4.done = true
         delegate.expected = [
-            date1: [item1],
-            date2: [item2]
+            "-": [item4],
+            "A": [item1, item2],
+            "Z": [item3]
         ]
         delegate.exp = exp
         
@@ -74,7 +76,7 @@ class ArchiveDataSourceTests: XCTestCase {
         let dataManager = MockDataManager()
         let item = MockTodoItem()
         let data = [
-            Date(): [item],
+            Character("A"): [item],
         ]
         
         // prepare
