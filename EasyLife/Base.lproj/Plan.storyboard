@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0f4-ZB-gVU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0f4-ZB-gVU">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -81,6 +81,12 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8og-5r-0PD">
+                                                    <rect key="frame" x="305" y="46" width="0.0" height="21.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hVA-th-9S2">
                                                     <rect key="frame" x="283" y="24" width="22" height="22"/>
                                                     <constraints>
@@ -103,18 +109,22 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="8og-5r-0PD" firstAttribute="top" secondItem="hVA-th-9S2" secondAttribute="bottom" id="GI1-uG-8vz"/>
                                                 <constraint firstItem="xz2-u3-w40" firstAttribute="leading" secondItem="2Gu-Iz-zYI" secondAttribute="leading" constant="15" id="V7e-wA-n5n"/>
                                                 <constraint firstAttribute="bottom" secondItem="xz2-u3-w40" secondAttribute="bottom" id="Vxm-8g-Uw0"/>
                                                 <constraint firstItem="xz2-u3-w40" firstAttribute="top" secondItem="2Gu-Iz-zYI" secondAttribute="top" id="Z8g-97-7ji"/>
                                                 <constraint firstItem="svM-EJ-Nzh" firstAttribute="leading" secondItem="2Gu-Iz-zYI" secondAttribute="leading" id="eHq-ok-lez"/>
                                                 <constraint firstAttribute="trailing" secondItem="hVA-th-9S2" secondAttribute="trailing" constant="15" id="hKr-TG-9uo"/>
                                                 <constraint firstItem="hVA-th-9S2" firstAttribute="centerY" secondItem="2Gu-Iz-zYI" secondAttribute="centerY" id="iGc-V7-zIP"/>
+                                                <constraint firstAttribute="bottom" secondItem="8og-5r-0PD" secondAttribute="bottom" constant="2" id="m59-al-Hsy"/>
+                                                <constraint firstItem="8og-5r-0PD" firstAttribute="trailing" secondItem="hVA-th-9S2" secondAttribute="trailing" id="q8K-5Z-BbD"/>
                                                 <constraint firstItem="svM-EJ-Nzh" firstAttribute="top" secondItem="2Gu-Iz-zYI" secondAttribute="top" id="rpM-5q-rEf"/>
                                                 <constraint firstAttribute="trailing" secondItem="xz2-u3-w40" secondAttribute="trailing" constant="15" id="x2E-sx-8bV"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="iconImageView" destination="hVA-th-9S2" id="1D9-yU-Q6S"/>
+                                            <outlet property="infoLabel" destination="8og-5r-0PD" id="Gm4-ML-Gss"/>
                                             <outlet property="tagView" destination="svM-EJ-Nzh" id="2As-52-J0Q"/>
                                             <outlet property="titleLabel" destination="xz2-u3-w40" id="1lh-bj-B7H"/>
                                         </connections>

@@ -147,7 +147,7 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
 extension PlanDataSource: TableDataSource {
     typealias Object = TodoItem
     
-    open func load() {
+    func load() {
         dataManager.fetch(entityClass: TodoItem.self, predicate: missedPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {
                 return

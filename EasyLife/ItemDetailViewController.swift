@@ -116,7 +116,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
             projectTextField,
             textView
         ]
-        
+
         projectTextField.inputView = projectPicker
         projectTextField.inputAccessoryView = toolbar
         repeatsTextField.inputView = repeatPicker
@@ -143,6 +143,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
             }
             self.projects = items
             self.projectTextField.isUserInteractionEnabled = (items.count > 0)
+            self.projectTextField.alpha = (items.count > 0) ? 1.0 : 0.5
         })
     }
     

@@ -175,7 +175,7 @@ class PlanViewControllerTests: XCTestCase {
         nowItem.project = project
         laterItem.name = "later"
         laterItem.repeatState = .biweekly
-        laterItem.date = Date()
+        laterItem.date = Date().addingTimeInterval(24*60*60)
         laterItem.project = project
         vc.dataSource = dataSource
         dataSource.sections = sections
@@ -188,6 +188,7 @@ class PlanViewControllerTests: XCTestCase {
         let cellMissed = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as! PlanCell
         XCTAssertEqual(cellMissed.titleLabel.text, "missed")
         XCTAssertEqual(cellMissed.titleLabel.textColor, UIColor.lightRed)
+        XCTAssertTrue(cellMissed.infoLabel.isHidden)
         XCTAssertTrue(cellMissed.iconImageView.isHidden)
         XCTAssertEqual(cellMissed.iconImageType, .none)
         XCTAssertEqual(cellMissed.tagView.isHidden, false)
@@ -197,6 +198,7 @@ class PlanViewControllerTests: XCTestCase {
         let cellNow = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 1)) as! PlanCell
         XCTAssertEqual(cellNow.titleLabel.text, "now")
         XCTAssertEqual(cellNow.titleLabel.textColor, UIColor.black)
+        XCTAssertTrue(cellNow.infoLabel.isHidden)
         XCTAssertTrue(cellNow.iconImageView.isHidden)
         XCTAssertEqual(cellNow.iconImageType, .none)
         XCTAssertEqual(cellNow.tagView.isHidden, false)
@@ -212,6 +214,8 @@ class PlanViewControllerTests: XCTestCase {
         let cellLater = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 2)) as! PlanCell
         XCTAssertEqual(cellLater.titleLabel.text, "later")
         XCTAssertEqual(cellLater.titleLabel.textColor, UIColor.appleGrey)
+        XCTAssertFalse(cellLater.infoLabel.isHidden)
+        XCTAssertEqual(cellLater.infoLabel.text, "1 day")
         XCTAssertFalse(cellLater.iconImageView.isHidden)
         XCTAssertEqual(cellLater.iconImageType, .recurring)
         XCTAssertEqual(cellLater.tagView.isHidden, false)

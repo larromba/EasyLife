@@ -12,11 +12,11 @@ import CoreData
 class ArchiveDataSource {
     var dataManager: DataManager
     weak var delegate: TableDataSourceDelegate?
-    
+
+    fileprivate let unknownSection = Character("-")
     fileprivate let donePredicate: NSPredicate
-    fileprivate let epoch: Date
-    fileprivate var allData: [Date : [TodoItem]]?
-    var data: [Date : [TodoItem]]
+    fileprivate var allData: [Character : [TodoItem]]?
+    var data: [Character : [TodoItem]]
     var numOfSections: Int {
         return data.keys.count
     }
@@ -29,9 +29,8 @@ class ArchiveDataSource {
     
     init() {
         dataManager = DataManager.shared
-        epoch = Date(timeIntervalSince1970: 0) // used to key nil dates
         donePredicate = NSPredicate(format: "%K = true", argumentArray: ["done"])
-        data = [Date : [TodoItem]]()
+        data = [Character : [TodoItem]]()
     }
     
     // MARK: - public
@@ -60,7 +59,7 @@ class ArchiveDataSource {
         guard let allData = allData else {
             return
         }
-        guard text.characters.count > 0 else {
+        guard !text.isEmpty else {
             data = allData
             delegate?.dataSorceDidLoad(self)
             return
@@ -87,26 +86,21 @@ class ArchiveDataSource {
     
     // MARK: - private
     
-    fileprivate func key(at index: Int) -> Date? {
-        let keys = Array(data.keys).sorted(by: { $0 > $1 })
+    fileprivate func key(at index: Int) -> Character? {
+        let keys = Array(data.keys).sorted(by: { $0 < $1 })
         guard index >= keys.startIndex, index < keys.endIndex else {
             return nil
         }
         return keys[index]
     }
     
-    fileprivate func addItem(_ item: TodoItem, toSection section: Date) {
-        let section = section.earliest
-        var items = data[section]
-        if items == nil {
-            items = [TodoItem]()
-        }
-        items!.append(item)
-        data[section] = items
+    fileprivate func addItem(_ item: TodoItem, toSection section: Character) {
+        var items = data[section] ?? [TodoItem]()
+        items.append(item)
+        data[section] = items.sorted(by: { ($0.name ?? "") < ($1.name ?? "") })
     }
     
-    fileprivate func removeItem(_ item: TodoItem, fromSection section: Date) {
-        let section = section.earliest
+    fileprivate func removeItem(_ item: TodoItem, fromSection section: Character) {
         guard var items = data[section], let index = items.index(of: item) else {
             return
         }
@@ -130,10 +124,10 @@ extension ArchiveDataSource: TableDataSource {
                 return
             }
             for item in items {
-                if let date = item.date as Date? {
-                    self.addItem(item, toSection: date)
+                if let name = item.name, !name.isEmpty {
+                    self.addItem(item, toSection: Character(String(name[name.startIndex]).uppercased()))
                 } else {
-                    self.addItem(item, toSection: self.epoch)
+                    self.addItem(item, toSection: self.unknownSection)
                 }
             }
             self.delegate?.dataSorceDidLoad(self)
@@ -141,16 +135,10 @@ extension ArchiveDataSource: TableDataSource {
     }
     
     func title(for section: Int) -> String? {
-        guard let date = key(at: section) else {
+        guard let section = key(at: section) else {
             return nil
         }
-        guard date != epoch.earliest else {
-            return "no date".localized
-        }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEE dd/MM/yyyy"
-        dateFormatter.locale = NSLocale.current
-        return dateFormatter.string(from: date)
+        return String(section)
     }
     
     func item(at indexPath: IndexPath) -> TodoItem? {
