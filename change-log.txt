@@ -38,9 +38,7 @@ v1.0.0 (23/04/2017) (Tier: 1)
 SKU: 421042017
 Apple ID: 1229095589
 
-//--- todo v1.4.0
-
-actual done date?
+//--- todo v1.5.0
 
 noise / animation when done (wahoo?)
 
@@ -52,6 +50,4 @@ press back on new item - want to save?
 
 test datamanger?
 
-todo: choose emoji for project (grey if not priority)
-
-HIGHLIGHT tomorrow
+version label on bottom left
