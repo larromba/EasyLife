@@ -102,18 +102,36 @@ extension PlanViewController: UITableViewDelegate {
             self?.dataSource.delete(at: indexPath)
         })
         delete.backgroundColor = .lightRed
+
         let done = UITableViewRowAction(style: .normal, title: "Done".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
             self?.dataSource.done(at: indexPath)
         })
         done.backgroundColor = .lightGreen
+
         switch indexPath.section {
+        case 0:
+            guard let item = dataSource.item(at: indexPath) else {
+                log("epic fail")
+                return [] // shouldnt happen
+            }
+            if item.repeatState == RepeatState.none {
+                return [done, delete]
+            } else {
+                let split = UITableViewRowAction(style: .normal, title: "Split".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
+                    self?.dataSource.split(at: indexPath)
+                })
+                return [done, delete, split]
+            }
         case 1:
             let later = UITableViewRowAction(style: .normal, title: "Later".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
                 self?.dataSource.later(at: indexPath)
             })
             return [done, delete, later]
-        default:
+        case 2:
             return [done, delete]
+        default:
+            log("unhandled switch")
+            return []
         }
     }
 }

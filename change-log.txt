@@ -51,3 +51,28 @@ press back on new item - want to save?
 test datamanger?
 
 version label on bottom left
+
+apreciation diary
+
+lists:
+to watch
+to read
+to get
+shopping list
+
+long press on date to open custom & custom field
+
+blocked by
+
+archive keyboard bug
+archive bug search 'talk'
+
+bug with ordering in later section (2 before 1!? on same day)
+
+split
+notepad icon
+animation done
+
+
+DONE:
+split

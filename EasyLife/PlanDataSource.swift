@@ -130,6 +130,20 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
             self?.load()
         })
     }
+
+    func split(at indexPath: IndexPath) {
+        guard let item = item(at: indexPath), item.repeatState != .none else {
+            return
+        }
+        guard let copy = dataManager.copy(item) as? TodoItem else {
+            return
+        }
+        item.incrementDate()
+        copy.repeatState = .none
+        dataManager.save(success: { [weak self] in
+            self?.load()
+        })
+    }
     
     // MARK: - private
     

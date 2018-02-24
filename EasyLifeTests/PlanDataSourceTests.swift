@@ -183,6 +183,56 @@ class PlanDataSourceTests: XCTestCase {
         XCTAssertGreaterThan(dataSource.sections[0][1].date!, date)
         XCTAssertGreaterThan(dataSource.sections[0][1].date!, Date())
     }
+
+    func testSplit() {
+        // mocks
+        let exp = expectation(description: "dataSourceDidLoad(...)")
+        class MockDelegate: TableDataSourceDelegate {
+            var count = 0
+            var exp: XCTestExpectation!
+            func dataSorceDidLoad<T>(_ dataSource: T) where T : TableDataSource {
+                count += 1
+                if count == 3 {
+                    exp.fulfill()
+                }
+            }
+        }
+        let delegate = MockDelegate()
+        let dataSource = PlanDataSource()
+        let dataManager = DataManager()
+        let container = try! NSPersistentContainer.test()
+        let item1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let item2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let sections = [
+            [item1, item2],
+            [],
+            []
+        ]
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: "GMT")
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        let date = dateFormatter.date(from: "21/04/2017")!
+
+        // prepare
+        item1.date = date as Date?
+        item2.date = date as Date?
+        item1.repeatState = .daily
+        dataManager.persistentContainer = container
+        dataSource.dataManager = dataManager
+        dataSource.sections = sections
+        dataSource.delegate = delegate
+        delegate.exp = exp
+
+        // test
+        dataSource.split(at: IndexPath(row: 0, section: 0))
+        waitForExpectations(timeout: 1.0) { (err: Error?) in
+            XCTAssertEqual(dataSource.sections[0][0].repeatState, RepeatState.none)
+            XCTAssertEqual(dataSource.sections[0].count, 2)
+            XCTAssertEqual(dataSource.sections[2].count, 1)
+            XCTAssertEqual(dataSource.sections[2][0].repeatState, .daily)
+            XCTAssertGreaterThan(dataSource.sections[2][0].date!, date)
+        }
+    }
     
     // missed section ordering
     func test5() {
