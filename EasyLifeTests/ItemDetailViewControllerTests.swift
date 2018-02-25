@@ -396,4 +396,20 @@ class ItemDetailViewControllerTests: XCTestCase {
         XCTAssertFalse(vc.projectTextField.isUserInteractionEnabled)
         XCTAssertEqual(vc.projectTextField.alpha, 0.5)
     }
+
+    func testDiscardMessage() {
+        // mocks
+        let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
+        let dataSource = ItemDetailDataSource()
+        let panGesture = UIScreenEdgePanGestureRecognizer()
+
+        // prepare
+        UIApplication.shared.keyWindow!.rootViewController = vc
+        vc.dataSource = dataSource
+        dataSource.item = MockTodoItem()
+
+        // test
+        _ = vc.gestureRecognizerShouldBegin(panGesture)
+        XCTAssert(vc.presentedViewController is UIAlertController)
+    }
 }

@@ -158,6 +158,7 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
     }
 
     fileprivate func sortByDateAndPriority(item1: TodoItem, item2: TodoItem) -> Bool {
+        if item1.date == nil && item2.date == nil { return sortByPriority(item1: item1, item2: item2) }
         guard let date1 = item1.date else { return true }
         guard let date2 = item2.date else { return false }
         if date1.day == date2.day { return sortByPriority(item1: item1, item2: item2) }

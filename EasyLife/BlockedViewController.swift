@@ -22,6 +22,7 @@ class BlockedViewController: UIViewController {
         super.viewWillAppear(animated)
         tableView.applyDefaultStyleFix()
         dataSource.delegate = self
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
         dataSource.load()
     }
 }

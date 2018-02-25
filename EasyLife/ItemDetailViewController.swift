@@ -110,14 +110,13 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         } else {
             setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:))))
         }
-
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNotifications()
         dataSource.delegate = self
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         if let blockedViewController = blockedViewController {
             dataSource.blockable = blockedViewController.dataSource.data
         }
@@ -157,12 +156,12 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     }
 
     private func showCancelAlert() {
-        let alertController = UIAlertController(title: "Discard Changes?".localized, message: nil, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Yes".localized, style: .default, handler: { action in
-            self.dataSource.item = nil
+        let alertController = UIAlertController(title: "Discard?".localized, message: nil, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "No".localized, style: .cancel, handler: { action in
             _ = self.navigationController?.popViewController(animated: true)
         }))
-        alertController.addAction(UIAlertAction(title: "No".localized, style: .cancel, handler: { action in
+        alertController.addAction(UIAlertAction(title: "Yes".localized, style: .default, handler: { action in
+            self.dataSource.item = nil
             _ = self.navigationController?.popViewController(animated: true)
         }))
         present(alertController, animated: true, completion: nil)
@@ -422,7 +421,7 @@ extension ItemDetailViewController: ItemDetailDelegate {
 
 extension ItemDetailViewController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
+        if gestureRecognizer is UIScreenEdgePanGestureRecognizer, dataSource.item != nil {
             showCancelAlert()
             return false
         }

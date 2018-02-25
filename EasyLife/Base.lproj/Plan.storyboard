@@ -91,7 +91,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G7f-5r-7SM">
-                                                    <rect key="frame" x="15" y="55.5" width="9.5" height="12"/>
+                                                    <rect key="frame" x="295.5" y="1" width="9.5" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -119,18 +119,17 @@
                                             <constraints>
                                                 <constraint firstItem="hVA-th-9S2" firstAttribute="leading" secondItem="xz2-u3-w40" secondAttribute="trailing" id="3XK-il-d4G"/>
                                                 <constraint firstItem="8og-5r-0PD" firstAttribute="top" secondItem="hVA-th-9S2" secondAttribute="bottom" id="GI1-uG-8vz"/>
-                                                <constraint firstItem="G7f-5r-7SM" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="8og-5r-0PD" secondAttribute="trailing" constant="8" id="HLy-P7-1TP"/>
-                                                <constraint firstItem="G7f-5r-7SM" firstAttribute="leading" secondItem="xz2-u3-w40" secondAttribute="leading" id="RZf-aM-vxt"/>
                                                 <constraint firstItem="xz2-u3-w40" firstAttribute="leading" secondItem="2Gu-Iz-zYI" secondAttribute="leading" constant="15" id="V7e-wA-n5n"/>
                                                 <constraint firstAttribute="bottom" secondItem="xz2-u3-w40" secondAttribute="bottom" id="Vxm-8g-Uw0"/>
                                                 <constraint firstItem="8og-5r-0PD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2Gu-Iz-zYI" secondAttribute="leading" constant="15" id="Yec-Cr-E4a"/>
                                                 <constraint firstItem="xz2-u3-w40" firstAttribute="top" secondItem="2Gu-Iz-zYI" secondAttribute="top" id="Z8g-97-7ji"/>
+                                                <constraint firstItem="G7f-5r-7SM" firstAttribute="top" secondItem="2Gu-Iz-zYI" secondAttribute="top" constant="1" id="ZCN-e7-LCm"/>
+                                                <constraint firstItem="G7f-5r-7SM" firstAttribute="trailing" secondItem="hVA-th-9S2" secondAttribute="trailing" id="d4t-6u-PpV"/>
                                                 <constraint firstItem="svM-EJ-Nzh" firstAttribute="leading" secondItem="2Gu-Iz-zYI" secondAttribute="leading" id="eHq-ok-lez"/>
                                                 <constraint firstAttribute="trailing" secondItem="hVA-th-9S2" secondAttribute="trailing" constant="15" id="hKr-TG-9uo"/>
                                                 <constraint firstItem="hVA-th-9S2" firstAttribute="centerY" secondItem="2Gu-Iz-zYI" secondAttribute="centerY" id="iGc-V7-zIP"/>
                                                 <constraint firstAttribute="bottom" secondItem="8og-5r-0PD" secondAttribute="bottom" constant="2" id="m59-al-Hsy"/>
                                                 <constraint firstItem="8og-5r-0PD" firstAttribute="trailing" secondItem="hVA-th-9S2" secondAttribute="trailing" id="q8K-5Z-BbD"/>
-                                                <constraint firstItem="G7f-5r-7SM" firstAttribute="bottom" secondItem="8og-5r-0PD" secondAttribute="bottom" id="rc1-rq-YSV"/>
                                                 <constraint firstItem="svM-EJ-Nzh" firstAttribute="top" secondItem="2Gu-Iz-zYI" secondAttribute="top" id="rpM-5q-rEf"/>
                                             </constraints>
                                         </tableViewCellContentView>
