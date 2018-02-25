@@ -116,7 +116,6 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         super.viewWillAppear(animated)
         setupNotifications()
         dataSource.delegate = self
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
         if let blockedViewController = blockedViewController {
             dataSource.blockable = blockedViewController.dataSource.data
         }
@@ -153,18 +152,6 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     private func setRightBarButtonItem(_ item: UIBarButtonItem) {
         saveButton = item
         navigationItem.rightBarButtonItem = item
-    }
-
-    private func showCancelAlert() {
-        let alertController = UIAlertController(title: "Discard?".localized, message: nil, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "No".localized, style: .cancel, handler: { action in
-            _ = self.navigationController?.popViewController(animated: true)
-        }))
-        alertController.addAction(UIAlertAction(title: "Yes".localized, style: .default, handler: { action in
-            self.dataSource.item = nil
-            _ = self.navigationController?.popViewController(animated: true)
-        }))
-        present(alertController, animated: true, completion: nil)
     }
 
     fileprivate func makeFirstResponder(_ responder: UIResponder?) {
@@ -414,17 +401,5 @@ extension ItemDetailViewController: ItemDetailDelegate {
 
     func itemDetailDataSourceDidSave(_ delegate: ItemDetailDataSource) {
         _ = self.navigationController?.popViewController(animated: true)
-    }
-}
-
-// MARK: - UIGestureRecognizerDelegate
-
-extension ItemDetailViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer is UIScreenEdgePanGestureRecognizer, dataSource.item != nil {
-            showCancelAlert()
-            return false
-        }
-        return true
     }
 }
