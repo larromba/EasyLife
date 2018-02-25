@@ -12,14 +12,12 @@ class ArchiveViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet weak var clearButton: UIBarButtonItem!
     @IBOutlet weak var thingsDoneLabel: UILabel!
     @IBOutlet weak var emptyLabelHeightLayoutConstraint: NSLayoutConstraint!
     
     var dataSource: ArchiveDataSource
 
-    lazy var origContentSize: CGSize = {
-        return self.tableView.contentSize
-    }()
     lazy var origEmptyLabelYConstraintHeight: CGFloat = {
         return self.emptyLabelHeightLayoutConstraint.constant
     }()
@@ -73,6 +71,15 @@ class ArchiveViewController: UIViewController {
     @IBAction private func doneButtonPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
+
+    @IBAction private func clearButtonPressed(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "Empty".localized, message: "Are you sure?".localized, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "No".localized, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Yes".localized, style: .default, handler: { action in
+            self.dataSource.clearAll()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
     
     // MARK: - notifications
     
@@ -80,13 +87,13 @@ class ArchiveViewController: UIViewController {
         guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
-        tableView.contentSize.height = origContentSize.height + height.cgRectValue.height
+        tableView.contentInset.bottom = height.cgRectValue.height
         emptyLabelHeightLayoutConstraint.constant = origEmptyLabelYConstraintHeight - height.cgRectValue.height / 2.0
         view.layoutIfNeeded()
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
-        tableView.contentSize.height = origContentSize.height
+        tableView.contentInset.bottom = 0
         emptyLabelHeightLayoutConstraint.constant = origEmptyLabelYConstraintHeight
         view.layoutIfNeeded()
     }
@@ -160,7 +167,10 @@ extension ArchiveViewController: TableDataSourceDelegate {
         }
         tableView.reloadData()
         tableView.isHidden = dataSource.isEmpty
-        searchBar.isUserInteractionEnabled = !dataSource.isEmpty
+        clearButton.isEnabled = !dataSource.isEmpty && !dataSource.isSearching
+        if !dataSource.isSearching {
+            searchBar.isUserInteractionEnabled = !dataSource.isEmpty
+        }
         thingsDoneLabel.text = String(format: "%i done".localized, dataSource.totalItems)
     }
 }

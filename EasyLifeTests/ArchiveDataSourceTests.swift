@@ -11,8 +11,7 @@ import CoreData
 @testable import EasyLife
 
 class ArchiveDataSourceTests: XCTestCase {
-    // items appear in correct section
-    func test1() {
+    func testItemsAppearInCorrectSection() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
         class MockDelegate: TableDataSourceDelegate {
@@ -62,12 +61,11 @@ class ArchiveDataSourceTests: XCTestCase {
         }
     }
     
-    // undo undoes
-    func test2() {
+    func testUndo() {
         // mocks
         class MockDataManager: DataManager {
             var didSave = false
-            override func save(success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }
@@ -90,5 +88,30 @@ class ArchiveDataSourceTests: XCTestCase {
         XCTAssertFalse(item.done)
         XCTAssertNil(item.date)
         XCTAssertEqual(item.repeatState, RepeatState.none)
+    }
+
+    func testClear() {
+        // mocks
+        class MockDataManager: DataManager {
+            var didDelete = false
+            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T : NSManagedObject {
+                didDelete = true
+            }
+        }
+        let dataSource = ArchiveDataSource()
+        let dataManager = MockDataManager()
+        let item = MockTodoItem()
+        let data = [
+            Character("A"): [item],
+            ]
+
+        // prepare
+        item.done = true
+        dataSource.dataManager = dataManager
+        dataSource.data = data
+
+        // test
+        dataSource.clearAll()
+        XCTAssertTrue(dataManager.didDelete)
     }
 }

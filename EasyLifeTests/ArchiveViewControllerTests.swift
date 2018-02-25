@@ -22,8 +22,7 @@ class ArchiveViewControllerTests: XCTestCase {
         UIView.setAnimationsEnabled(true)
     }
     
-    // table view hide / show, search bar state
-    func test1() {
+    func testTableViewHideShowAndSearchBarState() {
         // mocks
         let dataSource = ArchiveDataSource()
         let vc = UIStoryboard.archive.instantiateViewController(withIdentifier: "ArchiveViewController") as! ArchiveViewController
@@ -45,8 +44,7 @@ class ArchiveViewControllerTests: XCTestCase {
         XCTAssertTrue(vc.searchBar.isUserInteractionEnabled)
     }
     
-    // done button closes view
-    func test2() {
+    func testDoneButtonClosesView() {
         // mocks
         let exp = expectation(description: "wait")
         let vc = UIStoryboard.archive.instantiateViewController(withIdentifier: "ArchiveViewController") as! ArchiveViewController
@@ -58,8 +56,6 @@ class ArchiveViewControllerTests: XCTestCase {
         
         // test
         UIApplication.shared.sendAction(vc.doneButton.action!, to: vc.doneButton.target!, from: nil, for: nil)
-        
-        // tests
         performAfterDelay(0.5) { () -> Void in
             XCTAssertNil(baseVc.presentedViewController)
             exp.fulfill()
@@ -68,9 +64,23 @@ class ArchiveViewControllerTests: XCTestCase {
             XCTAssertNil(err)
         }
     }
+
+    func testClearButtonDisplaysMessageAndDeletes() {
+        // mocks
+        let vc = UIStoryboard.archive.instantiateViewController(withIdentifier: "ArchiveViewController") as! ArchiveViewController
+        let dataSource = ArchiveDataSource()
+
+        // prepare
+        UIApplication.shared.keyWindow!.rootViewController = vc
+        dataSource.data = [Character("c") : [MockTodoItem()]]
+
+        // test
+        UIApplication.shared.sendAction(vc.clearButton.action!, to: vc.clearButton.target!, from: nil, for: nil)
+        XCTAssert(vc.presentedViewController is UIAlertController)
+        // TODO: tap the action?
+    }
     
-    // cell text color, header, actions, etc
-    func test3() {
+    func testCellUI() {
         // mocks
         let dataSource = ArchiveDataSource()
         let vc = UIStoryboard.archive.instantiateViewController(withIdentifier: "ArchiveViewController") as! ArchiveViewController
@@ -127,8 +137,7 @@ class ArchiveViewControllerTests: XCTestCase {
         XCTAssertEqual(actions3?[0].title, "Undo")
     }
     
-    // search
-    func test4() {
+    func testSearch() {
         // mocks
         let dataSource = ArchiveDataSource()
         let vc = UIStoryboard.archive.instantiateViewController(withIdentifier: "ArchiveViewController") as! ArchiveViewController

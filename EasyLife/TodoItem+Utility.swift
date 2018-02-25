@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 extension TodoItem {
-    var repeatState: RepeatState? { // TODO: will never be nil right?
+    var repeatState: RepeatState? {
         get {
             return RepeatState(rawValue: Int(repeats))
         }

@@ -59,31 +59,31 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
     
 #if DEBUG
     func itunesConnect() {
-        let missed1 = dataManager.insert(entityClass: TodoItem.self)!
+        let missed1 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
         missed1.date = Date().addingTimeInterval(-24*60*60)
         missed1.name = "send letter"
         
-        let now1 = dataManager.insert(entityClass: TodoItem.self)!
+        let now1 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
         now1.date = Date()
         now1.name = "fix bike"
         
-        let now2 = dataManager.insert(entityClass: TodoItem.self)!
+        let now2 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
         now2.date = Date()
         now2.name = "get party food!"
         
-        let later1 = dataManager.insert(entityClass: TodoItem.self)!
+        let later1 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
         later1.date = Date().addingTimeInterval(24*60*60)
         later1.name = "phone mum"
         
-        let later2 = dataManager.insert(entityClass: TodoItem.self)!
+        let later2 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
         later2.date = Date().addingTimeInterval(24*60*60)
         later2.name = "clean flat"
         
-        let later3 = dataManager.insert(entityClass: TodoItem.self)!
+        let later3 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
         later3.date = Date().addingTimeInterval(24*60*60)
         later3.name = "call landlord"
         
-        dataManager.save()
+        dataManager.save(context: dataManager.mainContext)
     }
 #endif
 
@@ -91,8 +91,8 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
         guard let item = item(at: indexPath) else {
             return
         }
-        dataManager.delete(item)
-        dataManager.save(success: { [weak self] in
+        dataManager.delete(item, context: dataManager.mainContext)
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             guard let `self` = self else {
                 return
             }
@@ -111,7 +111,7 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
         default:
             item.incrementDate()
         }
-        dataManager.save(success: { [weak self] in
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             self?.load()
         })
     }
@@ -126,7 +126,7 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
         default:
             item.incrementDate()
         }
-        dataManager.save(success: { [weak self] in
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             self?.load()
         })
     }
@@ -135,24 +135,33 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
         guard let item = item(at: indexPath), item.repeatState != .none else {
             return
         }
-        guard let copy = dataManager.copy(item) as? TodoItem else {
+        guard let copy = dataManager.copy(item, context: dataManager.mainContext) as? TodoItem else {
             return
         }
         item.incrementDate()
+        item.blockedBy = nil
         copy.repeatState = .none
-        dataManager.save(success: { [weak self] in
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             self?.load()
         })
     }
     
     // MARK: - private
-    
+
+    // @note coredata sorts are a bit shit, so need to do it here for advanced sorting
     fileprivate func sortByPriority(item1: TodoItem, item2: TodoItem) -> Bool {
-        let priority1 = item1.project?.priority ?? -1
-        let priority2 = item2.project?.priority ?? -1
-        if priority1 < 0 { return false }
-        if priority2 < 0 { return true }
+        let priority1 = item1.project?.priority ?? Project.defaultPriority
+        let priority2 = item2.project?.priority ?? Project.defaultPriority
+        if priority1 == Project.defaultPriority { return false }
+        if priority2 == Project.defaultPriority { return true }
         return priority1 < priority2
+    }
+
+    fileprivate func sortByDateAndPriority(item1: TodoItem, item2: TodoItem) -> Bool {
+        guard let date1 = item1.date else { return true }
+        guard let date2 = item2.date else { return false }
+        if date1.day == date2.day { return sortByPriority(item1: item1, item2: item2) }
+        return date1 < date2
     }
 }
 
@@ -162,25 +171,25 @@ extension PlanDataSource: TableDataSource {
     typealias Object = TodoItem
     
     func load() {
-        dataManager.fetch(entityClass: TodoItem.self, predicate: missedPredicate, success: { [weak self] (result: [Any]?) in
+        dataManager.fetch(entityClass: TodoItem.self, context: dataManager.mainContext, predicate: missedPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {
                 return
             }
             self.sections.replace(items.sorted(by: self.sortByPriority), at: 0)
             self.delegate?.dataSorceDidLoad(self)
         })
-        dataManager.fetch(entityClass: TodoItem.self, predicate: todayPredicate, success: { [weak self] (result: [Any]?) in
+        dataManager.fetch(entityClass: TodoItem.self, context: dataManager.mainContext, predicate: todayPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {
                 return
             }
             self.sections.replace(items.sorted(by: self.sortByPriority), at: 1)
             self.delegate?.dataSorceDidLoad(self)
         })
-        dataManager.fetch(entityClass: TodoItem.self, sortBy: "date", isAscending: true, predicate: laterPredicate, success: { [weak self] (result: [Any]?) in
+        dataManager.fetch(entityClass: TodoItem.self, context: dataManager.mainContext, predicate: laterPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {
                 return
             }
-            self.sections.replace(items, at: 2)
+            self.sections.replace(items.sorted(by: self.sortByDateAndPriority), at: 2)
             self.delegate?.dataSorceDidLoad(self)
         })
     }
@@ -218,5 +227,14 @@ extension PlanDataSource: TableDataSource {
         }
         let section = sections[index]
         return section
+    }
+}
+
+// MARK: - Date
+
+private extension Date {
+    var day: Int {
+        let calendar = Calendar.current
+        return calendar.component(.day, from: self)
     }
 }

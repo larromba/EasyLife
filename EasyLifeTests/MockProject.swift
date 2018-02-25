@@ -20,7 +20,7 @@ class MockProject: Project {
         }
     }
     
-    var _priority: Int16 = -1
+    var _priority: Int16 = Project.defaultPriority
     override var priority: Int16 {
         get {
             return _priority

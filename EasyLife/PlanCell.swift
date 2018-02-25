@@ -17,13 +17,9 @@ class PlanCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var notesLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var tagView: TagView!
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        infoLabel.textColor = .appleGrey
-    }
 
     var iconImageType: ImageType = .none {
         didSet {
@@ -62,9 +58,19 @@ class PlanCell: UITableViewCell {
             tagView.setup(for: item.project)
             if item.name == nil || item.name!.isEmpty {
                 titleLabel.text = "[no name]".localized
-                titleLabel.textColor = UIColor.appleGrey
+                titleLabel.textColor = .appleGrey
             } else {
                 titleLabel.text = item.name
+            }
+            if (item.blockedBy?.count ?? 0) > 0 {
+                backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "stipe_bg")).withAlphaComponent(0.03)
+            } else {
+                backgroundColor = nil
+            }
+            if let notes = item.notes, !notes.isEmpty {
+                notesLabel.isHidden = false
+            } else {
+                notesLabel.isHidden = true
             }
         }
     }
@@ -76,15 +82,21 @@ class PlanCell: UITableViewCell {
             }
             switch indexPath.section {
             case 0:
-                titleLabel.textColor = UIColor.lightRed
+                titleLabel.textColor = .lightRed
+                infoLabel.textColor = .lightRed
+                notesLabel.textColor = .lightRed
                 tagView.alpha = 1.0
                 infoLabel.isHidden = true
             case 1:
-                titleLabel.textColor = UIColor.black
+                titleLabel.textColor = .black
+                infoLabel.textColor = .black
+                notesLabel.textColor = .black
                 tagView.alpha = 1.0
                 infoLabel.isHidden = true
             default: // case 2
-                titleLabel.textColor = UIColor.appleGrey
+                titleLabel.textColor = .appleGrey
+                infoLabel.textColor = .appleGrey
+                notesLabel.textColor = .appleGrey
                 tagView.alpha = 0.5
                 infoLabel.isHidden = false
             }

@@ -15,7 +15,7 @@ class ProjectsDataSource {
     fileprivate let priorityPredicate: NSPredicate
     fileprivate let otherPredicate: NSPredicate
     let maxPriorityItems = 5
-    let deprioritizedValue = -1
+    let deprioritizedValue = Project.defaultPriority
     var sections: [[Project]]
     var totalItems: Int {
         return sections.reduce(0, { $0 + $1.count })
@@ -35,8 +35,8 @@ class ProjectsDataSource {
     
     init() {
         dataManager = DataManager.shared
-        priorityPredicate = NSPredicate(format: "%K > %d", argumentArray: ["priority", deprioritizedValue])
-        otherPredicate = NSPredicate(format: "%K == %d", argumentArray: ["priority", deprioritizedValue])
+        priorityPredicate = NSPredicate(format: "%K != %d", argumentArray: ["priority", deprioritizedValue])
+        otherPredicate = NSPredicate(format: "%K = %d", argumentArray: ["priority", deprioritizedValue])
         sections = [[Project]](repeating: [Project](), count: 2)
     }
 
@@ -44,22 +44,22 @@ class ProjectsDataSource {
         guard let item = item(at: indexPath) else {
             return
         }
-        dataManager.delete(item)
+        dataManager.delete(item, context: dataManager.mainContext)
         sections[indexPath.section].remove(at: indexPath.row)
         if indexPath.section == 0 {
             flushPriority()
         }
-        dataManager.save(success: { [weak self] in
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             self?.load()
         })
     }
     
     func addProject(name: String) {
-        guard let project = dataManager.insert(entityClass: Project.self) else {
+        guard let project = dataManager.insert(entityClass: Project.self, context: dataManager.mainContext) else {
             return
         }
         project.name = name
-        dataManager.save(success: { [weak self] in
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             self?.load()
         })
     }
@@ -75,7 +75,7 @@ class ProjectsDataSource {
             return
         }
         item.priority = Int16(nextAvailablePriority)
-        dataManager.save(success: { [weak self] in
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             self?.load()
         })
     }
@@ -87,7 +87,7 @@ class ProjectsDataSource {
         item.priority = Int16(deprioritizedValue)
         sections[indexPath.section].remove(at: indexPath.row)
         flushPriority()
-        dataManager.save(success: { [weak self] in
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             self?.load()
         })
     }
@@ -102,7 +102,7 @@ class ProjectsDataSource {
         flushPriority()
         flushNonPriority()
 
-        dataManager.save(success: { [weak self] in
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             self?.load()
         })
     }
@@ -119,7 +119,7 @@ class ProjectsDataSource {
             return
         }
         item.name = name
-        dataManager.save(success: { [weak self] in
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             self?.load()
         })
     }
@@ -151,14 +151,14 @@ extension ProjectsDataSource: TableDataSource {
     typealias Object = Project
     
     open func load() {
-        dataManager.fetch(entityClass: Project.self, sortBy: "priority", isAscending: true, predicate: priorityPredicate, success: { [weak self] (result: [Any]?) in
+        dataManager.fetch(entityClass: Project.self, sortBy: [NSSortDescriptor(key: "priority", ascending: true)], context: dataManager.mainContext, predicate: priorityPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [Project] else {
                 return
             }
             self.sections.replace(items, at: 0)
             self.delegate?.dataSorceDidLoad(self)
         })
-        dataManager.fetch(entityClass: Project.self, sortBy: "name", isAscending: true, predicate: otherPredicate, success: { [weak self] (result: [Any]?) in
+        dataManager.fetch(entityClass: Project.self, sortBy: [NSSortDescriptor(key: "name", ascending: true)], context: dataManager.mainContext, predicate: otherPredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [Project] else {
                 return
             }

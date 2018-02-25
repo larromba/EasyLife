@@ -21,8 +21,7 @@ class AppDelegateTests: XCTestCase {
         UIView.setAnimationsEnabled(true)
     }
     
-    // show fatal vc if notification thrown
-    func test1() {
+    func testShowFatalViewControllerOnNotification() {
         // mocks
         let error = NSError(domain: "", code: 0, userInfo: [
             NSLocalizedDescriptionKey: "",

@@ -1,3 +1,15 @@
+v1.5.0 (25/02/2018)
+    Can now split recurring items and reschedule them without affecting the recurring date
+    Version moved to lower bottom left
+    Added 'blocked by' feature. Items can't be set to done when blocked by another item
+    Fix: archive view keyboard bugs
+    Fix: archive view search bugs
+    Added clear all in archive view
+    Added colour animation to 'Youre done for now'
+    Added note indicator to each item in the plan view
+    Improved later section ordering
+    Added new button to choose different date pickers in the details view
+
 v1.4.0 (24/01/2018)
     Added time indicator to later cells
     Fixed projects priority bug
@@ -38,41 +50,14 @@ v1.0.0 (23/04/2017) (Tier: 1)
 SKU: 421042017
 Apple ID: 1229095589
 
-//--- todo v1.5.0
-
-noise / animation when done (wahoo?)
-
-clear all in archive
-
-icloud backup
+//--- ideas
 
 press back on new item - want to save?
-
-test datamanger?
-
-version label on bottom left
-
+noise / animation when done (wahoo?)
+icloud backup??
 apreciation diary
-
 lists:
 to watch
 to read
 to get
 shopping list
-
-long press on date to open custom & custom field
-
-blocked by
-
-archive keyboard bug
-archive bug search 'talk'
-
-bug with ordering in later section (2 before 1!? on same day)
-
-split
-notepad icon
-animation done
-
-
-DONE:
-split

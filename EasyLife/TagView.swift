@@ -52,7 +52,7 @@ import UIKit
     }
     
     func setup(for project: Project?) {
-        if let priority = project?.priority, priority > -1 {
+        if let priority = project?.priority, priority != Project.defaultPriority {
             isHidden = false
             label.text = "\(priority + 1)"
             switch priority {

@@ -22,8 +22,7 @@ class ProjectsViewControllerTests: XCTestCase {
         UIView.setAnimationsEnabled(true)
     }
     
-    // table view hide / show, edit button state
-    func test1() {
+    func testTableViewHideShowAndEditButtonState() {
         // mocks
         let dataSource = ProjectsDataSource()
         let vc = UIStoryboard.project.instantiateViewController(withIdentifier: "ProjectsViewController") as! ProjectsViewController
@@ -45,8 +44,7 @@ class ProjectsViewControllerTests: XCTestCase {
         XCTAssertTrue(vc.editButton.isEnabled)
     }
     
-    // done button closes view
-    func test2() {
+    func testDoneButtonClosesView() {
         // mocks
         let exp = expectation(description: "wait")
         let vc = UIStoryboard.project.instantiateViewController(withIdentifier: "ProjectsViewController") as! ProjectsViewController
@@ -69,8 +67,7 @@ class ProjectsViewControllerTests: XCTestCase {
         }
     }
     
-    // cell text color, header, actions, etc
-    func test3() {
+    func testCellUI() {
         // mocks
         let dataSource = ProjectsDataSource()
         let vc = UIStoryboard.project.instantiateViewController(withIdentifier: "ProjectsViewController") as! ProjectsViewController
@@ -166,8 +163,7 @@ class ProjectsViewControllerTests: XCTestCase {
         XCTAssertEqual(actions3?[0].title, "Delete")
     }
     
-    // edit button toggles edit mode
-    func test4() {
+    func testEditButtonTogglesEditMode() {
         // mocks
         let vc = UIStoryboard.project.instantiateViewController(withIdentifier: "ProjectsViewController") as! ProjectsViewController
         
@@ -182,8 +178,7 @@ class ProjectsViewControllerTests: XCTestCase {
         XCTAssertFalse(vc.tableView.isEditing)
     }
     
-    // new project button shows alert controller with text field
-    func test5() {
+    func testProjectButtonShowsAlertControllerWithTextField() {
         // mocks
         let vc = UIStoryboard.project.instantiateViewController(withIdentifier: "ProjectsViewController") as! ProjectsViewController
         

@@ -9,6 +9,7 @@ target 'EasyLife' do
   pod 'Firebase/Analytics'
   pod 'Fabric'
   pod 'Crashlytics'
+  pod 'PPBadgeView'
 
   target 'EasyLifeTests' do
     inherit! :search_paths

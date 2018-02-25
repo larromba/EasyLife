@@ -11,13 +11,11 @@ import CoreData
 @testable import EasyLife
 
 class RepeatStateTests: XCTestCase {
-    // test display
-    func test1() {
+    func testDisplay() {
         XCTAssertEqual(RepeatState.display.count, 9)
     }
     
-    // test increment
-    func test2() {
+    func testIncrement() {
         // mocks
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(identifier: "GMT")
