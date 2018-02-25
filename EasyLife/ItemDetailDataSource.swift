@@ -91,9 +91,9 @@ class ItemDetailDataSource {
 
         let predicate: NSPredicate
         if let item = item {
-            predicate = NSPredicate(format: "%K != NULL AND %K > 0 AND SELF != %@ AND SUBQUERY(%K, $x, $x == %@).@count == 0", argumentArray: ["name", "name.length", item.objectID, "blockedBy", item.objectID])
+            predicate = NSPredicate(format: "(%K = NULL OR %K = false) AND %K != NULL AND %K > 0 AND SELF != %@ AND SUBQUERY(%K, $x, $x == %@).@count == 0", argumentArray: ["done", "done", "name", "name.length", item.objectID, "blockedBy", item.objectID])
         } else {
-            predicate = NSPredicate(format: "%K != NULL AND %K > 0", argumentArray: ["name", "name.length"])
+            predicate = NSPredicate(format: "(%K = NULL OR %K = false) AND %K != NULL AND %K > 0", argumentArray: ["done", "done", "name", "name.length"])
         }
         dataManager.fetch(entityClass: TodoItem.self, context: dataManager.mainContext, predicate: predicate, success: { [weak self] results in
             guard let `self` = self, let results = results as? [TodoItem] else {
