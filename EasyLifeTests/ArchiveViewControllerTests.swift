@@ -79,6 +79,29 @@ class ArchiveViewControllerTests: XCTestCase {
         XCTAssert(vc.presentedViewController is UIAlertController)
         // TODO: tap the action?
     }
+
+    func testClearButtonState() {
+        // mocks
+        let vc = UIStoryboard.archive.instantiateViewController(withIdentifier: "ArchiveViewController") as! ArchiveViewController
+        let dataSource = ArchiveDataSource()
+        let data = [
+            Character("-"): [MockTodoItem()],
+            ]
+
+        // prepare
+        UIApplication.shared.keyWindow!.rootViewController = vc
+        vc.dataSource = dataSource
+        dataSource.data = data
+
+        // test
+        vc.searchBar.text = "test"
+        vc.dataSorceDidLoad(dataSource)
+        XCTAssertFalse(vc.clearButton.isEnabled)
+
+        vc.searchBar.text = ""
+        vc.dataSorceDidLoad(dataSource)
+        XCTAssertTrue(vc.clearButton.isEnabled)
+    }
     
     func testCellUI() {
         // mocks

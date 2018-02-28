@@ -97,7 +97,6 @@ class PlanDataSourceTests: XCTestCase {
         dataSource.delete(at: IndexPath(row: 0, section: 0))
         XCTAssertTrue(dataManager.didDelete)
         XCTAssertTrue(dataManager.didSave)
-        XCTAssertNil(dataSource.sections[0].first)
     }
     
     func testDoneMarksOrIncrements() {
@@ -124,6 +123,7 @@ class PlanDataSourceTests: XCTestCase {
         let date = dateFormatter.date(from: "21/04/2017")!
     
         // prepare
+        item1.blocking = NSSet()
         item2.date = date as Date?
         item2.repeatState = .daily
         dataSource.dataManager = dataManager
@@ -133,6 +133,7 @@ class PlanDataSourceTests: XCTestCase {
         dataSource.done(at: IndexPath(row: 0, section: 0))
         XCTAssertTrue(dataManager.didSave)
         XCTAssertTrue(dataSource.sections[0][0].done)
+        XCTAssertNil(item1.blocking)
         
         dataSource.done(at: IndexPath(row: 1, section: 0))
         XCTAssertFalse(dataSource.sections[0][1].done)
@@ -212,7 +213,7 @@ class PlanDataSourceTests: XCTestCase {
         // prepare
         item1.date = date as Date?
         item2.date = date as Date?
-        item1.repeatState = .daily
+        item1.repeatState = .weekly
         dataManager.persistentContainer = container
         dataSource.dataManager = dataManager
         dataSource.sections = sections
@@ -225,7 +226,7 @@ class PlanDataSourceTests: XCTestCase {
             XCTAssertEqual(dataSource.sections[0].count, 2)
             XCTAssertEqual(dataSource.sections[0][0].repeatState, RepeatState.none)
             XCTAssertEqual(dataSource.sections[2].count, 1)
-            XCTAssertEqual(dataSource.sections[2][0].repeatState, .daily)
+            XCTAssertEqual(dataSource.sections[2][0].repeatState, .weekly)
             XCTAssertGreaterThan(dataSource.sections[2][0].date!, date)
         }
     }

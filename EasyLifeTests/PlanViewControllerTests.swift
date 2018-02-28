@@ -202,7 +202,7 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertFalse(cellMissed.tagView.isHidden)
         XCTAssertEqual(cellMissed.tagView.cornerColor, .priority1)
         XCTAssertEqual(cellMissed.tagView.alpha, 1.0)
-        XCTAssertNil(cellMissed.backgroundColor)
+        XCTAssertEqual(cellMissed.blockedView.state, .none)
 
         let cellMissedRecurring = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 1, section: 0)) as! PlanCell
         XCTAssertEqual(cellMissedRecurring.titleLabel.text, "missed_recurring")
@@ -212,7 +212,7 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertFalse(cellMissedRecurring.iconImageView.isHidden)
         XCTAssertEqual(cellMissedRecurring.iconImageType, .recurring)
         XCTAssertTrue(cellMissedRecurring.tagView.isHidden)
-        XCTAssertNil(cellMissedRecurring.backgroundColor)
+        XCTAssertEqual(cellMissedRecurring.blockedView.state, .none)
 
         let cellNowNoName = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 1)) as! PlanCell
         XCTAssertEqual(cellNowNoName.titleLabel.text, "[no name]")
@@ -223,7 +223,7 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertFalse(cellNowNoName.tagView.isHidden)
         XCTAssertEqual(cellMissed.tagView.cornerColor, .priority1)
         XCTAssertEqual(cellMissed.tagView.alpha, 1.0)
-        XCTAssertNil(cellNowNoName.backgroundColor)
+        XCTAssertEqual(cellMissed.blockedView.state, .none)
 
         let cellNowBlockedBy = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 1, section: 1)) as! PlanCell
         XCTAssertEqual(cellNowBlockedBy.titleLabel.text, "now_blocked")
@@ -233,7 +233,7 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertTrue(cellNowBlockedBy.iconImageView.isHidden)
         XCTAssertEqual(cellNowBlockedBy.iconImageType, .none)
         XCTAssertTrue(cellNowBlockedBy.tagView.isHidden)
-        XCTAssertNotNil(cellNowBlockedBy.backgroundColor)
+        XCTAssertEqual(cellNowBlockedBy.blockedView.state, .blocked)
 
         let cellNowRecurring = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 2, section: 1)) as! PlanCell
         XCTAssertEqual(cellNowRecurring.titleLabel.text, "now_recurring")
@@ -243,7 +243,7 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertFalse(cellNowRecurring.iconImageView.isHidden)
         XCTAssertEqual(cellNowRecurring.iconImageType, .recurring)
         XCTAssertTrue(cellNowRecurring.tagView.isHidden)
-        XCTAssertNil(cellNowRecurring.backgroundColor)
+        XCTAssertEqual(cellNowRecurring.blockedView.state, .none)
         
         let cellLater = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 2)) as! PlanCell
         XCTAssertEqual(cellLater.titleLabel.text, "later")
@@ -256,7 +256,7 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertFalse(cellLater.tagView.isHidden)
         XCTAssertEqual(cellLater.tagView.cornerColor, .priority1)
         XCTAssertEqual(cellLater.tagView.alpha, 0.5)
-        XCTAssertNil(cellLater.backgroundColor)
+        XCTAssertEqual(cellLater.blockedView.state, .none)
         
         // header
         let title1 = vc.tableView(vc.tableView, titleForHeaderInSection: 0)

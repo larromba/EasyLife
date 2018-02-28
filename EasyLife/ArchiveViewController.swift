@@ -167,7 +167,7 @@ extension ArchiveViewController: TableDataSourceDelegate {
         }
         tableView.reloadData()
         tableView.isHidden = dataSource.isEmpty
-        clearButton.isEnabled = !dataSource.isEmpty && !dataSource.isSearching
+        clearButton.isEnabled = !dataSource.isEmpty && searchBar.text?.isEmpty ?? true
         if !dataSource.isSearching {
             searchBar.isUserInteractionEnabled = !dataSource.isEmpty
         }

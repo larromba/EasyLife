@@ -20,6 +20,13 @@ class PlanCell: UITableViewCell {
     @IBOutlet weak var notesLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var tagView: TagView!
+    @IBOutlet weak var blockedView: BlockedView!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        blockedView.blockedColor = .lightRed
+        blockedView.blockingColor = .appleGrey
+    }
 
     var iconImageType: ImageType = .none {
         didSet {
@@ -62,10 +69,14 @@ class PlanCell: UITableViewCell {
             } else {
                 titleLabel.text = item.name
             }
-            if (item.blockedBy?.count ?? 0) > 0 {
-                backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "stipe_bg")).withAlphaComponent(0.03)
+            if (item.blockedBy?.count ?? 0) > 0 && (item.blocking?.count ?? 0) > 0 {
+                blockedView.state = .both
+            } else if (item.blockedBy?.count ?? 0) > 0 {
+                blockedView.state = .blocked
+            } else if (item.blocking?.count ?? 0) > 0 {
+                blockedView.state = .blocking
             } else {
-                backgroundColor = nil
+                blockedView.state = .none
             }
             if let notes = item.notes, !notes.isEmpty {
                 notesLabel.isHidden = false

@@ -93,11 +93,7 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
         }
         dataManager.delete(item, context: dataManager.mainContext)
         dataManager.save(context: dataManager.mainContext, success: { [weak self] in
-            guard let `self` = self else {
-                return
-            }
-            self.sections[indexPath.section].remove(at: indexPath.row)
-            self.delegate?.dataSorceDidLoad(self)
+            self?.load()
         })
     }
     
@@ -126,6 +122,7 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
         default:
             item.incrementDate()
         }
+        item.blocking = nil
         dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             self?.load()
         })

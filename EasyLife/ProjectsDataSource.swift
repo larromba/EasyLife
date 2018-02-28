@@ -126,7 +126,7 @@ class ProjectsDataSource {
 
     // MARK: - private
 
-    func flushPriority() {
+    private func flushPriority() {
         for i in 0..<totalPriorityItems {
             let itemPath = IndexPath(row: i, section:0)
             if let item = self.item(at: itemPath) {
@@ -135,7 +135,7 @@ class ProjectsDataSource {
         }
     }
 
-    func flushNonPriority() {
+    private func flushNonPriority() {
         for i in 0..<totalNonPriorityItems {
             let itemPath = IndexPath(row: i, section:1)
             if let item = self.item(at: itemPath) {

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3EF9156DA608838625A46955 /* Pods_EasyLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7656E35524A23C863E1263C4 /* Pods_EasyLife.framework */; };
 		62073E90C164E94A811FEF18 /* Pods_EasyLifeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4DFC5997D4CC016AB47BD3 /* Pods_EasyLifeTests.framework */; };
+		7F0D9248204619DF00D9AE6B /* BlockedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F0D9247204619DF00D9AE6B /* BlockedView.xib */; };
+		7F0D924A20461A1F00D9AE6B /* BlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0D924920461A1F00D9AE6B /* BlockedView.swift */; };
 		7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */; };
 		7F102DE01F5ABF8F00E262B1 /* ProjectsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E791F59B52800C55AD2 /* ProjectsDataSource.swift */; };
 		7F102DE11F5ABF9300E262B1 /* ProjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */; };
@@ -97,6 +99,8 @@
 /* Begin PBXFileReference section */
 		71E689E9778A3A27BC3A165C /* Pods-EasyLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyLife.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EasyLife/Pods-EasyLife.debug.xcconfig"; sourceTree = "<group>"; };
 		7656E35524A23C863E1263C4 /* Pods_EasyLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F0D9247204619DF00D9AE6B /* BlockedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockedView.xib; sourceTree = "<group>"; };
+		7F0D924920461A1F00D9AE6B /* BlockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedView.swift; sourceTree = "<group>"; };
 		7F102DE21F5AC11600E262B1 /* EasyLife.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = EasyLife.sqlite; sourceTree = "<group>"; };
 		7F102DE41F5AC22200E262B1 /* DataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
 		7F102DE61F5AD08300E262B1 /* EasyLife 1.3.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EasyLife 1.3.0.sqlite"; sourceTree = "<group>"; };
@@ -312,7 +316,7 @@
 				7FAC2C9C1E9ECAA300F14ECB /* ViewController */,
 				7FAC2C9B1E9ECA9C00F14ECB /* View */,
 				7FAC2C991E9ECA8400F14ECB /* Model */,
-				7FAC2C9D1E9ECAA900F14ECB /* Class */,
+				7FAC2C9D1E9ECAA900F14ECB /* Object */,
 				7FAC2CA01E9ECAD400F14ECB /* Protocol */,
 				7FAC2C9A1E9ECA9700F14ECB /* Extension */,
 				7FAC2CAE1E9EF53A00F14ECB /* Resources */,
@@ -374,6 +378,7 @@
 				7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */,
 				7F163D211EDCDB9400DC52B6 /* TableHeaderView.swift */,
 				7FD1EE251F8E8D750042C317 /* TagView.swift */,
+				7F0D924920461A1F00D9AE6B /* BlockedView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -391,7 +396,7 @@
 			name = ViewController;
 			sourceTree = "<group>";
 		};
-		7FAC2C9D1E9ECAA900F14ECB /* Class */ = {
+		7FAC2C9D1E9ECAA900F14ECB /* Object */ = {
 			isa = PBXGroup;
 			children = (
 				7FAC2C831E9E71BA00F14ECB /* PlanDataSource.swift */,
@@ -404,7 +409,7 @@
 				7FCEC92B1EA909DE00BA5187 /* Analytics.swift */,
 				7F163D2B1EDD746B00DC52B6 /* Badge.swift */,
 			);
-			name = Class;
+			name = Object;
 			sourceTree = "<group>";
 		};
 		7FAC2CA01E9ECAD400F14ECB /* Protocol */ = {
@@ -428,6 +433,7 @@
 				7F163D271EDD716D00DC52B6 /* Components.storyboard */,
 				7FAC2C681E9E673400F14ECB /* LaunchScreen.storyboard */,
 				7FD1EE231F8E8CCC0042C317 /* TagView.xib */,
+				7F0D9247204619DF00D9AE6B /* BlockedView.xib */,
 				7FAC2C6B1E9E673400F14ECB /* Info.plist */,
 				7FCEC92D1EA90A0E00BA5187 /* GoogleService-Info.plist */,
 				7FA9C2191EA9161C0089A87C /* Localizable.strings */,
@@ -548,6 +554,7 @@
 				7FD1EE241F8E8CCC0042C317 /* TagView.xib in Resources */,
 				7FAC2C671E9E673400F14ECB /* Assets.xcassets in Resources */,
 				7FCEC92E1EA90A0E00BA5187 /* GoogleService-Info.plist in Resources */,
+				7F0D9248204619DF00D9AE6B /* BlockedView.xib in Resources */,
 				7F163D251EDD716D00DC52B6 /* Components.storyboard in Resources */,
 				7FAC2C621E9E673400F14ECB /* Plan.storyboard in Resources */,
 			);
@@ -741,6 +748,7 @@
 				7FAC2CA21E9ED15100F14ECB /* UIStoryboard+Utility.swift in Sources */,
 				7FAC2C5D1E9E673400F14ECB /* AppDelegate.swift in Sources */,
 				7FAC2CB01E9F7B3D00F14ECB /* UITextView+Style.swift in Sources */,
+				7F0D924A20461A1F00D9AE6B /* BlockedView.swift in Sources */,
 				7FAC2CB21E9F7EDF00F14ECB /* Notification+Name.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

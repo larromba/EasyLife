@@ -95,8 +95,8 @@ class ItemDetailDataSource {
         } else {
             predicate = NSPredicate(format: "(%K = NULL OR %K = false) AND %K != NULL AND %K > 0", argumentArray: ["done", "done", "name", "name.length"])
         }
-        dataManager.fetch(entityClass: TodoItem.self, context: dataManager.mainContext, predicate: predicate, success: { [weak self] results in
-            guard let `self` = self, let results = results as? [TodoItem] else {
+        dataManager.fetch(entityClass: TodoItem.self, sortBy: [NSSortDescriptor(key: "name", ascending: true)], context: dataManager.mainContext, predicate: predicate, success: { [weak self] results in
+            guard let `self` = self, var results = results as? [TodoItem] else {
                 return
             }
             if let item = self.item {

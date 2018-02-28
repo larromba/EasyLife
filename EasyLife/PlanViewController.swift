@@ -118,6 +118,7 @@ extension PlanViewController: UITableViewDelegate {
 
         delete.backgroundColor = .lightRed
         done.backgroundColor = .lightGreen
+        split.backgroundColor = .appleGrey
 
         var actions = [UITableViewRowAction]()
         if (item.blockedBy?.count ?? 0) == 0 {

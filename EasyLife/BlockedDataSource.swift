@@ -23,10 +23,6 @@ class BlockedDataSource {
         data = [BlockedItem]()
     }
 
-    func load() {
-        delegate?.dataSorceDidLoad(self)
-    }
-
     func toggle(_ indexPath: IndexPath) {
         guard indexPath.row >= data.startIndex && indexPath.row < data.endIndex else {
             return
@@ -44,6 +40,10 @@ class BlockedDataSource {
 
 extension BlockedDataSource: TableDataSource {
     typealias Object = TodoItem
+
+    func load() {
+        delegate?.dataSorceDidLoad(self)
+    }
 
     func item(at indexPath: IndexPath) -> Object? {
         guard indexPath.row >= data.startIndex && indexPath.row < data.endIndex else {

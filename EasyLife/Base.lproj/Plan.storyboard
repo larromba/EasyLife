@@ -115,9 +115,16 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="41f-mX-QEC" customClass="BlockedView" customModule="EasyLife" customModuleProvider="target">
+                                                    <rect key="frame" x="313" y="0.0" width="7" height="70"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="41f-mX-QEC" secondAttribute="bottom" id="1fB-yf-ZpI"/>
                                                 <constraint firstItem="hVA-th-9S2" firstAttribute="leading" secondItem="xz2-u3-w40" secondAttribute="trailing" id="3XK-il-d4G"/>
+                                                <constraint firstItem="41f-mX-QEC" firstAttribute="top" secondItem="2Gu-Iz-zYI" secondAttribute="top" id="5Fu-fc-yRO"/>
+                                                <constraint firstAttribute="trailing" secondItem="41f-mX-QEC" secondAttribute="trailing" id="CJH-Cl-fS8"/>
                                                 <constraint firstItem="8og-5r-0PD" firstAttribute="top" secondItem="hVA-th-9S2" secondAttribute="bottom" id="GI1-uG-8vz"/>
                                                 <constraint firstItem="xz2-u3-w40" firstAttribute="leading" secondItem="2Gu-Iz-zYI" secondAttribute="leading" constant="15" id="V7e-wA-n5n"/>
                                                 <constraint firstAttribute="bottom" secondItem="xz2-u3-w40" secondAttribute="bottom" id="Vxm-8g-Uw0"/>
@@ -131,12 +138,15 @@
                                                 <constraint firstAttribute="bottom" secondItem="8og-5r-0PD" secondAttribute="bottom" constant="2" id="m59-al-Hsy"/>
                                                 <constraint firstItem="8og-5r-0PD" firstAttribute="trailing" secondItem="hVA-th-9S2" secondAttribute="trailing" id="q8K-5Z-BbD"/>
                                                 <constraint firstItem="svM-EJ-Nzh" firstAttribute="top" secondItem="2Gu-Iz-zYI" secondAttribute="top" id="rpM-5q-rEf"/>
+                                                <constraint firstItem="41f-mX-QEC" firstAttribute="leading" secondItem="hVA-th-9S2" secondAttribute="trailing" constant="8" id="u8x-wk-naB"/>
+                                                <constraint firstItem="G7f-5r-7SM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2Gu-Iz-zYI" secondAttribute="leading" id="uHR-rC-UsI"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
                                             <constraint firstItem="hVA-th-9S2" firstAttribute="height" secondItem="Ojs-NO-Jkr" secondAttribute="height" multiplier="0.32" id="aHL-4S-UIM"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="blockedView" destination="41f-mX-QEC" id="xBA-06-bio"/>
                                             <outlet property="iconImageView" destination="hVA-th-9S2" id="1D9-yU-Q6S"/>
                                             <outlet property="infoLabel" destination="8og-5r-0PD" id="Gm4-ML-Gss"/>
                                             <outlet property="notesLabel" destination="G7f-5r-7SM" id="esz-Je-l6J"/>
