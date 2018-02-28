@@ -31,7 +31,6 @@ class PlanViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.isHidden = true
         tableView.applyDefaultStyleFix()
         tableHeaderView.setupWithHeight(tableView.bounds.size.height * 0.3)
         appVersionLabel.text = Bundle.appVersion()

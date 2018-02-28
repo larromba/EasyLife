@@ -62,4 +62,3 @@ to read
 to get
 shopping list
 todo: alert button tests
-done flash on opening?
