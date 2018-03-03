@@ -36,12 +36,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             try analytics.setup()
         } catch _ {
-            log("Analytics setup failed")
+            log("analytics setup failed")
         }
         analytics.startSession()
         dataManager.load()
 
         return true
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        analytics.endSession()
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        analytics.startSession()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
