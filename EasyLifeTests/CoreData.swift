@@ -17,8 +17,11 @@ extension NSPersistentContainer {
             description.url = url
         }
         var loadError: Error?
+        let group = DispatchGroup()
+        group.enter()
         container.loadPersistentStores(completionHandler: { (storeDescription: NSPersistentStoreDescription, error: Error?) in
             loadError = error
+            group.leave()
         })
         if let loadError = loadError {
             throw loadError

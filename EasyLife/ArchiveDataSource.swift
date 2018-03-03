@@ -26,6 +26,9 @@ class ArchiveDataSource {
     var isEmpty: Bool {
         return totalItems == 0
     }
+    var isSearching: Bool {
+        return allData != nil
+    }
     
     init() {
         dataManager = DataManager.shared
@@ -42,11 +45,25 @@ class ArchiveDataSource {
         item.done = false
         item.date = nil
         item.repeatState = RepeatState.none
-        dataManager.save(success: { [weak self] in
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
             guard let `self` = self, let key = self.key(at: indexPath.section) else {
                 return
             }
             self.removeItem(item, fromSection: key)
+            self.delegate?.dataSorceDidLoad(self)
+        })
+    }
+
+    func clearAll() {
+        let items = data.values.map { $0 }.flatMap { $0 }
+        items.forEach { item in
+            dataManager.delete(item, context: dataManager.mainContext)
+        }
+        data.removeAll()
+        dataManager.save(context: dataManager.mainContext, success: { [weak self] in
+            guard let `self` = self else {
+                return
+            }
             self.delegate?.dataSorceDidLoad(self)
         })
     }
@@ -119,7 +136,7 @@ extension ArchiveDataSource: TableDataSource {
     typealias Object = TodoItem
     
     func load() {
-        dataManager.fetch(entityClass: TodoItem.self, predicate: donePredicate, success: { [weak self] (result: [Any]?) in
+        dataManager.fetch(entityClass: TodoItem.self, context: dataManager.mainContext, predicate: donePredicate, success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [TodoItem] else {
                 return
             }

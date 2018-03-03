@@ -7,8 +7,8 @@
 //
 
 import UIKit
+import PPBadgeView
 
-// TODO: item detail data source
 class ItemDetailViewController : UIViewController, ResponderSelection {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
@@ -16,42 +16,14 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     @IBOutlet weak var projectTextField: UITextField!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var blockedButton: UIBarButtonItem!
     @IBOutlet weak var scrollView: UIScrollView!
     
     var responders: [UIResponder]!
-    var dataManager: DataManager!
-    var item: TodoItem?
-    var dateFormatter: DateFormatter
-    var now: Date
-    var date: Date? {
-        didSet {
-            if let date = date {
-                dateTextField.text = dateFormatter.string(from: date)
-            } else {
-                dateTextField.text = nil
-            }
-        }
-    }
-    var repeatState: RepeatState? {
-        didSet {
-            if let repeatState = repeatState {
-                repeatsTextField.text = repeatState.stringValue()
-            } else {
-                repeatsTextField.text = nil
-            }
-        }
-    }
-    var projects: [Project]?
-    var project: Project? {
-        didSet {
-            projectTextField.text = project?.name
-        }
-    }
+    var dataSource: ItemDetailDataSource
+    var calendarButton: UIBarButtonItem?
+    private weak var blockedViewController: BlockedViewController?
 
-    lazy var origContentSize: CGSize = {
-        return self.scrollView.contentSize
-    }()
-    
     lazy var toolbar: UIToolbar = {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
         toolbar.barStyle = .default
@@ -61,13 +33,13 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         spacer.width = 10.0
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed(_:)))
-        toolbar.setItems([prev, spacer, next, flexSpace, spacer, done], animated: false)
+        toolbar.setItems([prev, spacer, next, spacer, flexSpace, spacer, done], animated: false)
         return toolbar
     }()
 
     lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
-        datePicker.minimumDate = self.now
+        datePicker.minimumDate = self.dataSource.now
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
         let tap = UITapGestureRecognizer(target: self, action: #selector(dateTapped(_:)))
@@ -79,7 +51,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     }()
    
     lazy var simpleDatePicker: SimpleDatePicker = {
-        let datePicker = SimpleDatePicker(delegate: self, date: self.now)
+        let datePicker = SimpleDatePicker(delegate: self, date: self.dataSource.now, data: DateSegment.display)
         return datePicker
     }()
     
@@ -96,19 +68,15 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         pickerView.dataSource = self
         return pickerView
     }()
-    
+
     required init?(coder aDecoder: NSCoder) {
-        dataManager = DataManager.shared
-        dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE dd/MM/yyyy"
-        now = Date()
-        
+        dataSource = ItemDetailDataSource()
         super.init(coder: aDecoder)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         responders = [
             titleTextField,
             dateTextField,
@@ -130,67 +98,47 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         textView.applyTextFieldStyle()
         textView.dataDetectorTypes = .all
         textView.isEditable = false
-        
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(textViewTapped(_:)))
         tap.numberOfTapsRequired = 1
         tap.cancelsTouchesInView = false
         tap.delaysTouchesEnded = false
         textView.addGestureRecognizer(tap)
-        
-        dataManager.fetch(entityClass: Project.self, sortBy: "name", isAscending: true, success: { [weak self] (items: [Any]?) in
-            guard let `self` = self, let items = items as? [Project] else {
-                return
-            }
-            self.projects = items
-            self.projectTextField.isUserInteractionEnabled = (items.count > 0)
-            self.projectTextField.alpha = (items.count > 0) ? 1.0 : 0.5
-        })
+
+        if dataSource.canSave {
+            setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(savePressed(_:))))
+        } else {
+            setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:))))
+        }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNotifications()
-        loadItem(item)
+        dataSource.delegate = self
+        if let blockedViewController = blockedViewController {
+            dataSource.blockable = blockedViewController.dataSource.data
+        }
+        dataSource.load()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if let item = item {
-            writeItem(item)
-            dataManager.save()
+        if isMovingFromParentViewController {
+            dataSource.save()
         }
         tearDownNotifications()
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? BlockedViewController {
+            blockedViewController = vc
+            vc.dataSource.data = dataSource.blockable
+        }
+    }
     
     // MARK: - private
-    
-    fileprivate func loadItem(_ item: TodoItem?) {
-        guard let item = item else {
-            // load empty state
-            titleTextField.text = nil
-            date = nil
-            repeatState = nil
-            textView.text = nil
-            setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(savePressed(_:))))
-            return
-        }
-        // load item
-        titleTextField.text = item.name
-        date = item.date as Date?
-        repeatState = item.repeatState
-        project = item.project
-        textView.text = item.notes
-        setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:))))
-    }
-    
-    fileprivate func writeItem(_ item: TodoItem) {
-        item.name = titleTextField.text
-        item.notes = textView.text
-        item.date = date
-        item.repeatState = repeatState
-        item.project = project
-    }
-    
+
     private func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -205,34 +153,40 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         saveButton = item
         navigationItem.rightBarButtonItem = item
     }
-    
+
     fileprivate func makeFirstResponder(_ responder: UIResponder?) {
         if responder == textView {
             textView.isEditable = true
         }
         responder?.becomeFirstResponder()
     }
-    
+
+    private func addCalendarTypeButton() {
+        if let item = toolbar.items?[4], item != calendarButton {
+            if dateTextField.inputView == datePicker {
+                calendarButton = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(calendarButtonPressed(_:)))
+            } else if dateTextField.inputView == simpleDatePicker {
+                calendarButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(calendarButtonPressed(_:)))
+            }
+            toolbar.items?.insert(calendarButton!, at: 4)
+        }
+    }
+
+    private func removeCalendarTypeButton() {
+        if let calendarButton = calendarButton, let index = toolbar.items?.index(of: calendarButton) {
+            toolbar.items?.remove(at: index)
+        }
+    }
+
     // MARK: - action
     
     @IBAction private func savePressed(_ sender: UIBarButtonItem?) {
-        guard let item = dataManager.insert(entityClass: TodoItem.self) else {
-            return
-        }
-        writeItem(item)
-        dataManager.save(success: { [weak self] in
-            _ = self?.navigationController?.popViewController(animated: true)
-        })
+        dataSource.create()
+        dataSource.save()
     }
     
     @IBAction private func deletePressed(_ sender: UIBarButtonItem?) {
-        guard let item = item else {
-            return
-        }
-        dataManager.delete(item)
-        dataManager.save(success: { [weak self] in
-            _ = self?.navigationController?.popViewController(animated: true)
-        })
+        dataSource.delete()
     }
     
     @objc private func prevPressed(_ sender: UIBarButtonItem) {
@@ -248,26 +202,41 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     }
     
     @objc private func dateChanged(_ sender: UIDatePicker) {
-        date = sender.date as Date?
+        dataSource.date = sender.date as Date?
     }
     
     @objc private func dateTapped(_ sender: UIDatePicker) {
-        date = sender.date as Date?
+        dataSource.date = sender.date as Date?
     }
     
     @objc private func textViewTapped(_ sender: UIDatePicker) {
         makeFirstResponder(textView)
+    }
+
+    @objc private func calendarButtonPressed(_ sender: UIBarButtonItem) {
+        if dateTextField.inputView == datePicker {
+            dateTextField.inputView = simpleDatePicker
+        } else if dateTextField.inputView == simpleDatePicker {
+            dateTextField.inputView = datePicker
+        }
+        dateTextField.reloadInputViews()
+        removeCalendarTypeButton()
+        addCalendarTypeButton()
+    }
+
+    @IBAction private func textFieldChanged(_ sender: UITextField) {
+        dataSource.name = sender.text
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
-        scrollView.contentSize.height = origContentSize.height + height.cgRectValue.height
+        scrollView.contentInset.bottom = height.cgRectValue.height
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
-        scrollView.contentSize.height = origContentSize.height
+        scrollView.contentInset.bottom = 0
     }
 }
 
@@ -276,9 +245,9 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
 extension ItemDetailViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == repeatPicker {
-            return RepeatState.display[row].stringValue()
+            return dataSource.repeatStateData[row].stringValue()
         } else if pickerView == projectPicker {
-            return projects?[row].name
+            return dataSource.projects?[row].name
         } else {
             return nil
         }
@@ -286,9 +255,9 @@ extension ItemDetailViewController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == repeatPicker {
-            repeatState = RepeatState.display[row]
+            dataSource.repeatState = dataSource.repeatStateData[row]
         } else if pickerView == projectPicker {
-            project = projects?[row]
+            dataSource.project = dataSource.projects?[row]
         }
     }
 }
@@ -302,9 +271,9 @@ extension ItemDetailViewController: UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == repeatPicker {
-            return RepeatState.display.count
+            return dataSource.repeatStateData.count
         } else if pickerView == projectPicker {
-            return projects?.count ?? 0
+            return dataSource.projects?.count ?? 0
         } else {
             return 0
         }
@@ -322,12 +291,14 @@ extension ItemDetailViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         switch textField {
         case dateTextField:
-            if date != nil {
+            if dataSource.date != nil {
                 textField.inputView = datePicker
             } else  {
                 textField.inputView = simpleDatePicker
             }
+            addCalendarTypeButton()
         default:
+            removeCalendarTypeButton()
             break
         }
         return true
@@ -336,13 +307,13 @@ extension ItemDetailViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
         case dateTextField:
-            if textField.inputView == datePicker, let date = date {
+            if textField.inputView == datePicker, let date = dataSource.date {
                 datePicker.setDate(date, animated: true)
             } else if textField.inputView == simpleDatePicker {
                 simpleDatePicker.selectRow(0, inComponent: 0, animated: true)
             }
         case repeatsTextField:
-            if let repeatState = repeatState {
+            if let repeatState = dataSource.repeatState {
                 repeatPicker.selectRow(repeatState.rawValue, inComponent: 0, animated: true)
             } else {
                 repeatPicker.selectRow(0, inComponent: 0, animated: true)
@@ -355,11 +326,11 @@ extension ItemDetailViewController: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         switch textField {
         case dateTextField:
-            date = nil
+            dataSource.date = nil
         case repeatsTextField:
-            repeatState = nil
+            dataSource.repeatState = nil
         case projectTextField:
-            project = nil
+            dataSource.project = nil
         default:
             break
         }
@@ -373,12 +344,62 @@ extension ItemDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.isEditable = false
     }
+
+    func textViewDidChange(_ textView: UITextView) {
+        dataSource.notes = textView.text
+    }
 }
 
 // MARK: - SimpleDatePickerDelegate
 
 extension ItemDetailViewController: SimpleDatePickerDelegate {
     func datePicker(_ picker: SimpleDatePicker, didSelectDate date: Date?) {
-        self.date = date
+        dataSource.date = date
+    }
+}
+
+// MARK: - ItemDetailDelegate
+
+extension ItemDetailViewController: ItemDetailDelegate {
+    func itemDetailDataSource(_ delegate: ItemDetailDataSource, updatedName name: String?) {
+        titleTextField.text = name
+    }
+
+    func itemDetailDataSource(_ delegate: ItemDetailDataSource, updatedNotes notes: String?) {
+        textView.text = notes
+    }
+
+    func itemDetailDataSource(_ delegate: ItemDetailDataSource, updatedDate date: String?) {
+        dateTextField.text = date
+    }
+
+    func itemDetailDataSource(_ delegate: ItemDetailDataSource, updatedRepeatState state: RepeatState?) {
+        if let state = state {
+            repeatsTextField.text = state.stringValue()
+        } else {
+            repeatsTextField.text = nil
+        }
+    }
+
+    func itemDetailDataSource(_ delegate: ItemDetailDataSource, updatedProject project: Project?) {
+        projectTextField.text = project?.name
+    }
+
+    func itemDetailDataSource(_ delegate: ItemDetailDataSource, updatedProjects projects: [Project]?) {
+        projectTextField.isUserInteractionEnabled = (projects?.count ?? 0 > 0)
+        projectTextField.alpha = (projects?.count ?? 0 > 0) ? 1.0 : 0.5
+    }
+
+    func itemDetailDataSource(_ delegate: ItemDetailDataSource, updatedBlockable blockable: [BlockedItem]?) {
+        blockedButton.isEnabled = (blockable?.count ?? 0) > 0
+        blockedButton.pp_addBadge(withNumber: blockable?.filter({ $0.isBlocked }).count ?? 0)
+    }
+
+    func itemDetailDataSourceDidDelete(_ delegate: ItemDetailDataSource) {
+        _ = self.navigationController?.popViewController(animated: true)
+    }
+
+    func itemDetailDataSourceDidSave(_ delegate: ItemDetailDataSource) {
+        _ = self.navigationController?.popViewController(animated: true)
     }
 }

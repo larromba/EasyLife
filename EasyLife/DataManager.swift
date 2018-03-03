@@ -19,6 +19,9 @@ class DataManager {
     var mainContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
+    var backgroundContext: NSManagedObjectContext {
+        return persistentContainer.newBackgroundContext()
+    }
     
     init() {
         persistentContainer = NSPersistentContainer(name: "EasyLife")
@@ -26,35 +29,63 @@ class DataManager {
 
     // MARK: - public
     
-    func insert<T:NSManagedObject>(entityClass: T.Type) -> T? {
-        let context = mainContext
+    func insert<T:NSManagedObject>(entityClass: T.Type, context: NSManagedObjectContext, transient: Bool = false) -> T? {
         let entityName = NSStringFromClass(entityClass).components(separatedBy: ".").last!
-        guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-            log("couldnt make entityDescription for: \(entityName)")
-            let error = NSError(domain: "", code: 0, userInfo: [
-                NSLocalizedDescriptionKey: "couldnt make entityDescription for: \(entityName)"
-                ])
-            Analytics.shared.sendErrorEvent(error, classId: DataManager.self)
+        return insert(entityName: entityName, context: context, transient: transient) as? T
+    }
+
+    func insert(entityName: String, context: NSManagedObjectContext, transient: Bool = false) -> NSManagedObject? {
+        if transient {
+            guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
+                let message = "couldnt create NSEntityDescription for: \(entityName)"
+                log(message)
+                let error = NSError(domain: "", code: 0, userInfo: [
+                    NSLocalizedDescriptionKey: message
+                    ])
+                Analytics.shared.sendErrorEvent(error, classId: DataManager.self)
+                return nil
+            }
+            return NSManagedObject(entity: entityDescription, insertInto: nil)
+        } else {
+            return NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
+        }
+    }
+
+    func copy(_ entity: NSManagedObject, context: NSManagedObjectContext) -> NSManagedObject? {
+        guard let name = entity.entity.name else {
             return nil
         }
-        return NSManagedObject(entity: entityDescription, insertInto: context) as? T
+        guard let copy = insert(entityName: name, context: context) else {
+            return nil
+        }
+        guard let attributess = NSEntityDescription.entity(forEntityName: name, in: context)?.attributesByName,
+            let relationships = NSEntityDescription.entity(forEntityName: name, in: context)?.relationshipsByName else {
+            return nil
+        }
+        attributess.forEach { (key: String, desc: NSAttributeDescription) in
+            copy.setValue(entity.value(forKey: key), forKey: key)
+        }
+        relationships.forEach { (key: String, desc: NSRelationshipDescription) in
+            // see https://stackoverflow.com/questions/2730832/how-can-i-duplicate-or-copy-a-core-data-managed-object
+            if desc.isToMany {
+                copy.setValue(entity.mutableSetValue(forKey: key), forKey: key)
+            } else {
+                copy.setValue(entity.value(forKey: key), forKey: key)
+            }
+        }
+        return copy
     }
     
-    func delete<T:NSManagedObject>(_ entity:T)  {
-        let context = mainContext
+    func delete<T:NSManagedObject>(_ entity:T, context: NSManagedObjectContext)  {
         context.delete(entity)
     }
     
-    func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: String? = nil, isAscending: Bool = true, predicate: NSPredicate? = nil, success: @escaping FetchSuccess, failure: Failure? = nil) {
+    func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: [NSSortDescriptor]? = nil, context: NSManagedObjectContext, predicate: NSPredicate? = nil, success: @escaping FetchSuccess, failure: Failure? = nil) {
         let entityName = NSStringFromClass(entityClass).components(separatedBy: ".").last!
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         request.returnsObjectsAsFaults = false
         request.predicate = predicate
-        if (sortBy != nil) {
-            request.sortDescriptors = [NSSortDescriptor(key:sortBy, ascending:isAscending)]
-        }
-        
-        let context = mainContext
+        request.sortDescriptors = sortBy
         context.perform({ [weak context] in
             do {
                 let result = try context?.fetch(request)
@@ -79,8 +110,7 @@ class DataManager {
         })
     }
     
-    func save(success: Success? = nil, failure: Failure? = nil) {
-        let context = mainContext
+    func save(context: NSManagedObjectContext, success: Success? = nil, failure: Failure? = nil) {
         guard context.hasChanges else {
             return
         }

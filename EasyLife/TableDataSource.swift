@@ -22,3 +22,8 @@ protocol TableDataSource {
     func item(at indexPath: IndexPath) -> Object?
     func section(at index: Int) -> [Object]?
 }
+
+extension TableDataSource {
+    func title(for section: Int) -> String? { return nil }
+    func section(at index: Int) -> [Object]? { return nil }
+}

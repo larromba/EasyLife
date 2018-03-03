@@ -14,11 +14,13 @@ protocol SimpleDatePickerDelegate: class {
 
 class SimpleDatePicker: UIPickerView {
     var date: Date?
+    var data: [DateSegment]
     weak var datePickerDelegate: SimpleDatePickerDelegate?
-    
-    init(delegate: SimpleDatePickerDelegate?, date: Date?){
+
+    init(delegate: SimpleDatePickerDelegate?, date: Date?, data: [DateSegment]){
         self.date = date
         self.datePickerDelegate = delegate
+        self.data = data
         super.init(frame: CGRect.zero)
         self.delegate = self
         dataSource = self
@@ -31,12 +33,12 @@ class SimpleDatePicker: UIPickerView {
 
 extension SimpleDatePicker: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return DateSegment.display[row].stringValue()
+        return data[row].stringValue()
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let date = date {
-            datePickerDelegate?.datePicker(self, didSelectDate: DateSegment.display[row].increment(date: date))
+            datePickerDelegate?.datePicker(self, didSelectDate: data[row].increment(date: date))
         } else {
             datePickerDelegate?.datePicker(self, didSelectDate: nil)
         }
@@ -49,6 +51,6 @@ extension SimpleDatePicker: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return DateSegment.display.count
+        return data.count
     }
 }

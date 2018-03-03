@@ -14,9 +14,11 @@ import Crashlytics
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var dataManager: DataManager
+    var analytics: Analytics
 
     override init() {
         dataManager = DataManager.shared
+        analytics = Analytics.shared
         super.init()
         setupNotifications()
     }
@@ -32,18 +34,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.with([Crashlytics.self])
         
         do {
-            try Analytics.shared.setup()
+            try analytics.setup()
         } catch _ {
             log("Analytics setup failed")
         }
-        Analytics.shared.startSession()
+        analytics.startSession()
         dataManager.load()
 
         return true
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        dataManager.save()
+        dataManager.save(context: dataManager.mainContext)
     }
     
     // MARK: - private

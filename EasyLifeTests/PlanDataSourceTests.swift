@@ -11,8 +11,7 @@ import CoreData
 @testable import EasyLife
 
 class PlanDataSourceTests: XCTestCase {
-    // items appear in correct section
-    func test1() {
+    func testItemsAppearInCorrectSection() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
         class MockDelegate: TableDataSourceDelegate {
@@ -69,16 +68,15 @@ class PlanDataSourceTests: XCTestCase {
         }
     }
     
-    // delete deletes
-    func test2() {
+    func testDelete() {
         // mocks
         class MockDataManager: DataManager {
             var didDelete = false
-            override func delete<T : NSManagedObject>(_ entity: T) {
+            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T : NSManagedObject {
                 didDelete = true
             }
             var didSave = false
-            override func save(success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }
@@ -99,15 +97,13 @@ class PlanDataSourceTests: XCTestCase {
         dataSource.delete(at: IndexPath(row: 0, section: 0))
         XCTAssertTrue(dataManager.didDelete)
         XCTAssertTrue(dataManager.didSave)
-        XCTAssertNil(dataSource.sections[0].first)
     }
     
-    // done marks as done / or increments
-    func test3() {
+    func testDoneMarksOrIncrements() {
         // mocks
         class MockDataManager: DataManager {
             var didSave = false
-            override func save(success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }
@@ -127,6 +123,7 @@ class PlanDataSourceTests: XCTestCase {
         let date = dateFormatter.date(from: "21/04/2017")!
     
         // prepare
+        item1.blocking = NSSet()
         item2.date = date as Date?
         item2.repeatState = .daily
         dataSource.dataManager = dataManager
@@ -136,6 +133,7 @@ class PlanDataSourceTests: XCTestCase {
         dataSource.done(at: IndexPath(row: 0, section: 0))
         XCTAssertTrue(dataManager.didSave)
         XCTAssertTrue(dataSource.sections[0][0].done)
+        XCTAssertNil(item1.blocking)
         
         dataSource.done(at: IndexPath(row: 1, section: 0))
         XCTAssertFalse(dataSource.sections[0][1].done)
@@ -143,12 +141,11 @@ class PlanDataSourceTests: XCTestCase {
         XCTAssertGreaterThan(dataSource.sections[0][1].date!, Date())
     }
     
-    // later nils date / or increments
-    func test4() {
+    func testLaterNilsOrIncrements() {
         // mocks
         class MockDataManager: DataManager {
             var didSave = false
-            override func save(success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }
@@ -183,9 +180,58 @@ class PlanDataSourceTests: XCTestCase {
         XCTAssertGreaterThan(dataSource.sections[0][1].date!, date)
         XCTAssertGreaterThan(dataSource.sections[0][1].date!, Date())
     }
+
+    func testSplit() {
+        // mocks
+        let exp = expectation(description: "dataSourceDidLoad(...)")
+        class MockDelegate: TableDataSourceDelegate {
+            var count = 0
+            var exp: XCTestExpectation!
+            func dataSorceDidLoad<T>(_ dataSource: T) where T : TableDataSource {
+                count += 1
+                if count == 3 {
+                    exp.fulfill()
+                }
+            }
+        }
+        let delegate = MockDelegate()
+        let dataSource = PlanDataSource()
+        let dataManager = DataManager()
+        let container = try! NSPersistentContainer.test()
+        let item1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let item2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let sections = [
+            [item1, item2],
+            [],
+            []
+        ]
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: "GMT")
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        let date = dateFormatter.date(from: "21/04/2017")!
+
+        // prepare
+        item1.date = date as Date?
+        item2.date = date as Date?
+        item1.repeatState = .weekly
+        dataManager.persistentContainer = container
+        dataSource.dataManager = dataManager
+        dataSource.sections = sections
+        dataSource.delegate = delegate
+        delegate.exp = exp
+
+        // test
+        dataSource.split(at: IndexPath(row: 0, section: 0))
+        waitForExpectations(timeout: 1.0) { (err: Error?) in
+            XCTAssertEqual(dataSource.sections[0].count, 2)
+            XCTAssertEqual(dataSource.sections[0][0].repeatState, RepeatState.none)
+            XCTAssertEqual(dataSource.sections[2].count, 1)
+            XCTAssertEqual(dataSource.sections[2][0].repeatState, .weekly)
+            XCTAssertGreaterThan(dataSource.sections[2][0].date!, date)
+        }
+    }
     
-    // missed section ordering
-    func test5() {
+    func testMissedSection() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
         class MockDelegate: TableDataSourceDelegate {
@@ -238,8 +284,7 @@ class PlanDataSourceTests: XCTestCase {
         }
     }
     
-    // today section ordering
-    func test6() {
+    func testTodaySection() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
         class MockDelegate: TableDataSourceDelegate {
@@ -290,8 +335,7 @@ class PlanDataSourceTests: XCTestCase {
         }
     }
     
-    // later section ordering
-    func test7() {
+    func testLaterSection() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
         class MockDelegate: TableDataSourceDelegate {
@@ -302,9 +346,9 @@ class PlanDataSourceTests: XCTestCase {
                 loadCount += 1
                 if loadCount == 3 {
                     let dataSource = dataSource as! PlanDataSource
-                    XCTAssertEqual(dataSource.sections.count, dataSource.sections[2].count)
-                    for item in expectedOrder {
-                        XCTAssertEqual(item, dataSource.sections[2][expectedOrder.index(of: item)!])
+                    XCTAssertEqual(expectedOrder.count, dataSource.sections[2].count)
+                    for (i, item) in expectedOrder.enumerated() {
+                        XCTAssertEqual(item, dataSource.sections[2][i])
                     }
                     exp.fulfill()
                 }
@@ -323,6 +367,8 @@ class PlanDataSourceTests: XCTestCase {
         let item1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let item2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let item3 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let item4 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
+        let project1 = NSEntityDescription.insertNewObject(forEntityName: "Project", into: container.viewContext) as! Project
         let dataSource = MockDataSource()
         let dataManager = DataManager()
         let delegate = MockDelegate()
@@ -335,7 +381,10 @@ class PlanDataSourceTests: XCTestCase {
         item1.date = date.addingTimeInterval(60*60*24)
         item2.date = nil
         item3.date = date.addingTimeInterval(2*60*60*24)
-        delegate.expectedOrder = [item2, item1, item3]
+        item4.date = date.addingTimeInterval(2*60*60*24)
+        item4.project = project1
+        project1.priority = 1
+        delegate.expectedOrder = [item2, item1, item4, item3]
         delegate.exp = exp
         
         // test
