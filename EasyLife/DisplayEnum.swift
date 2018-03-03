@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol DisplayEnum: EnumExtensions {
+protocol DisplayEnum {
     static var display: [Self] { get }
 }

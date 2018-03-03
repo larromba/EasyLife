@@ -9,6 +9,7 @@
 "Missed..." = "Missed...";
 "Today" = "Today";
 "Later..." = "Later...";
+"Split" = "Split";
 "Delete" = "Delete";
 "Done" = "Done";
 "Later" = "Later";
@@ -44,3 +45,7 @@
 "Edit Project" = "Edit Project";
 "Prioritized" = "Prioritized";
 "Deprioritized" = "Deprioritized";
+"Are you sure?" = "Are you sure?";
+"Empty" = "Empty";
+"Yes" = "Yes";
+"No" = "No";

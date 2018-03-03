@@ -64,4 +64,22 @@ class MockTodoItem: TodoItem {
             _project = newValue
         }
     }
+    var _blocking: NSSet? = nil
+    override var blocking: NSSet? {
+        get {
+            return _blocking
+        }
+        set {
+            _blocking = newValue
+        }
+    }
+    var _blockedBy: NSSet? = nil
+    override var blockedBy: NSSet? {
+        get {
+            return _blockedBy
+        }
+        set {
+            _blockedBy = newValue
+        }
+    }
 }

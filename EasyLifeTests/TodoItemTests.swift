@@ -11,8 +11,7 @@ import CoreData
 @testable import EasyLife
 
 class TodoItemTests: XCTestCase {
-    // date increments past today when far in the past
-    func test1() {
+    func testDateIncrementsPastTodayWhenFarInThePast() {
         // mocks
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"

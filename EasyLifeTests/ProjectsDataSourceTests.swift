@@ -11,8 +11,7 @@ import CoreData
 @testable import EasyLife
 
 class ProjectsDataSourceTests: XCTestCase {
-    // items appear in correct section
-    func test1() {
+    func testItemsAppearInCorrectSection() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
         class MockDelegate: TableDataSourceDelegate {
@@ -59,16 +58,15 @@ class ProjectsDataSourceTests: XCTestCase {
         }
     }
     
-    // delete deletes
-    func test2() {
+    func testDelete() {
         // mocks
         class MockDataManager: DataManager {
             var didDelete = false
-            override func delete<T : NSManagedObject>(_ entity: T) {
+            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T : NSManagedObject {
                 didDelete = true
             }
             var didSave = false
-            override func save(success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }
@@ -91,12 +89,11 @@ class ProjectsDataSourceTests: XCTestCase {
         XCTAssertNil(dataSource.sections[0].first)
     }
     
-    // can prioritise an item
-    func test3() {
+    func testPrioritise() {
         // mocks
         class MockDataManager: DataManager {
             var didSave = false
-            override func save(success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }
@@ -120,12 +117,11 @@ class ProjectsDataSourceTests: XCTestCase {
         XCTAssertTrue(dataManager.didSave)
     }
     
-    // can deprioritise an item
-    func test4() {
+    func testDeprioritise() {
         // mocks
         class MockDataManager: DataManager {
             var didSave = false
-            override func save(success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }
@@ -149,12 +145,11 @@ class ProjectsDataSourceTests: XCTestCase {
         XCTAssertTrue(dataManager.didSave)
     }
     
-    // move
-    func test5() {
+    func testMove() {
         // mocks
         class MockDataManager: DataManager {
             var didSave = false
-            override func save(success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }
@@ -184,8 +179,7 @@ class ProjectsDataSourceTests: XCTestCase {
         XCTAssertTrue(dataManager.didSave)
     }
     
-    // can get the name of an item
-    func test6() {
+    func testGetItemName() {
         // mocks
         let dataManager = DataManager()
         let dataSource = ProjectsDataSource()
@@ -204,12 +198,11 @@ class ProjectsDataSourceTests: XCTestCase {
         XCTAssertEqual(dataSource.name(at: IndexPath(row: 0, section: 1)), "test")
     }
     
-    // can update the name of an item
-    func test7() {
+    func testUpdateItemName() {
         // mocks
         class MockDataManager: DataManager {
             var didSave = false
-            override func save(success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }
@@ -233,17 +226,16 @@ class ProjectsDataSourceTests: XCTestCase {
         XCTAssertTrue(dataManager.didSave)
     }
     
-    // can add new item
-    func test8() {
+    func testAddNewItem() {
         // mocks
         class MockDataManager: DataManager {
             var didSave = false
             var didInsert = false
-            override func insert<T>(entityClass: T.Type) -> T? where T : NSManagedObject {
+            override func insert<T>(entityClass: T.Type, context: NSManagedObjectContext, transient: Bool) -> T? where T : NSManagedObject {
                 didInsert = true
-                return super.insert(entityClass: entityClass)
+                return super.insert(entityClass: entityClass, context: mainContext)
             }
-            override func save(success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }

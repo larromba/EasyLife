@@ -11,13 +11,11 @@ import CoreData
 @testable import EasyLife
 
 class DateSegmentTests: XCTestCase {
-    // test display
-    func test1() {
+    func testDisplay() {
         XCTAssertEqual(DateSegment.display.count, 11)
     }
     
-    // test increment
-    func test2() {
+    func testIncrement() {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(identifier: "GMT")
         dateFormatter.dateFormat = "dd/MM/yyyy"

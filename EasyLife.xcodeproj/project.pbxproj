@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3EF9156DA608838625A46955 /* Pods_EasyLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7656E35524A23C863E1263C4 /* Pods_EasyLife.framework */; };
 		62073E90C164E94A811FEF18 /* Pods_EasyLifeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4DFC5997D4CC016AB47BD3 /* Pods_EasyLifeTests.framework */; };
+		7F0D9248204619DF00D9AE6B /* BlockedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F0D9247204619DF00D9AE6B /* BlockedView.xib */; };
+		7F0D924A20461A1F00D9AE6B /* BlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0D924920461A1F00D9AE6B /* BlockedView.swift */; };
 		7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */; };
 		7F102DE01F5ABF8F00E262B1 /* ProjectsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E791F59B52800C55AD2 /* ProjectsDataSource.swift */; };
 		7F102DE11F5ABF9300E262B1 /* ProjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */; };
@@ -18,6 +20,9 @@
 		7F163D2C1EDD746B00DC52B6 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F163D2B1EDD746B00DC52B6 /* Badge.swift */; };
 		7F163D311EDEE98D00DC52B6 /* Bundle+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F163D301EDEE98D00DC52B6 /* Bundle+Utility.swift */; };
 		7F1711E91FB1B7C600ED08D8 /* TodoItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1711E81FB1B7C600ED08D8 /* TodoItemTests.swift */; };
+		7F6CE2002043594300AE399E /* BlockedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE1FF2043594300AE399E /* BlockedViewControllerTests.swift */; };
+		7F6CE20220435AFF00AE399E /* BlockedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE20120435AFF00AE399E /* BlockedDataSource.swift */; };
+		7F6CE20420435C6900AE399E /* ItemDetailDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE20320435C6900AE399E /* ItemDetailDataSourceTests.swift */; };
 		7F7540111F5AD1A900A0F06C /* Project.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F75400F1F5AD1A900A0F06C /* Project.storyboard */; };
 		7F7770BE1EE8261200A58494 /* ArchiveViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7770BD1EE8261200A58494 /* ArchiveViewControllerTests.swift */; };
 		7F7770C71EE827F000A58494 /* Archive.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F7770C91EE827F000A58494 /* Archive.storyboard */; };
@@ -31,7 +36,6 @@
 		7FA9C2141EA915B20089A87C /* String+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA9C2131EA915B20089A87C /* String+Utility.swift */; };
 		7FA9C2171EA9161C0089A87C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7FA9C2191EA9161C0089A87C /* Localizable.strings */; };
 		7FA9C21F1EAA216A0089A87C /* DisplayEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA9C21E1EAA216A0089A87C /* DisplayEnum.swift */; };
-		7FA9C2211EAA23F00089A87C /* EnumExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA9C2201EAA23F00089A87C /* EnumExtensions.swift */; };
 		7FAC2C5D1E9E673400F14ECB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C5C1E9E673400F14ECB /* AppDelegate.swift */; };
 		7FAC2C5F1E9E673400F14ECB /* PlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C5E1E9E673400F14ECB /* PlanViewController.swift */; };
 		7FAC2C621E9E673400F14ECB /* Plan.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FAC2C601E9E673400F14ECB /* Plan.storyboard */; };
@@ -58,11 +62,14 @@
 		7FBA028B1EE1E60D00C3103A /* ArchiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA028A1EE1E60D00C3103A /* ArchiveCell.swift */; };
 		7FBA028D1EE1E85800C3103A /* ArchiveDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA028C1EE1E85800C3103A /* ArchiveDataSource.swift */; };
 		7FBA028F1EE6D9D900C3103A /* TableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA028E1EE6D9D900C3103A /* TableDataSource.swift */; };
+		7FC488D42041A3DD003F6F19 /* BlockedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D32041A3DD003F6F19 /* BlockedCell.swift */; };
+		7FC488D72041A763003F6F19 /* BlockedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D62041A763003F6F19 /* BlockedViewController.swift */; };
+		7FC488D92041A815003F6F19 /* BlockedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D82041A815003F6F19 /* BlockedDataSource.swift */; };
 		7FC73E751F5AA83E00A55703 /* ProjectsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E741F5AA83E00A55703 /* ProjectsViewControllerTests.swift */; };
 		7FC73E771F5AA89200A55703 /* MockProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E761F5AA89200A55703 /* MockProject.swift */; };
 		7FC73E791F5AAE7300A55703 /* ProjectsDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E781F5AAE7300A55703 /* ProjectsDataSourceTests.swift */; };
 		7FC73E7D1F5ABE6700A55703 /* EasyLife.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E7B1F5ABE6700A55703 /* EasyLife.xcdatamodeld */; };
-		7FCEC91F1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC91E1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift */; };
+		7FCEC91F1EA7BB3D00BA5187 /* ItemDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC91E1EA7BB3D00BA5187 /* ItemDetailViewControllerTests.swift */; };
 		7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */; };
 		7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */; };
 		7FCEC9261EA7CD0500BA5187 /* PlanDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9251EA7CD0500BA5187 /* PlanDataSourceTests.swift */; };
@@ -73,6 +80,10 @@
 		7FD1EE241F8E8CCC0042C317 /* TagView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7FD1EE231F8E8CCC0042C317 /* TagView.xib */; };
 		7FD1EE261F8E8D750042C317 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD1EE251F8E8D750042C317 /* TagView.swift */; };
 		7FD2E4E41F8EB2EB00A57FB5 /* UIView+Xib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD2E4E31F8EB2EB00A57FB5 /* UIView+Xib.swift */; };
+		7FE4488F2041F49900F2DE77 /* ItemDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE4488E2041F49900F2DE77 /* ItemDetailDataSource.swift */; };
+		7FE4489120420B2C00F2DE77 /* BlockedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE4489020420B2C00F2DE77 /* BlockedItem.swift */; };
+		7FEEF2CE2042FB3500616041 /* Project+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEEF2CD2042FB3500616041 /* Project+Utility.swift */; };
+		7FEEF2D22043522900616041 /* EasyLife 1.5.0.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7FEEF2D12043522900616041 /* EasyLife 1.5.0.sqlite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +99,8 @@
 /* Begin PBXFileReference section */
 		71E689E9778A3A27BC3A165C /* Pods-EasyLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyLife.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EasyLife/Pods-EasyLife.debug.xcconfig"; sourceTree = "<group>"; };
 		7656E35524A23C863E1263C4 /* Pods_EasyLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F0D9247204619DF00D9AE6B /* BlockedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockedView.xib; sourceTree = "<group>"; };
+		7F0D924920461A1F00D9AE6B /* BlockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedView.swift; sourceTree = "<group>"; };
 		7F102DE21F5AC11600E262B1 /* EasyLife.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = EasyLife.sqlite; sourceTree = "<group>"; };
 		7F102DE41F5AC22200E262B1 /* DataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
 		7F102DE61F5AD08300E262B1 /* EasyLife 1.3.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EasyLife 1.3.0.sqlite"; sourceTree = "<group>"; };
@@ -101,6 +114,9 @@
 		7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
 		7F426E791F59B52800C55AD2 /* ProjectsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsDataSource.swift; sourceTree = "<group>"; };
 		7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
+		7F6CE1FF2043594300AE399E /* BlockedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedViewControllerTests.swift; sourceTree = "<group>"; };
+		7F6CE20120435AFF00AE399E /* BlockedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedDataSource.swift; sourceTree = "<group>"; };
+		7F6CE20320435C6900AE399E /* ItemDetailDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailDataSourceTests.swift; sourceTree = "<group>"; };
 		7F7540101F5AD1A900A0F06C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Project.storyboard; sourceTree = "<group>"; };
 		7F7540131F5AD29C00A0F06C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Project.strings; sourceTree = "<group>"; };
 		7F7770BD1EE8261200A58494 /* ArchiveViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchiveViewControllerTests.swift; sourceTree = "<group>"; };
@@ -117,7 +133,6 @@
 		7FA9C2181EA9161C0089A87C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7FA9C21A1EA9161F0089A87C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7FA9C21E1EAA216A0089A87C /* DisplayEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayEnum.swift; sourceTree = "<group>"; };
-		7FA9C2201EAA23F00089A87C /* EnumExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumExtensions.swift; sourceTree = "<group>"; };
 		7FAC2C591E9E673400F14ECB /* EasyLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FAC2C5C1E9E673400F14ECB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7FAC2C5E1E9E673400F14ECB /* PlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanViewController.swift; sourceTree = "<group>"; };
@@ -148,12 +163,16 @@
 		7FBA028A1EE1E60D00C3103A /* ArchiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchiveCell.swift; sourceTree = "<group>"; };
 		7FBA028C1EE1E85800C3103A /* ArchiveDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchiveDataSource.swift; sourceTree = "<group>"; };
 		7FBA028E1EE6D9D900C3103A /* TableDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableDataSource.swift; sourceTree = "<group>"; };
+		7FC488D32041A3DD003F6F19 /* BlockedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedCell.swift; sourceTree = "<group>"; };
+		7FC488D52041A50C003F6F19 /* EasyLife 1.5.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EasyLife 1.5.0.xcdatamodel"; sourceTree = "<group>"; };
+		7FC488D62041A763003F6F19 /* BlockedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedViewController.swift; sourceTree = "<group>"; };
+		7FC488D82041A815003F6F19 /* BlockedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedDataSource.swift; sourceTree = "<group>"; };
 		7FC73E741F5AA83E00A55703 /* ProjectsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsViewControllerTests.swift; sourceTree = "<group>"; };
 		7FC73E761F5AA89200A55703 /* MockProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockProject.swift; sourceTree = "<group>"; };
 		7FC73E781F5AAE7300A55703 /* ProjectsDataSourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsDataSourceTests.swift; sourceTree = "<group>"; };
 		7FC73E7C1F5ABE6700A55703 /* EasyLife.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyLife.xcdatamodel; sourceTree = "<group>"; };
 		7FC73E7E1F5ABE7A00A55703 /* EasyLife 1.3.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EasyLife 1.3.0.xcdatamodel"; sourceTree = "<group>"; };
-		7FCEC91E1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailsViewControllerTests.swift; sourceTree = "<group>"; };
+		7FCEC91E1EA7BB3D00BA5187 /* ItemDetailViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailViewControllerTests.swift; sourceTree = "<group>"; };
 		7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatTests.swift; sourceTree = "<group>"; };
 		7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegmentTests.swift; sourceTree = "<group>"; };
 		7FCEC9251EA7CD0500BA5187 /* PlanDataSourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanDataSourceTests.swift; sourceTree = "<group>"; };
@@ -164,7 +183,11 @@
 		7FD1EE231F8E8CCC0042C317 /* TagView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagView.xib; sourceTree = "<group>"; };
 		7FD1EE251F8E8D750042C317 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		7FD2E4E31F8EB2EB00A57FB5 /* UIView+Xib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Xib.swift"; sourceTree = "<group>"; };
-		7FFA09B01F8ECF56000BFDFA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Plan.strings; sourceTree = "<group>"; };
+		7FE4488E2041F49900F2DE77 /* ItemDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailDataSource.swift; sourceTree = "<group>"; };
+		7FE4489020420B2C00F2DE77 /* BlockedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedItem.swift; sourceTree = "<group>"; };
+		7FEEF2CD2042FB3500616041 /* Project+Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+Utility.swift"; sourceTree = "<group>"; };
+		7FEEF2D02043094200616041 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Plan.strings; sourceTree = "<group>"; };
+		7FEEF2D12043522900616041 /* EasyLife 1.5.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EasyLife 1.5.0.sqlite"; sourceTree = "<group>"; };
 		9CA1854D1D3F076C94BABE61 /* Pods-EasyLifeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyLifeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EasyLifeTests/Pods-EasyLifeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AE4DFC5997D4CC016AB47BD3 /* Pods_EasyLifeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyLifeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C3E26C8FE2CE874735F529 /* Pods-EasyLife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyLife.release.xcconfig"; path = "Pods/Target Support Files/Pods-EasyLife/Pods-EasyLife.release.xcconfig"; sourceTree = "<group>"; };
@@ -214,6 +237,7 @@
 		7F102DE31F5AC11D00E262B1 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				7FEEF2D12043522900616041 /* EasyLife 1.5.0.sqlite */,
 				7F102DE61F5AD08300E262B1 /* EasyLife 1.3.0.sqlite */,
 				7F102DE21F5AC11600E262B1 /* EasyLife.sqlite */,
 			);
@@ -226,7 +250,8 @@
 				7FAC2C741E9E673400F14ECB /* PlanViewControllerTests.swift */,
 				7F7770BD1EE8261200A58494 /* ArchiveViewControllerTests.swift */,
 				7FC73E741F5AA83E00A55703 /* ProjectsViewControllerTests.swift */,
-				7FCEC91E1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift */,
+				7FCEC91E1EA7BB3D00BA5187 /* ItemDetailViewControllerTests.swift */,
+				7F6CE1FF2043594300AE399E /* BlockedViewControllerTests.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -248,6 +273,8 @@
 				7FCEC9251EA7CD0500BA5187 /* PlanDataSourceTests.swift */,
 				7F7770CE1EE83E8200A58494 /* ArchiveDataSourceTests.swift */,
 				7FC73E781F5AAE7300A55703 /* ProjectsDataSourceTests.swift */,
+				7F6CE20320435C6900AE399E /* ItemDetailDataSourceTests.swift */,
+				7F6CE20120435AFF00AE399E /* BlockedDataSource.swift */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -289,7 +316,7 @@
 				7FAC2C9C1E9ECAA300F14ECB /* ViewController */,
 				7FAC2C9B1E9ECA9C00F14ECB /* View */,
 				7FAC2C991E9ECA8400F14ECB /* Model */,
-				7FAC2C9D1E9ECAA900F14ECB /* Class */,
+				7FAC2C9D1E9ECAA900F14ECB /* Object */,
 				7FAC2CA01E9ECAD400F14ECB /* Protocol */,
 				7FAC2C9A1E9ECA9700F14ECB /* Extension */,
 				7FAC2CAE1E9EF53A00F14ECB /* Resources */,
@@ -315,7 +342,9 @@
 			children = (
 				7FAC2C971E9EC91400F14ECB /* RepeatState.swift */,
 				7F93792E1EA7661B009E33FA /* DateSegment.swift */,
+				7FE4489020420B2C00F2DE77 /* BlockedItem.swift */,
 				7FAC2C931E9EBC9A00F14ECB /* TodoItem+Utility.swift */,
+				7FEEF2CD2042FB3500616041 /* Project+Utility.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -345,9 +374,11 @@
 				7FAC2C911E9E7EEA00F14ECB /* PlanCell.swift */,
 				7FBA028A1EE1E60D00C3103A /* ArchiveCell.swift */,
 				7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */,
+				7FC488D32041A3DD003F6F19 /* BlockedCell.swift */,
 				7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */,
 				7F163D211EDCDB9400DC52B6 /* TableHeaderView.swift */,
 				7FD1EE251F8E8D750042C317 /* TagView.swift */,
+				7F0D924920461A1F00D9AE6B /* BlockedView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -359,23 +390,26 @@
 				7FBA02881EE1E50800C3103A /* ArchiveViewController.swift */,
 				7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */,
 				7FAC2C811E9E692E00F14ECB /* ItemDetailViewController.swift */,
+				7FC488D62041A763003F6F19 /* BlockedViewController.swift */,
 				7FAC2CA31E9ED1C800F14ECB /* FatalViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
 		};
-		7FAC2C9D1E9ECAA900F14ECB /* Class */ = {
+		7FAC2C9D1E9ECAA900F14ECB /* Object */ = {
 			isa = PBXGroup;
 			children = (
 				7FAC2C831E9E71BA00F14ECB /* PlanDataSource.swift */,
 				7FBA028C1EE1E85800C3103A /* ArchiveDataSource.swift */,
 				7F426E791F59B52800C55AD2 /* ProjectsDataSource.swift */,
+				7FE4488E2041F49900F2DE77 /* ItemDetailDataSource.swift */,
+				7FC488D82041A815003F6F19 /* BlockedDataSource.swift */,
 				7FAC2C7F1E9E676A00F14ECB /* DataManager.swift */,
 				7F9054861EA790E3006D8F73 /* Log.swift */,
 				7FCEC92B1EA909DE00BA5187 /* Analytics.swift */,
 				7F163D2B1EDD746B00DC52B6 /* Badge.swift */,
 			);
-			name = Class;
+			name = Object;
 			sourceTree = "<group>";
 		};
 		7FAC2CA01E9ECAD400F14ECB /* Protocol */ = {
@@ -383,7 +417,6 @@
 			children = (
 				7FAC2C951E9EBF6400F14ECB /* ResponderSelection.swift */,
 				7FA9C21E1EAA216A0089A87C /* DisplayEnum.swift */,
-				7FA9C2201EAA23F00089A87C /* EnumExtensions.swift */,
 				7FBA028E1EE6D9D900C3103A /* TableDataSource.swift */,
 			);
 			name = Protocol;
@@ -400,6 +433,7 @@
 				7F163D271EDD716D00DC52B6 /* Components.storyboard */,
 				7FAC2C681E9E673400F14ECB /* LaunchScreen.storyboard */,
 				7FD1EE231F8E8CCC0042C317 /* TagView.xib */,
+				7F0D9247204619DF00D9AE6B /* BlockedView.xib */,
 				7FAC2C6B1E9E673400F14ECB /* Info.plist */,
 				7FCEC92D1EA90A0E00BA5187 /* GoogleService-Info.plist */,
 				7FA9C2191EA9161C0089A87C /* Localizable.strings */,
@@ -471,12 +505,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Pink Chicken Ltd";
 				TargetAttributes = {
 					7FAC2C581E9E673400F14ECB = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = Q25J5XBNX4;
+						DevelopmentTeam = PFC77GK3D7;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
@@ -520,6 +554,7 @@
 				7FD1EE241F8E8CCC0042C317 /* TagView.xib in Resources */,
 				7FAC2C671E9E673400F14ECB /* Assets.xcassets in Resources */,
 				7FCEC92E1EA90A0E00BA5187 /* GoogleService-Info.plist in Resources */,
+				7F0D9248204619DF00D9AE6B /* BlockedView.xib in Resources */,
 				7F163D251EDD716D00DC52B6 /* Components.storyboard in Resources */,
 				7FAC2C621E9E673400F14ECB /* Plan.storyboard in Resources */,
 			);
@@ -529,6 +564,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FEEF2D22043522900616041 /* EasyLife 1.5.0.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,10 +686,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-EasyLife/Pods-EasyLife-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/PPBadgeView/PPBadgeView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PPBadgeView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -680,7 +718,10 @@
 				7FAC2C821E9E692E00F14ECB /* ItemDetailViewController.swift in Sources */,
 				7F163D311EDEE98D00DC52B6 /* Bundle+Utility.swift in Sources */,
 				7F163D221EDCDB9400DC52B6 /* TableHeaderView.swift in Sources */,
+				7FC488D72041A763003F6F19 /* BlockedViewController.swift in Sources */,
+				7FE4488F2041F49900F2DE77 /* ItemDetailDataSource.swift in Sources */,
 				7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */,
+				7FEEF2CE2042FB3500616041 /* Project+Utility.swift in Sources */,
 				7F102DE11F5ABF9300E262B1 /* ProjectsViewController.swift in Sources */,
 				7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */,
 				7F163D2C1EDD746B00DC52B6 /* Badge.swift in Sources */,
@@ -689,9 +730,11 @@
 				7FAC2C981E9EC91400F14ECB /* RepeatState.swift in Sources */,
 				7FCEC92C1EA909DE00BA5187 /* Analytics.swift in Sources */,
 				7FD1EE261F8E8D750042C317 /* TagView.swift in Sources */,
+				7FC488D92041A815003F6F19 /* BlockedDataSource.swift in Sources */,
 				7FAC2C801E9E676A00F14ECB /* DataManager.swift in Sources */,
 				7F9054871EA790E3006D8F73 /* Log.swift in Sources */,
-				7FA9C2211EAA23F00089A87C /* EnumExtensions.swift in Sources */,
+				7FE4489120420B2C00F2DE77 /* BlockedItem.swift in Sources */,
+				7FC488D42041A3DD003F6F19 /* BlockedCell.swift in Sources */,
 				7FC73E7D1F5ABE6700A55703 /* EasyLife.xcdatamodeld in Sources */,
 				7F102DE01F5ABF8F00E262B1 /* ProjectsDataSource.swift in Sources */,
 				7FAC2C841E9E71BA00F14ECB /* PlanDataSource.swift in Sources */,
@@ -705,6 +748,7 @@
 				7FAC2CA21E9ED15100F14ECB /* UIStoryboard+Utility.swift in Sources */,
 				7FAC2C5D1E9E673400F14ECB /* AppDelegate.swift in Sources */,
 				7FAC2CB01E9F7B3D00F14ECB /* UITextView+Style.swift in Sources */,
+				7F0D924A20461A1F00D9AE6B /* BlockedView.swift in Sources */,
 				7FAC2CB21E9F7EDF00F14ECB /* Notification+Name.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -718,7 +762,10 @@
 				7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */,
 				7FCEC9261EA7CD0500BA5187 /* PlanDataSourceTests.swift in Sources */,
 				7F90548B1EA7B6DF006D8F73 /* MockTodoItem.swift in Sources */,
+				7F6CE20420435C6900AE399E /* ItemDetailDataSourceTests.swift in Sources */,
+				7F6CE20220435AFF00AE399E /* BlockedDataSource.swift in Sources */,
 				7FC73E771F5AA89200A55703 /* MockProject.swift in Sources */,
+				7F6CE2002043594300AE399E /* BlockedViewControllerTests.swift in Sources */,
 				7F1711E91FB1B7C600ED08D8 /* TodoItemTests.swift in Sources */,
 				7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */,
 				7F102DE51F5AC22200E262B1 /* DataManagerTests.swift in Sources */,
@@ -726,7 +773,7 @@
 				7FCEC9281EA8E3B500BA5187 /* CoreData.swift in Sources */,
 				7FC73E751F5AA83E00A55703 /* ProjectsViewControllerTests.swift in Sources */,
 				7F7770BE1EE8261200A58494 /* ArchiveViewControllerTests.swift in Sources */,
-				7FCEC91F1EA7BB3D00BA5187 /* ItemDetailsViewControllerTests.swift in Sources */,
+				7FCEC91F1EA7BB3D00BA5187 /* ItemDetailViewControllerTests.swift in Sources */,
 				7FC73E791F5AAE7300A55703 /* ProjectsDataSourceTests.swift in Sources */,
 				7FAC2C751E9E673400F14ECB /* PlanViewControllerTests.swift in Sources */,
 			);
@@ -783,7 +830,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				7FAC2C611E9E673400F14ECB /* Base */,
-				7FFA09B01F8ECF56000BFDFA /* en */,
+				7FEEF2D02043094200616041 /* en */,
 			);
 			name = Plan.storyboard;
 			sourceTree = "<group>";
@@ -808,7 +855,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -816,7 +865,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -858,7 +911,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -866,7 +921,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -899,7 +958,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = PFC77GK3D7;
 				INFOPLIST_FILE = EasyLife/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -919,7 +978,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = PFC77GK3D7;
 				INFOPLIST_FILE = EasyLife/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1003,10 +1062,11 @@
 		7FC73E7B1F5ABE6700A55703 /* EasyLife.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7FC488D52041A50C003F6F19 /* EasyLife 1.5.0.xcdatamodel */,
 				7FC73E7E1F5ABE7A00A55703 /* EasyLife 1.3.0.xcdatamodel */,
 				7FC73E7C1F5ABE6700A55703 /* EasyLife.xcdatamodel */,
 			);
-			currentVersion = 7FC73E7E1F5ABE7A00A55703 /* EasyLife 1.3.0.xcdatamodel */;
+			currentVersion = 7FC488D52041A50C003F6F19 /* EasyLife 1.5.0.xcdatamodel */;
 			path = EasyLife.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

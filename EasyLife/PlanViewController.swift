@@ -18,7 +18,7 @@ class PlanViewController: UIViewController {
 
     var dataSource: PlanDataSource
     var badge: Badge
-    
+
     required init?(coder aDecoder: NSCoder) {
         dataSource = PlanDataSource()
         badge = Badge()
@@ -31,28 +31,27 @@ class PlanViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.isHidden = true
         tableView.applyDefaultStyleFix()
+        tableHeaderView.setupWithHeight(tableView.bounds.size.height * 0.3)
         appVersionLabel.text = Bundle.appVersion()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNotifications()
+        tableHeaderView.startAnimation()
         dataSource.load()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        tableHeaderView.stopAnimation()
         tearDownNotifications()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let vc = segue.destination as? ItemDetailViewController else {
-            return
-        }
-        if let item = sender as? TodoItem {
-            vc.item = item
+        if let vc = segue.destination as? ItemDetailViewController, let item = sender as? TodoItem {
+            vc.dataSource.item = item
         }
     }
     
@@ -98,23 +97,53 @@ extension PlanViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard let item = dataSource.item(at: indexPath) else {
+            log("epic fail")
+            return [] // shouldnt happen
+        }
+
         let delete = UITableViewRowAction(style: .destructive, title: "Delete".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
             self?.dataSource.delete(at: indexPath)
         })
-        delete.backgroundColor = .lightRed
         let done = UITableViewRowAction(style: .normal, title: "Done".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
             self?.dataSource.done(at: indexPath)
         })
+        let split = UITableViewRowAction(style: .normal, title: "Split".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
+            self?.dataSource.split(at: indexPath)
+        })
+        let later = UITableViewRowAction(style: .normal, title: "Later".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
+            self?.dataSource.later(at: indexPath)
+        })
+
+        delete.backgroundColor = .lightRed
         done.backgroundColor = .lightGreen
-        switch indexPath.section {
-        case 1:
-            let later = UITableViewRowAction(style: .normal, title: "Later".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
-                self?.dataSource.later(at: indexPath)
-            })
-            return [done, delete, later]
-        default:
-            return [done, delete]
+        split.backgroundColor = .appleGrey
+
+        var actions = [UITableViewRowAction]()
+        if (item.blockedBy?.count ?? 0) == 0 {
+            actions += [done]
         }
+        actions += [delete]
+
+        switch indexPath.section {
+        case 0:
+            if item.repeatState != RepeatState.none {
+                actions += [split]
+            }
+        case 1:
+            if item.repeatState == RepeatState.none {
+                actions += [later]
+            } else {
+                actions += [later, split]
+            }
+        case 2:
+            break
+        default:
+            log("unhandled switch")
+            return []
+        }
+
+        return actions
     }
 }
 
@@ -168,5 +197,13 @@ extension PlanViewController: UIScrollViewDelegate {
         UIView.animate(withDuration: 0.4) {
             self.appVersionLabel.alpha = 1.0
         }
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView.contentOffset.y < 0, tableHeaderView.bounds.height > 0 else {
+            return
+        }
+        let height = tableHeaderView.bounds.height / 4
+        tableHeaderView.alphaMultiplier = max(0.0, 1.0 - (fabs(scrollView.contentOffset.y) / height))
     }
 }
