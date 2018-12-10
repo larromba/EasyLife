@@ -12,21 +12,25 @@ import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
+	var window: UIWindow? {
+		didSet {
+			guard let window = window else {
+				fatalErrorHandler = nil
+				return
+			}
+			fatalErrorHandler = FatalErrorHandler(window: window, analytics: analytics)
+		}
+	}
     var dataManager: DataManager
     var analytics: Analytics
+	var fatalErrorHandler: FatalErrorHandler?
 
     override init() {
         dataManager = DataManager.shared
         analytics = Analytics.shared
         super.init()
-        setupNotifications()
     }
-    
-    deinit {
-        tearDownNotifications()
-    }
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         log("\nDEBUG BUILD")
         log("open \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last ?? "nil")\n")
@@ -54,24 +58,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         dataManager.save(context: dataManager.mainContext)
-    }
-    
-    // MARK: - private
-    
-    private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidReceiveFatalError(_:)), name: .applicationDidReceiveFatalError, object: nil)
-    }
-    
-    private func tearDownNotifications() {
-        NotificationCenter.default.removeObserver(self, name: .applicationDidReceiveFatalError, object: nil)
-    }
-    
-    @objc private func applicationDidReceiveFatalError(_ notification: Notification) {
-        log("applicationDidReceiveFatalError \(notification.object ?? "nil")")
-        if let window = window, let error = notification.object as? Error, let fatalViewController = UIStoryboard.components.instantiateViewController(withIdentifier: "FatalViewController") as? FatalViewController {
-            fatalViewController.error = error
-            window.rootViewController = fatalViewController
-            Analytics.shared.sendErrorEvent(error, classId: AppDelegate.self)
-        }
     }
 }

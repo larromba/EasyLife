@@ -1,5 +1,5 @@
 //
-//  AppDelegateTests.swift
+//  FatalErrorHandlerTests.swift
 //  EasyLife
 //
 //  Created by Lee Arromba on 20/04/2017.
@@ -10,7 +10,7 @@ import XCTest
 import CoreData
 @testable import EasyLife
 
-class AppDelegateTests: XCTestCase {
+class FatalErrorHandlerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         UIView.setAnimationsEnabled(false)

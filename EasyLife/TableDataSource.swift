@@ -15,7 +15,7 @@ protocol TableDataSourceDelegate: class {
 protocol TableDataSource {
     associatedtype Object
     
-    weak var delegate: TableDataSourceDelegate? { get set }
+	var delegate: TableDataSourceDelegate? { get set }
     
     func load()
     func title(for section: Int) -> String?

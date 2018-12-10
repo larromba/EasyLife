@@ -64,3 +64,8 @@ shopping list
 todo: alert button tests
 siri integration
 STOP THE WEIRD FLASH AT START WITH ANIMTION
+holiday mode
+later in missed
+focus mode!
+better sorting
+better deletion animations etc

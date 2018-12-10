@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class PlanViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
