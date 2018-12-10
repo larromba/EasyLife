@@ -1,11 +1,3 @@
-//
-//  PlanDataSourceTests.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 19/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import XCTest
 import CoreData
 @testable import EasyLife
@@ -40,14 +32,14 @@ class PlanDataSourceTests: XCTestCase {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let date = dateFormatter.date(from: "21/04/2017")!.earliest
-        let container = try! NSPersistentContainer.test()
+        let container = NSPersistentContainer.test()
         let missedItem = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let todayItem = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let laterItem = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let dataSource = MockDataSource()
         let dataManager = DataManager()
         let delegate = MockDelegate()
-        
+
         // prepare
         dataManager.persistentContainer = container
         dataSource.dataManager = dataManager
@@ -60,19 +52,19 @@ class PlanDataSourceTests: XCTestCase {
         delegate.todayItem = todayItem
         delegate.laterItem = laterItem
         delegate.exp = exp
-        
+
         // test
         dataSource.load()
         waitForExpectations(timeout: 1.0) { (err: Error?) in
             XCTAssertNil(err)
         }
     }
-    
+
     func testDelete() {
         // mocks
         class MockDataManager: DataManager {
             var didDelete = false
-            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T : NSManagedObject {
+            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T: NSManagedObject {
                 didDelete = true
             }
             var didSave = false
@@ -88,17 +80,17 @@ class PlanDataSourceTests: XCTestCase {
             [],
             []
         ]
-        
+
         // prepare
         dataSource.dataManager = dataManager
         dataSource.sections = sections
-        
+
         // test
         dataSource.delete(at: IndexPath(row: 0, section: 0))
         XCTAssertTrue(dataManager.didDelete)
         XCTAssertTrue(dataManager.didSave)
     }
-    
+
     func testDoneMarksOrIncrements() {
         // mocks
         class MockDataManager: DataManager {
@@ -121,26 +113,26 @@ class PlanDataSourceTests: XCTestCase {
         dateFormatter.timeZone = TimeZone(identifier: "GMT")
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let date = dateFormatter.date(from: "21/04/2017")!
-    
+
         // prepare
         item1.blocking = NSSet()
         item2.date = date as Date?
         item2.repeatState = .daily
         dataSource.dataManager = dataManager
         dataSource.sections = sections
-        
+
         // test
         dataSource.done(at: IndexPath(row: 0, section: 0))
         XCTAssertTrue(dataManager.didSave)
         XCTAssertTrue(dataSource.sections[0][0].done)
         XCTAssertNil(item1.blocking)
-        
+
         dataSource.done(at: IndexPath(row: 1, section: 0))
         XCTAssertFalse(dataSource.sections[0][1].done)
         XCTAssertGreaterThan(dataSource.sections[0][1].date!, date)
         XCTAssertGreaterThan(dataSource.sections[0][1].date!, Date())
     }
-    
+
     func testLaterNilsOrIncrements() {
         // mocks
         class MockDataManager: DataManager {
@@ -163,19 +155,19 @@ class PlanDataSourceTests: XCTestCase {
         dateFormatter.timeZone = TimeZone(identifier: "GMT")
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let date = dateFormatter.date(from: "21/04/2017")!
-        
+
         // prepare
         item1.date = date as Date?
         item2.date = date as Date?
         item2.repeatState = .daily
         dataSource.dataManager = dataManager
         dataSource.sections = sections
-        
+
         // test
         dataSource.later(at: IndexPath(row: 0, section: 0))
         XCTAssertTrue(dataManager.didSave)
         XCTAssertNil(dataSource.sections[0][0].date)
-        
+
         dataSource.later(at: IndexPath(row: 1, section: 0))
         XCTAssertGreaterThan(dataSource.sections[0][1].date!, date)
         XCTAssertGreaterThan(dataSource.sections[0][1].date!, Date())
@@ -187,7 +179,7 @@ class PlanDataSourceTests: XCTestCase {
         class MockDelegate: TableDataSourceDelegate {
             var count = 0
             var exp: XCTestExpectation!
-            func dataSorceDidLoad<T>(_ dataSource: T) where T : TableDataSource {
+            func dataSorceDidLoad<T>(_ dataSource: T) where T: TableDataSource {
                 count += 1
                 if count == 3 {
                     exp.fulfill()
@@ -197,7 +189,7 @@ class PlanDataSourceTests: XCTestCase {
         let delegate = MockDelegate()
         let dataSource = PlanDataSource()
         let dataManager = DataManager()
-        let container = try! NSPersistentContainer.test()
+        let container = NSPersistentContainer.test()
         let item1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let item2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let sections = [
@@ -222,7 +214,7 @@ class PlanDataSourceTests: XCTestCase {
 
         // test
         dataSource.split(at: IndexPath(row: 0, section: 0))
-        waitForExpectations(timeout: 1.0) { (err: Error?) in
+        waitForExpectations(timeout: 1.0) { (_: Error?) in
             XCTAssertEqual(dataSource.sections[0].count, 2)
             XCTAssertEqual(dataSource.sections[0][0].repeatState, RepeatState.none)
             XCTAssertEqual(dataSource.sections[2].count, 1)
@@ -230,7 +222,7 @@ class PlanDataSourceTests: XCTestCase {
             XCTAssertGreaterThan(dataSource.sections[2][0].date!, date)
         }
     }
-    
+
     func testMissedSection() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
@@ -250,7 +242,7 @@ class PlanDataSourceTests: XCTestCase {
                 }
             }
         }
-        let container = try! NSPersistentContainer.test()
+        let container = NSPersistentContainer.test()
         let item1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let item2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let item3 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
@@ -262,7 +254,7 @@ class PlanDataSourceTests: XCTestCase {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let date = dateFormatter.date(from: "21/04/2017")!.earliest
-        
+
         // prepare
         dataManager.persistentContainer = container
         dataSource.dataManager = dataManager
@@ -276,14 +268,14 @@ class PlanDataSourceTests: XCTestCase {
         item3.date = date
         delegate.expectedOrder = [item1, item2, item3]
         delegate.exp = exp
-        
+
         // test
         dataSource.load()
         waitForExpectations(timeout: 1.0) { (err: Error?) in
             XCTAssertNil(err)
         }
     }
-    
+
     func testTodaySection() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
@@ -303,7 +295,7 @@ class PlanDataSourceTests: XCTestCase {
                 }
             }
         }
-        let container = try! NSPersistentContainer.test()
+        let container = NSPersistentContainer.test()
         let item1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let item2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let item3 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
@@ -313,7 +305,7 @@ class PlanDataSourceTests: XCTestCase {
         let project1 = NSEntityDescription.insertNewObject(forEntityName: "Project", into: container.viewContext) as! Project
         let project2 = NSEntityDescription.insertNewObject(forEntityName: "Project", into: container.viewContext) as! Project
         let today = Date()
-        
+
         // prepare
         dataManager.persistentContainer = container
         dataSource.dataManager = dataManager
@@ -327,14 +319,14 @@ class PlanDataSourceTests: XCTestCase {
         item3.date = today
         delegate.expectedOrder = [item1, item2, item3]
         delegate.exp = exp
-        
+
         // test
         dataSource.load()
         waitForExpectations(timeout: 1.0) { (err: Error?) in
             XCTAssertNil(err)
         }
     }
-    
+
     func testLaterSection() {
         // mocks
         let exp = expectation(description: "dataSourceDidLoad(...)")
@@ -363,7 +355,7 @@ class PlanDataSourceTests: XCTestCase {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let date = dateFormatter.date(from: "21/04/2017")!.earliest
-        let container = try! NSPersistentContainer.test()
+        let container = NSPersistentContainer.test()
         let item1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let item2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let item3 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
@@ -372,7 +364,7 @@ class PlanDataSourceTests: XCTestCase {
         let dataSource = MockDataSource()
         let dataManager = DataManager()
         let delegate = MockDelegate()
-        
+
         // prepare
         dataManager.persistentContainer = container
         dataSource.dataManager = dataManager
@@ -386,7 +378,7 @@ class PlanDataSourceTests: XCTestCase {
         project1.priority = 1
         delegate.expectedOrder = [item2, item1, item4, item3]
         delegate.exp = exp
-        
+
         // test
         dataSource.load()
         waitForExpectations(timeout: 1.0) { (err: Error?) in

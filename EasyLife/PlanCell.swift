@@ -1,11 +1,3 @@
-//
-//  PlanCell.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 12/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
 
 class PlanCell: UITableViewCell {
@@ -14,7 +6,7 @@ class PlanCell: UITableViewCell {
         case noDate
         case recurring
     }
-    
+
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var notesLabel: UILabel!
@@ -43,7 +35,7 @@ class PlanCell: UITableViewCell {
             }
         }
     }
-    
+
     var item: TodoItem? {
         didSet {
             guard let item = item else {
@@ -85,7 +77,7 @@ class PlanCell: UITableViewCell {
             }
         }
     }
-    
+
     var indexPath: IndexPath? {
         didSet {
             guard let indexPath = indexPath else {

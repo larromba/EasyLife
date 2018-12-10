@@ -1,11 +1,3 @@
-//
-//  BlockedView.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 27/02/2018.
-//  Copyright © 2018 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
 
 class BlockedView: UIView {

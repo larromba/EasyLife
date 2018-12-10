@@ -1,17 +1,9 @@
-//
-//  ProjectsDataSource.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 01/09/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
 
 class ProjectsDataSource {
     var dataManager: DataManager
     weak var delegate: TableDataSourceDelegate?
-    
+
     fileprivate let priorityPredicate: NSPredicate
     fileprivate let otherPredicate: NSPredicate
     let maxPriorityItems = 5
@@ -32,7 +24,7 @@ class ProjectsDataSource {
     var isEmpty: Bool {
         return totalItems == 0
     }
-    
+
     init() {
         dataManager = DataManager.shared
         priorityPredicate = NSPredicate(format: "%K != %d", argumentArray: ["priority", deprioritizedValue])
@@ -53,7 +45,7 @@ class ProjectsDataSource {
             self?.load()
         })
     }
-    
+
     func addProject(name: String) {
         guard let project = dataManager.insert(entityClass: Project.self, context: dataManager.mainContext) else {
             return
@@ -63,7 +55,7 @@ class ProjectsDataSource {
             self?.load()
         })
     }
-    
+
     func prioritize(at indexPath: IndexPath) {
         guard totalPriorityItems < maxPriorityItems, indexPath.section == 1, let item = item(at: indexPath) else {
             return
@@ -79,7 +71,7 @@ class ProjectsDataSource {
             self?.load()
         })
     }
-    
+
     func deprioritize(at indexPath: IndexPath) {
         guard let item = item(at: indexPath) else {
             return
@@ -91,7 +83,7 @@ class ProjectsDataSource {
             self?.load()
         })
     }
-    
+
     func move(fromPath: IndexPath, toPath: IndexPath) {
         guard let fromItem = item(at: fromPath) else {
             return
@@ -113,7 +105,7 @@ class ProjectsDataSource {
         }
         return item.name
     }
-    
+
     func updateName(name: String, at indexPath: IndexPath) {
         guard let item = item(at: indexPath) else {
             return
@@ -128,7 +120,7 @@ class ProjectsDataSource {
 
     private func flushPriority() {
         for i in 0..<totalPriorityItems {
-            let itemPath = IndexPath(row: i, section:0)
+            let itemPath = IndexPath(row: i, section: 0)
             if let item = self.item(at: itemPath) {
                 item.priority = Int16(i)
             }
@@ -137,7 +129,7 @@ class ProjectsDataSource {
 
     private func flushNonPriority() {
         for i in 0..<totalNonPriorityItems {
-            let itemPath = IndexPath(row: i, section:1)
+            let itemPath = IndexPath(row: i, section: 1)
             if let item = self.item(at: itemPath) {
                 item.priority = Int16(deprioritizedValue)
             }
@@ -149,16 +141,20 @@ class ProjectsDataSource {
 
 extension ProjectsDataSource: TableDataSource {
     typealias Object = Project
-    
+
     open func load() {
-        dataManager.fetch(entityClass: Project.self, sortBy: [NSSortDescriptor(key: "priority", ascending: true)], context: dataManager.mainContext, predicate: priorityPredicate, success: { [weak self] (result: [Any]?) in
+        dataManager.fetch(entityClass: Project.self, sortBy: [NSSortDescriptor(key: "priority", ascending: true)],
+                          context: dataManager.mainContext, predicate: priorityPredicate,
+                          success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [Project] else {
                 return
             }
             self.sections.replace(items, at: 0)
             self.delegate?.dataSorceDidLoad(self)
         })
-        dataManager.fetch(entityClass: Project.self, sortBy: [NSSortDescriptor(key: "name", ascending: true)], context: dataManager.mainContext, predicate: otherPredicate, success: { [weak self] (result: [Any]?) in
+        dataManager.fetch(entityClass: Project.self, sortBy: [NSSortDescriptor(key: "name", ascending: true)],
+                          context: dataManager.mainContext, predicate: otherPredicate,
+                          success: { [weak self] (result: [Any]?) in
             guard let `self` = self, let items = result as? [Project] else {
                 return
             }
@@ -166,9 +162,9 @@ extension ProjectsDataSource: TableDataSource {
             self.delegate?.dataSorceDidLoad(self)
         })
     }
-    
+
     func title(for section: Int) -> String? {
-        guard section >= 0 && section < sections.count && sections[section].count > 0 else {
+        guard section >= 0 && section < sections.count && !sections[section].isEmpty else {
             return nil
         }
         switch section {
@@ -180,7 +176,7 @@ extension ProjectsDataSource: TableDataSource {
             return nil
         }
     }
-    
+
     func item(at indexPath: IndexPath) -> Project? {
         guard let section = section(at: indexPath.section) else {
             return nil
@@ -191,7 +187,7 @@ extension ProjectsDataSource: TableDataSource {
         let row = section[indexPath.row]
         return row
     }
-    
+
     func section(at index: Int) -> [Project]? {
         guard index >= sections.startIndex && index < sections.endIndex else {
             return nil

@@ -1,20 +1,11 @@
-//
-//  FatalError.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 02/08/2018.
-//  Copyright © 2018 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
+import Logging
 
-class FatalErrorHandler {
+final class FatalErrorHandler {
 	private let window: UIWindow
-	private let analytics: Analytics
 
-	init(window: UIWindow, analytics: Analytics) {
+	init(window: UIWindow) {
 		self.window = window
-		self.analytics = analytics
 		setupNotifications()
 	}
 
@@ -29,7 +20,6 @@ class FatalErrorHandler {
 		if let error = notification.object as? Error, let fatalViewController = UIStoryboard.components.instantiateViewController(withIdentifier: "FatalViewController") as? FatalViewController {
 			fatalViewController.error = error
 			window.rootViewController = fatalViewController
-			analytics.sendErrorEvent(error, classId: AppDelegate.self)
 		}
 	}
 }

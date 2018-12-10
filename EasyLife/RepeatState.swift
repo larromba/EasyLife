@@ -1,11 +1,3 @@
-//
-//  RepeatState.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 12/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import Foundation
 
 enum RepeatState: Int, DisplayEnum {
@@ -19,7 +11,7 @@ enum RepeatState: Int, DisplayEnum {
     case halfyear
     case yearly
     // WARNING: please add new elements here. edit display for ordering
-    
+
     static var display: [RepeatState] {
         return [
             .none,
@@ -30,10 +22,10 @@ enum RepeatState: Int, DisplayEnum {
             .monthly,
             .quarterly,
             .halfyear,
-            .yearly,
+            .yearly
         ]
     }
-    
+
     func stringValue() -> String? {
         switch self {
         case .daily:
@@ -56,7 +48,7 @@ enum RepeatState: Int, DisplayEnum {
             return nil
         }
     }
-    
+
     func increment(date: Date) -> Date? {
         let calendar = Calendar.current
         switch self {

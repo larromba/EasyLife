@@ -1,17 +1,9 @@
-//
-//  swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 11/10/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
 
 @IBDesignable class TagView: UIView {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var cornerLayerView: UIView!
-    private var cornerLayer: CAShapeLayer? = nil
+    private var cornerLayer: CAShapeLayer?
     @IBInspectable var cornerColor: UIColor = .clear {
         didSet {
             cornerLayer?.fillColor = cornerColor.cgColor
@@ -22,7 +14,7 @@ import UIKit
         super.init(frame: frame)
         loadXib()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         loadXib()
@@ -50,7 +42,7 @@ import UIKit
         cornerLayerView.layer.addSublayer(layer)
         self.cornerLayer = layer
     }
-    
+
     func setup(for project: Project?) {
         if let priority = project?.priority, priority != Project.defaultPriority {
             isHidden = false

@@ -1,11 +1,3 @@
-//
-//  PlanViewControllerTests.swift
-//  EasyLifeTests
-//
-//  Created by Lee Arromba on 12/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import XCTest
 import CoreData
 import UserNotifications
@@ -16,12 +8,12 @@ class PlanViewControllerTests: XCTestCase {
         super.setUp()
         UIView.setAnimationsEnabled(false)
     }
-    
+
     override func tearDown() {
         super.tearDown()
         UIView.setAnimationsEnabled(true)
     }
-    
+
     func testTableViewHideShow() {
         // mocks
         let dataSource = PlanDataSource()
@@ -29,19 +21,19 @@ class PlanViewControllerTests: XCTestCase {
 
         // prepare
         UIApplication.shared.keyWindow!.rootViewController = vc
-       
+
         // test
         vc.dataSorceDidLoad(dataSource)
         XCTAssertTrue(vc.tableView.isHidden)
-        
+
         // prepare
         dataSource.sections[0] = [MockTodoItem()]
-        
+
         //test
         vc.dataSorceDidLoad(dataSource)
         XCTAssertFalse(vc.tableView.isHidden)
     }
-    
+
     func testPlusButtonOpensItemDetailViewController() {
         // mocks
         let exp = expectation(description: "navigationController.willShow(...)")
@@ -56,19 +48,19 @@ class PlanViewControllerTests: XCTestCase {
         let nav = UIStoryboard.plan.instantiateInitialViewController() as! UINavigationController
         let vc = nav.viewControllers.first as! PlanViewController
         let delegate = MockDelegate()
-        
+
         // prepare
         delegate.exp = exp
         nav.delegate = delegate
         UIApplication.shared.keyWindow!.rootViewController = nav
-        
+
         // test
         UIApplication.shared.sendAction(vc.addButton.action!, to: vc.addButton.target!, from: nil, for: nil)
         waitForExpectations(timeout: 1.0) { (err: Error?) in
             XCTAssertNil(err)
         }
     }
-    
+
     func testCellOpensItemDetailViewController() {
         // mocks
         let exp = expectation(description: "navigationController.willShow(...)")
@@ -86,7 +78,7 @@ class PlanViewControllerTests: XCTestCase {
         let vc = nav.viewControllers.first as! PlanViewController
         let delegate = MockDelegate()
         let item = MockTodoItem()
-        
+
         // prepare
         vc.dataSource = dataSource
         delegate.exp = exp
@@ -95,7 +87,7 @@ class PlanViewControllerTests: XCTestCase {
         nav.delegate = delegate
         _ = vc.view
         UIApplication.shared.keyWindow!.rootViewController = nav
-        
+
         // test
         vc.dataSorceDidLoad(dataSource)
         vc.tableView.delegate!.tableView!(vc.tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
@@ -103,7 +95,7 @@ class PlanViewControllerTests: XCTestCase {
             XCTAssertNil(err)
         }
     }
-    
+
     func testLoadCalledOnViewWillAppear() {
         // mocks
         class MockPlanDataSource: PlanDataSource {
@@ -114,16 +106,16 @@ class PlanViewControllerTests: XCTestCase {
         }
         let dataSource = MockPlanDataSource()
         let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
-        
+
         // prepare
         _ = vc.view
         vc.dataSource = dataSource
-        
+
         // test
         vc.viewWillAppear(false)
         XCTAssertTrue(dataSource.didLoad)
     }
-    
+
     func testLoadCalledOnUIApplicationWillEnterForeground() {
         // mocks
         class MockPlanDataSource: PlanDataSource {
@@ -134,18 +126,19 @@ class PlanViewControllerTests: XCTestCase {
         }
         let dataSource = MockPlanDataSource()
         let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
-        
+
         // prepare
         _ = vc.view
         vc.dataSource = dataSource
         vc.viewWillAppear(false)
         dataSource.didLoad = false
-        
+
         // test
         NotificationCenter.default.post(name: .UIApplicationWillEnterForeground, object: nil)
         XCTAssertTrue(dataSource.didLoad)
     }
-    
+
+    // swiftlint:disable function_body_length
     func testUI() {
         // mocks
         let dataSource = PlanDataSource()
@@ -162,7 +155,7 @@ class PlanViewControllerTests: XCTestCase {
             [laterItem]
         ]
         let project = MockProject()
-        
+
         // prepare
         project.priority = 0
         missedItem.name = "missed"
@@ -182,15 +175,15 @@ class PlanViewControllerTests: XCTestCase {
         nowItemRecurring.repeats = 1
         laterItem.name = "later"
         laterItem.repeatState = .biweekly
-        laterItem.date = Date().addingTimeInterval(24*60*60)
+        laterItem.date = Date().addingTimeInterval(24 * 60 * 60)
         laterItem.project = project
         vc.dataSource = dataSource
         dataSource.sections = sections
         UIApplication.shared.keyWindow!.rootViewController = vc
-        
+
         // test
         vc.dataSorceDidLoad(dataSource)
-        
+
         // cells
         let cellMissed = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 0)) as! PlanCell
         XCTAssertEqual(cellMissed.titleLabel.text, "missed")
@@ -244,7 +237,7 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertEqual(cellNowRecurring.iconImageType, .recurring)
         XCTAssertTrue(cellNowRecurring.tagView.isHidden)
         XCTAssertEqual(cellNowRecurring.blockedView.state, .none)
-        
+
         let cellLater = vc.tableView(vc.tableView, cellForRowAt: IndexPath(row: 0, section: 2)) as! PlanCell
         XCTAssertEqual(cellLater.titleLabel.text, "later")
         XCTAssertTrue(cellLater.notesLabel.isHidden)
@@ -257,17 +250,17 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertEqual(cellLater.tagView.cornerColor, .priority1)
         XCTAssertEqual(cellLater.tagView.alpha, 0.5)
         XCTAssertEqual(cellLater.blockedView.state, .none)
-        
+
         // header
         let title1 = vc.tableView(vc.tableView, titleForHeaderInSection: 0)
         XCTAssertEqual(title1, "Missed...")
-        
+
         let title2 = vc.tableView(vc.tableView, titleForHeaderInSection: 1)
         XCTAssertEqual(title2, "Today")
-        
+
         let title3 = vc.tableView(vc.tableView, titleForHeaderInSection: 2)
         XCTAssertEqual(title3, "Later...")
-        
+
         // edit actions
         let missedActions = vc.tableView(vc.tableView, editActionsForRowAt: IndexPath(row: 0, section: 0))
         XCTAssertEqual(missedActions?.count, 2)
@@ -303,31 +296,31 @@ class PlanViewControllerTests: XCTestCase {
         XCTAssertEqual(laterActions?[1].title, "Delete")
         XCTAssertEqual(laterActions?[0].title, "Done")
     }
-    
+
     func testTableHeaderHideShow() {
         // mocks
         let dataSource = PlanDataSource()
         let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
-        
+
         // prepare
         vc.dataSource = dataSource
         dataSource.delegate = vc
         dataSource.sections[2] = [MockTodoItem()]
         UIApplication.shared.keyWindow!.rootViewController = vc
-        
+
         // test
         vc.dataSorceDidLoad(dataSource)
         XCTAssertFalse(vc.tableView.tableHeaderView!.isHidden)
-        
+
         // prepare
         dataSource.sections[0] = [MockTodoItem()]
         UIApplication.shared.keyWindow!.rootViewController = vc
-        
+
         // test
         vc.dataSorceDidLoad(dataSource)
         XCTAssertTrue(vc.tableView.tableHeaderView!.isHidden)
     }
-    
+
     func testBadgeNumber() {
         // mocks
         class MockBadge: Badge {
@@ -344,7 +337,7 @@ class PlanViewControllerTests: XCTestCase {
         let dataSource = PlanDataSource()
         let badge = MockBadge()
         let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
-        
+
         // prepare
         vc.badge = badge
         vc.dataSource = dataSource
@@ -353,33 +346,33 @@ class PlanViewControllerTests: XCTestCase {
         dataSource.sections[1] = [MockTodoItem()]
         dataSource.sections[2] = [MockTodoItem(), MockTodoItem(), MockTodoItem()]
         UIApplication.shared.keyWindow!.rootViewController = vc
-        
+
         // test
         vc.dataSorceDidLoad(dataSource)
         XCTAssertEqual(badge.number, 2)
     }
-    
+
     func testFolderButtonOpensArchiveView() {
         // mocks
         let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
-        
+
         // prepare
         UIApplication.shared.keyWindow!.rootViewController = vc
-        
+
         // test
         UIApplication.shared.sendAction(vc.archiveButton.action!, to: vc.archiveButton.target!, from: nil, for: nil)
         let navController = vc.presentedViewController as! UINavigationController
         let rootViewController = navController.viewControllers.first!
         XCTAssertTrue(rootViewController is ArchiveViewController)
     }
-    
+
     func testProjectsButtonOpensProjectsView() {
         // mocks
         let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "PlanViewController") as! PlanViewController
-        
+
         // prepare
         UIApplication.shared.keyWindow!.rootViewController = vc
-        
+
         // test
         UIApplication.shared.sendAction(vc.projectsButton.action!, to: vc.projectsButton.target!, from: nil, for: nil)
         let navController = vc.presentedViewController as! UINavigationController

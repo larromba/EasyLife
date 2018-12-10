@@ -1,11 +1,3 @@
-//
-//  BadgeManager.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 30/05/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
 import UserNotifications
 
@@ -28,7 +20,7 @@ class Badge {
             }
         }
     }
-    
+
     init() {
         notificationCenter = UNUserNotificationCenter.current()
     }

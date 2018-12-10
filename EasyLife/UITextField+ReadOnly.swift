@@ -1,11 +1,3 @@
-//
-//  UITextField+ReadOnly.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 13/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
 
 private var key: Void?
@@ -15,7 +7,7 @@ extension UITextField {
     fileprivate class Additions: NSObject {
         var readonly: Bool = false
     }
-    
+
     var readonly: Bool {
         get {
             return additions.readonly
@@ -23,7 +15,7 @@ extension UITextField {
             additions.readonly = newValue
         }
     }
-    
+
     open override func target(forAction action: Selector, withSender sender: Any?) -> Any? {
         if readonly && (action == #selector(UIResponderStandardEditActions.paste(_:)) || action == #selector(UIResponderStandardEditActions.cut(_:))) {
             return nil
@@ -32,7 +24,7 @@ extension UITextField {
     }
 
     // MARK: - private
-    
+
     private var additions: Additions {
         if let additions = objc_getAssociatedObject(self, &key) as? Additions {
             return additions

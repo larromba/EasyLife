@@ -1,11 +1,3 @@
-//
-//  ItemDetailDataSourceTests.swift
-//  EasyLifeTests
-//
-//  Created by Lee Arromba on 25/02/2018.
-//  Copyright © 2018 Pink Chicken Ltd. All rights reserved.
-//
-
 import XCTest
 import CoreData
 @testable import EasyLife
@@ -37,7 +29,7 @@ class ItemDetailDataSourceTests: XCTestCase {
         // mocks
         class MockDataManager: DataManager {
             var didDelete = false
-            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T : NSManagedObject {
+            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T: NSManagedObject {
                 didDelete = true
             }
             var didSave = false
@@ -67,7 +59,7 @@ class ItemDetailDataSourceTests: XCTestCase {
         class MockDataManager: DataManager {
             var didSave = false
             var didInsert = false
-            override func insert<T>(entityClass: T.Type, context: NSManagedObjectContext, transient: Bool) -> T? where T : NSManagedObject {
+            override func insert<T>(entityClass: T.Type, context: NSManagedObjectContext, transient: Bool) -> T? where T: NSManagedObject {
                 didInsert = true
                 return super.insert(entityClass: entityClass, context: mainContext)
             }

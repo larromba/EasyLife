@@ -1,11 +1,3 @@
-//
-//  ProjectsDataSourceTests.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 02/09/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import XCTest
 import CoreData
 @testable import EasyLife
@@ -30,7 +22,7 @@ class ProjectsDataSourceTests: XCTestCase {
                 }
             }
         }
-        let container = try! NSPersistentContainer.test()
+        let container = NSPersistentContainer.test()
         let item1 = NSEntityDescription.insertNewObject(forEntityName: "Project", into: container.viewContext) as! Project
         let item2 = NSEntityDescription.insertNewObject(forEntityName: "Project", into: container.viewContext) as! Project
         let item3 = NSEntityDescription.insertNewObject(forEntityName: "Project", into: container.viewContext) as! Project
@@ -50,19 +42,19 @@ class ProjectsDataSourceTests: XCTestCase {
             [item3]
         ]
         delegate.exp = exp
-        
+
         // test
         dataSource.load()
         waitForExpectations(timeout: 1.0) { (err: Error?) in
             XCTAssertNil(err)
         }
     }
-    
+
     func testDelete() {
         // mocks
         class MockDataManager: DataManager {
             var didDelete = false
-            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T : NSManagedObject {
+            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T: NSManagedObject {
                 didDelete = true
             }
             var didSave = false
@@ -75,20 +67,20 @@ class ProjectsDataSourceTests: XCTestCase {
         let dataManager = MockDataManager()
         let sections = [
             [MockProject()],
-            [],
+            []
         ]
-        
+
         // prepare
         dataSource.dataManager = dataManager
         dataSource.sections = sections
-        
+
         // test
         dataSource.delete(at: IndexPath(row: 0, section: 0))
         XCTAssertTrue(dataManager.didDelete)
         XCTAssertTrue(dataManager.didSave)
         XCTAssertNil(dataSource.sections[0].first)
     }
-    
+
     func testPrioritise() {
         // mocks
         class MockDataManager: DataManager {
@@ -103,20 +95,20 @@ class ProjectsDataSourceTests: XCTestCase {
         let project = MockProject()
         let sections = [
             [],
-            [project, MockProject()],
+            [project, MockProject()]
         ]
-        
+
         // prepare
         project.priority = -1
         dataSource.dataManager = dataManager
         dataSource.sections = sections
-        
+
         // test
         dataSource.prioritize(at: IndexPath(row: 0, section: 1))
         XCTAssertEqual(project.priority, 0)
         XCTAssertTrue(dataManager.didSave)
     }
-    
+
     func testDeprioritise() {
         // mocks
         class MockDataManager: DataManager {
@@ -131,20 +123,20 @@ class ProjectsDataSourceTests: XCTestCase {
         let project = MockProject()
         let sections = [
             [project, MockProject()],
-            [],
+            []
         ]
-        
+
         // prepare
         project.priority = 0
         dataSource.dataManager = dataManager
         dataSource.sections = sections
-        
+
         // test
         dataSource.deprioritize(at: IndexPath(row: 0, section: 0))
         XCTAssertEqual(project.priority, -1)
         XCTAssertTrue(dataManager.didSave)
     }
-    
+
     func testMove() {
         // mocks
         class MockDataManager: DataManager {
@@ -161,16 +153,16 @@ class ProjectsDataSourceTests: XCTestCase {
         let project3 = MockProject()
         let sections = [
             [project1, project2, project3],
-            [],
+            []
         ]
-        
+
         // prepare
         project1.priority = 0
         project2.priority = 1
         project3.priority = 2
         dataSource.dataManager = dataManager
         dataSource.sections = sections
-        
+
         // test
         dataSource.move(fromPath: IndexPath(row: 2, section: 0), toPath: IndexPath(row: 0, section: 0))
         XCTAssertEqual(dataSource.sections[0][0], project3)
@@ -178,7 +170,7 @@ class ProjectsDataSourceTests: XCTestCase {
         XCTAssertEqual(dataSource.sections[0][2], project2)
         XCTAssertTrue(dataManager.didSave)
     }
-    
+
     func testGetItemName() {
         // mocks
         let dataManager = DataManager()
@@ -186,18 +178,18 @@ class ProjectsDataSourceTests: XCTestCase {
         let project = MockProject()
         let sections = [
             [],
-            [project, MockProject()],
+            [project, MockProject()]
         ]
-        
+
         // prepare
         project.name = "test"
         dataSource.dataManager = dataManager
         dataSource.sections = sections
-        
+
         // test
         XCTAssertEqual(dataSource.name(at: IndexPath(row: 0, section: 1)), "test")
     }
-    
+
     func testUpdateItemName() {
         // mocks
         class MockDataManager: DataManager {
@@ -212,26 +204,26 @@ class ProjectsDataSourceTests: XCTestCase {
         let project = MockProject()
         let sections = [
             [],
-            [project, MockProject()],
+            [project, MockProject()]
         ]
-        
+
         // prepare
         project.name = "should update"
         dataSource.dataManager = dataManager
         dataSource.sections = sections
-        
+
         // test
         dataSource.updateName(name: "test", at: IndexPath(row: 0, section: 1))
         XCTAssertEqual(dataSource.sections[1][0].name, "test")
         XCTAssertTrue(dataManager.didSave)
     }
-    
+
     func testAddNewItem() {
         // mocks
         class MockDataManager: DataManager {
             var didSave = false
             var didInsert = false
-            override func insert<T>(entityClass: T.Type, context: NSManagedObjectContext, transient: Bool) -> T? where T : NSManagedObject {
+            override func insert<T>(entityClass: T.Type, context: NSManagedObjectContext, transient: Bool) -> T? where T: NSManagedObject {
                 didInsert = true
                 return super.insert(entityClass: entityClass, context: mainContext)
             }
@@ -242,10 +234,10 @@ class ProjectsDataSourceTests: XCTestCase {
         }
         let dataSource = ProjectsDataSource()
         let dataManager = MockDataManager()
-        
+
         // prepare
         dataSource.dataManager = dataManager
-        
+
         // test
         dataSource.addProject(name: "test")
         XCTAssertTrue(dataManager.didInsert)

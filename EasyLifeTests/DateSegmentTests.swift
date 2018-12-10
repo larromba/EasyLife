@@ -1,11 +1,3 @@
-//
-//  DateSegmentTests.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 19/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import XCTest
 import CoreData
 @testable import EasyLife
@@ -14,16 +6,16 @@ class DateSegmentTests: XCTestCase {
     func testDisplay() {
         XCTAssertEqual(DateSegment.display.count, 11)
     }
-    
+
     func testIncrement() {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(identifier: "GMT")
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let date = dateFormatter.date(from: "21/04/2017")!
         for i in 1..<DateSegment.display.count {
-            let a = DateSegment.display[i]
-            let date2 = a.increment(date: date)
-            switch a {
+            let state = DateSegment.display[i]
+            let date2 = state.increment(date: date)
+            switch state {
             case .today:
                 XCTAssertEqual(dateFormatter.date(from: "21/04/2017")!, date2)
             case .tomorrow:

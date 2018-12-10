@@ -1,19 +1,12 @@
-//
-//  DataManager.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 12/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
-import Foundation
 import CoreData
+import Foundation
+import Logging
 
 class DataManager {
     typealias FetchSuccess = ([Any]?) -> Void
     typealias Success = () -> Void
     typealias Failure = (Error?) -> Void
-    
+
     static let shared = DataManager()
     var persistentContainer: NSPersistentContainer
     var mainContext: NSManagedObjectContext {
@@ -22,14 +15,15 @@ class DataManager {
     var backgroundContext: NSManagedObjectContext {
         return persistentContainer.newBackgroundContext()
     }
-    
+
     init() {
         persistentContainer = NSPersistentContainer(name: "EasyLife")
     }
 
     // MARK: - public
-    
-    func insert<T:NSManagedObject>(entityClass: T.Type, context: NSManagedObjectContext, transient: Bool = false) -> T? {
+
+    func insert<T: NSManagedObject>(entityClass: T.Type, context: NSManagedObjectContext,
+                                    transient: Bool = false) -> T? {
         let entityName = NSStringFromClass(entityClass).components(separatedBy: ".").last!
         return insert(entityName: entityName, context: context, transient: transient) as? T
     }
@@ -39,10 +33,6 @@ class DataManager {
             guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
                 let message = "couldnt create NSEntityDescription for: \(entityName)"
                 log(message)
-                let error = NSError(domain: "", code: 0, userInfo: [
-                    NSLocalizedDescriptionKey: message
-                    ])
-                Analytics.shared.sendErrorEvent(error, classId: DataManager.self)
                 return nil
             }
             return NSManagedObject(entity: entityDescription, insertInto: nil)
@@ -62,7 +52,7 @@ class DataManager {
             let relationships = NSEntityDescription.entity(forEntityName: name, in: context)?.relationshipsByName else {
             return nil
         }
-        attributess.forEach { (key: String, desc: NSAttributeDescription) in
+        attributess.forEach { (key: String, _: NSAttributeDescription) in
             copy.setValue(entity.value(forKey: key), forKey: key)
         }
         relationships.forEach { (key: String, desc: NSRelationshipDescription) in
@@ -75,12 +65,14 @@ class DataManager {
         }
         return copy
     }
-    
-    func delete<T:NSManagedObject>(_ entity:T, context: NSManagedObjectContext)  {
+
+    func delete<T: NSManagedObject>(_ entity: T, context: NSManagedObjectContext) {
         context.delete(entity)
     }
-    
-    func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: [NSSortDescriptor]? = nil, context: NSManagedObjectContext, predicate: NSPredicate? = nil, success: @escaping FetchSuccess, failure: Failure? = nil) {
+
+    func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: [NSSortDescriptor]? = nil,
+                                   context: NSManagedObjectContext, predicate: NSPredicate? = nil,
+                                   success: @escaping FetchSuccess, failure: Failure? = nil) {
         let entityName = NSStringFromClass(entityClass).components(separatedBy: ".").last!
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         request.returnsObjectsAsFaults = false
@@ -93,23 +85,21 @@ class DataManager {
             } catch {
                 log(error)
                 failure?(error)
-                Analytics.shared.sendErrorEvent(error, classId: DataManager.self)
             }
         })
     }
-    
+
     func load(success: Success? = nil, failure: Failure? = nil) {
-        persistentContainer.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        persistentContainer.loadPersistentStores(completionHandler: { _, error in
             guard let error = error else {
                 success?()
                 return
             }
             failure?(error)
-            Analytics.shared.sendErrorEvent(error, classId: DataManager.self)
             NotificationCenter.default.post(name: .applicationDidReceiveFatalError, object: error)
         })
     }
-    
+
     func save(context: NSManagedObjectContext, success: Success? = nil, failure: Failure? = nil) {
         guard context.hasChanges else {
             return
@@ -120,7 +110,6 @@ class DataManager {
                 success?()
             } catch {
                 failure?(error)
-                Analytics.shared.sendErrorEvent(error, classId: DataManager.self)
                 NotificationCenter.default.post(name: .applicationDidReceiveFatalError, object: error)
             }
         })

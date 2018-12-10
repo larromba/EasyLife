@@ -1,11 +1,3 @@
-//
-//  RepeatStateTests.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 19/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import XCTest
 import CoreData
 @testable import EasyLife
@@ -14,19 +6,19 @@ class RepeatStateTests: XCTestCase {
     func testDisplay() {
         XCTAssertEqual(RepeatState.display.count, 9)
     }
-    
+
     func testIncrement() {
         // mocks
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(identifier: "GMT")
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let date = dateFormatter.date(from: "21/04/2017")!
-        
+
         // test
         for i in 1..<RepeatState.display.count {
-            let a = RepeatState.display[i]
-            let date2 = a.increment(date: date)
-            switch a {
+            let state = RepeatState.display[i]
+            let date2 = state.increment(date: date)
+            switch state {
             case .daily:
                 XCTAssertEqual(dateFormatter.date(from: "22/04/2017")!, date2)
             case .weekly:

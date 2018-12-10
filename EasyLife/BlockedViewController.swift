@@ -1,12 +1,5 @@
-//
-//  BlockedViewController.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 24/02/2018.
-//  Copyright © 2018 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
+import Logging
 
 class BlockedViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!

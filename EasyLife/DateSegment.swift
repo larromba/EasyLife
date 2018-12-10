@@ -1,11 +1,3 @@
-//
-//  DateSegment.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 19/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import Foundation
 
 enum DateSegment: Int, DisplayEnum {
@@ -34,10 +26,10 @@ enum DateSegment: Int, DisplayEnum {
             .month,
             .quarter,
             .halfyear,
-            .year,
+            .year
         ]
     }
-    
+
     func stringValue() -> String? {
         switch self {
         case .today:
@@ -64,7 +56,7 @@ enum DateSegment: Int, DisplayEnum {
             return nil
         }
     }
-    
+
     func increment(date: Date) -> Date? {
         let calendar = Calendar.current
         switch self {

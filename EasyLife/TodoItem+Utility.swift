@@ -1,11 +1,3 @@
-//
-//  TodoItem+Utility.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 12/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import Foundation
 import CoreData
 
@@ -18,7 +10,7 @@ extension TodoItem {
             repeats = Int16(newValue?.rawValue ?? 0)
         }
     }
-    
+
     func incrementDate() {
         guard
             let oldDate = date,

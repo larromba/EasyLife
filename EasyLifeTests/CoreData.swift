@@ -1,26 +1,17 @@
-//
-//  CoreData.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 20/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import CoreData
 
 extension NSPersistentContainer {
-    class func test(url: URL? = nil) throws -> NSPersistentContainer {
+    class func test(url: URL? = nil) -> NSPersistentContainer {
         let container = NSPersistentContainer(name: "EasyLife")
         let description = container.persistentStoreDescriptions.first!
         description.type = NSInMemoryStoreType
         if let url = url {
             description.url = url
         }
-        var loadError: Error?
         let group = DispatchGroup()
         group.enter()
-        container.loadPersistentStores(completionHandler: { (storeDescription: NSPersistentStoreDescription, error: Error?) in
-            loadError = error
+        container.loadPersistentStores(completionHandler: { (_: NSPersistentStoreDescription, error: Error?) in
+            assert(error == nil, error?.localizedDescription)
             group.leave()
         })
         if let loadError = loadError {

@@ -1,15 +1,7 @@
-//
-//  ItemDetailViewController.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 12/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
 import PPBadgeView
 
-class ItemDetailViewController : UIViewController, ResponderSelection {
+class ItemDetailViewController: UIViewController, ResponderSelection {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var repeatsTextField: UITextField!
@@ -18,7 +10,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var blockedButton: UIBarButtonItem!
     @IBOutlet weak var scrollView: UIScrollView!
-    
+
     var responders: [UIResponder]!
     var dataSource: ItemDetailDataSource
     var calendarButton: UIBarButtonItem?
@@ -27,8 +19,8 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     lazy var toolbar: UIToolbar = {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
         toolbar.barStyle = .default
-        let prev = UIBarButtonItem(image: UIImage(named:"backward_arrow"), style: .plain, target: self, action: #selector(prevPressed(_:)))
-        let next = UIBarButtonItem(image: UIImage(named:"forward_arrow"), style: .plain, target: self, action: #selector(nextPressed(_:)))
+        let prev = UIBarButtonItem(image: UIImage(named: "backward_arrow"), style: .plain, target: self, action: #selector(prevPressed(_:)))
+        let next = UIBarButtonItem(image: UIImage(named: "forward_arrow"), style: .plain, target: self, action: #selector(nextPressed(_:)))
         let spacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         spacer.width = 10.0
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -49,19 +41,19 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         datePicker.addGestureRecognizer(tap)
         return datePicker
     }()
-   
+
     lazy var simpleDatePicker: SimpleDatePicker = {
         let datePicker = SimpleDatePicker(delegate: self, date: self.dataSource.now, data: DateSegment.display)
         return datePicker
     }()
-    
+
     lazy var repeatPicker: UIPickerView = {
         let pickerView = UIPickerView()
         pickerView.delegate = self
         pickerView.dataSource = self
         return pickerView
     }()
-    
+
     lazy var projectPicker: UIPickerView = {
         let pickerView = UIPickerView()
         pickerView.delegate = self
@@ -73,7 +65,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         dataSource = ItemDetailDataSource()
         super.init(coder: aDecoder)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -121,7 +113,7 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
         }
         dataSource.load()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if isMovingFromParentViewController {
@@ -136,19 +128,19 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
             vc.dataSource.data = dataSource.blockable
         }
     }
-    
+
     // MARK: - private
 
     private func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
-    
+
     private func tearDownNotifications() {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
-    
+
     private func setRightBarButtonItem(_ item: UIBarButtonItem) {
         saveButton = item
         navigationItem.rightBarButtonItem = item
@@ -179,36 +171,36 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     }
 
     // MARK: - action
-    
+
     @IBAction private func savePressed(_ sender: UIBarButtonItem?) {
         dataSource.create()
         dataSource.save()
     }
-    
+
     @IBAction private func deletePressed(_ sender: UIBarButtonItem?) {
         dataSource.delete()
     }
-    
+
     @objc private func prevPressed(_ sender: UIBarButtonItem) {
         makeFirstResponder(previousResponderInArray)
     }
-    
+
     @objc private func nextPressed(_ sender: UIBarButtonItem) {
         makeFirstResponder(nextResponderInArray)
     }
-    
+
     @objc private func donePressed(_ sender: UIBarButtonItem) {
         view.endEditing(true)
     }
-    
+
     @objc private func dateChanged(_ sender: UIDatePicker) {
         dataSource.date = sender.date as Date?
     }
-    
+
     @objc private func dateTapped(_ sender: UIDatePicker) {
         dataSource.date = sender.date as Date?
     }
-    
+
     @objc private func textViewTapped(_ sender: UIDatePicker) {
         makeFirstResponder(textView)
     }
@@ -227,14 +219,14 @@ class ItemDetailViewController : UIViewController, ResponderSelection {
     @IBAction private func textFieldChanged(_ sender: UITextField) {
         dataSource.name = sender.text
     }
-    
+
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
         scrollView.contentInset.bottom = height.cgRectValue.height
     }
-    
+
     @objc private func keyboardWillHide(_ notification: Notification) {
         scrollView.contentInset.bottom = 0
     }
@@ -252,7 +244,7 @@ extension ItemDetailViewController: UIPickerViewDelegate {
             return nil
         }
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == repeatPicker {
             dataSource.repeatState = dataSource.repeatStateData[row]
@@ -268,7 +260,7 @@ extension ItemDetailViewController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == repeatPicker {
             return dataSource.repeatStateData.count
@@ -287,13 +279,13 @@ extension ItemDetailViewController: UITextFieldDelegate {
         makeFirstResponder(nextResponderInArray)
         return false
     }
-    
+
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         switch textField {
         case dateTextField:
             if dataSource.date != nil {
                 textField.inputView = datePicker
-            } else  {
+            } else {
                 textField.inputView = simpleDatePicker
             }
             addCalendarTypeButton()
@@ -303,7 +295,7 @@ extension ItemDetailViewController: UITextFieldDelegate {
         }
         return true
     }
-    
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
         case dateTextField:
@@ -322,7 +314,7 @@ extension ItemDetailViewController: UITextFieldDelegate {
             break
         }
     }
-    
+
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         switch textField {
         case dateTextField:
@@ -392,7 +384,7 @@ extension ItemDetailViewController: ItemDetailDelegate {
 
     func itemDetailDataSource(_ delegate: ItemDetailDataSource, updatedBlockable blockable: [BlockedItem]?) {
         blockedButton.isEnabled = (blockable?.count ?? 0) > 0
-        blockedButton.pp_addBadge(withNumber: blockable?.filter({ $0.isBlocked }).count ?? 0)
+        blockedButton.pp.addBadge(number: blockable?.filter({ $0.isBlocked }).count ?? 0)
     }
 
     func itemDetailDataSourceDidDelete(_ delegate: ItemDetailDataSource) {

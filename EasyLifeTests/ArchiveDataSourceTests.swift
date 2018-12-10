@@ -1,11 +1,3 @@
-//
-//  ArchiveDataSourceTests.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 07/06/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import XCTest
 import CoreData
 @testable import EasyLife
@@ -26,7 +18,7 @@ class ArchiveDataSourceTests: XCTestCase {
                 exp.fulfill()
             }
         }
-        let container = try! NSPersistentContainer.test()
+        let container = NSPersistentContainer.test()
         _ = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem // shouldnt appear in data fetch
         let item1 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
         let item2 = NSEntityDescription.insertNewObject(forEntityName: "TodoItem", into: container.viewContext) as! TodoItem
@@ -53,14 +45,14 @@ class ArchiveDataSourceTests: XCTestCase {
             "Z": [item3]
         ]
         delegate.exp = exp
-        
+
         // test
         dataSource.load()
         waitForExpectations(timeout: 1.0) { (err: Error?) in
             XCTAssertNil(err)
         }
     }
-    
+
     func testUndo() {
         // mocks
         class MockDataManager: DataManager {
@@ -74,14 +66,14 @@ class ArchiveDataSourceTests: XCTestCase {
         let dataManager = MockDataManager()
         let item = MockTodoItem()
         let data = [
-            Character("A"): [item],
+            Character("A"): [item]
         ]
-        
+
         // prepare
         item.done = true
         dataSource.dataManager = dataManager
         dataSource.data = data
-        
+
         // test
         dataSource.undo(at: IndexPath(row: 0, section: 0))
         XCTAssertTrue(dataManager.didSave)
@@ -94,7 +86,7 @@ class ArchiveDataSourceTests: XCTestCase {
         // mocks
         class MockDataManager: DataManager {
             var didDelete = false
-            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T : NSManagedObject {
+            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T: NSManagedObject {
                 didDelete = true
             }
         }
@@ -102,7 +94,7 @@ class ArchiveDataSourceTests: XCTestCase {
         let dataManager = MockDataManager()
         let item = MockTodoItem()
         let data = [
-            Character("A"): [item],
+            Character("A"): [item]
             ]
 
         // prepare

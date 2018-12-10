@@ -1,11 +1,3 @@
-//
-//  ItemDetailViewControllerTests.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 19/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import XCTest
 import CoreData
 @testable import EasyLife
@@ -15,12 +7,12 @@ class ItemDetailViewControllerTests: XCTestCase {
         super.setUp()
         UIView.setAnimationsEnabled(false)
     }
-    
+
     override func tearDown() {
         super.tearDown()
         UIView.setAnimationsEnabled(true)
     }
-    
+
     func testTextFieldInputViews() {
         // mocks
         let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
@@ -29,16 +21,16 @@ class ItemDetailViewControllerTests: XCTestCase {
         // prepare
         UIApplication.shared.keyWindow!.rootViewController = vc
         vc.dataSource = dataSource
-        
+
         // test
         XCTAssertEqual(vc.titleTextField.keyboardType, .default)
         XCTAssertEqual(vc.textView.keyboardType, .default)
         XCTAssertEqual(vc.repeatsTextField.inputView, vc.repeatPicker)
         XCTAssertEqual(vc.projectTextField.inputView, vc.projectPicker)
-        
+
         _ = vc.dateTextField.delegate!.textFieldShouldBeginEditing!(vc.dateTextField)
         XCTAssertEqual(vc.dateTextField.inputView, vc.simpleDatePicker)
-        
+
         dataSource.date = Date()
         _ = vc.dateTextField.delegate!.textFieldShouldBeginEditing!(vc.dateTextField)
         XCTAssertEqual(vc.dateTextField.inputView, vc.datePicker)
@@ -78,13 +70,13 @@ class ItemDetailViewControllerTests: XCTestCase {
 
         XCTAssertNotEqual(button1, button2)
     }
-    
+
     func testLeftRightToolbarButtonsSwitchInputViews() {
         // mocks
         let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         let prev = vc.toolbar.items![0]
         let next = vc.toolbar.items![2]
-        
+
         // prepare
         UIApplication.shared.keyWindow!.rootViewController = vc
 
@@ -93,21 +85,21 @@ class ItemDetailViewControllerTests: XCTestCase {
         UIApplication.shared.sendAction(prev.action!, to: prev.target!, from: nil, for: nil)
         XCTAssertFalse(vc.titleTextField.isFirstResponder)
         XCTAssertTrue(vc.textView.isFirstResponder)
-        
+
         vc.titleTextField.becomeFirstResponder()
         UIApplication.shared.sendAction(next.action!, to: next.target!, from: nil, for: nil)
         XCTAssertFalse(vc.titleTextField.isFirstResponder)
         XCTAssertTrue(vc.dateTextField.isFirstResponder)
     }
-    
+
     func testDoneClosesInputView() {
         // mocks
         let vc = UIStoryboard.plan.instantiateViewController(withIdentifier: "ItemDetailViewController") as! ItemDetailViewController
         let done = vc.toolbar.items!.last!
-        
+
         // prepare
         UIApplication.shared.keyWindow!.rootViewController = vc
-        
+
         // test
         vc.titleTextField.becomeFirstResponder()
         UIApplication.shared.sendAction(done.action!, to: done.target!, from: nil, for: nil)
@@ -169,7 +161,7 @@ class ItemDetailViewControllerTests: XCTestCase {
         vc.viewWillAppear(false)
         XCTAssertNotNil(vc.dataSource.blockable) // test getting data from BlockedViewController
     }
-    
+
     func testSave() {
         // mocks
         class MockDataManager: DataManager {
@@ -180,7 +172,7 @@ class ItemDetailViewControllerTests: XCTestCase {
                 saved = true
                 success!()
             }
-            override func insert<T>(entityClass: T.Type, context: NSManagedObjectContext, transient: Bool) -> T? where T : NSManagedObject {
+            override func insert<T>(entityClass: T.Type, context: NSManagedObjectContext, transient: Bool) -> T? where T: NSManagedObject {
                 return item as? T
             }
         }
@@ -190,7 +182,7 @@ class ItemDetailViewControllerTests: XCTestCase {
         let project = MockProject()
         let date = Date()
         let dataSource = ItemDetailDataSource()
-        
+
         // prepare
         UIApplication.shared.keyWindow!.rootViewController = vc
         vc.dataSource = dataSource
@@ -214,7 +206,7 @@ class ItemDetailViewControllerTests: XCTestCase {
         XCTAssertEqual(item.repeats, 3)
         XCTAssertEqual(item.project, project)
     }
-    
+
     func testSavePopsViewController() {
         // mocks
         let exp = expectation(description: "navigationController.willShow(...)")
@@ -222,7 +214,7 @@ class ItemDetailViewControllerTests: XCTestCase {
             override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 success!()
             }
-            override func insert<T>(entityClass: T.Type, context: NSManagedObjectContext, transient: Bool) -> T? where T : NSManagedObject {
+            override func insert<T>(entityClass: T.Type, context: NSManagedObjectContext, transient: Bool) -> T? where T: NSManagedObject {
                 return MockTodoItem() as? T
             }
         }
@@ -239,7 +231,7 @@ class ItemDetailViewControllerTests: XCTestCase {
         let delegate = MockDelegate()
         let dataManager = MockDataManager()
         let dataSource = ItemDetailDataSource()
-        
+
         // prepare
         _ = vc.view
         nav.pushViewController(vc, animated: false)
@@ -249,14 +241,14 @@ class ItemDetailViewControllerTests: XCTestCase {
         dataSource.dataManager = dataManager
         vc.viewWillAppear(false)
         UIApplication.shared.keyWindow!.rootViewController = nav
-        
+
         // test
         UIApplication.shared.sendAction(vc.saveButton.action!, to: vc.saveButton.target!, from: nil, for: nil)
         waitForExpectations(timeout: 1.0) { (err: Error?) in
             XCTAssertNil(err)
         }
     }
-    
+
     func testSaveCalledOnViewWillDissapear() {
         // mocks
         let exp = expectation(description: "navigationController.popViewController(...)")
@@ -273,7 +265,7 @@ class ItemDetailViewControllerTests: XCTestCase {
         let dataManager = MockDataManager()
         let item = MockTodoItem()
         let dataSource = ItemDetailDataSource()
-        
+
         // prepare
         _ = vc.view
         vc.dataSource = dataSource
@@ -286,17 +278,17 @@ class ItemDetailViewControllerTests: XCTestCase {
 
         // test
         nav.popViewController(animated: false)
-        waitForExpectations(timeout: 1.0) { (err: Error?) in
+        waitForExpectations(timeout: 1.0) { (_: Error?) in
             XCTAssertTrue(dataManager.saved)
         }
     }
-    
+
     func testDelete() {
         // mocks
         class MockDataManager: DataManager {
             var deleted = false
             var item: MockTodoItem!
-            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T : NSManagedObject {
+            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T: NSManagedObject {
                 if item == entity {
                     deleted = true
                 }
@@ -306,7 +298,7 @@ class ItemDetailViewControllerTests: XCTestCase {
         let dataManager = MockDataManager()
         let item = MockTodoItem()
         let dataSource = ItemDetailDataSource()
-        
+
         // prepare
         UIApplication.shared.keyWindow!.rootViewController = vc
         dataSource.item = item
@@ -320,12 +312,12 @@ class ItemDetailViewControllerTests: XCTestCase {
         UIApplication.shared.sendAction(vc.saveButton.action!, to: vc.saveButton.target!, from: nil, for: nil)
         XCTAssertTrue(dataManager.deleted)
     }
-    
+
     func testDeletePopsViewController() {
         // mocks
         let exp = expectation(description: "navigationController.willShow(...)")
         class MockDataManager: DataManager {
-            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T : NSManagedObject {}
+            override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T: NSManagedObject {}
             override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
                 success?()
             }
@@ -355,7 +347,7 @@ class ItemDetailViewControllerTests: XCTestCase {
         dataSource.dataManager = dataManager
         dataSource.item = item
         vc.viewWillAppear(false)
-        
+
         // test
         UIApplication.shared.sendAction(vc.saveButton.action!, to: vc.saveButton.target!, from: nil, for: nil)
         waitForExpectations(timeout: 1.0) { (err: Error?) in
@@ -367,7 +359,9 @@ class ItemDetailViewControllerTests: XCTestCase {
         // mocks
         class MockDataManager: DataManager {
             var projects: [MockProject]!
-            override func fetch<T>(entityClass: T.Type, sortBy: [NSSortDescriptor]?, context: NSManagedObjectContext, predicate: NSPredicate?, success: @escaping DataManager.FetchSuccess, failure: DataManager.Failure?) where T : NSManagedObject {
+            override func fetch<T>(entityClass: T.Type, sortBy: [NSSortDescriptor]?, context: NSManagedObjectContext,
+                                   predicate: NSPredicate?, success: @escaping DataManager.FetchSuccess,
+                                   failure: DataManager.Failure?) where T: NSManagedObject {
                 success(projects)
             }
         }

@@ -1,11 +1,3 @@
-//
-//  BlockedViewControllerTests.swift
-//  EasyLifeTests
-//
-//  Created by Lee Arromba on 25/02/2018.
-//  Copyright © 2018 Pink Chicken Ltd. All rights reserved.
-//
-
 import XCTest
 import CoreData
 import UserNotifications

@@ -1,11 +1,3 @@
-//
-//  BlockedDataSource.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 24/02/2018.
-//  Copyright © 2018 Pink Chicken Ltd. All rights reserved.
-//
-
 import Foundation
 
 class BlockedDataSource {
@@ -31,8 +23,8 @@ class BlockedDataSource {
         delegate?.dataSorceDidLoad(self)
     }
 
-    func isBlocked(_ a: TodoItem) -> Bool {
-        return data.filter({ $0.item === a }).first?.isBlocked ?? false
+    func isBlocked(_ item: TodoItem) -> Bool {
+        return data.filter({ $0.item === item }).first?.isBlocked ?? false
     }
 }
 
