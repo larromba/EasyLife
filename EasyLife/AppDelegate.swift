@@ -1,19 +1,19 @@
-import UIKit
 import Logging
+import UIKit
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
-	var window: UIWindow? {
-		didSet {
-			guard let window = window else {
-				fatalErrorHandler = nil
-				return
-			}
-			fatalErrorHandler = FatalErrorHandler(window: window)
-		}
-	}
+    var window: UIWindow? {
+        didSet {
+            guard let window = window else {
+                fatalErrorHandler = nil
+                return
+            }
+            fatalErrorHandler = FatalErrorHandler(window: window)
+        }
+    }
     var dataManager: DataManager
-	var fatalErrorHandler: FatalErrorHandler?
+    var fatalErrorHandler: FatalErrorHandler?
 
     override init() {
         dataManager = DataManager.shared

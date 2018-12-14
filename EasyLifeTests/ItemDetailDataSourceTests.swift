@@ -1,13 +1,14 @@
-import XCTest
 import CoreData
 @testable import EasyLife
+import XCTest
 
 class ItemDetailDataSourceTests: XCTestCase {
     func testSave() {
         // mocks
         class MockDataManager: DataManager {
             var didSave = false
-            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?,
+                               failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }
@@ -29,11 +30,13 @@ class ItemDetailDataSourceTests: XCTestCase {
         // mocks
         class MockDataManager: DataManager {
             var didDelete = false
+            var didSave = false
+
             override func delete<T>(_ entity: T, context: NSManagedObjectContext) where T: NSManagedObject {
                 didDelete = true
             }
-            var didSave = false
-            override func save(context: NSManagedObjectContext, success: DataManager.Success?, failure: DataManager.Failure?) {
+            override func save(context: NSManagedObjectContext, success: DataManager.Success?,
+                               failure: DataManager.Failure?) {
                 didSave = true
                 success!()
             }

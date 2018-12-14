@@ -1,5 +1,5 @@
-import Foundation
 @testable import EasyLife
+import Foundation
 
 class MockTodoItem: TodoItem {
     private var _name: String?

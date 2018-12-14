@@ -16,8 +16,8 @@ class PlanCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        blockedView.blockedColor = .lightRed
-        blockedView.blockingColor = .appleGrey
+        blockedView.blockedColor = Asset.Colors.red.color
+        blockedView.blockingColor = Asset.Colors.grey.color
     }
 
     var iconImageType: ImageType = .none {
@@ -56,8 +56,8 @@ class PlanCell: UITableViewCell {
             }
             tagView.setup(for: item.project)
             if item.name == nil || item.name!.isEmpty {
-                titleLabel.text = "[no name]".localized
-                titleLabel.textColor = .appleGrey
+                titleLabel.text = L10n.todoItemNoName
+                titleLabel.textColor = Asset.Colors.grey.color
             } else {
                 titleLabel.text = item.name
             }
@@ -85,9 +85,9 @@ class PlanCell: UITableViewCell {
             }
             switch indexPath.section {
             case 0:
-                titleLabel.textColor = .lightRed
-                infoLabel.textColor = .lightRed
-                notesLabel.textColor = .lightRed
+                titleLabel.textColor = Asset.Colors.red.color
+                infoLabel.textColor = Asset.Colors.red.color
+                notesLabel.textColor = Asset.Colors.red.color
                 tagView.alpha = 1.0
                 infoLabel.isHidden = true
             case 1:
@@ -97,9 +97,9 @@ class PlanCell: UITableViewCell {
                 tagView.alpha = 1.0
                 infoLabel.isHidden = true
             default: // case 2
-                titleLabel.textColor = .appleGrey
-                infoLabel.textColor = .appleGrey
-                notesLabel.textColor = .appleGrey
+                titleLabel.textColor = Asset.Colors.grey.color
+                infoLabel.textColor = Asset.Colors.grey.color
+                notesLabel.textColor = Asset.Colors.grey.color
                 tagView.alpha = 0.5
                 infoLabel.isHidden = false
             }

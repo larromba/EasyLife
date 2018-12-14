@@ -1,5 +1,5 @@
-import UIKit
 import PPBadgeView
+import UIKit
 
 class ItemDetailViewController: UIViewController, ResponderSelection {
     @IBOutlet weak var titleTextField: UITextField!
@@ -19,8 +19,10 @@ class ItemDetailViewController: UIViewController, ResponderSelection {
     lazy var toolbar: UIToolbar = {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
         toolbar.barStyle = .default
-        let prev = UIBarButtonItem(image: UIImage(named: "backward_arrow"), style: .plain, target: self, action: #selector(prevPressed(_:)))
-        let next = UIBarButtonItem(image: UIImage(named: "forward_arrow"), style: .plain, target: self, action: #selector(nextPressed(_:)))
+        let prev = UIBarButtonItem(image: Asset.Assets.backwardArrow.image, style: .plain, target: self,
+                                   action: #selector(prevPressed(_:)))
+        let next = UIBarButtonItem(image: Asset.Assets.forwardArrow.image, style: .plain, target: self,
+                                   action: #selector(nextPressed(_:)))
         let spacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         spacer.width = 10.0
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -98,9 +100,11 @@ class ItemDetailViewController: UIViewController, ResponderSelection {
         textView.addGestureRecognizer(tap)
 
         if dataSource.canSave {
-            setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(savePressed(_:))))
+            setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .save, target: self,
+                                                  action: #selector(savePressed(_:))))
         } else {
-            setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deletePressed(_:))))
+            setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .trash, target: self,
+                                                  action: #selector(deletePressed(_:))))
         }
     }
 
@@ -123,17 +127,19 @@ class ItemDetailViewController: UIViewController, ResponderSelection {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? BlockedViewController {
-            blockedViewController = vc
-            vc.dataSource.data = dataSource.blockable
+        if let viewController = segue.destination as? BlockedViewController {
+            blockedViewController = viewController
+            viewController.dataSource.data = dataSource.blockable
         }
     }
 
     // MARK: - private
 
     private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                               name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                               name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
 
     private func tearDownNotifications() {
@@ -156,9 +162,11 @@ class ItemDetailViewController: UIViewController, ResponderSelection {
     private func addCalendarTypeButton() {
         if let item = toolbar.items?[4], item != calendarButton {
             if dateTextField.inputView == datePicker {
-                calendarButton = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(calendarButtonPressed(_:)))
+                calendarButton = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self,
+                                                 action: #selector(calendarButtonPressed(_:)))
             } else if dateTextField.inputView == simpleDatePicker {
-                calendarButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(calendarButtonPressed(_:)))
+                calendarButton = UIBarButtonItem(barButtonSystemItem: .search, target: self,
+                                                 action: #selector(calendarButtonPressed(_:)))
             }
             toolbar.items?.insert(calendarButton!, at: 4)
         }
@@ -181,31 +189,38 @@ class ItemDetailViewController: UIViewController, ResponderSelection {
         dataSource.delete()
     }
 
-    @objc private func prevPressed(_ sender: UIBarButtonItem) {
+    @objc
+    private func prevPressed(_ sender: UIBarButtonItem) {
         makeFirstResponder(previousResponderInArray)
     }
 
-    @objc private func nextPressed(_ sender: UIBarButtonItem) {
+    @objc
+    private func nextPressed(_ sender: UIBarButtonItem) {
         makeFirstResponder(nextResponderInArray)
     }
 
-    @objc private func donePressed(_ sender: UIBarButtonItem) {
+    @objc
+    private func donePressed(_ sender: UIBarButtonItem) {
         view.endEditing(true)
     }
 
-    @objc private func dateChanged(_ sender: UIDatePicker) {
+    @objc
+    private func dateChanged(_ sender: UIDatePicker) {
         dataSource.date = sender.date as Date?
     }
 
-    @objc private func dateTapped(_ sender: UIDatePicker) {
+    @objc
+    private func dateTapped(_ sender: UIDatePicker) {
         dataSource.date = sender.date as Date?
     }
 
-    @objc private func textViewTapped(_ sender: UIDatePicker) {
+    @objc
+    private func textViewTapped(_ sender: UIDatePicker) {
         makeFirstResponder(textView)
     }
 
-    @objc private func calendarButtonPressed(_ sender: UIBarButtonItem) {
+    @objc
+    private func calendarButtonPressed(_ sender: UIBarButtonItem) {
         if dateTextField.inputView == datePicker {
             dateTextField.inputView = simpleDatePicker
         } else if dateTextField.inputView == simpleDatePicker {
@@ -220,14 +235,16 @@ class ItemDetailViewController: UIViewController, ResponderSelection {
         dataSource.name = sender.text
     }
 
-    @objc private func keyboardWillShow(_ notification: Notification) {
+    @objc
+    private func keyboardWillShow(_ notification: Notification) {
         guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
         scrollView.contentInset.bottom = height.cgRectValue.height
     }
 
-    @objc private func keyboardWillHide(_ notification: Notification) {
+    @objc
+    private func keyboardWillHide(_ notification: Notification) {
         scrollView.contentInset.bottom = 0
     }
 }
@@ -291,7 +308,6 @@ extension ItemDetailViewController: UITextFieldDelegate {
             addCalendarTypeButton()
         default:
             removeCalendarTypeButton()
-            break
         }
         return true
     }

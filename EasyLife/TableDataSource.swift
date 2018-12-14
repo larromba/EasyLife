@@ -1,13 +1,13 @@
 import Foundation
 
-protocol TableDataSourceDelegate: class {
+protocol TableDataSourceDelegate: AnyObject {
     func dataSorceDidLoad<T: TableDataSource>(_ dataSource: T)
 }
 
 protocol TableDataSource {
     associatedtype Object
 
-	var delegate: TableDataSourceDelegate? { get set }
+    var delegate: TableDataSourceDelegate? { get set }
 
     func load()
     func title(for section: Int) -> String?

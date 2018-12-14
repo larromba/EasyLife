@@ -1,5 +1,5 @@
-import Foundation
 import CoreData
+import Foundation
 
 class PlanDataSource: NSObject { // NSObject needed to override extensions in unit test
     var dataManager: DataManager
@@ -9,15 +9,18 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
     // not lazy var as 'today' changes
     fileprivate var missedPredicate: NSPredicate {
         let date = today
-        return NSPredicate(format: "%K < %@ AND (%K = NULL OR %K = false)", argumentArray: ["date", date.earliest, "done", "done"])
+        return NSPredicate(format: "%K < %@ AND (%K = NULL OR %K = false)",
+                           argumentArray: ["date", date.earliest, "done", "done"])
     }
     fileprivate var todayPredicate: NSPredicate {
         let date = today
-        return NSPredicate(format: "%K >= %@ AND %K <= %@ AND (%K = NULL OR %K = false)", argumentArray: ["date", date.earliest, "date", date.latest, "done", "done"])
+        return NSPredicate(format: "%K >= %@ AND %K <= %@ AND (%K = NULL OR %K = false)",
+                           argumentArray: ["date", date.earliest, "date", date.latest, "done", "done"])
     }
     fileprivate var laterPredicate: NSPredicate {
         let date = today
-        return NSPredicate(format: "(%K > %@ OR %K = NULL) AND (%K = NULL OR %K = false)", argumentArray: ["date", date.latest, "date", "done", "done"])
+        return NSPredicate(format: "(%K > %@ OR %K = NULL) AND (%K = NULL OR %K = false)",
+                           argumentArray: ["date", date.latest, "date", "done", "done"])
     }
     var today: Date {
         return Date()
@@ -52,7 +55,7 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
 #if DEBUG
     func itunesConnect() {
         let missed1 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
-        missed1.date = Date().addingTimeInterval(-24*60*60)
+        missed1.date = Date().addingTimeInterval(-24 * 60 * 60)
         missed1.name = "send letter"
 
         let now1 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
@@ -64,15 +67,15 @@ class PlanDataSource: NSObject { // NSObject needed to override extensions in un
         now2.name = "get party food!"
 
         let later1 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
-        later1.date = Date().addingTimeInterval(24*60*60)
+        later1.date = Date().addingTimeInterval(24 * 60 * 60)
         later1.name = "phone mum"
 
         let later2 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
-        later2.date = Date().addingTimeInterval(24*60*60)
+        later2.date = Date().addingTimeInterval(24 * 60 * 60)
         later2.name = "clean flat"
 
         let later3 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
-        later3.date = Date().addingTimeInterval(24*60*60)
+        later3.date = Date().addingTimeInterval(24 * 60 * 60)
         later3.name = "call landlord"
 
         dataManager.save(context: dataManager.mainContext)
@@ -193,11 +196,11 @@ extension PlanDataSource: TableDataSource {
         }
         switch section {
         case 0:
-            return "Missed...".localized
+            return L10n.missedSection
         case 1:
-            return "Today".localized
+            return L10n.todaySection
         case 2:
-            return "Later...".localized
+            return L10n.laterSection
         default:
             return nil
         }

@@ -1,6 +1,7 @@
 import UIKit
 
-@IBDesignable class TagView: UIView {
+@IBDesignable
+class TagView: UIView {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var cornerLayerView: UIView!
     private var cornerLayer: CAShapeLayer?
@@ -49,15 +50,15 @@ import UIKit
             label.text = "\(priority + 1)"
             switch priority {
             case 0:
-                cornerColor = .priority1
+                cornerColor = Asset.Colors.priority1.color
             case 1:
-                cornerColor = .priority2
+                cornerColor = Asset.Colors.priority2.color
             case 2:
-                cornerColor = .priority3
+                cornerColor = Asset.Colors.priority3.color
             case 3:
-                cornerColor = .priority4
+                cornerColor = Asset.Colors.priority4.color
             case 4:
-                cornerColor = .priority5
+                cornerColor = Asset.Colors.priority5.color
             default:
                 break
             }

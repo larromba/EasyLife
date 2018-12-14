@@ -1,6 +1,6 @@
 import Foundation
 
-protocol ItemDetailDelegate: class {
+protocol ItemDetailDelegate: AnyObject {
     func itemDetailDataSource(_ delegate: ItemDetailDataSource, updatedName name: String?)
     func itemDetailDataSource(_ delegate: ItemDetailDataSource, updatedNotes notes: String?)
     func itemDetailDataSource(_ delegate: ItemDetailDataSource, updatedDate date: String?)

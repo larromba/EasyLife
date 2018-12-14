@@ -12,100 +12,107 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name
 internal enum L10n {
   /// %i done
-  internal static func iDone(_ p1: Int) -> String {
-    return L10n.tr("Localizable", "%i done", p1)
+  internal static func archiveItemTotalMessage(_ p1: Int) -> String {
+    return L10n.tr("Localizable", "archive item total message", p1)
   }
+  /// Undo
+  internal static let archiveItemUndoOption = L10n.tr("Localizable", "archive item undo option")
   /// 1 month
-  internal static let _1Month = L10n.tr("Localizable", "1 month")
+  internal static let dateOption1Month = L10n.tr("Localizable", "date option 1 month")
   /// 2 weeks
-  internal static let _2Weeks = L10n.tr("Localizable", "2 weeks")
+  internal static let dateOption2Weeks = L10n.tr("Localizable", "date option 2 weeks")
   /// 3 weeks
-  internal static let _3Weeks = L10n.tr("Localizable", "3 weeks")
-  /// [no name]
-  internal static let noName = L10n.tr("Localizable", "[no name]")
+  internal static let dateOption3Weeks = L10n.tr("Localizable", "date option 3 weeks")
   /// a few days
-  internal static let aFewDays = L10n.tr("Localizable", "a few days")
+  internal static let dateOptionAFewDays = L10n.tr("Localizable", "date option a few days")
   /// a few months
-  internal static let aFewMonths = L10n.tr("Localizable", "a few months")
-  /// Are you sure?
-  internal static let areYouSure = L10n.tr("Localizable", "Are you sure?")
-  /// bi-weekly
-  internal static let biWeekly = L10n.tr("Localizable", "bi-weekly")
+  internal static let dateOptionAFewMonths = L10n.tr("Localizable", "date option a few months")
+  /// half a year
+  internal static let dateOptionHalfAYear = L10n.tr("Localizable", "date option half a year")
+  /// next week
+  internal static let dateOptionNextWeek = L10n.tr("Localizable", "date option next week")
+  /// next year
+  internal static let dateOptionNextYear = L10n.tr("Localizable", "date option next year")
+  /// today
+  internal static let dateOptionToday = L10n.tr("Localizable", "date option today")
+  /// tomorow
+  internal static let dateOptionTomorow = L10n.tr("Localizable", "date option tomorow")
   /// Cancel
-  internal static let cancel = L10n.tr("Localizable", "Cancel")
-  /// daily
-  internal static let daily = L10n.tr("Localizable", "daily")
-  /// Delete
-  internal static let delete = L10n.tr("Localizable", "Delete")
-  /// Deprioritized
-  internal static let deprioritized = L10n.tr("Localizable", "Deprioritized")
-  /// Done
-  internal static let done = L10n.tr("Localizable", "Done")
+  internal static let editProjectAlertCancel = L10n.tr("Localizable", "edit project alert cancel")
+  /// name
+  internal static let editProjectAlertName = L10n.tr("Localizable", "edit project alert name")
+  /// OK
+  internal static let editProjectAlertOk = L10n.tr("Localizable", "edit project alert ok")
   /// Edit Project
-  internal static let editProject = L10n.tr("Localizable", "Edit Project")
+  internal static let editProjectAlertTitle = L10n.tr("Localizable", "edit project alert title")
   /// Empty
-  internal static let empty = L10n.tr("Localizable", "Empty")
-  /// every 6 months
-  internal static let every6Months = L10n.tr("Localizable", "every 6 months")
+  internal static let emptyTableText = L10n.tr("Localizable", "empty table text")
+  /// Error loading data. Please restart the app and try again.\n\nDetailed error:\n%@
+  internal static func errorLoadingDataMessage(_ p1: String) -> String {
+    return L10n.tr("Localizable", "error loading data message", p1)
+  }
   /// Focus
   internal static let focus = L10n.tr("Localizable", "Focus")
-  /// half a year
-  internal static let halfAYear = L10n.tr("Localizable", "half a year")
-  /// Later
-  internal static let later = L10n.tr("Localizable", "Later")
   /// Later...
-  internal static let later = L10n.tr("Localizable", "Later...")
+  internal static let laterSection = L10n.tr("Localizable", "later section")
   /// Missed...
-  internal static let missed = L10n.tr("Localizable", "Missed...")
-  /// monthly
-  internal static let monthly = L10n.tr("Localizable", "monthly")
+  internal static let missedSection = L10n.tr("Localizable", "missed section")
+  /// Cancel
+  internal static let newProjectAlertCancel = L10n.tr("Localizable", "new project alert cancel")
   /// name
-  internal static let name = L10n.tr("Localizable", "name")
+  internal static let newProjectAlertName = L10n.tr("Localizable", "new project alert name")
+  /// OK
+  internal static let newProjectAlertOk = L10n.tr("Localizable", "new project alert ok")
   /// New Project
-  internal static let newProject = L10n.tr("Localizable", "New Project")
-  /// next week
-  internal static let nextWeek = L10n.tr("Localizable", "next week")
-  /// next year
-  internal static let nextYear = L10n.tr("Localizable", "next year")
-  /// No
-  internal static let no = L10n.tr("Localizable", "No")
+  internal static let newProjectAlertTitle = L10n.tr("Localizable", "new project alert title")
   /// no date
   internal static let noDate = L10n.tr("Localizable", "no date")
-  /// OK
-  internal static let ok = L10n.tr("Localizable", "OK")
   /// Other
   internal static let other = L10n.tr("Localizable", "Other")
-  /// Prioritized
-  internal static let prioritized = L10n.tr("Localizable", "Prioritized")
-  /// quarterly
-  internal static let quarterly = L10n.tr("Localizable", "quarterly")
-  /// Split
-  internal static let split = L10n.tr("Localizable", "Split")
-  /// today
-  internal static let today = L10n.tr("Localizable", "today")
-  /// Today
-  internal static let today = L10n.tr("Localizable", "Today")
-  /// tomorow
-  internal static let tomorow = L10n.tr("Localizable", "tomorow")
-  /// tri-weekly
-  internal static let triWeekly = L10n.tr("Localizable", "tri-weekly")
-  /// Undo
-  internal static let undo = L10n.tr("Localizable", "Undo")
-  /// weekly
-  internal static let weekly = L10n.tr("Localizable", "weekly")
-  /// yearly
-  internal static let yearly = L10n.tr("Localizable", "yearly")
+  /// Are you sure?
+  internal static let projectDeleteAllMessage = L10n.tr("Localizable", "project delete all message")
+  /// No
+  internal static let projectDeleteAllOptionNo = L10n.tr("Localizable", "project delete all option no")
   /// Yes
-  internal static let yes = L10n.tr("Localizable", "Yes")
-
-  internal enum ErrorLoadingData {
-    internal enum PleaseRestartTheAppAndTryAgain {
-      /// Error loading data. Please restart the app and try again.\n\nDetailed error:\n%@
-      internal static func detailedError(_ p1: String) -> String {
-        return L10n.tr("Localizable", "Error loading data. Please restart the app and try again.\n\nDetailed error:\n%@", p1)
-      }
-    }
-  }
+  internal static let projectDeleteAllOptionYes = L10n.tr("Localizable", "project delete all option yes")
+  /// Empty
+  internal static let projectDeleteAllTitle = L10n.tr("Localizable", "project delete all title")
+  /// Deprioritize
+  internal static let projectOptionDeprioritize = L10n.tr("Localizable", "project option deprioritize")
+  /// Prioritize
+  internal static let projectOptionPrioritize = L10n.tr("Localizable", "project option prioritize")
+  /// Deprioritized
+  internal static let projectSectionDeprioritized = L10n.tr("Localizable", "project section deprioritized")
+  /// Prioritized
+  internal static let projectSectionPrioritized = L10n.tr("Localizable", "project section prioritized")
+  /// bi-weekly
+  internal static let repeatOptionBiWeekly = L10n.tr("Localizable", "repeat option biWeekly")
+  /// daily
+  internal static let repeatOptionDaily = L10n.tr("Localizable", "repeat option daily")
+  /// every 6 months
+  internal static let repeatOptionEvery6Months = L10n.tr("Localizable", "repeat option every 6 months")
+  /// monthly
+  internal static let repeatOptionMonthly = L10n.tr("Localizable", "repeat option monthly")
+  /// quarterly
+  internal static let repeatOptionQuarterly = L10n.tr("Localizable", "repeat option quarterly")
+  /// tri-weekly
+  internal static let repeatOptionTriWeekly = L10n.tr("Localizable", "repeat option triWeekly")
+  /// weekly
+  internal static let repeatOptionWeekly = L10n.tr("Localizable", "repeat option weekly")
+  /// yearly
+  internal static let repeatOptionYearly = L10n.tr("Localizable", "repeat option yearly")
+  /// Today
+  internal static let todaySection = L10n.tr("Localizable", "today section")
+  /// [no name]
+  internal static let todoItemNoName = L10n.tr("Localizable", "todo item no name")
+  /// Delete
+  internal static let todoItemOptionDelete = L10n.tr("Localizable", "todo item option delete")
+  /// Done
+  internal static let todoItemOptionDone = L10n.tr("Localizable", "todo item option done")
+  /// Later
+  internal static let todoItemOptionLater = L10n.tr("Localizable", "todo item option later")
+  /// Split
+  internal static let todoItemOptionSplit = L10n.tr("Localizable", "todo item option split")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name

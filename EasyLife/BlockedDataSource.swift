@@ -24,7 +24,7 @@ class BlockedDataSource {
     }
 
     func isBlocked(_ item: TodoItem) -> Bool {
-        return data.filter({ $0.item === item }).first?.isBlocked ?? false
+        return data.first(where: { $0.item === item })?.isBlocked ?? false
     }
 }
 

@@ -12,12 +12,7 @@ protocol ResponderSelection {
 
 extension ResponderSelection {
     var currentResponder: UIResponder? {
-        for responder in responders {
-            if responder.isFirstResponder {
-                return responder
-            }
-        }
-        return nil
+        return responders.first(where: { $0.isFirstResponder })
     }
 
     var nextResponderInArray: UIResponder? {
@@ -47,8 +42,8 @@ extension ResponderSelection {
             return nil
         }
         let nextResponder: UIResponder
-        if index+1 < responders.endIndex {
-            nextResponder = responders[index+1]
+        if index + 1 < responders.endIndex {
+            nextResponder = responders[index + 1]
         } else {
             nextResponder = responders.first!
         }
@@ -63,8 +58,8 @@ extension ResponderSelection {
             return nil
         }
         let prevResponder: UIResponder
-        if index-1 >= responders.startIndex {
-            prevResponder = responders[index-1]
+        if index - 1 >= responders.startIndex {
+            prevResponder = responders[index - 1]
         } else {
             prevResponder = responders.last!
         }

@@ -43,14 +43,17 @@ class ArchiveViewController: UIViewController {
 
     // MARK: - private
 
-    @objc fileprivate func endEditing() {
+    @objc
+    fileprivate func endEditing() {
         searchBar.text = nil
         searchBar.resignFirstResponder()
     }
 
     private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                               name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                               name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
 
     private func tearDownNotifications() {
@@ -65,9 +68,11 @@ class ArchiveViewController: UIViewController {
     }
 
     @IBAction private func clearButtonPressed(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "Empty".localized, message: "Are you sure?".localized, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "No".localized, style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Yes".localized, style: .default, handler: { _ in
+        let alert = UIAlertController(title: L10n.projectDeleteAllTitle,
+                                      message: L10n.projectDeleteAllMessage,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.projectDeleteAllOptionNo, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: L10n.projectDeleteAllOptionYes, style: .default, handler: { _ in
             self.dataSource.clearAll()
         }))
         present(alert, animated: true, completion: nil)
@@ -75,7 +80,8 @@ class ArchiveViewController: UIViewController {
 
     // MARK: - notifications
 
-    @objc private func keyboardWillShow(_ notification: Notification) {
+    @objc
+    private func keyboardWillShow(_ notification: Notification) {
         guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
@@ -84,7 +90,8 @@ class ArchiveViewController: UIViewController {
         view.layoutIfNeeded()
     }
 
-    @objc private func keyboardWillHide(_ notification: Notification) {
+    @objc
+    private func keyboardWillHide(_ notification: Notification) {
         tableView.contentInset.bottom = 0
         emptyLabelHeightLayoutConstraint.constant = origEmptyLabelYConstraintHeight
         view.layoutIfNeeded()
@@ -107,10 +114,11 @@ extension ArchiveViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let undo = UITableViewRowAction(style: .destructive, title: "Undo".localized, handler: { [weak self] (_: UITableViewRowAction, _: IndexPath) in
+        let undo = UITableViewRowAction(style: .destructive, title: L10n.archiveItemUndoOption,
+                                        handler: { [weak self] (_: UITableViewRowAction, _: IndexPath) in
             self?.dataSource.undo(at: indexPath)
         })
-        undo.backgroundColor = .appleGrey
+        undo.backgroundColor = Asset.Colors.grey.color
         return [undo]
     }
 }
@@ -163,6 +171,6 @@ extension ArchiveViewController: TableDataSourceDelegate {
         if !dataSource.isSearching {
             searchBar.isUserInteractionEnabled = !dataSource.isEmpty
         }
-        thingsDoneLabel.text = String(format: "%i done".localized, dataSource.totalItems)
+        thingsDoneLabel.text = L10n.archiveItemTotalMessage(dataSource.totalItems)
     }
 }

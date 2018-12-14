@@ -1,6 +1,6 @@
+@testable import EasyLife
 import XCTest
 import CoreData
-@testable import EasyLife
 
 class FatalErrorHandlerTests: XCTestCase {
     override func setUp() {
@@ -15,9 +15,7 @@ class FatalErrorHandlerTests: XCTestCase {
 
     func testShowFatalViewControllerOnNotification() {
         // mocks
-        let error = NSError(domain: "", code: 0, userInfo: [
-            NSLocalizedDescriptionKey: ""
-            ])
+        let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: ""])
 
         // test
         NotificationCenter.default.post(name: .applicationDidReceiveFatalError, object: error)

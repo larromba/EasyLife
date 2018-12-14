@@ -2,6 +2,7 @@ import UIKit
 
 private var key: Void?
 
+// swiftlint:disable line_length
 // @see http://stackoverflow.com/questions/6701019/how-to-disable-copy-paste-option-from-uitextfield-programmatically/28833795#28833795
 extension UITextField {
     fileprivate class Additions: NSObject {
@@ -17,8 +18,10 @@ extension UITextField {
     }
 
     open override func target(forAction action: Selector, withSender sender: Any?) -> Any? {
-        if readonly && (action == #selector(UIResponderStandardEditActions.paste(_:)) || action == #selector(UIResponderStandardEditActions.cut(_:))) {
-            return nil
+        guard !readonly &&
+            (!(action == #selector(UIResponderStandardEditActions.paste(_:))) ||
+            !(action == #selector(UIResponderStandardEditActions.cut(_:)))) else {
+                return nil
         }
         return super.target(forAction: action, withSender: sender)
     }

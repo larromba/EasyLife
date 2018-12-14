@@ -10,8 +10,8 @@ class ArchiveCell: UITableViewCell {
                 titleLabel.textColor = .black
                 return
             }
-            titleLabel.text = "[no name]".localized
-            titleLabel.textColor = .appleGrey
+            titleLabel.text = L10n.todoItemNoName
+            titleLabel.textColor = Asset.Colors.grey.color
         }
     }
 }

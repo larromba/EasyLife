@@ -1,5 +1,5 @@
-import Foundation
 import CoreData
+import Foundation
 
 class ArchiveDataSource {
     var dataManager: DataManager
@@ -47,8 +47,7 @@ class ArchiveDataSource {
     }
 
     func clearAll() {
-        let items = data.values.map { $0 }.flatMap { $0 }
-        items.forEach { item in
+        data.values.flatMap { $0 }.forEach { item in
             dataManager.delete(item, context: dataManager.mainContext)
         }
         data.removeAll()

@@ -1,5 +1,6 @@
 import Foundation
 
+// swiftlint:disable cyclomatic_complexity
 enum DateSegment: Int, DisplayEnum {
     case none
     case today
@@ -33,25 +34,25 @@ enum DateSegment: Int, DisplayEnum {
     func stringValue() -> String? {
         switch self {
         case .today:
-            return "today".localized
+            return L10n.dateOptionToday
         case .tomorrow:
-            return "tomorow".localized
+            return L10n.dateOptionTomorow
         case .fewDays:
-            return "a few days".localized
+            return L10n.dateOptionAFewDays
         case .week:
-            return "next week".localized
+            return L10n.dateOptionNextWeek
         case .biweek:
-            return "2 weeks".localized
+            return L10n.dateOption2Weeks
         case .triweek:
-            return "3 weeks".localized
+            return L10n.dateOption3Weeks
         case .month:
-            return "1 month".localized
+            return L10n.dateOption1Month
         case .quarter:
-            return "a few months".localized
+            return L10n.dateOptionAFewMonths
         case .halfyear:
-            return "half a year".localized
+            return L10n.dateOptionHalfAYear
         case .year:
-            return "next year".localized
+            return L10n.dateOptionNextYear
         case .none:
             return nil
         }

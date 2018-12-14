@@ -7,7 +7,7 @@ strings:
 xcassets:
   inputs:
     - EasyLife/Assets.xcassets
-    #- GraffitiBackgrounds/Colors.xcassets
+    - EasyLife/Colors.xcassets
   outputs:
     - templateName: swift4
       output: Generated/assets.swift

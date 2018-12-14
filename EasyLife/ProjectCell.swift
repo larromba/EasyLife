@@ -18,7 +18,7 @@ class ProjectCell: UITableViewCell {
             }
             switch indexPath.section {
             case 1:
-                titleLabel.textColor = UIColor.appleGrey
+                titleLabel.textColor = Asset.Colors.grey.color
             default:
                 titleLabel.textColor = UIColor.black
             }

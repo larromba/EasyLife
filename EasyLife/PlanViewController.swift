@@ -1,6 +1,6 @@
 import Logging
-import UIKit
 import SafariServices
+import UIKit
 
 class PlanViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -44,15 +44,16 @@ class PlanViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? ItemDetailViewController, let item = sender as? TodoItem {
-            vc.dataSource.item = item
+        if let viewController = segue.destination as? ItemDetailViewController, let item = sender as? TodoItem {
+            viewController.dataSource.item = item
         }
     }
 
     // MARK: - private
 
     private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterForeground(_:)), name: .UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterForeground(_:)),
+                                               name: .UIApplicationWillEnterForeground, object: nil)
     }
 
     private func tearDownNotifications() {
@@ -65,7 +66,8 @@ class PlanViewController: UIViewController {
         performSegue(withIdentifier: "openEventDetailViewController", sender: nil)
     }
 
-    @objc private func applicationDidEnterForeground(_ notification: Notification) {
+    @objc
+    private func applicationDidEnterForeground(_ notification: Notification) {
         dataSource.load()
     }
 }
@@ -96,22 +98,26 @@ extension PlanViewController: UITableViewDelegate {
             return [] // shouldnt happen
         }
 
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete".localized, handler: { [weak self] (_: UITableViewRowAction, _: IndexPath) in
+        let delete = UITableViewRowAction(style: .destructive, title: L10n.todoItemOptionDelete,
+                                          handler: { [weak self] (_: UITableViewRowAction, _: IndexPath) in
             self?.dataSource.delete(at: indexPath)
         })
-        let done = UITableViewRowAction(style: .normal, title: "Done".localized, handler: { [weak self] (_: UITableViewRowAction, _: IndexPath) in
+        let done = UITableViewRowAction(style: .normal, title: L10n.todoItemOptionDone,
+                                        handler: { [weak self] (_: UITableViewRowAction, _: IndexPath) in
             self?.dataSource.done(at: indexPath)
         })
-        let split = UITableViewRowAction(style: .normal, title: "Split".localized, handler: { [weak self] (_: UITableViewRowAction, _: IndexPath) in
+        let split = UITableViewRowAction(style: .normal, title: L10n.todoItemOptionSplit,
+                                         handler: { [weak self] (_: UITableViewRowAction, _: IndexPath) in
             self?.dataSource.split(at: indexPath)
         })
-        let later = UITableViewRowAction(style: .normal, title: "Later".localized, handler: { [weak self] (_: UITableViewRowAction, _: IndexPath) in
+        let later = UITableViewRowAction(style: .normal, title: L10n.todoItemOptionLater,
+                                         handler: { [weak self] (_: UITableViewRowAction, _: IndexPath) in
             self?.dataSource.later(at: indexPath)
         })
 
-        delete.backgroundColor = .lightRed
-        done.backgroundColor = .lightGreen
-        split.backgroundColor = .appleGrey
+        delete.backgroundColor = Asset.Colors.red.color
+        done.backgroundColor = Asset.Colors.green.color
+        split.backgroundColor = Asset.Colors.grey.color
 
         var actions = [UITableViewRowAction]()
         if (item.blockedBy?.count ?? 0) == 0 {

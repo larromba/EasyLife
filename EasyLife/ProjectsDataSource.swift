@@ -169,9 +169,9 @@ extension ProjectsDataSource: TableDataSource {
         }
         switch section {
         case 0:
-            return "Prioritized".localized
+            return L10n.projectSectionPrioritized
         case 1:
-            return "Deprioritized".localized
+            return L10n.projectSectionDeprioritized
         default:
             return nil
         }

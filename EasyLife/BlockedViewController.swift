@@ -1,5 +1,5 @@
-import UIKit
 import Logging
+import UIKit
 
 class BlockedViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!

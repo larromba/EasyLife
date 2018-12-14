@@ -1,6 +1,6 @@
 import UIKit
 
-protocol SimpleDatePickerDelegate: class {
+protocol SimpleDatePickerDelegate: AnyObject {
     func datePicker(_ picker: SimpleDatePicker, didSelectDate date: Date?)
 }
 
@@ -18,6 +18,7 @@ class SimpleDatePicker: UIPickerView {
         dataSource = self
     }
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
