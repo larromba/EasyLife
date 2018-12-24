@@ -1,6 +1,6 @@
 import UIKit
 
-class TableHeaderView: UIView {
+final class TableHeaderView: UIView {
     override var isHidden: Bool {
         get {
             return super.isHidden

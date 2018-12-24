@@ -1,87 +1,61 @@
 import UIKit
 
-class ProjectsViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addButton: UIBarButtonItem!
-    @IBOutlet weak var editButton: UIBarButtonItem!
-    @IBOutlet weak var doneButton: UIBarButtonItem!
+protocol ProjectsViewControlling: AnyObject {
+    var viewState: ProjectsViewState? { get set }
 
-    var dataSource: ProjectsDataSource
+    func setDelegate(_ delegate: ProjectsViewControllerDelegate)
+}
 
-    required init?(coder aDecoder: NSCoder) {
-        dataSource = ProjectsDataSource()
-        super.init(coder: aDecoder)
-        dataSource.delegate = self
+protocol ProjectsViewControllerDelegate: AnyObject {
+    func viewController(_ viewController: ProjectsViewController, performAction action: ProjectsAction)
+    func viewController(_ viewController: ProjectsViewController, performAction action: ProjectItemAction,
+                        forProject project: Project)
+    func viewController(_ viewController: ProjectsViewController, moveRowAt sourceIndexPath: IndexPath,
+                        to destinationIndexPath: IndexPath)
+}
+
+final class ProjectsViewController: UIViewController, ProjectsViewControlling {
+    @IBOutlet private(set) weak var tableView: UITableView!
+    @IBOutlet private(set) weak var addButton: UIBarButtonItem!
+    @IBOutlet private(set) weak var editButton: UIBarButtonItem!
+    @IBOutlet private(set) weak var doneButton: UIBarButtonItem!
+    private weak var delegate: ProjectsViewControllerDelegate?
+    var viewState: ProjectsViewState? {
+        didSet { _ = viewState.map(bind) }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        dataSource.load()
+    static func initialise(viewState: ProjectsViewState) -> ProjectsViewControlling {
+        let viewController = UIStoryboard.project.instantiateInitialViewController() as! ProjectsViewController
+        viewController.viewState = viewState
+        return viewController
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        _ = viewState.map(bind)
         tableView.applyDefaultStyleFix()
     }
 
-    // MARK: - private
-
-    private func newProject() {
-        let alertController = UIAlertController(title: L10n.newProjectAlertTitle, message: nil, preferredStyle: .alert)
-        alertController.addTextField { (textField: UITextField) in
-            textField.placeholder = L10n.newProjectAlertName
-            textField.clearButtonMode = .whileEditing
-            textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
-        }
-        alertController.addAction(UIAlertAction(title: L10n.newProjectAlertCancel, style: .cancel, handler: nil))
-        alertController.addAction(UIAlertAction(title: L10n.newProjectAlertOk, style: .default,
-                                                handler: { (_: UIAlertAction) in
-            guard let name = alertController.textFields?.first?.text else {
-                return
-            }
-            self.dataSource.addProject(name: name)
-        }))
-        alertController.actions[1].isEnabled = false
-        present(alertController, animated: true, completion: nil)
-    }
-
-    fileprivate func editProject(at indexPath: IndexPath) {
-        let name = dataSource.name(at: indexPath)
-        let alertController = UIAlertController(title: L10n.editProjectAlertTitle, message: nil, preferredStyle: .alert)
-        alertController.addTextField { (textField: UITextField) in
-            textField.placeholder = L10n.editProjectAlertName
-            textField.text = name
-            textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
-            textField.clearButtonMode = .whileEditing
-        }
-        alertController.addAction(UIAlertAction(title: L10n.editProjectAlertCancel, style: .cancel, handler: nil))
-        alertController.addAction(UIAlertAction(title: L10n.editProjectAlertOk, style: .default,
-                                                handler: { (_: UIAlertAction) in
-            guard let name = alertController.textFields?.first?.text else {
-                return
-            }
-            self.dataSource.updateName(name: name, at: indexPath)
-        }))
-        alertController.actions[1].isEnabled = true
-        present(alertController, animated: true, completion: nil)
+    func setDelegate(_ delegate: ProjectsViewControllerDelegate) {
+        self.delegate = delegate
     }
 
     // MARK: - actions
 
-    @IBAction private func addButtonPressed(_ sender: UIBarButtonItem) {
-        newProject()
+    private func bind(_ viewState: ProjectsViewState) {
+        guard isViewLoaded else { return }
+        tableView.setEditing(viewState.isEditing, animated: true)
+        tableView.reloadData()
+        tableView.isHidden = viewState.isEmpty
+        editButton.isEnabled = viewState.isEditable
     }
 
-    @IBAction private func editButtonPressed(_ sender: UIBarButtonItem) {
-        tableView.setEditing(!tableView.isEditing, animated: true)
+    @IBAction private func addButtonPressed(_ sender: UIBarButtonItem) {
+        delegate?.viewController(self, performAction: .add)
     }
 
     @IBAction private func doneButtonPressed(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @objc
-    func textFieldDidChange(_ textField: UITextField) { // FIXME: public for unit test (sendEvents doesnt work)
-        guard let alertController = presentedViewController as? UIAlertController else {
-            return
-        }
-        alertController.actions[1].isEnabled = (textField.text?.isEmpty == false)
+        delegate?.viewController(self, performAction: .done)
     }
 }
 
@@ -89,11 +63,12 @@ class ProjectsViewController: UIViewController {
 
 extension ProjectsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50.0
+        return viewState?.rowHeight ?? 0.0
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return dataSource.title(for: section)
+        guard let section = ProjectSection(rawValue: section) else { return nil }
+        return viewState?.title(for: section)
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -101,51 +76,50 @@ extension ProjectsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard let viewState = viewState, let project = viewState.project(at: indexPath) else { return nil }
         let delete = UITableViewRowAction(style: .destructive,
-                                          title: L10n.todoItemOptionDelete,
+                                          title: viewState.deleteTitle,
                                           handler: { (_: UITableViewRowAction, _: IndexPath) in
-            self.dataSource.delete(at: indexPath)
+            self.delegate?.viewController(self, performAction: .delete, forProject: project)
         })
         delete.backgroundColor = Asset.Colors.red.color
-        switch indexPath.section {
-        case 1:
-            if dataSource.isMaxPriorityItemLimitReached {
+        guard let section = ProjectSection(rawValue: indexPath.section) else {
+            fatalError("unhandled section \(indexPath.section)")
+        }
+        switch section {
+        case .other:
+            if viewState.isMaxPriorityItemLimitReached {
                 return [delete]
             }
             let prioritize = UITableViewRowAction(style: .normal,
-                                                  title: L10n.projectOptionPrioritize,
-                                                  handler: { (_: UITableViewRowAction, _: IndexPath) in
-                self.dataSource.prioritize(at: indexPath)
+                                                  title: viewState.prioritizeTitle,
+                                                  handler: { _, _ in
+                self.delegate?.viewController(self, performAction: .prioritize, forProject: project)
             })
-            prioritize.backgroundColor = Asset.Colors.green.color
+            prioritize.backgroundColor = viewState.prioritizeColor
             return [delete, prioritize]
-        default:
+        case .prioritized:
             let deprioritize = UITableViewRowAction(style: .normal,
-                                                    title: L10n.projectOptionDeprioritize,
-                                                    handler: { (_: UITableViewRowAction, _: IndexPath) in
-                self.dataSource.deprioritize(at: indexPath)
+                                                    title: viewState.deprioritizeTitle,
+                                                    handler: { _, _ in
+                self.delegate?.viewController(self, performAction: .deprioritize, forProject: project)
             })
-            deprioritize.backgroundColor = Asset.Colors.grey.color
+            deprioritize.backgroundColor = viewState.deprioritizeColor
             return [delete, deprioritize]
         }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        editProject(at: indexPath)
+        guard let project = viewState?.project(at: indexPath) else { return }
+        delegate?.viewController(self, performAction: .edit(project: project))
     }
 
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return indexPath.section == 0 ||
-            (indexPath.section == 1 && !dataSource.isMaxPriorityItemLimitReached && dataSource.totalPriorityItems > 0)
+        return viewState?.canMoveRow(at: indexPath) ?? false
     }
 
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        if sourceIndexPath.section == 0, destinationIndexPath.section == 1 {
-            dataSource.deprioritize(at: sourceIndexPath)
-        } else if (sourceIndexPath.section == 0 && destinationIndexPath.section == 0) ||
-            (sourceIndexPath.section == 1 && destinationIndexPath.section == 0) {
-            dataSource.move(fromPath: sourceIndexPath, toPath: destinationIndexPath)
-        }
+        delegate?.viewController(self, moveRowAt: sourceIndexPath, to: destinationIndexPath)
     }
 }
 
@@ -153,31 +127,22 @@ extension ProjectsViewController: UITableViewDelegate {
 
 extension ProjectsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.section(at: section)?.count ?? 0
+        guard let section = ProjectSection(rawValue: section) else { return 0 }
+        return viewState?.items(for: section)?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = dataSource.item(at: indexPath)
+        guard let project = viewState?.project(at: indexPath) else {
+            assertionFailure("expected project")
+            return UITableViewCell()
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectCell", for: indexPath) as! ProjectCell
-        cell.item = item
+        cell.item = project // TODO: viewstate
         cell.indexPath = indexPath
         return cell
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.sections.count
-    }
-}
-
-// MARK: - TableDataSource
-
-extension ProjectsViewController: TableDataSourceDelegate {
-    func dataSorceDidLoad<T: TableDataSource>(_ dataSource: T) {
-        guard let dataSource = dataSource as? ProjectsDataSource else {
-            return
-        }
-        tableView.reloadData()
-        tableView.isHidden = dataSource.isEmpty
-        editButton.isEnabled = !dataSource.isEmpty
+        return viewState?.sections.count ?? 0
     }
 }

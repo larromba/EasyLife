@@ -40,10 +40,10 @@
 "edit project alert ok" = "OK";
 "project section prioritized" = "Prioritized";
 "project section deprioritized" = "Deprioritized";
-"project delete all title" = "Empty";
-"project delete all message" = "Are you sure?";
-"project delete all option yes" = "Yes";
-"project delete all option no" = "No";
 "project option prioritize" = "Prioritize";
 "project option deprioritize" = "Deprioritize";
+"archive delete all title" = "Empty";
+"archive delete all message" = "Are you sure?";
+"archive delete all option yes" = "Yes";
+"archive delete all option no" = "No";
 "empty table text" = "Empty";

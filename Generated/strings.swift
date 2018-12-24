@@ -11,6 +11,14 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name
 internal enum L10n {
+  /// Are you sure?
+  internal static let archiveDeleteAllMessage = L10n.tr("Localizable", "archive delete all message")
+  /// No
+  internal static let archiveDeleteAllOptionNo = L10n.tr("Localizable", "archive delete all option no")
+  /// Yes
+  internal static let archiveDeleteAllOptionYes = L10n.tr("Localizable", "archive delete all option yes")
+  /// Empty
+  internal static let archiveDeleteAllTitle = L10n.tr("Localizable", "archive delete all title")
   /// %i done
   internal static func archiveItemTotalMessage(_ p1: Int) -> String {
     return L10n.tr("Localizable", "archive item total message", p1)
@@ -69,14 +77,6 @@ internal enum L10n {
   internal static let noDate = L10n.tr("Localizable", "no date")
   /// Other
   internal static let other = L10n.tr("Localizable", "Other")
-  /// Are you sure?
-  internal static let projectDeleteAllMessage = L10n.tr("Localizable", "project delete all message")
-  /// No
-  internal static let projectDeleteAllOptionNo = L10n.tr("Localizable", "project delete all option no")
-  /// Yes
-  internal static let projectDeleteAllOptionYes = L10n.tr("Localizable", "project delete all option yes")
-  /// Empty
-  internal static let projectDeleteAllTitle = L10n.tr("Localizable", "project delete all title")
   /// Deprioritize
   internal static let projectOptionDeprioritize = L10n.tr("Localizable", "project option deprioritize")
   /// Prioritize
