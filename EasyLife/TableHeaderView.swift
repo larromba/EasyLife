@@ -1,5 +1,6 @@
 import UIKit
 
+// TODO: viewstate
 final class TableHeaderView: UIView {
     override var isHidden: Bool {
         get {

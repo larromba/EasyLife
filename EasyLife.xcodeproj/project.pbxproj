@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7F0D9248204619DF00D9AE6B /* BlockedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F0D9247204619DF00D9AE6B /* BlockedView.xib */; };
-		7F0D924A20461A1F00D9AE6B /* BlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0D924920461A1F00D9AE6B /* BlockedView.swift */; };
+		7F0D924A20461A1F00D9AE6B /* BlockedBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0D924920461A1F00D9AE6B /* BlockedBackgroundView.swift */; };
 		7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */; };
 		7F102DE01F5ABF8F00E262B1 /* ProjectsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E791F59B52800C55AD2 /* ProjectsRepository.swift */; };
 		7F102DE11F5ABF9300E262B1 /* ProjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */; };
@@ -27,6 +27,14 @@
 		7F3BD2BF21D13D030035F540 /* BlockedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2BE21D13D030035F540 /* BlockedController.swift */; };
 		7F3BD2C121D13D2C0035F540 /* BlockedViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2C021D13D2C0035F540 /* BlockedViewState.swift */; };
 		7F3BD2C321D13D350035F540 /* BlockedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2C221D13D350035F540 /* BlockedRepository.swift */; };
+		7F3BD2C521D14A010035F540 /* PlanAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2C421D14A010035F540 /* PlanAction.swift */; };
+		7F3BD2C721D183590035F540 /* PlanCellViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2C621D183590035F540 /* PlanCellViewState.swift */; };
+		7F3BD2C921D2ACCE0035F540 /* ArchiveCellViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2C821D2ACCE0035F540 /* ArchiveCellViewState.swift */; };
+		7F3BD2CB21D2BA010035F540 /* ProjectCellViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2CA21D2BA010035F540 /* ProjectCellViewState.swift */; };
+		7F3BD2CD21D2D4E40035F540 /* BlockedCellViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2CC21D2D4E40035F540 /* BlockedCellViewState.swift */; };
+		7F3BD2CF21D2D5FF0035F540 /* TagViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2CE21D2D5FF0035F540 /* TagViewState.swift */; };
+		7F3BD2D121D2D82D0035F540 /* BlockedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2D021D2D82D0035F540 /* BlockedState.swift */; };
+		7F3BD2D321D2D93D0035F540 /* BlockedBackgroundViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2D221D2D93D0035F540 /* BlockedBackgroundViewState.swift */; };
 		7F429C7621C3D99E00195E32 /* assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7421C3D99E00195E32 /* assets.swift */; };
 		7F429C7721C3D99E00195E32 /* strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7521C3D99E00195E32 /* strings.swift */; };
 		7F429C7921C3E9D000195E32 /* PlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7821C3E9D000195E32 /* PlanController.swift */; };
@@ -126,7 +134,7 @@
 
 /* Begin PBXFileReference section */
 		7F0D9247204619DF00D9AE6B /* BlockedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockedView.xib; sourceTree = "<group>"; };
-		7F0D924920461A1F00D9AE6B /* BlockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedView.swift; sourceTree = "<group>"; };
+		7F0D924920461A1F00D9AE6B /* BlockedBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedBackgroundView.swift; sourceTree = "<group>"; };
 		7F102DE21F5AC11600E262B1 /* EasyLife.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = EasyLife.sqlite; sourceTree = "<group>"; };
 		7F102DE41F5AC22200E262B1 /* DataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
 		7F102DE61F5AD08300E262B1 /* EasyLife 1.3.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EasyLife 1.3.0.sqlite"; sourceTree = "<group>"; };
@@ -145,6 +153,14 @@
 		7F3BD2BE21D13D030035F540 /* BlockedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedController.swift; sourceTree = "<group>"; };
 		7F3BD2C021D13D2C0035F540 /* BlockedViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedViewState.swift; sourceTree = "<group>"; };
 		7F3BD2C221D13D350035F540 /* BlockedRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedRepository.swift; sourceTree = "<group>"; };
+		7F3BD2C421D14A010035F540 /* PlanAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanAction.swift; sourceTree = "<group>"; };
+		7F3BD2C621D183590035F540 /* PlanCellViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCellViewState.swift; sourceTree = "<group>"; };
+		7F3BD2C821D2ACCE0035F540 /* ArchiveCellViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveCellViewState.swift; sourceTree = "<group>"; };
+		7F3BD2CA21D2BA010035F540 /* ProjectCellViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCellViewState.swift; sourceTree = "<group>"; };
+		7F3BD2CC21D2D4E40035F540 /* BlockedCellViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedCellViewState.swift; sourceTree = "<group>"; };
+		7F3BD2CE21D2D5FF0035F540 /* TagViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewState.swift; sourceTree = "<group>"; };
+		7F3BD2D021D2D82D0035F540 /* BlockedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedState.swift; sourceTree = "<group>"; };
+		7F3BD2D221D2D93D0035F540 /* BlockedBackgroundViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedBackgroundViewState.swift; sourceTree = "<group>"; };
 		7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
 		7F426E791F59B52800C55AD2 /* ProjectsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsRepository.swift; sourceTree = "<group>"; };
 		7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
@@ -315,10 +331,16 @@
 			isa = PBXGroup;
 			children = (
 				7F429C7A21C3F88800195E32 /* PlanViewState.swift */,
+				7F3BD2C621D183590035F540 /* PlanCellViewState.swift */,
 				7F429C9621C5413400195E32 /* ArchiveViewState.swift */,
+				7F3BD2C821D2ACCE0035F540 /* ArchiveCellViewState.swift */,
 				7F429C9E21C5B7D500195E32 /* ProjectsViewState.swift */,
+				7F3BD2CA21D2BA010035F540 /* ProjectCellViewState.swift */,
 				7F3BD2B621CFE9C70035F540 /* ItemDetailViewState.swift */,
 				7F3BD2C021D13D2C0035F540 /* BlockedViewState.swift */,
+				7F3BD2D221D2D93D0035F540 /* BlockedBackgroundViewState.swift */,
+				7F3BD2CC21D2D4E40035F540 /* BlockedCellViewState.swift */,
+				7F3BD2CE21D2D5FF0035F540 /* TagViewState.swift */,
 			);
 			name = ViewState;
 			sourceTree = "<group>";
@@ -459,6 +481,7 @@
 			isa = PBXGroup;
 			children = (
 				7F429C7E21C4040E00195E32 /* PlanSection.swift */,
+				7F3BD2C421D14A010035F540 /* PlanAction.swift */,
 				7F429C8021C4041B00195E32 /* PlanItemAction.swift */,
 				7F429C9421C5402100195E32 /* ArchiveAction.swift */,
 				7F3BD2B821CFEC970035F540 /* ItemDetailAction.swift */,
@@ -474,6 +497,7 @@
 				7F429C9A21C55E4400195E32 /* Alert.swift */,
 				7F429CA021C6578D00195E32 /* Error.swift */,
 				7F429CA221C65EA700195E32 /* CoreDataContext.swift */,
+				7F3BD2D021D2D82D0035F540 /* BlockedState.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -506,7 +530,7 @@
 				7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */,
 				7F163D211EDCDB9400DC52B6 /* TableHeaderView.swift */,
 				7FD1EE251F8E8D750042C317 /* TagView.swift */,
-				7F0D924920461A1F00D9AE6B /* BlockedView.swift */,
+				7F0D924920461A1F00D9AE6B /* BlockedBackgroundView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -820,6 +844,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7FAC2C921E9E7EEA00F14ECB /* PlanCell.swift in Sources */,
+				7F3BD2CB21D2BA010035F540 /* ProjectCellViewState.swift in Sources */,
 				7FAC2C961E9EBF6400F14ECB /* ResponderSelection.swift in Sources */,
 				7FAC2CB81E9FA8AE00F14ECB /* UITextFieldReadOnly.swift in Sources */,
 				7FAC2C5F1E9E673400F14ECB /* PlanViewController.swift in Sources */,
@@ -840,6 +865,7 @@
 				7F3BD2BF21D13D030035F540 /* BlockedController.swift in Sources */,
 				7FE4488F2041F49900F2DE77 /* ItemDetailRepository.swift in Sources */,
 				7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */,
+				7F3BD2D121D2D82D0035F540 /* BlockedState.swift in Sources */,
 				7FEEF2CE2042FB3500616041 /* Project+Utility.swift in Sources */,
 				7F102DE11F5ABF9300E262B1 /* ProjectsViewController.swift in Sources */,
 				7F429C8E21C42FF600195E32 /* PlanCoordinator.swift in Sources */,
@@ -855,10 +881,13 @@
 				7F429C9921C55E0300195E32 /* AlertController.swift in Sources */,
 				7FAC2C981E9EC91400F14ECB /* RepeatState.swift in Sources */,
 				7F429C7621C3D99E00195E32 /* assets.swift in Sources */,
+				7F3BD2C521D14A010035F540 /* PlanAction.swift in Sources */,
 				7F429CA121C6578D00195E32 /* Error.swift in Sources */,
 				7F429C7721C3D99E00195E32 /* strings.swift in Sources */,
 				7F3BD2B521CFE9BE0035F540 /* ItemDetailController.swift in Sources */,
 				7FD1EE261F8E8D750042C317 /* TagView.swift in Sources */,
+				7F3BD2C921D2ACCE0035F540 /* ArchiveCellViewState.swift in Sources */,
+				7F3BD2C721D183590035F540 /* PlanCellViewState.swift in Sources */,
 				7FAC2C801E9E676A00F14ECB /* CoreDataManager.swift in Sources */,
 				7FE4489120420B2C00F2DE77 /* BlockedItem.swift in Sources */,
 				7F2F412A2112FF6E0070FCAD /* FatalErrorHandler.swift in Sources */,
@@ -872,6 +901,7 @@
 				7FBA02891EE1E50800C3103A /* ArchiveViewController.swift in Sources */,
 				7FBA028D1EE1E85800C3103A /* ArchiveRepository.swift in Sources */,
 				7FAC2C941E9EBC9A00F14ECB /* TodoItem+Utility.swift in Sources */,
+				7F3BD2CD21D2D4E40035F540 /* BlockedCellViewState.swift in Sources */,
 				7FAC2CA81E9ED67200F14ECB /* ArrayExtensions.swift in Sources */,
 				7FBA028B1EE1E60D00C3103A /* ArchiveCell.swift in Sources */,
 				7F429C9521C5402100195E32 /* ArchiveAction.swift in Sources */,
@@ -881,15 +911,17 @@
 				7F429CA921C66B5C00195E32 /* ProjectItemAction.swift in Sources */,
 				7F429C7F21C4040E00195E32 /* PlanSection.swift in Sources */,
 				7F429C8121C4041B00195E32 /* PlanItemAction.swift in Sources */,
+				7F3BD2CF21D2D5FF0035F540 /* TagViewState.swift in Sources */,
 				7F429C9B21C55E4400195E32 /* Alert.swift in Sources */,
 				7FAC2CB01E9F7B3D00F14ECB /* UITextViewStyle.swift in Sources */,
 				7F3BD2BB21D016FA0035F540 /* ItemDetailComponent.swift in Sources */,
 				7F429C7B21C3F88800195E32 /* PlanViewState.swift in Sources */,
-				7F0D924A20461A1F00D9AE6B /* BlockedView.swift in Sources */,
+				7F0D924A20461A1F00D9AE6B /* BlockedBackgroundView.swift in Sources */,
 				7F429CA521C6663500195E32 /* ProjectSections.swift in Sources */,
 				7FAC2CB21E9F7EDF00F14ECB /* NotificationName.swift in Sources */,
 				7F3BD2B721CFE9C70035F540 /* ItemDetailViewState.swift in Sources */,
 				7F429C9721C5413400195E32 /* ArchiveViewState.swift in Sources */,
+				7F3BD2D321D2D93D0035F540 /* BlockedBackgroundViewState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,7 +20,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             let window = window,
             let navigationController = window.rootViewController as? UINavigationController,
             let planViewController = navigationController.viewControllers.first as? PlanViewController else {
-                fatalError("expected UIWindow and UINavigationController")
+                fatalError("expected UIWindow, UINavigationController, PlanViewController")
         }
         appController = AppControllerFactory.make(window: window, navigationController: navigationController,
                                                   planViewController: planViewController)

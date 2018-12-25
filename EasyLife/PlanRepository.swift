@@ -5,7 +5,9 @@ import Result
 
 protocol PlanRepositoring {
     func newItem() -> Result<TodoItem>
-    func load() -> Async<[PlanSection: [TodoItem]]>
+    func fetchMissedItems() -> Async<[TodoItem]>
+    func fetchLaterItems() -> Async<[TodoItem]>
+    func fetchTodayItems() -> Async<[TodoItem]>
     func delete(item: TodoItem) -> Async<Void>
     func later(item: TodoItem) -> Async<Void>
     func done(item: TodoItem) -> Async<Void>
@@ -37,62 +39,86 @@ final class PlanRepository: NSObject, PlanRepositoring { // TODO: fix NSObject n
     init(dataManager: CoreDataManaging) {
         self.dataManager = dataManager
         super.init()
+
+        // ITUNES_CONNECT environment variable sets up the app for screenshots
+        #if ITUNES_CONNECT // TODO: change name
+        //TODO: clear all
+
+        let missed1 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        missed1.date = Date().addingTimeInterval(-24 * 60 * 60)
+        missed1.name = "send letter"
+
+        let now1 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        now1.date = Date()
+        now1.name = "fix bike"
+
+        let now2 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        now2.date = Date()
+        now2.name = "get party food!"
+
+        let later1 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        later1.date = Date().addingTimeInterval(24 * 60 * 60)
+        later1.name = "phone mum"
+
+        let later2 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        later2.date = Date().addingTimeInterval(24 * 60 * 60)
+        later2.name = "clean flat"
+
+        let later3 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        later3.date = Date().addingTimeInterval(24 * 60 * 60)
+        later3.name = "call landlord"
+
+        async({
+            _ = try await(dataManager.save(context: .main))
+        }, onError: { error in
+            fatalError(error.localizedDescription)
+        })
+        #endif
     }
-
-    // MARK: - public
-
-#if DEBUG
-    // TODO: this
-//    func itunesConnect() {
-//        let missed1 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
-//        missed1.date = Date().addingTimeInterval(-24 * 60 * 60)
-//        missed1.name = "send letter"
-//
-//        let now1 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
-//        now1.date = Date()
-//        now1.name = "fix bike"
-//
-//        let now2 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
-//        now2.date = Date()
-//        now2.name = "get party food!"
-//
-//        let later1 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
-//        later1.date = Date().addingTimeInterval(24 * 60 * 60)
-//        later1.name = "phone mum"
-//
-//        let later2 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
-//        later2.date = Date().addingTimeInterval(24 * 60 * 60)
-//        later2.name = "clean flat"
-//
-//        let later3 = dataManager.insert(entityClass: TodoItem.self, context: dataManager.mainContext)!
-//        later3.date = Date().addingTimeInterval(24 * 60 * 60)
-//        later3.name = "call landlord"
-//
-//        dataManager.save(context: dataManager.mainContext)
-//    }
-#endif
 
     func newItem() -> Result<TodoItem> {
         return dataManager.insertTransient(entityClass: TodoItem.self, context: .main)
     }
 
-    func load() -> Async<[PlanSection: [TodoItem]]> {
+    func fetchMissedItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let missedItems = try await(self.dataManager.fetch(entityClass: TodoItem.self,
-                                                                   sortBy: nil, context: .main,
-                                                                   predicate: self.missedPredicate))
-                let todayItems = try await(self.dataManager.fetch(entityClass: TodoItem.self,
-                                                                  sortBy: nil, context: .main,
-                                                                  predicate: self.todayPredicate))
-                let laterItems = try await(self.dataManager.fetch(entityClass: TodoItem.self,
-                                                                  sortBy: nil, context: .main,
-                                                                  predicate: self.laterPredicate))
-                completion(.success([
-                    .missed: missedItems.sorted(by: self.sortByPriority),
-                    .today: todayItems.sorted(by: self.sortByPriority),
-                    .later: laterItems.sorted(by: self.sortByDateAndPriority)
-                ]))
+                let items = try await(self.dataManager.fetch(
+                    entityClass: TodoItem.self,
+                    sortBy: nil, context: .main,
+                    predicate: self.missedPredicate)
+                ).sorted(by: self.sortByPriority)
+                completion(.success(items))
+            }, onError: { error in
+                completion(.failure(error))
+            })
+        }
+    }
+
+    func fetchLaterItems() -> Async<[TodoItem]> {
+        return Async { completion in
+            async({
+                let items = try await(self.dataManager.fetch(
+                    entityClass: TodoItem.self,
+                    sortBy: nil, context: .main,
+                    predicate: self.laterPredicate)
+                ).sorted(by: self.sortByDateAndPriority)
+                completion(.success(items))
+            }, onError: { error in
+                completion(.failure(error))
+            })
+        }
+    }
+
+    func fetchTodayItems() -> Async<[TodoItem]> {
+        return Async { completion in
+            async({
+                let items = try await(self.dataManager.fetch(
+                    entityClass: TodoItem.self,
+                    sortBy: nil, context: .main,
+                    predicate: self.todayPredicate)
+                    ).sorted(by: self.sortByPriority)
+                completion(.success(items))
             }, onError: { error in
                 completion(.failure(error))
             })
@@ -149,16 +175,18 @@ final class PlanRepository: NSObject, PlanRepositoring { // TODO: fix NSObject n
     func split(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                guard
-                    item.repeatState != .none,
-                    let copy = self.dataManager.copy(item, context: .main) as? TodoItem else {
-                        return
+                guard item.repeatState != .none else { return }
+                let result = self.dataManager.copy(item, context: .main)
+                switch result {
+                case .success(let copy):
+                    item.incrementDate()
+                    item.blockedBy = nil
+                    copy.repeatState = .none
+                    _ = try await(self.dataManager.save(context: .main))
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
                 }
-                item.incrementDate()
-                item.blockedBy = nil
-                copy.repeatState = .none
-                _ = try await(self.dataManager.save(context: .main))
-                completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
             })

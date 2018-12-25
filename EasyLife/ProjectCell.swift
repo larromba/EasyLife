@@ -1,27 +1,21 @@
 import UIKit
 
-class ProjectCell: UITableViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var tagView: TagView!
+protocol ProjectCelling {
+    var viewState: ProjectCellViewStating? { get set }
+}
 
-    var item: Project? {
-        didSet {
-            titleLabel.text = item?.name
-            tagView.setup(for: item)
-        }
+final class ProjectCell: UITableViewCell, ProjectCelling {
+    @IBOutlet private(set) weak var titleLabel: UILabel!
+    @IBOutlet private(set) weak var tagView: TagView!
+
+    var viewState: ProjectCellViewStating? {
+        didSet { _ = viewState.map(bind) }
     }
 
-    var indexPath: IndexPath? {
-        didSet {
-            guard let indexPath = indexPath else {
-                return
-            }
-            switch indexPath.section {
-            case 1:
-                titleLabel.textColor = Asset.Colors.grey.color
-            default:
-                titleLabel.textColor = UIColor.black
-            }
-        }
+    // MARK: - private
+
+    private func bind(_ viewState: ProjectCellViewStating) {
+        titleLabel.text = viewState.titleText
+        titleLabel.textColor = viewState.titleColor
     }
 }

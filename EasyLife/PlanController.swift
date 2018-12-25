@@ -46,7 +46,11 @@ final class PlanController: PlanControlling {
 
     private func reload() {
         async({
-            let sections = try await(self.repository.load())
+            let sections = [
+                PlanSection.today: try await(self.repository.fetchTodayItems()),
+                PlanSection.missed: try await(self.repository.fetchMissedItems()),
+                PlanSection.later: try await(self.repository.fetchLaterItems())
+            ]
             let viewState = self.viewController.viewState?.copy(sections: sections) ?? PlanViewState(
                 sections: sections,
                 isTableHeaderAnimating: false
@@ -62,22 +66,25 @@ final class PlanController: PlanControlling {
 // MARK: - PlanViewControllerDelegate
 
 extension PlanController: PlanViewControllerDelegate {
-    func viewControllerAppeared(_ viewController: PlanViewController) {
+    func viewControllerWillAppear(_ viewController: PlanViewController) {
         setupNotifications()
         viewController.viewState = viewController.viewState?.copy(isTableHeaderAnimating: true)
     }
 
-    func viewControllerDisappeared(_ viewController: PlanViewController) {
+    func viewControllerWillDisappear(_ viewController: PlanViewController) {
         tearDownNotifications()
         viewController.viewState = viewController.viewState?.copy(isTableHeaderAnimating: false)
     }
 
-    func viewControllerPressedAdd(_ viewController: PlanViewController) {
-        switch repository.newItem() {
-        case .success(let item):
-            delegate?.controller(self, openItemDetailWithItem: item, sender: viewController)
-        case .failure(let error):
-            alertController.showAlert(.dataError(error))
+    func viewController(_ viewController: PlanViewController, performAction action: PlanAction) {
+        switch action {
+        case .add:
+            switch repository.newItem() {
+            case .success(let item):
+                delegate?.controller(self, openItemDetailWithItem: item, sender: viewController)
+            case .failure(let error):
+                alertController.showAlert(.dataError(error))
+            }
         }
     }
 
@@ -89,14 +96,10 @@ extension PlanController: PlanViewControllerDelegate {
                         onItem item: TodoItem) {
         async({
             switch action {
-            case .delete:
-                _ = try await(self.repository.delete(item: item))
-            case .done:
-                _ = try await(self.repository.done(item: item))
-            case .later:
-                _ = try await(self.repository.later(item: item))
-            case .split:
-                _ = try await(self.repository.split(item: item))
+            case .delete: _ = try await(self.repository.delete(item: item))
+            case .done: _ = try await(self.repository.done(item: item))
+            case .later: _ = try await(self.repository.later(item: item))
+            case .split: _ = try await(self.repository.split(item: item))
             }
         }, onError: { error in
             self.alertController.showAlert(.dataError(error))

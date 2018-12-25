@@ -1,7 +1,35 @@
-import CoreGraphics
-import Foundation
+import UIKit
 
-struct ProjectsViewState {
+protocol ProjectsViewStating {
+    var rowHeight: CGFloat { get }
+    var deleteTitle: String { get }
+    var prioritizeTitle: String { get }
+    var prioritizeColor: UIColor { get }
+    var deprioritizeTitle: String { get }
+    var deprioritizeColor: UIColor { get }
+    var maxPriorityItems: Int { get }
+    var isEditing: Bool { get }
+    var totalItems: Int { get }
+    var totalPriorityItems: Int { get }
+    var totalNonPriorityItems: Int { get }
+    var isMaxPriorityItemLimitReached: Bool { get }
+    var isEmpty: Bool { get }
+    var isEditable: Bool { get }
+    var numOfSections: Int { get }
+
+    func title(for section: ProjectSection) -> String?
+    func project(at indexPath: IndexPath) -> Project?
+    func cellViewState(at indexPath: IndexPath) -> ProjectCellViewStating?
+    func items(for section: ProjectSection) -> [Project]?
+    func name(at indexPath: IndexPath) -> String?
+    func canMoveRow(at indexPath: IndexPath) -> Bool
+
+    func copy(sections: [ProjectSection: [Project]]) -> ProjectsViewStating
+}
+
+struct ProjectsViewState: ProjectsViewStating {
+    private let sections: [ProjectSection: [Project]]
+
     let rowHeight: CGFloat = 50.0
     let deleteTitle = L10n.todoItemOptionDelete
     let prioritizeTitle = L10n.projectOptionPrioritize
@@ -9,7 +37,6 @@ struct ProjectsViewState {
     let deprioritizeTitle = L10n.projectOptionDeprioritize
     let deprioritizeColor = Asset.Colors.grey.color
     let maxPriorityItems = 5
-    let sections: [ProjectSection: [Project]]
     let isEditing: Bool
     var totalItems: Int {
         return sections.reduce(0, { $0 + $1.value.count })
@@ -28,6 +55,14 @@ struct ProjectsViewState {
     }
     var isEditable: Bool {
         return !isEmpty
+    }
+    var numOfSections: Int {
+        return sections.count
+    }
+
+    init(sections: [ProjectSection: [Project]], isEditing: Bool) {
+        self.sections = sections
+        self.isEditing = isEditing
     }
 
     func title(for section: ProjectSection) -> String? {
@@ -50,6 +85,11 @@ struct ProjectsViewState {
         return row
     }
 
+    func cellViewState(at indexPath: IndexPath) -> ProjectCellViewStating? {
+        guard let section = ProjectSection(rawValue: indexPath.section) else { return nil }
+        return project(at: indexPath).map { ProjectCellViewState(project: $0, section: section) }
+    }
+
     func items(for section: ProjectSection) -> [Project]? {
         let section = sections[section]
         return section
@@ -69,7 +109,7 @@ struct ProjectsViewState {
 }
 
 extension ProjectsViewState {
-    func copy(sections: [ProjectSection: [Project]]) -> ProjectsViewState {
+    func copy(sections: [ProjectSection: [Project]]) -> ProjectsViewStating {
         return ProjectsViewState(sections: sections, isEditing: isEditing)
     }
 }

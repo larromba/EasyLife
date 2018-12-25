@@ -1,17 +1,20 @@
 import UIKit
 
-class ArchiveCell: UITableViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
+protocol ArchiveCelling {
+    var viewState: ArchiveCellViewStating? { get set }
+}
 
-    var item: TodoItem? {
-        didSet {
-            if let name = item?.name, !name.isEmpty {
-                titleLabel.text = item?.name
-                titleLabel.textColor = .black
-                return
-            }
-            titleLabel.text = L10n.todoItemNoName
-            titleLabel.textColor = Asset.Colors.grey.color
-        }
+final class ArchiveCell: UITableViewCell, ArchiveCelling {
+    @IBOutlet private(set) weak var titleLabel: UILabel!
+
+    var viewState: ArchiveCellViewStating? {
+        didSet { _ = viewState.map(bind) }
+    }
+
+    // MARK: - private
+
+    private func bind(_ viewState: ArchiveCellViewStating) {
+        titleLabel.text = viewState.titleText
+        titleLabel.textColor = viewState.titleColor
     }
 }

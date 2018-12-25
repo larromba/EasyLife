@@ -1,7 +1,7 @@
 import UIKit
 
 protocol ArchiveViewControlling: AnyObject, Presentable {
-    var viewState: ArchiveViewState? { get set }
+    var viewState: ArchiveViewStating? { get set }
 
     func setDelegate(_ delegate: ArchiveViewControllerDelegate)
     func endEditing()
@@ -27,11 +27,11 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
     }
     private let layoutConstraintCache = LayoutConstraintCache()
     private weak var delegate: ArchiveViewControllerDelegate?
-    var viewState: ArchiveViewState? {
+    var viewState: ArchiveViewStating? {
         didSet { _ = viewState.map(bind) }
     }
 
-    static func initialise(viewState: ArchiveViewState) -> ArchiveViewControlling {
+    static func initialise(viewState: ArchiveViewStating) -> ArchiveViewControlling {
         let viewController = UIStoryboard.archive.instantiateInitialViewController() as! ArchiveViewController
         viewController.viewState = viewState
         return viewController
@@ -68,7 +68,7 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
 
     // MARK: - private
 
-    private func bind(_ viewState: ArchiveViewState) {
+    private func bind(_ viewState: ArchiveViewStating) {
         guard isViewLoaded else { return }
         tableView.reloadData()
         tableView.isHidden = viewState.isEmpty
@@ -164,12 +164,12 @@ extension ArchiveViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let item = viewState?.item(at: indexPath) else {
+        guard let cellViewState = viewState?.cellViewState(at: indexPath) else {
             assertionFailure("expected item")
             return UITableViewCell()
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArchiveCell", for: indexPath) as! ArchiveCell
-        cell.item = item // TODO: viewState
+        cell.viewState = cellViewState
         return cell
     }
 

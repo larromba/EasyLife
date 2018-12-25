@@ -2,13 +2,13 @@ import Logging
 import UIKit
 
 protocol BlockedViewControlling {
-    var viewState: BlockedViewState? { get set }
+    var viewState: BlockedViewStating? { get set }
 }
 
 final class BlockedViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
-    var viewState: BlockedViewState? {
+    var viewState: BlockedViewStating? {
         didSet { _ = viewState.map(bind) }
     }
 
@@ -19,7 +19,7 @@ final class BlockedViewController: UIViewController {
 
     // MARK: - private
 
-    private func bind(_ viewState: BlockedViewState) {
+    private func bind(_ viewState: BlockedViewStating) {
         // TODO: this
     }
 }
@@ -44,13 +44,12 @@ extension BlockedViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let item = viewState?.item(at: indexPath) else {
+        guard let cellViewState = viewState?.cellViewState(at: indexPath) else {
             assertionFailure("expected item")
             return UITableViewCell()
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "BlockedCell", for: indexPath) as! BlockedCell
-        cell.item = item
-        cell.isBlocked = viewState?.isBlocked(item) ?? false
+        cell.viewState = cellViewState
         return cell
     }
 

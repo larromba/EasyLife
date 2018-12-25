@@ -1,23 +1,47 @@
 import CoreData
 import CoreGraphics
-import Foundation
+import UIKit
 
-// TODO: this?
-//    #if DEBUG
-//    //dataSource.itunesConnect()
-//    #endif
-//         self.viewController = UIStoryboard.plan.instantiateInitialViewController() as! PlanViewController
+protocol PlanViewStating {
+    var rowHeight: CGFloat { get }
+    var tableHeaderReletiveHeight: CGFloat { get }
+    var isTableHeaderAnimating: Bool { get }
+    var fadeInDuration: TimeInterval { get }
+    var fadeOutDuration: TimeInterval { get }
+    var appVersionText: String { get }
+    var total: Int { get }
+    var totalMissed: Int { get }
+    var totalToday: Int { get }
+    var totalLater: Int { get }
+    var isDoneTotally: Bool { get }
+    var isDoneForNow: Bool { get }
+    var isTableHeaderHidden: Bool { get }
+    var isTableHidden: Bool { get }
+    var numOfSections: Int { get }
 
-struct PlanViewState {
-    let sections: [PlanSection: [TodoItem]]
+    func color(for action: PlanItemAction) -> UIColor
+    func text(for action: PlanItemAction) -> String
+    func style(for action: PlanItemAction) -> UITableViewRowAction.Style
+    func title(for section: Int) -> String?
+    func item(at indexPath: IndexPath) -> TodoItem?
+    func items(for section: Int) -> [TodoItem]?
+    func cellViewState(at indexPath: IndexPath) -> PlanCellViewStating?
+    func availableActions(for item: TodoItem, at indexPath: IndexPath) -> [PlanItemAction]
+    func tableHeaderAlphaMultiplier(tableHeaderHeight: CGFloat, scrollOffsetY: CGFloat) -> CGFloat
+
+    func copy(sections: [PlanSection: [TodoItem]]) -> PlanViewStating
+    func copy(isTableHeaderAnimating: Bool) -> PlanViewStating
+}
+
+struct PlanViewState: PlanViewStating {
+    private let sections: [PlanSection: [TodoItem]]
+
     let rowHeight: CGFloat = 50.0
     let tableHeaderReletiveHeight: CGFloat = 0.3
     let isTableHeaderAnimating: Bool
-    let deleteBackgroundColor = Asset.Colors.red.color
-    let doneBackgroundColor = Asset.Colors.green.color
-    let splitBackgroundColor = Asset.Colors.grey.color
-    let laterBackgroundColor = Asset.Colors.grey.color
-
+    let fadeInDuration = 0.2
+    let fadeOutDuration = 0.4
+    let appVersionText = Bundle.appVersion()
     var total: Int {
         return sections.reduce(0) { $0 + $1.value.count }
     }
@@ -36,11 +60,52 @@ struct PlanViewState {
     var isDoneForNow: Bool {
         return totalMissed == 0 && totalToday == 0
     }
+    var isTableHeaderHidden: Bool {
+        return !isDoneForNow
+    }
+    var isTableHidden: Bool {
+        return isDoneTotally
+    }
+    var numOfSections: Int {
+        return sections.count
+    }
 
-    func title(for section: PlanSection) -> String? {
-        guard let items = sections[section], !items.isEmpty else {
-            return nil
+    init(sections: [PlanSection: [TodoItem]], isTableHeaderAnimating: Bool) {
+        self.sections = sections
+        self.isTableHeaderAnimating = isTableHeaderAnimating
+    }
+
+    func color(for action: PlanItemAction) -> UIColor {
+        switch action {
+        case .delete: return Asset.Colors.red.color
+        case .done: return Asset.Colors.green.color
+        case .later: return Asset.Colors.grey.color
+        case .split: return Asset.Colors.grey.color
         }
+    }
+
+    func text(for action: PlanItemAction) -> String {
+        switch action {
+        case .delete: return  L10n.todoItemOptionDelete
+        case .done: return L10n.todoItemOptionDone
+        case .later: return L10n.todoItemOptionLater
+        case .split: return L10n.todoItemOptionSplit
+        }
+    }
+
+    func style(for action: PlanItemAction) -> UITableViewRowAction.Style {
+        switch action {
+        case .delete: return  .destructive
+        case .done: return .normal
+        case .later: return .normal
+        case .split: return .normal
+        }
+    }
+
+    func title(for section: Int) -> String? {
+        guard
+            let section = PlanSection(rawValue: section),
+            let items = sections[section], !items.isEmpty else { return nil }
         switch section {
         case .missed:
             return L10n.missedSection
@@ -52,17 +117,22 @@ struct PlanViewState {
     }
 
     func item(at indexPath: IndexPath) -> TodoItem? {
-        guard let section = PlanSection(rawValue: indexPath.section), let items = items(for: section) else {
-            return nil
-        }
-        return items[indexPath.row]
+        return items(for: indexPath.section)?[indexPath.row]
     }
 
-    func items(for section: PlanSection) -> [TodoItem]? {
+    func items(for section: Int) -> [TodoItem]? {
+        guard let section = PlanSection(rawValue: section) else { return nil }
         return sections[section]
     }
 
-    func availableActions(for item: TodoItem, in section: PlanSection) -> [PlanItemAction] {
+    func cellViewState(at indexPath: IndexPath) -> PlanCellViewStating? {
+        guard let section = PlanSection(rawValue: indexPath.section) else { return nil }
+        return item(at: indexPath).map { PlanCellViewState(item: $0, section: section) }
+    }
+
+    func availableActions(for item: TodoItem, at indexPath: IndexPath) -> [PlanItemAction] {
+        guard let section = PlanSection(rawValue: indexPath.section) else { return [] }
+
         var actions = [PlanItemAction]()
         if (item.blockedBy?.count ?? 0) == 0 {
             actions += [.done]
@@ -86,14 +156,20 @@ struct PlanViewState {
 
         return actions
     }
+
+    func tableHeaderAlphaMultiplier(tableHeaderHeight: CGFloat, scrollOffsetY: CGFloat) -> CGFloat {
+        guard scrollOffsetY < 0.0, tableHeaderHeight > 0.0 else { return 0.0 }
+        let height = tableHeaderHeight / 4.0
+        return max(0.0, 1.0 - (fabs(scrollOffsetY) / height))
+    }
 }
 
 extension PlanViewState {
-    func copy(sections: [PlanSection: [TodoItem]]) -> PlanViewState {
+    func copy(sections: [PlanSection: [TodoItem]]) -> PlanViewStating {
         return PlanViewState(sections: sections, isTableHeaderAnimating: isTableHeaderAnimating)
     }
 
-    func copy(isTableHeaderAnimating: Bool) -> PlanViewState {
+    func copy(isTableHeaderAnimating: Bool) -> PlanViewStating {
         return PlanViewState(sections: sections, isTableHeaderAnimating: isTableHeaderAnimating)
     }
 }

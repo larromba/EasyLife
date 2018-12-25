@@ -7,7 +7,7 @@ import Result
 protocol CoreDataManaging: AnyObject {
     func insert<T: NSManagedObject>(entityClass: T.Type, context: CoreDataContext) -> T
     func insertTransient<T: NSManagedObject>(entityClass: T.Type, context: CoreDataContext) -> Result<T>
-    func copy(_ entity: NSManagedObject, context: CoreDataContext) -> Result<NSManagedObject>
+    func copy<T: NSManagedObject>(_ entity: T, context: CoreDataContext) -> Result<T>
     func delete<T: NSManagedObject>(_ entity: T, context: CoreDataContext)
     func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: [NSSortDescriptor]?, context: CoreDataContext,
                                    predicate: NSPredicate?) -> Async<[T]>
@@ -37,11 +37,13 @@ final class CoreDataManager: CoreDataManaging {
     }
 
     // see https://stackoverflow.com/questions/2730832/how-can-i-duplicate-or-copy-a-core-data-managed-object
-    func copy(_ entity: NSManagedObject, context: CoreDataContext) -> Result<NSManagedObject> {
+    func copy<T: NSManagedObject>(_ entity: T, context: CoreDataContext) -> Result<T> {
         guard let name = entity.entity.name else {
             return .failure(CoreDataError.missingEntitiyName)
         }
-        let copy = insert(entityName: name, context: context)
+        guard let copy = insert(entityName: name, context: context) as? T else { // TODO: way around this cast?
+            return .failure(CoreDataError.copy)
+        }
         let description = NSEntityDescription.entity(forEntityName: name, in: managedObjectContext(for: context))
         guard
             let attributess = description?.attributesByName,

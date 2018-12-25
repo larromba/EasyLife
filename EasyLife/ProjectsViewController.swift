@@ -1,7 +1,7 @@
 import UIKit
 
 protocol ProjectsViewControlling: AnyObject {
-    var viewState: ProjectsViewState? { get set }
+    var viewState: ProjectsViewStating? { get set }
 
     func setDelegate(_ delegate: ProjectsViewControllerDelegate)
 }
@@ -20,11 +20,11 @@ final class ProjectsViewController: UIViewController, ProjectsViewControlling {
     @IBOutlet private(set) weak var editButton: UIBarButtonItem!
     @IBOutlet private(set) weak var doneButton: UIBarButtonItem!
     private weak var delegate: ProjectsViewControllerDelegate?
-    var viewState: ProjectsViewState? {
+    var viewState: ProjectsViewStating? {
         didSet { _ = viewState.map(bind) }
     }
 
-    static func initialise(viewState: ProjectsViewState) -> ProjectsViewControlling {
+    static func initialise(viewState: ProjectsViewStating) -> ProjectsViewControlling {
         let viewController = UIStoryboard.project.instantiateInitialViewController() as! ProjectsViewController
         viewController.viewState = viewState
         return viewController
@@ -42,7 +42,7 @@ final class ProjectsViewController: UIViewController, ProjectsViewControlling {
 
     // MARK: - actions
 
-    private func bind(_ viewState: ProjectsViewState) {
+    private func bind(_ viewState: ProjectsViewStating) {
         guard isViewLoaded else { return }
         tableView.setEditing(viewState.isEditing, animated: true)
         tableView.reloadData()
@@ -82,7 +82,7 @@ extension ProjectsViewController: UITableViewDelegate {
                                           handler: { (_: UITableViewRowAction, _: IndexPath) in
             self.delegate?.viewController(self, performAction: .delete, forProject: project)
         })
-        delete.backgroundColor = Asset.Colors.red.color
+        delete.backgroundColor = Asset.Colors.red.color // TODO: viewstate
         guard let section = ProjectSection(rawValue: indexPath.section) else {
             fatalError("unhandled section \(indexPath.section)")
         }
@@ -132,17 +132,16 @@ extension ProjectsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let project = viewState?.project(at: indexPath) else {
+        guard let cellViewState = viewState?.cellViewState(at: indexPath) else {
             assertionFailure("expected project")
             return UITableViewCell()
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectCell", for: indexPath) as! ProjectCell
-        cell.item = project // TODO: viewstate
-        cell.indexPath = indexPath
+        cell.viewState = cellViewState
         return cell
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewState?.sections.count ?? 0
+        return viewState?.numOfSections ?? 0
     }
 }

@@ -1,18 +1,21 @@
 import UIKit
 
-class BlockedCell: UITableViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var iconImageView: UIImageView!
+protocol BlockedCelling {
+    var viewState: ProjectCellViewStating? { get set }
+}
 
-    var item: TodoItem? {
-        didSet {
-            titleLabel.text = item?.name
-        }
+final class BlockedCell: UITableViewCell {
+    @IBOutlet private(set) weak var titleLabel: UILabel!
+    @IBOutlet private(set) weak var iconImageView: UIImageView!
+
+    var viewState: BlockedCellViewStating? {
+        didSet { _ = viewState.map(bind) }
     }
 
-    var isBlocked: Bool = false {
-        didSet {
-            iconImageView.image = isBlocked ? #imageLiteral(resourceName: "tick") : nil
-        }
+    // MARK: - private
+
+    private func bind(_ viewState: BlockedCellViewStating) {
+        titleLabel.text = viewState.titleText
+        iconImageView.image = viewState.iconImage
     }
 }

@@ -25,6 +25,6 @@ final class AppController: AppControlling {
 
     @objc
     private func applicationWillTerminate(_ notification: Notification) {
-        _ = dataManager.save(context: .main)
+        _ = dataManager.save(context: .main) // TODO: does this work?
     }
 }

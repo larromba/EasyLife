@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0f4-ZB-gVU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0f4-ZB-gVU">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -56,7 +52,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're done for now!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yO5-Tf-OCc">
-                                            <rect key="frame" x="74" y="27" width="173.5" height="24"/>
+                                            <rect key="frame" x="73.5" y="27" width="173.5" height="24"/>
                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                                             <nil key="highlightedColor"/>
@@ -79,13 +75,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xz2-u3-w40">
-                                                    <rect key="frame" x="15" y="0.0" width="267.5" height="69"/>
+                                                    <rect key="frame" x="15" y="0.0" width="267.5" height="69.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8og-5r-0PD">
-                                                    <rect key="frame" x="305" y="46.5" width="0.0" height="21"/>
+                                                    <rect key="frame" x="305" y="46" width="0.0" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -97,7 +93,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hVA-th-9S2">
-                                                    <rect key="frame" x="282.5" y="24" width="22.5" height="22.5"/>
+                                                    <rect key="frame" x="282.5" y="23.5" width="22.5" height="22.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="hVA-th-9S2" secondAttribute="height" multiplier="1:1" id="iTo-QP-yvm"/>
                                                     </constraints>
@@ -115,8 +111,8 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="41f-mX-QEC" customClass="BlockedView" customModule="EasyLife" customModuleProvider="target">
-                                                    <rect key="frame" x="313" y="0.0" width="7" height="70"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="41f-mX-QEC" customClass="BlockedBackgroundView" customModule="EasyLife" customModuleProvider="target">
+                                                    <rect key="frame" x="313" y="0.0" width="7" height="69.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
@@ -146,7 +142,7 @@
                                             <constraint firstItem="hVA-th-9S2" firstAttribute="height" secondItem="Ojs-NO-Jkr" secondAttribute="height" multiplier="0.32" id="aHL-4S-UIM"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="blockedView" destination="41f-mX-QEC" id="xBA-06-bio"/>
+                                            <outlet property="blockedView" destination="41f-mX-QEC" id="9jf-pO-5Ix"/>
                                             <outlet property="iconImageView" destination="hVA-th-9S2" id="1D9-yU-Q6S"/>
                                             <outlet property="infoLabel" destination="8og-5r-0PD" id="Gm4-ML-Gss"/>
                                             <outlet property="notesLabel" destination="G7f-5r-7SM" id="esz-Je-l6J"/>
@@ -396,7 +392,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DwZ-Ya-4ZS">
-                                                    <rect key="frame" x="272.5" y="20.5" width="32.5" height="33"/>
+                                                    <rect key="frame" x="272.5" y="20" width="32.5" height="32.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="DwZ-Ya-4ZS" secondAttribute="height" multiplier="1:1" id="O5F-Vk-hbx"/>
                                                     </constraints>

@@ -4,7 +4,8 @@ protocol SimpleDatePickerDelegate: AnyObject {
     func datePicker(_ picker: SimpleDatePicker, didSelectDate date: Date?)
 }
 
-class SimpleDatePicker: UIPickerView {
+// TODO: controller?
+final class SimpleDatePicker: UIPickerView {
     var date: Date?
     var data: [DateSegment]
     weak var datePickerDelegate: SimpleDatePickerDelegate?

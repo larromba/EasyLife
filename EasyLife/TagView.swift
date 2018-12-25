@@ -1,14 +1,20 @@
 import UIKit
 
+protocol TagViewable {
+    var viewState: TagViewStating? { get set }
+}
+
 @IBDesignable
-class TagView: UIView {
-    @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var cornerLayerView: UIView!
+class TagView: UIView, TagViewable {
+    @IBOutlet private(set) weak var label: UILabel!
+    @IBOutlet private(set) weak var cornerLayerView: UIView!
+    @IBInspectable private var cornerColor: UIColor? {
+        didSet { cornerLayer?.fillColor = cornerColor?.cgColor }
+    }
     private var cornerLayer: CAShapeLayer?
-    @IBInspectable var cornerColor: UIColor = .clear {
-        didSet {
-            cornerLayer?.fillColor = cornerColor.cgColor
-        }
+
+    var viewState: TagViewStating? {
+        didSet { _ = viewState.map(bind) }
     }
 
     override init(frame: CGRect) {
@@ -39,31 +45,16 @@ class TagView: UIView {
         let layer = CAShapeLayer()
         layer.frame = rect
         layer.path = path.cgPath
-        layer.fillColor = cornerColor.cgColor
+        layer.fillColor = cornerColor?.cgColor
         cornerLayerView.layer.addSublayer(layer)
         self.cornerLayer = layer
     }
 
-    func setup(for project: Project?) {
-        if let priority = project?.priority, priority != Project.defaultPriority {
-            isHidden = false
-            label.text = "\(priority + 1)"
-            switch priority {
-            case 0:
-                cornerColor = Asset.Colors.priority1.color
-            case 1:
-                cornerColor = Asset.Colors.priority2.color
-            case 2:
-                cornerColor = Asset.Colors.priority3.color
-            case 3:
-                cornerColor = Asset.Colors.priority4.color
-            case 4:
-                cornerColor = Asset.Colors.priority5.color
-            default:
-                break
-            }
-        } else {
-            isHidden = true
-        }
+    // MARK: - private
+
+    private func bind(_ viewState: TagViewStating) {
+        label.text = viewState.labelText
+        cornerLayerView.isHidden = viewState.isHidden
+        cornerColor = viewState.cornerColor
     }
 }
