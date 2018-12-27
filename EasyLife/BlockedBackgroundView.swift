@@ -1,15 +1,15 @@
 import UIKit
 
-protocol BlockedBackgroundViewing {
-    var viewState: BlockedBackgroundViewStating? { get set }
+protocol BlockedIndicatorViewing {
+    var viewState: BlockedIndicatorViewStating? { get set }
 }
 
-final class BlockedBackgroundView: UIView {
+final class BlockedIndicatorView: UIView {
     @IBOutlet private(set) weak var bottomView: UIView!
     @IBInspectable private var blockedColor: UIColor?
     @IBInspectable private var blockingColor: UIColor?
 
-    var viewState: BlockedBackgroundViewStating? {
+    var viewState: BlockedIndicatorViewStating? {
         didSet { _ = viewState.map(bind) }
     }
 
@@ -25,7 +25,8 @@ final class BlockedBackgroundView: UIView {
 
     // MARK: - private
 
-    private func bind(_ viewState: BlockedBackgroundViewStating) {
+    private func bind(_ viewState: BlockedIndicatorViewStating) {
+        // TODO: check
         bottomView.backgroundColor = viewState.bottomBackgroundColor
         bottomView.isHidden = viewState.isBottomViewHidden
         backgroundColor = viewState.backgroundColor

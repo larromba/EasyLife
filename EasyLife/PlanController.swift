@@ -2,11 +2,12 @@ import AsyncAwait
 import UIKit
 
 protocol PlanControlling {
+    func start()
     func setDelegate(_ delegate: PlanControllerDelegate)
 }
 
 protocol PlanControllerDelegate: AnyObject {
-    func controller(_ controller: PlanController, openItemDetailWithItem item: TodoItem, sender: UIViewController)
+    func controller(_ controller: PlanController, didSelectItem item: TodoItem, sender: Segueable)
 }
 
 final class PlanController: PlanControlling {
@@ -22,6 +23,16 @@ final class PlanController: PlanControlling {
         self.alertController = alertController
         self.repository = repository
         self.badge = badge
+
+        viewController.setDelegate(self)
+    }
+
+    func start() {
+        viewController.viewState = PlanViewState(
+            sections: [:],
+            tableHeaderViewState: TableHeaderViewState(isAnimating: false, alpha: 1.0, hue: 0.0)
+        )
+        reload()
     }
 
     func setDelegate(_ delegate: PlanControllerDelegate) {
@@ -51,12 +62,13 @@ final class PlanController: PlanControlling {
                 PlanSection.missed: try await(self.repository.fetchMissedItems()),
                 PlanSection.later: try await(self.repository.fetchLaterItems())
             ]
-            let viewState = self.viewController.viewState?.copy(sections: sections) ?? PlanViewState(
-                sections: sections,
-                isTableHeaderAnimating: false
-            )
-            self.viewController.viewState = viewState
-            self.badge.number = (viewState.totalMissed + viewState.totalToday)
+            let isAnimating = sections.reduce(0) { $0 + $1.value.count } > 0
+            onMain {
+                self.viewController.setIsTableHeaderAnimating(isAnimating)
+                guard let viewState = self.viewController.viewState else { return }
+                self.viewController.viewState = viewState.copy(sections: sections)
+                self.badge.number = (viewState.totalMissed + viewState.totalToday)
+            }
         }, onError: { error in
             self.alertController.showAlert(.dataError(error))
         })
@@ -66,33 +78,33 @@ final class PlanController: PlanControlling {
 // MARK: - PlanViewControllerDelegate
 
 extension PlanController: PlanViewControllerDelegate {
-    func viewControllerWillAppear(_ viewController: PlanViewController) {
+    func viewControllerWillAppear(_ viewController: PlanViewControlling) {
         setupNotifications()
-        viewController.viewState = viewController.viewState?.copy(isTableHeaderAnimating: true)
+        reload()
     }
 
-    func viewControllerWillDisappear(_ viewController: PlanViewController) {
+    func viewControllerWillDisappear(_ viewController: PlanViewControlling) {
         tearDownNotifications()
-        viewController.viewState = viewController.viewState?.copy(isTableHeaderAnimating: false)
+        viewController.setIsTableHeaderAnimating(false)
     }
 
-    func viewController(_ viewController: PlanViewController, performAction action: PlanAction) {
+    func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction) {
         switch action {
         case .add:
             switch repository.newItem() {
             case .success(let item):
-                delegate?.controller(self, openItemDetailWithItem: item, sender: viewController)
+                delegate?.controller(self, didSelectItem: item, sender: viewController)
             case .failure(let error):
                 alertController.showAlert(.dataError(error))
             }
         }
     }
 
-    func viewController(_ viewController: PlanViewController, didSelectItem item: TodoItem) {
-        delegate?.controller(self, openItemDetailWithItem: item, sender: viewController)
+    func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem) {
+        delegate?.controller(self, didSelectItem: item, sender: viewController)
     }
 
-    func viewController(_ viewController: PlanViewController, performAction action: PlanItemAction,
+    func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,
                         onItem item: TodoItem) {
         async({
             switch action {
@@ -101,6 +113,7 @@ extension PlanController: PlanViewControllerDelegate {
             case .later: _ = try await(self.repository.later(item: item))
             case .split: _ = try await(self.repository.split(item: item))
             }
+            self.reload()
         }, onError: { error in
             self.alertController.showAlert(.dataError(error))
         })

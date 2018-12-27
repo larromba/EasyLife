@@ -25,21 +25,3 @@ struct RepeatStateComponentItem: ComponentItem {
     }
     let object: RepeatState
 }
-
-class AnyComponentItem<T>: ComponentItem {
-    private let _title: String?
-    private let _object: T
-
-    var title: String? {
-        return _title
-    }
-
-    var object: T {
-        return _object
-    }
-
-    init<U: ComponentItem>(_ item: U) where U.Object == T {
-        _title = item.title
-        _object = item.object
-    }
-}

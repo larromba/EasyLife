@@ -47,7 +47,7 @@ class TagView: UIView, TagViewable {
         layer.path = path.cgPath
         layer.fillColor = cornerColor?.cgColor
         cornerLayerView.layer.addSublayer(layer)
-        self.cornerLayer = layer
+        cornerLayer = layer
     }
 
     // MARK: - private

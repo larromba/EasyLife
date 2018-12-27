@@ -5,6 +5,8 @@ import Logging
 import Result
 
 protocol CoreDataManaging: AnyObject {
+    var isLoaded: Bool { get }
+
     func insert<T: NSManagedObject>(entityClass: T.Type, context: CoreDataContext) -> T
     func insertTransient<T: NSManagedObject>(entityClass: T.Type, context: CoreDataContext) -> Result<T>
     func copy<T: NSManagedObject>(_ entity: T, context: CoreDataContext) -> Result<T>
@@ -17,15 +19,18 @@ protocol CoreDataManaging: AnyObject {
 
 final class CoreDataManager: CoreDataManaging {
     private let persistentContainer: NSPersistentContainer
+    private let notificationCenter: NotificationCenter
     private var mainContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     private var backgroundContext: NSManagedObjectContext {
         return persistentContainer.newBackgroundContext()
     }
+    var isLoaded: Bool = false
 
-    init(persistentContainer: NSPersistentContainer) {
+    init(persistentContainer: NSPersistentContainer, notificationCenter: NotificationCenter = .default) {
         self.persistentContainer = persistentContainer
+        self.notificationCenter = notificationCenter
     }
 
     func insert<T: NSManagedObject>(entityClass: T.Type, context: CoreDataContext) -> T {
@@ -38,6 +43,9 @@ final class CoreDataManager: CoreDataManaging {
 
     // see https://stackoverflow.com/questions/2730832/how-can-i-duplicate-or-copy-a-core-data-managed-object
     func copy<T: NSManagedObject>(_ entity: T, context: CoreDataContext) -> Result<T> {
+        guard self.isLoaded else {
+            return .failure(CoreDataError.notLoaded)
+        }
         guard let name = entity.entity.name else {
             return .failure(CoreDataError.missingEntitiyName)
         }
@@ -64,12 +72,19 @@ final class CoreDataManager: CoreDataManaging {
     }
 
     func delete<T: NSManagedObject>(_ entity: T, context: CoreDataContext) {
+        guard self.isLoaded else {
+            logError(CoreDataError.notLoaded)
+            return
+        }
         managedObjectContext(for: context).delete(entity)
     }
 
     func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: [NSSortDescriptor]? = nil,
                                    context: CoreDataContext, predicate: NSPredicate? = nil) -> Async<[T]> {
         return Async { completion in
+            guard self.isLoaded else {
+                return completion(.failure(CoreDataError.notLoaded))
+            }
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName(entityClass))
             request.returnsObjectsAsFaults = false
             request.predicate = predicate
@@ -90,9 +105,10 @@ final class CoreDataManager: CoreDataManaging {
             self.persistentContainer.loadPersistentStores(completionHandler: { _, error in
                 if let error = error {
                     completion(.failure(CoreDataError.frameworkError(error)))
-                    NotificationCenter.default.post(name: .applicationDidReceiveFatalError, object: error)
+                    self.notificationCenter.post(name: .applicationDidReceiveFatalError, object: error)
                     return
                 }
+                self.isLoaded = true
                 completion(.success(()))
             })
         }
@@ -100,6 +116,9 @@ final class CoreDataManager: CoreDataManaging {
 
     func save(context: CoreDataContext) -> Async<Void> {
         return Async { completion in
+            guard self.isLoaded else {
+                return completion(.failure(CoreDataError.notLoaded))
+            }
             let context = self.managedObjectContext(for: context)
             guard context.hasChanges else {
                 completion(.success(()))
@@ -111,7 +130,7 @@ final class CoreDataManager: CoreDataManaging {
                     completion(.success(()))
                 } catch {
                     completion(.failure(CoreDataError.frameworkError(error)))
-                    NotificationCenter.default.post(name: .applicationDidReceiveFatalError, object: error)
+                    self.notificationCenter.post(name: .applicationDidReceiveFatalError, object: error)
                 }
             })
         }

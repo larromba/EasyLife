@@ -34,6 +34,8 @@ final class ProjectsController: ProjectsControlling {
         self.delegate = delegate
     }
 
+    // MARK: - private
+
     private func addProject() {
         var editableName: String?
         let action = Alert.Action(title: L10n.newProjectAlertOk, handler: {

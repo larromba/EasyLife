@@ -22,6 +22,7 @@ internal enum Asset {
     internal static let backwardArrow = ImageAsset(name: "backward_arrow")
     internal static let forwardArrow = ImageAsset(name: "forward_arrow")
     internal static let nodate = ImageAsset(name: "nodate")
+    internal static let openSource = ImageAsset(name: "open-source")
     internal static let recurring = ImageAsset(name: "recurring")
     internal static let tick = ImageAsset(name: "tick")
   }

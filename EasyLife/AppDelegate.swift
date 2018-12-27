@@ -1,3 +1,4 @@
+import AsyncAwait
 import Logging
 import UIKit
 
@@ -14,16 +15,29 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
         #endif
-        log("open \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last ?? "nil")\n")
+        log("open \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last ?? "")\n")
 
         guard
             let window = window,
             let navigationController = window.rootViewController as? UINavigationController,
-            let planViewController = navigationController.viewControllers.first as? PlanViewController else {
-                fatalError("expected UIWindow, UINavigationController, PlanViewController")
+            let planViewController = navigationController.viewControllers.first as? PlanViewControlling else {
+                assertionFailure("expected UIWindow, UINavigationController, PlanViewControlling")
+                return true
         }
-        appController = AppControllerFactory.make(window: window, navigationController: navigationController,
-                                                  planViewController: planViewController)
+        async({
+            self.appController = try await(AppControllerFactory.make(window: window,
+                                                                     navigationController: navigationController,
+                                                                     planViewController: planViewController))
+            onMain {
+                self.appController?.start()
+            }
+        }, onError: { _ in
+            // TODO: handle
+        })
         return true
+    }
+
+    func applicationWillTerminate(_ application: UIApplication) {
+        appController?.applicationWillTerminate()
     }
 }

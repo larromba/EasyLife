@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7F0D9248204619DF00D9AE6B /* BlockedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F0D9247204619DF00D9AE6B /* BlockedView.xib */; };
+		7F0D9248204619DF00D9AE6B /* BlockedIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F0D9247204619DF00D9AE6B /* BlockedIndicatorView.xib */; };
 		7F0D924A20461A1F00D9AE6B /* BlockedBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0D924920461A1F00D9AE6B /* BlockedBackgroundView.swift */; };
 		7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */; };
 		7F102DE01F5ABF8F00E262B1 /* ProjectsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E791F59B52800C55AD2 /* ProjectsRepository.swift */; };
@@ -35,6 +35,10 @@
 		7F3BD2CF21D2D5FF0035F540 /* TagViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2CE21D2D5FF0035F540 /* TagViewState.swift */; };
 		7F3BD2D121D2D82D0035F540 /* BlockedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2D021D2D82D0035F540 /* BlockedState.swift */; };
 		7F3BD2D321D2D93D0035F540 /* BlockedBackgroundViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2D221D2D93D0035F540 /* BlockedBackgroundViewState.swift */; };
+		7F3BD2D521D389330035F540 /* Segueable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2D421D389330035F540 /* Segueable.swift */; };
+		7F3BD2D821D3BB670035F540 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2D721D3BB670035F540 /* Context.swift */; };
+		7F3BD2DA21D3F27F0035F540 /* SimpleDatePickerViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2D921D3F27F0035F540 /* SimpleDatePickerViewState.swift */; };
+		7F3BD2DE21D4076F0035F540 /* TableHeaderViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2DD21D4076F0035F540 /* TableHeaderViewState.swift */; };
 		7F429C7621C3D99E00195E32 /* assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7421C3D99E00195E32 /* assets.swift */; };
 		7F429C7721C3D99E00195E32 /* strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7521C3D99E00195E32 /* strings.swift */; };
 		7F429C7921C3E9D000195E32 /* PlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7821C3E9D000195E32 /* PlanController.swift */; };
@@ -133,7 +137,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7F0D9247204619DF00D9AE6B /* BlockedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockedView.xib; sourceTree = "<group>"; };
+		7F0D9247204619DF00D9AE6B /* BlockedIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockedIndicatorView.xib; sourceTree = "<group>"; };
 		7F0D924920461A1F00D9AE6B /* BlockedBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedBackgroundView.swift; sourceTree = "<group>"; };
 		7F102DE21F5AC11600E262B1 /* EasyLife.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = EasyLife.sqlite; sourceTree = "<group>"; };
 		7F102DE41F5AC22200E262B1 /* DataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
@@ -161,6 +165,10 @@
 		7F3BD2CE21D2D5FF0035F540 /* TagViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewState.swift; sourceTree = "<group>"; };
 		7F3BD2D021D2D82D0035F540 /* BlockedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedState.swift; sourceTree = "<group>"; };
 		7F3BD2D221D2D93D0035F540 /* BlockedBackgroundViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedBackgroundViewState.swift; sourceTree = "<group>"; };
+		7F3BD2D421D389330035F540 /* Segueable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segueable.swift; sourceTree = "<group>"; };
+		7F3BD2D721D3BB670035F540 /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
+		7F3BD2D921D3F27F0035F540 /* SimpleDatePickerViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleDatePickerViewState.swift; sourceTree = "<group>"; };
+		7F3BD2DD21D4076F0035F540 /* TableHeaderViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderViewState.swift; sourceTree = "<group>"; };
 		7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
 		7F426E791F59B52800C55AD2 /* ProjectsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsRepository.swift; sourceTree = "<group>"; };
 		7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
@@ -296,6 +304,15 @@
 			name = CoreData;
 			sourceTree = "<group>";
 		};
+		7F3BD2D621D38E0E0035F540 /* Xib */ = {
+			isa = PBXGroup;
+			children = (
+				7FD1EE231F8E8CCC0042C317 /* TagView.xib */,
+				7F0D9247204619DF00D9AE6B /* BlockedIndicatorView.xib */,
+			);
+			name = Xib;
+			sourceTree = "<group>";
+		};
 		7F429C6E21C3D8F100195E32 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,8 +321,6 @@
 				7F75400F1F5AD1A900A0F06C /* Project.storyboard */,
 				7F163D271EDD716D00DC52B6 /* Components.storyboard */,
 				7FAC2C681E9E673400F14ECB /* LaunchScreen.storyboard */,
-				7FD1EE231F8E8CCC0042C317 /* TagView.xib */,
-				7F0D9247204619DF00D9AE6B /* BlockedView.xib */,
 			);
 			name = Storyboard;
 			sourceTree = "<group>";
@@ -341,6 +356,8 @@
 				7F3BD2D221D2D93D0035F540 /* BlockedBackgroundViewState.swift */,
 				7F3BD2CC21D2D4E40035F540 /* BlockedCellViewState.swift */,
 				7F3BD2CE21D2D5FF0035F540 /* TagViewState.swift */,
+				7F3BD2D921D3F27F0035F540 /* SimpleDatePickerViewState.swift */,
+				7F3BD2DD21D4076F0035F540 /* TableHeaderViewState.swift */,
 			);
 			name = ViewState;
 			sourceTree = "<group>";
@@ -350,9 +367,9 @@
 			children = (
 				7F429C8621C41B3500195E32 /* AppController.swift */,
 				7F429C7821C3E9D000195E32 /* PlanController.swift */,
+				7F3BD2B421CFE9BE0035F540 /* ItemDetailController.swift */,
 				7F429C9C21C5B60100195E32 /* ProjectsController.swift */,
 				7F429C9021C539CD00195E32 /* ArchiveController.swift */,
-				7F3BD2B421CFE9BE0035F540 /* ItemDetailController.swift */,
 				7F3BD2BE21D13D030035F540 /* BlockedController.swift */,
 				7F429C9821C55E0300195E32 /* AlertController.swift */,
 			);
@@ -449,8 +466,8 @@
 			isa = PBXGroup;
 			children = (
 				7FAC2C5C1E9E673400F14ECB /* AppDelegate.swift */,
-				7F429C8A21C42F9500195E32 /* Factory */,
 				7F429C8F21C42FFC00195E32 /* Coordinator */,
+				7F429C8A21C42F9500195E32 /* Factory */,
 				7F429C8C21C42FA700195E32 /* Controller */,
 				7FAC2C9C1E9ECAA300F14ECB /* ViewController */,
 				7FAC2C9B1E9ECA9C00F14ECB /* View */,
@@ -484,11 +501,11 @@
 				7F3BD2C421D14A010035F540 /* PlanAction.swift */,
 				7F429C8021C4041B00195E32 /* PlanItemAction.swift */,
 				7F429C9421C5402100195E32 /* ArchiveAction.swift */,
-				7F3BD2B821CFEC970035F540 /* ItemDetailAction.swift */,
 				7F429CA421C6663500195E32 /* ProjectSections.swift */,
 				7F429CA621C66B5000195E32 /* ProjectsAction.swift */,
 				7F429CA821C66B5C00195E32 /* ProjectItemAction.swift */,
 				7F3BD2BA21D016FA0035F540 /* ItemDetailComponent.swift */,
+				7F3BD2B821CFEC970035F540 /* ItemDetailAction.swift */,
 				7FAC2C971E9EC91400F14ECB /* RepeatState.swift */,
 				7F93792E1EA7661B009E33FA /* DateSegment.swift */,
 				7FE4489020420B2C00F2DE77 /* BlockedItem.swift */,
@@ -498,6 +515,7 @@
 				7F429CA021C6578D00195E32 /* Error.swift */,
 				7F429CA221C65EA700195E32 /* CoreDataContext.swift */,
 				7F3BD2D021D2D82D0035F540 /* BlockedState.swift */,
+				7F3BD2D721D3BB670035F540 /* Context.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -570,6 +588,7 @@
 				7FAC2C951E9EBF6400F14ECB /* ResponderSelection.swift */,
 				7FA9C21E1EAA216A0089A87C /* DisplayEnum.swift */,
 				7F429CAA21C7FD0D00195E32 /* Presentable.swift */,
+				7F3BD2D421D389330035F540 /* Segueable.swift */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -580,6 +599,7 @@
 				7F2A3D6D21C01F6400941347 /* Colors.xcassets */,
 				7FAC2C661E9E673400F14ECB /* Assets.xcassets */,
 				7F429C6E21C3D8F100195E32 /* Storyboard */,
+				7F3BD2D621D38E0E0035F540 /* Xib */,
 				7FC73E7B1F5ABE6700A55703 /* EasyLife.xcdatamodeld */,
 				7FAC2C6B1E9E673400F14ECB /* Info.plist */,
 				7FA9C2191EA9161C0089A87C /* Localizable.strings */,
@@ -699,7 +719,7 @@
 				7FD1EE241F8E8CCC0042C317 /* TagView.xib in Resources */,
 				7F2A3D6E21C01F6400941347 /* Colors.xcassets in Resources */,
 				7FAC2C671E9E673400F14ECB /* Assets.xcassets in Resources */,
-				7F0D9248204619DF00D9AE6B /* BlockedView.xib in Resources */,
+				7F0D9248204619DF00D9AE6B /* BlockedIndicatorView.xib in Resources */,
 				7F163D251EDD716D00DC52B6 /* Components.storyboard in Resources */,
 				7FAC2C621E9E673400F14ECB /* Plan.storyboard in Resources */,
 			);
@@ -858,8 +878,10 @@
 				7FAC2C821E9E692E00F14ECB /* ItemDetailViewController.swift in Sources */,
 				7F163D311EDEE98D00DC52B6 /* BundleExtensions.swift in Sources */,
 				7F163D221EDCDB9400DC52B6 /* TableHeaderView.swift in Sources */,
+				7F3BD2D821D3BB670035F540 /* Context.swift in Sources */,
 				7F429C7D21C3F8E700195E32 /* Mockable.swift in Sources */,
 				7F429C9121C539CD00195E32 /* ArchiveController.swift in Sources */,
+				7F3BD2DA21D3F27F0035F540 /* SimpleDatePickerViewState.swift in Sources */,
 				7F429C9321C53B7800195E32 /* LayoutConstraintCache.swift in Sources */,
 				7FC488D72041A763003F6F19 /* BlockedViewController.swift in Sources */,
 				7F3BD2BF21D13D030035F540 /* BlockedController.swift in Sources */,
@@ -882,6 +904,7 @@
 				7FAC2C981E9EC91400F14ECB /* RepeatState.swift in Sources */,
 				7F429C7621C3D99E00195E32 /* assets.swift in Sources */,
 				7F3BD2C521D14A010035F540 /* PlanAction.swift in Sources */,
+				7F3BD2D521D389330035F540 /* Segueable.swift in Sources */,
 				7F429CA121C6578D00195E32 /* Error.swift in Sources */,
 				7F429C7721C3D99E00195E32 /* strings.swift in Sources */,
 				7F3BD2B521CFE9BE0035F540 /* ItemDetailController.swift in Sources */,
@@ -904,6 +927,7 @@
 				7F3BD2CD21D2D4E40035F540 /* BlockedCellViewState.swift in Sources */,
 				7FAC2CA81E9ED67200F14ECB /* ArrayExtensions.swift in Sources */,
 				7FBA028B1EE1E60D00C3103A /* ArchiveCell.swift in Sources */,
+				7F3BD2DE21D4076F0035F540 /* TableHeaderViewState.swift in Sources */,
 				7F429C9521C5402100195E32 /* ArchiveAction.swift in Sources */,
 				7F429CAB21C7FD0D00195E32 /* Presentable.swift in Sources */,
 				7FAC2CA21E9ED15100F14ECB /* UIStoryboardExtensions.swift in Sources */,

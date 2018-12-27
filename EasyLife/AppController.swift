@@ -1,7 +1,8 @@
 import Foundation
 
 protocol AppControlling {
-    // 🦄
+    func start()
+    func applicationWillTerminate()
 }
 
 final class AppController: AppControlling {
@@ -13,18 +14,13 @@ final class AppController: AppControlling {
         self.dataManager = dataManager
         self.planCoordinator = planCoordinator
         self.fatalErrorHandler = fatalErrorHandler
-        setupNotifications()
     }
 
-    // MARK: - private
-
-    private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate(_:)),
-                                               name: .UIApplicationWillTerminate, object: nil)
+    func start() {
+        planCoordinator.start()
     }
 
-    @objc
-    private func applicationWillTerminate(_ notification: Notification) {
+    func applicationWillTerminate() {
         _ = dataManager.save(context: .main) // TODO: does this work?
     }
 }

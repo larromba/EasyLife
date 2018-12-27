@@ -1,12 +1,12 @@
 import UIKit
 
-protocol BlockedBackgroundViewStating {
+protocol BlockedIndicatorViewStating {
     var backgroundColor: UIColor { get }
     var bottomBackgroundColor: UIColor { get }
     var isBottomViewHidden: Bool { get }
 }
 
-struct BlockedBackgroundViewState: BlockedBackgroundViewStating {
+struct BlockedIndicatorViewState: BlockedIndicatorViewStating {
     let backgroundColor: UIColor
     let bottomBackgroundColor: UIColor
     let isBottomViewHidden: Bool

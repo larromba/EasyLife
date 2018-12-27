@@ -3,18 +3,19 @@ import SafariServices
 import UIKit
 
 // sourcery: name = PlanViewControllers
-protocol PlanViewControlling: AnyObject, Presentable, Mockable {
+protocol PlanViewControlling: AnyObject, Presentable, Segueable, Mockable {
     var viewState: PlanViewStating? { get set }
 
     func setDelegate(_ delegate: PlanViewControllerDelegate)
+    func setIsTableHeaderAnimating(_ isAnimating: Bool)
 }
 
 protocol PlanViewControllerDelegate: AnyObject {
-    func viewControllerWillAppear(_ viewController: PlanViewController)
-    func viewControllerWillDisappear(_ viewController: PlanViewController)
-    func viewController(_ viewController: PlanViewController, performAction action: PlanAction)
-    func viewController(_ viewController: PlanViewController, didSelectItem item: TodoItem)
-    func viewController(_ viewController: PlanViewController, performAction action: PlanItemAction,
+    func viewControllerWillAppear(_ viewController: PlanViewControlling)
+    func viewControllerWillDisappear(_ viewController: PlanViewControlling)
+    func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction)
+    func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem)
+    func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,
                         onItem item: TodoItem)
 }
 
@@ -26,14 +27,18 @@ final class PlanViewController: UIViewController, PlanViewControlling {
     @IBOutlet private(set) weak var tableHeaderView: TableHeaderView!
     @IBOutlet private(set) weak var appVersionLabel: UILabel!
     private weak var delegate: PlanViewControllerDelegate?
-    var viewState: PlanViewStating? {
-        didSet { _ = viewState.map(bind) }
-    }
 
-    static func initialise(viewState: PlanViewStating) -> PlanViewController {
-        let viewController = UIStoryboard.plan.instantiateInitialViewController() as! PlanViewController
-        viewController.viewState = viewState
-        return viewController
+    // tableHeaderView updates its viewState, so we copy the changes on returning PlanViewState
+    private var _viewState: PlanViewStating?
+    var viewState: PlanViewStating? {
+        get {
+            guard let viewState = _viewState, let tableHeaderViewState = tableHeaderView.viewState else { return nil }
+            return viewState.copy(tableHeaderViewState: tableHeaderViewState)
+        }
+        set {
+            _viewState = newValue
+            _ = _viewState.map(bind)
+        }
     }
 
     override func viewDidLoad() {
@@ -56,18 +61,16 @@ final class PlanViewController: UIViewController, PlanViewControlling {
         self.delegate = delegate
     }
 
+    func setIsTableHeaderAnimating(_ isAnimating: Bool) {
+        tableHeaderView.setIsAnimating(isAnimating)
+    }
+
     // MARK: - private
 
     private func bind(_ viewState: PlanViewStating) {
         guard isViewLoaded else { return }
         appVersionLabel.text = viewState.appVersionText
-        tableHeaderView.setupWithHeight(tableView.bounds.size.height * viewState.tableHeaderReletiveHeight)
-        if viewState.isTableHeaderAnimating {
-            tableHeaderView.startAnimation()
-        } else {
-            tableHeaderView.stopAnimation()
-        }
-        tableHeaderView.isHidden = viewState.isTableHeaderHidden
+        tableHeaderView.viewState = viewState.tableHeaderViewState
         tableView.isHidden = viewState.isTableHidden
         tableView.reloadData()
     }
@@ -153,9 +156,10 @@ extension PlanViewController: UIScrollViewDelegate {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        tableHeaderView.alphaMultiplier = viewState?.tableHeaderAlphaMultiplier(
-            tableHeaderHeight: tableHeaderView.bounds.height,
+        guard let tableHeaderViewState = viewState?.tableHeaderViewState else { return }
+        viewState = viewState?.copy(tableHeaderViewState: tableHeaderViewState.copy(alpha: tableHeaderViewState.alpha(
+            forHeight: tableHeaderView.bounds.height,
             scrollOffsetY: scrollView.contentOffset.y
-        ) ?? 0
+        )))
     }
 }

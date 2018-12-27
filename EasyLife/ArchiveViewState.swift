@@ -26,7 +26,7 @@ struct ArchiveViewState: ArchiveViewStating {
     private let unknownSection = Character("-")
     private let searchSections: [Character: [TodoItem]]?
 
-    let sections: [Character: [TodoItem]]
+    let sections: [Character: [TodoItem]] // TODO: private?
     var numOfSections: Int {
         return sections.keys.count
     }

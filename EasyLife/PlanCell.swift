@@ -10,7 +10,7 @@ final class PlanCell: UITableViewCell, PlanCellable {
     @IBOutlet private(set) weak var notesLabel: UILabel!
     @IBOutlet private(set) weak var iconImageView: UIImageView!
     @IBOutlet private(set) weak var tagView: TagView!
-    @IBOutlet private(set) weak var blockedView: BlockedBackgroundView!
+    @IBOutlet private(set) weak var blockedView: BlockedIndicatorView!
 
     var viewState: PlanCellViewStating? {
         didSet { _ = viewState.map(bind) }
@@ -19,7 +19,7 @@ final class PlanCell: UITableViewCell, PlanCellable {
     // MARK: - private
 
     private func bind(_ viewState: PlanCellViewStating) {
-        blockedView.viewState = viewState.blockedBackgroundViewState
+        blockedView.viewState = viewState.blockedIndicatorViewState
         iconImageView.image = viewState.iconImage
         iconImageView.isHidden = viewState.isIconHidden
         infoLabel.text = viewState.infoText

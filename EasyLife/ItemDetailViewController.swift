@@ -46,10 +46,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         datePicker.addGestureRecognizer(tap)
         return datePicker
     }()
-    private lazy var simpleDatePicker: SimpleDatePicker = {
-        let datePicker = SimpleDatePicker(delegate: self, date: nil, data: DateSegment.display)
-        return datePicker
-    }()
+    private lazy var simpleDatePicker = SimpleDatePicker(delegate: self)
     private lazy var repeatPicker: UIPickerView = {
         let pickerView = UIPickerView()
         pickerView.delegate = self
@@ -130,14 +127,16 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
     // MARK: - private
 
     private func bind(_ viewState: ItemDetailViewState) {
-        // TODO: this
-        datePicker.minimumDate = viewState.minimumDate
-        simpleDatePicker.date = viewState.date
+        guard isViewLoaded else { return }
 
-        if viewState.canSave {
+        datePicker.minimumDate = viewState.minimumDate
+        simpleDatePicker.viewState = viewState.simpleDatePickerViewState
+
+        switch viewState.action {
+        case .save:
             setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .save, target: self,
                                                   action: #selector(savePressed(_:))))
-        } else {
+        case .delete:
             setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .trash, target: self,
                                                   action: #selector(deletePressed(_:))))
         }
@@ -151,10 +150,10 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
             repeatsTextField.text = nil
         }
         projectTextField.text = viewState.project?.name
-        projectTextField.isUserInteractionEnabled = (viewState.projects?.count ?? 0 > 0)
-        projectTextField.alpha = (viewState.projects?.count ?? 0 > 0) ? 1.0 : 0.5
-        blockedButton.isEnabled = (viewState.blockable?.count ?? 0) > 0
-        blockedButton.pp.addBadge(number: viewState.blockable?.filter({ $0.isBlocked }).count ?? 0)
+        projectTextField.isUserInteractionEnabled = viewState.isProjectTextFieldEnabled
+        projectTextField.alpha = viewState.projectTextFieldAlpha
+        blockedButton.isEnabled = viewState.isBlockedButtonEnabled
+        blockedButton.pp.addBadge(number: viewState.blockedCount)
     }
 
     private func setupNotifications() {
@@ -265,7 +264,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
     }
 
     @IBAction private func textFieldChanged(_ sender: UITextField) {
-        viewState?.notes = sender.text
+        viewState?.name = sender.text
         notifyStateUpdated()
     }
 
@@ -294,9 +293,9 @@ extension ItemDetailViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch pickerView {
         case repeatPicker:
-            return viewState?.pickerComponents[.repeatState]?[row].title
+            return viewState?.repeatStatePickerComponent(at: row).title
         case projectPicker:
-            return viewState?.pickerComponents[.projects]?[row].title
+            return viewState?.projectPickerComponent(at: row).title
         default:
             assertionFailure("unhandled picker")
             return nil
@@ -306,9 +305,9 @@ extension ItemDetailViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case repeatPicker:
-            viewState?.repeatState = viewState?.pickerComponents[.repeatState]?[row].object as? RepeatState
+            viewState?.repeatState = viewState?.repeatStatePickerComponent(at: row).object
         case projectPicker:
-            viewState?.project = viewState?.pickerComponents[.projects]?[row].object as? Project
+            viewState?.project = viewState?.projectPickerComponent(at: row).object
         default:
             assertionFailure("unhandled picker")
         }
@@ -326,9 +325,9 @@ extension ItemDetailViewController: UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch pickerView {
         case repeatPicker:
-            return viewState?.pickerComponents[.repeatState]?.count ?? 0
+            return viewState?.repeatStateCount ?? 0
         case projectPicker:
-            return viewState?.pickerComponents[.projects]?.count ?? 0
+            return viewState?.projectCount ?? 0
         default:
             assertionFailure("unhandled picker")
             return 0
@@ -370,20 +369,16 @@ extension ItemDetailViewController: UITextFieldDelegate {
         case repeatsTextField:
             repeatPicker.selectRow(viewState?.repeatState?.rawValue ?? 0, inComponent: 0, animated: true)
         default:
-            assertionFailure("unhandled textfield")
+            break
         }
     }
 
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         switch textField {
-        case dateTextField:
-            viewState?.date = nil
-        case repeatsTextField:
-            viewState?.repeatState = nil
-        case projectTextField:
-            viewState?.project = nil
-        default:
-            assertionFailure("unhandled textfield")
+        case dateTextField: viewState?.date = nil
+        case repeatsTextField: viewState?.repeatState = nil
+        case projectTextField: viewState?.project = nil
+        default: break
         }
         notifyStateUpdated()
         return true

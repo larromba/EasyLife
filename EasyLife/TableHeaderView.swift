@@ -1,7 +1,12 @@
 import UIKit
 
-// TODO: viewstate
-final class TableHeaderView: UIView {
+protocol TableHeaderViewing: AnyObject {
+    var viewState: TableHeaderViewStating? { get set }
+
+    func setIsAnimating(_ isAnimating: Bool)
+}
+
+final class TableHeaderView: UIView, TableHeaderViewing {
     override var isHidden: Bool {
         get {
             return super.isHidden
@@ -10,39 +15,48 @@ final class TableHeaderView: UIView {
             super.isHidden = newValue
             if newValue {
                 bounds.size.height = 0
-            } else {
-                bounds.size.height = origBounds.size.height
+            } else if let superview = superview, let viewState = viewState {
+                bounds.size.height = superview.bounds.height * viewState.heightPercentage
             }
         }
     }
-    var alphaMultiplier: CGFloat = 1
-
-    private var origBounds: CGRect = .zero
-    private var hue: CGFloat = 0
-    private var isAnimating = false
-
-    func setupWithHeight(_ height: CGFloat) {
-        origBounds = CGRect(x: frame.origin.x, y: frame.origin.y, width: bounds.size.width, height: height)
+    var viewState: TableHeaderViewStating? {
+        didSet { _ = viewState.map(bind) }
     }
 
-    func startAnimation() {
-        isAnimating = true
-        UIView.animate(withDuration: 1 / 24, animations: {
-            self.backgroundColor = UIColor(hue: self.hue / 360, saturation: 1, brightness: 1,
-                                           alpha: 0.05 * self.alphaMultiplier)
+    func setIsAnimating(_ isAnimating: Bool) {
+        if isAnimating {
+            startAnimation()
+        } else {
+            stopAnimation()
+        }
+    }
+
+    // MARK: - private
+
+    private func bind(_ viewState: TableHeaderViewStating) {
+        isHidden = viewState.isHidden
+    }
+
+    private func startAnimation() {
+        guard let viewState = viewState, !viewState.isAnimating else { return }
+        self.viewState = viewState.copy(isAnimating: true)
+        animate()
+    }
+
+    private func stopAnimation() {
+        layer.removeAllAnimations()
+        viewState = viewState?.copy(isAnimating: false)
+    }
+
+    private func animate() {
+        guard let viewState = viewState else { return }
+        UIView.animate(withDuration: viewState.animationDuration, animations: {
+            self.backgroundColor = viewState.backgroundColor
         }, completion: { _ in
-            guard self.isAnimating else {
-                return
-            }
-            self.hue += 1
-            if self.hue > 360 {
-                self.hue = 0
-            }
-            self.startAnimation()
+            guard viewState.isAnimating else { return }
+            self.viewState = viewState.copy(hue: viewState.nextHue())
+            self.animate()
         })
-    }
-
-    func stopAnimation() {
-        isAnimating = false
     }
 }

@@ -1,33 +1,53 @@
 import UIKit
 
 protocol PlanCoordinating {
-    // 🦄
+    func start()
 }
 
 final class PlanCoordinator: NSObject, PlanCoordinating {
-    private let planController: PlanController
-    private let archiveController: ArchiveController
+    private let planController: PlanControlling
+    private let itemDetailController: ItemDetailControlling
+    private let blockedController: BlockedControlling
     private let navigationController: UINavigationController
-    private var item: TodoItem?
-    private weak var blockedViewController: BlockedViewController? // TODO: this?
+    private var itemDetailContext: Context<TodoItem>?
 
-    init(navigationController: UINavigationController, planController: PlanController,
-         archiveController: ArchiveController) {
+    init(navigationController: UINavigationController, planController: PlanControlling,
+         itemDetailController: ItemDetailControlling, blockedController: BlockedControlling) {
         self.navigationController = navigationController
         self.planController = planController
-        self.archiveController = archiveController
+        self.itemDetailController = itemDetailController
+        self.blockedController = blockedController
         super.init()
         navigationController.delegate = self
         planController.setDelegate(self)
+        itemDetailController.setDelegate(self)
+    }
+
+    func start() {
+        planController.start()
+    }
+
+    // MARK: - private
+
+    private func clearContexts() {
+        itemDetailContext = nil
     }
 }
 
 // MARK: - PlanControllerDelegate
 
 extension PlanCoordinator: PlanControllerDelegate {
-    func controller(_ controller: PlanController, openItemDetailWithItem item: TodoItem, sender: UIViewController) {
-        self.item = item
+    func controller(_ controller: PlanController, didSelectItem item: TodoItem, sender: Segueable) {
+        itemDetailContext = Context(object: item)
         sender.performSegue(withIdentifier: "openEventDetailViewController", sender: self)
+    }
+}
+
+// MARK: - ItemDetailControllerDelegate
+
+extension PlanCoordinator: ItemDetailControllerDelegate {
+    func controllerFinished(_ controller: ItemDetailController) {
+        navigationController.popViewController(animated: true)
     }
 }
 
@@ -36,11 +56,16 @@ extension PlanCoordinator: PlanControllerDelegate {
 extension PlanCoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController,
                               willShow viewController: UIViewController, animated: Bool) {
-        if let viewController = viewController as? ItemDetailViewController {
-            //viewController.dataSource.item = item // TODO: this
-        } else if let viewController = viewController as? ArchiveViewControlling {
-            archiveController.setViewController(viewController)
-            archiveController.setAlertController(AlertController(presenter: viewController))
+        if let viewController = viewController as? ItemDetailViewControlling {
+            guard let itemDetailContext = itemDetailContext else {
+                assertionFailure("unexpected state")
+                return
+            }
+            itemDetailController.setViewController(viewController)
+            itemDetailController.setItem(itemDetailContext.object)
+        } else if let viewController = viewController as? BlockedViewControlling {
+            blockedController.setViewController(viewController)
         }
+        clearContexts()
     }
 }

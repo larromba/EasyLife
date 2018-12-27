@@ -13,7 +13,7 @@ protocol PlanCellViewStating {
     var isNotesLabelHidden: Bool { get }
     var tagViewAlpha: CGFloat { get }
     var tagViewState: TagViewStating? { get }
-    var blockedBackgroundViewState: BlockedBackgroundViewStating { get }
+    var blockedIndicatorViewState: BlockedIndicatorViewStating { get }
 }
 
 struct PlanCellViewState: PlanCellViewStating {
@@ -35,7 +35,7 @@ struct PlanCellViewState: PlanCellViewStating {
     let isNotesLabelHidden: Bool
     let tagViewAlpha: CGFloat
     let tagViewState: TagViewStating?
-    let blockedBackgroundViewState: BlockedBackgroundViewStating
+    let blockedIndicatorViewState: BlockedIndicatorViewStating
 
     init(item: TodoItem, section: PlanSection) {
         iconImage = type(of: self).iconImage(for: item)
@@ -48,7 +48,7 @@ struct PlanCellViewState: PlanCellViewStating {
         isInfoLabelHidden = type(of: self).isInfoLabelHidden(for: section)
         infoText = type(of: self).infoText(for: item)
         tagViewState = item.project.map { TagViewState(project: $0) }
-        blockedBackgroundViewState = type(of: self).blockedBackgroundViewState(for: item)
+        blockedIndicatorViewState = type(of: self).blockedIndicatorViewState(for: item)
         notesText = item.notes ?? ""
         isNotesLabelHidden = type(of: self).isNotesLabelHidden(for: item)
     }
@@ -119,15 +119,15 @@ struct PlanCellViewState: PlanCellViewStating {
     }
 
     // swiftlint:disable empty_count (sets dont have isEmpty)
-    static func blockedBackgroundViewState(for item: TodoItem) -> BlockedBackgroundViewStating {
+    static func blockedIndicatorViewState(for item: TodoItem) -> BlockedIndicatorViewStating {
         if let blockedBy = item.blockedBy, let blocking = item.blocking, blockedBy.count > 0 && blocking.count > 0 {
-            return BlockedBackgroundViewState(state: .both)
+            return BlockedIndicatorViewState(state: .both)
         } else if let blockedBy = item.blockedBy, blockedBy.count > 0 {
-            return BlockedBackgroundViewState(state: .blocked)
+            return BlockedIndicatorViewState(state: .blocked)
         } else if let blocking = item.blocking, blocking.count > 0 {
-            return BlockedBackgroundViewState(state: .blocking)
+            return BlockedIndicatorViewState(state: .blocking)
         } else {
-            return BlockedBackgroundViewState(state: .none)
+            return BlockedIndicatorViewState(state: .none)
         }
     }
 
