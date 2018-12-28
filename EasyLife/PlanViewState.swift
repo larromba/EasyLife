@@ -3,11 +3,11 @@ import CoreGraphics
 import UIKit
 
 protocol PlanViewStating {
-    var tableHeaderViewState: TableHeaderViewStating { get }
     var rowHeight: CGFloat { get }
     var fadeInDuration: TimeInterval { get }
     var fadeOutDuration: TimeInterval { get }
     var appVersionText: String { get }
+    var tableHeaderHeightPercentage: CGFloat { get }
     var total: Int { get }
     var totalMissed: Int { get }
     var totalToday: Int { get }
@@ -26,20 +26,19 @@ protocol PlanViewStating {
     func items(for section: Int) -> [TodoItem]?
     func cellViewState(at indexPath: IndexPath) -> PlanCellViewStating?
     func availableActions(for item: TodoItem, at indexPath: IndexPath) -> [PlanItemAction]
+    func tableHeaderAlpha(forHeight height: CGFloat, scrollOffsetY: CGFloat) -> CGFloat
 
     func copy(sections: [PlanSection: [TodoItem]]) -> PlanViewStating
-    func copy(sections: [PlanSection: [TodoItem]], tableHeaderViewState: TableHeaderViewStating) -> PlanViewStating
-    func copy(tableHeaderViewState: TableHeaderViewStating) -> PlanViewStating
 }
 
 struct PlanViewState: PlanViewStating {
     private let sections: [PlanSection: [TodoItem]]
 
-    let tableHeaderViewState: TableHeaderViewStating
     let rowHeight: CGFloat = 50.0
     let fadeInDuration = 0.2
     let fadeOutDuration = 0.4
     let appVersionText = Bundle.appVersion()
+    let tableHeaderHeightPercentage: CGFloat = 0.3
     var total: Int {
         return sections.reduce(0) { $0 + $1.value.count }
     }
@@ -68,9 +67,8 @@ struct PlanViewState: PlanViewStating {
         return sections.count
     }
 
-    init(sections: [PlanSection: [TodoItem]], tableHeaderViewState: TableHeaderViewStating) {
+    init(sections: [PlanSection: [TodoItem]]) {
         self.sections = sections
-        self.tableHeaderViewState = tableHeaderViewState
     }
 
     func color(for action: PlanItemAction) -> UIColor {
@@ -154,18 +152,15 @@ struct PlanViewState: PlanViewStating {
 
         return actions
     }
+
+    func tableHeaderAlpha(forHeight height: CGFloat, scrollOffsetY: CGFloat) -> CGFloat {
+        guard scrollOffsetY < 0.0, height > 0.0 else { return 1.0 }
+        return max(0.0, 1.0 - (fabs(scrollOffsetY) / (height / 4.0)))
+    }
 }
 
 extension PlanViewState {
     func copy(sections: [PlanSection: [TodoItem]]) -> PlanViewStating {
-        return PlanViewState(sections: sections, tableHeaderViewState: tableHeaderViewState)
-    }
-
-    func copy(tableHeaderViewState: TableHeaderViewStating) -> PlanViewStating {
-        return PlanViewState(sections: sections, tableHeaderViewState: tableHeaderViewState)
-    }
-
-    func copy(sections: [PlanSection: [TodoItem]], tableHeaderViewState: TableHeaderViewStating) -> PlanViewStating {
-        return PlanViewState(sections: sections, tableHeaderViewState: tableHeaderViewState)
+        return PlanViewState(sections: sections)
     }
 }

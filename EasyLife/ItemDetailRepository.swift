@@ -3,7 +3,7 @@ import Foundation
 import Logging
 
 protocol ItemDetailRepositoring {
-    func fetchItems(for item: TodoItem?) -> Async<[TodoItem]>
+    func fetchItems(for item: TodoItem) -> Async<[TodoItem]>
     func fetchProjects(for item: TodoItem) -> Async<[Project]>
     func save(item: TodoItem) -> Async<Void>
     func delete(item: TodoItem) -> Async<Void>
@@ -18,7 +18,7 @@ final class ItemDetailRepository: ItemDetailRepositoring {
         self.now = now
     }
 
-    func fetchItems(for item: TodoItem?) -> Async<[TodoItem]> {
+    func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {
         return Async { completion in
             async({
                 let items = try await(self.dataManager.fetch(
@@ -86,12 +86,7 @@ final class ItemDetailRepository: ItemDetailRepositoring {
     // MARK: - private
 
     // swiftlint:disable line_length
-    private func predicate(for item: TodoItem?) -> NSPredicate {
-        if let item = item {
-            return NSPredicate(format: "(%K = NULL OR %K = false) AND %K != NULL AND %K > 0 AND SELF != %@ AND SUBQUERY(%K, $x, $x == %@).@count == 0", argumentArray: ["done", "done", "name", "name.length", item.objectID, "blockedBy", item.objectID])
-        } else {
-            return NSPredicate(format: "(%K = NULL OR %K = false) AND %K != NULL AND %K > 0",
-                               argumentArray: ["done", "done", "name", "name.length"])
-        }
+    private func predicate(for item: TodoItem) -> NSPredicate {
+        return NSPredicate(format: "(%K = NULL OR %K = false) AND %K != NULL AND %K > 0 AND SELF != %@ AND SUBQUERY(%K, $x, $x == %@).@count == 0", argumentArray: ["done", "done", "name", "name.length", item.objectID, "blockedBy", item.objectID])
     }
 }

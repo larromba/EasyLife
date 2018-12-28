@@ -1,15 +1,26 @@
 import Logging
 import UIKit
 
-protocol BlockedViewControlling {
+protocol BlockedViewControlling: Presentable {
     var viewState: BlockedViewStating? { get set }
+
+    func setDelegate(_ delegate: BlockedViewControllerDelegate)
 }
 
-final class BlockedViewController: UIViewController {
+protocol BlockedViewControllerDelegate: AnyObject {
+    func viewControllerWillDismiss(_ viewController: BlockedViewControlling)
+}
+
+final class BlockedViewController: UIViewController, BlockedViewControlling {
     @IBOutlet weak var tableView: UITableView!
+    private weak var delegte: BlockedViewControllerDelegate?
 
     var viewState: BlockedViewStating? {
         didSet { _ = viewState.map(bind) }
+    }
+
+    func setDelegate(_ delegate: BlockedViewControllerDelegate) {
+        self.delegte = delegate
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -17,10 +28,18 @@ final class BlockedViewController: UIViewController {
         tableView.applyDefaultStyleFix()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isMovingFromParentViewController {
+            delegte?.viewControllerWillDismiss(self)
+        }
+    }
+
     // MARK: - private
 
     private func bind(_ viewState: BlockedViewStating) {
-        // TODO: this
+        guard isViewLoaded else { return }
+        tableView.reloadData()
     }
 }
 
@@ -33,6 +52,7 @@ extension BlockedViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewState?.toggle(indexPath)
+        tableView.reloadRows(at: [indexPath], with: .fade)
     }
 }
 
@@ -44,10 +64,7 @@ extension BlockedViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cellViewState = viewState?.cellViewState(at: indexPath) else {
-            assertionFailure("expected item")
-            return UITableViewCell()
-        }
+        guard let cellViewState = viewState?.cellViewState(at: indexPath) else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: "BlockedCell", for: indexPath) as! BlockedCell
         cell.viewState = cellViewState
         return cell

@@ -15,11 +15,11 @@ final class AlertController: AlertControlling {
         let viewController = UIAlertController(title: alert.title,
                                                message: alert.message,
                                                preferredStyle: .alert)
-        viewController.addAction(UIAlertAction(title: alert.cancel.title, style: .cancel, handler: { _ in
+        viewController.addAction(.init(title: alert.cancel.title, style: .cancel, handler: { _ in
             alert.cancel.handler?()
         }))
         alert.actions.forEach { action in
-            viewController.addAction(UIAlertAction(
+            viewController.addAction(.init(
                 title: action.title,
                 style: .default,
                 handler: { _ in
@@ -27,6 +27,6 @@ final class AlertController: AlertControlling {
                 })
             )
         }
-        self.presenter.present(viewController, animated: true, completion: nil)
+        presenter.present(viewController, animated: true, completion: nil)
     }
 }

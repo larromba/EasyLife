@@ -68,6 +68,14 @@ extension ArchiveController: ArchiveViewControllerDelegate {
             showClearAllAlert()
         case .done:
             delegate?.controllerFinished(self)
+        case .undo(let item):
+            async({
+                _ = try await(self.repository.undo(item: item))
+                let items = try await(self.repository.load())
+                self.viewController?.viewState = self.viewController?.viewState?.copy(sections: items)
+            }, onError: { error in
+                self.alertController?.showAlert(.dataError(error))
+            })
         }
     }
 
@@ -98,16 +106,6 @@ extension ArchiveController: ArchiveViewControllerDelegate {
     func viewControllerEndedSearch(_ viewController: ArchiveViewController) {
         guard let viewState = viewController.viewState else { return }
         viewController.viewState = viewState.copy(searchSections: nil)
-    }
-
-    func viewController(_ viewController: ArchiveViewController, undoItem item: TodoItem) {
-        async({
-            _ = try await(self.repository.undo(item: item))
-            let items = try await(self.repository.load())
-            self.viewController?.viewState = self.viewController?.viewState?.copy(sections: items)
-        }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
-        })
     }
 
     func viewControllerTapped(_ viewController: ArchiveViewController) {

@@ -8,7 +8,7 @@ protocol AppControlling {
 final class AppController: AppControlling {
     private let dataManager: CoreDataManaging
     private let planCoordinator: PlanCoordinating
-    private let fatalErrorHandler: FatalErrorHandler?
+    private let fatalErrorHandler: FatalErrorHandler
 
     init(dataManager: CoreDataManaging, planCoordinator: PlanCoordinating, fatalErrorHandler: FatalErrorHandler) {
         self.dataManager = dataManager

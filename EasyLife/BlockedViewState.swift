@@ -2,46 +2,39 @@ import Foundation
 import CoreGraphics
 
 protocol BlockedViewStating {
-    var item: TodoItem? { get }
+    var data: [BlockingContext<TodoItem>] { get }
     var sectionCount: Int { get }
     var rowCount: Int { get }
     var rowHeight: CGFloat { get }
 
     mutating func toggle(_ indexPath: IndexPath)
-    func isBlocked(_ item: TodoItem) -> Bool
-    func item(at indexPath: IndexPath) -> TodoItem?
+    func isBlocking(_ item: TodoItem) -> Bool
     func cellViewState(at indexPath: IndexPath) -> BlockedCellViewState?
 }
 
 struct BlockedViewState: BlockedViewStating {
-    private var data: [BlockedItem]
-
-    var item: TodoItem? // TODO: ?
+    private(set) var data: [BlockingContext<TodoItem>]
     let sectionCount = 1
     var rowCount: Int {
         return data.count
     }
     let rowHeight: CGFloat = 50.0
 
-    init(items: [TodoItem]) {
-        data = items.map { BlockedItem(item: $0, isBlocked: false) }
+    init(item: TodoItem, items: [TodoItem]) {
+        data = items.map { BlockingContext(object: $0, isBlocking: $0.blocking?.contains(item) ?? false) }
     }
 
     mutating func toggle(_ indexPath: IndexPath) {
         guard indexPath.row >= data.startIndex && indexPath.row < data.endIndex else { return }
-        data[indexPath.row].isBlocked = !data[indexPath.row].isBlocked
+        data[indexPath.row].isBlocking = !data[indexPath.row].isBlocking
     }
 
-    func isBlocked(_ item: TodoItem) -> Bool {
-        return data.first(where: { $0.item === item })?.isBlocked ?? false
-    }
-
-    func item(at indexPath: IndexPath) -> TodoItem? {
-        guard indexPath.row >= data.startIndex && indexPath.row < data.endIndex else { return nil }
-        return data[indexPath.row].item
+    func isBlocking(_ item: TodoItem) -> Bool {
+        return data.first(where: { $0.object === item })?.isBlocking ?? false
     }
 
     func cellViewState(at indexPath: IndexPath) -> BlockedCellViewState? {
-        return item(at: indexPath).map { return BlockedCellViewState(item: $0) }
+        let context = data[indexPath.row]
+        return BlockedCellViewState(item: context.object, isBlocking: context.isBlocking)
     }
 }

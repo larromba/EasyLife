@@ -17,7 +17,8 @@ enum AppControllerFactory {
                     repository: PlanRepository(dataManager: dataManager),
                     badge: AppBadge()
                 )
-                let blockedController = BlockedController()
+                let blockedRepository = BlockedRepository(dataManager: dataManager)
+                let blockedController = BlockedController(repository: blockedRepository)
                 let itemDetailRepository = ItemDetailRepository(dataManager: dataManager, now: Date())
                 let itemDetailController = ItemDetailController(repository: itemDetailRepository)
                 let planCoordinator = PlanCoordinator(navigationController: navigationController,

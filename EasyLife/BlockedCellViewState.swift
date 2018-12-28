@@ -9,8 +9,8 @@ struct BlockedCellViewState: BlockedCellViewStating {
     let titleText: String
     let iconImage: UIImage?
 
-    init(item: TodoItem, isBlocked: Bool = false) {
+    init(item: TodoItem, isBlocking: Bool) {
         titleText = item.name ?? ""
-        iconImage = isBlocked ? Asset.Assets.tick.image : nil
+        iconImage = isBlocking ? Asset.Assets.tick.image : nil
     }
 }

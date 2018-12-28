@@ -28,10 +28,8 @@ final class PlanController: PlanControlling {
     }
 
     func start() {
-        viewController.viewState = PlanViewState(
-            sections: [:],
-            tableHeaderViewState: TableHeaderViewState(isAnimating: false, alpha: 1.0, hue: 0.0)
-        )
+        viewController.viewState = PlanViewState(sections: [:])
+        viewController.setTableHeaderAnimation(RainbowAnimation())
         reload()
     }
 
@@ -73,6 +71,15 @@ final class PlanController: PlanControlling {
             self.alertController.showAlert(.dataError(error))
         })
     }
+
+    private func addNewItem() {
+        switch repository.newItem() {
+        case .success(let item):
+            delegate?.controller(self, didSelectItem: item, sender: viewController)
+        case .failure(let error):
+            alertController.showAlert(.dataError(error))
+        }
+    }
 }
 
 // MARK: - PlanViewControllerDelegate
@@ -90,13 +97,7 @@ extension PlanController: PlanViewControllerDelegate {
 
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction) {
         switch action {
-        case .add:
-            switch repository.newItem() {
-            case .success(let item):
-                delegate?.controller(self, didSelectItem: item, sender: viewController)
-            case .failure(let error):
-                alertController.showAlert(.dataError(error))
-            }
+        case .add: addNewItem()
         }
     }
 

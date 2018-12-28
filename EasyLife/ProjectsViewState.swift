@@ -3,6 +3,7 @@ import UIKit
 protocol ProjectsViewStating {
     var rowHeight: CGFloat { get }
     var deleteTitle: String { get }
+    var deleteColor: UIColor { get }
     var prioritizeTitle: String { get }
     var prioritizeColor: UIColor { get }
     var deprioritizeTitle: String { get }
@@ -32,6 +33,7 @@ struct ProjectsViewState: ProjectsViewStating {
 
     let rowHeight: CGFloat = 50.0
     let deleteTitle = L10n.todoItemOptionDelete
+    let deleteColor = Asset.Colors.red.color
     let prioritizeTitle = L10n.projectOptionPrioritize
     let prioritizeColor = Asset.Colors.green.color
     let deprioritizeTitle = L10n.projectOptionDeprioritize

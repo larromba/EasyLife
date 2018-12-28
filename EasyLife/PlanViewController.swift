@@ -7,6 +7,7 @@ protocol PlanViewControlling: AnyObject, Presentable, Segueable, Mockable {
     var viewState: PlanViewStating? { get set }
 
     func setDelegate(_ delegate: PlanViewControllerDelegate)
+    func setTableHeaderAnimation(_ animation: RepeatColorViewAnimation)
     func setIsTableHeaderAnimating(_ isAnimating: Bool)
 }
 
@@ -24,21 +25,12 @@ final class PlanViewController: UIViewController, PlanViewControlling {
     @IBOutlet private(set) weak var addButton: UIBarButtonItem!
     @IBOutlet private(set) weak var archiveButton: UIBarButtonItem!
     @IBOutlet private(set) weak var projectsButton: UIBarButtonItem!
-    @IBOutlet private(set) weak var tableHeaderView: TableHeaderView!
+    @IBOutlet private(set) weak var tableHeaderView: UITableView!
     @IBOutlet private(set) weak var appVersionLabel: UILabel!
+    private var tableHeaderAnimation: RepeatColorViewAnimation?
     private weak var delegate: PlanViewControllerDelegate?
-
-    // tableHeaderView updates its viewState, so we copy the changes on returning PlanViewState
-    private var _viewState: PlanViewStating?
     var viewState: PlanViewStating? {
-        get {
-            guard let viewState = _viewState, let tableHeaderViewState = tableHeaderView.viewState else { return nil }
-            return viewState.copy(tableHeaderViewState: tableHeaderViewState)
-        }
-        set {
-            _viewState = newValue
-            _ = _viewState.map(bind)
-        }
+        didSet { _ = viewState.map(bind) }
     }
 
     override func viewDidLoad() {
@@ -61,8 +53,16 @@ final class PlanViewController: UIViewController, PlanViewControlling {
         self.delegate = delegate
     }
 
+    func setTableHeaderAnimation(_ animation: RepeatColorViewAnimation) {
+        tableHeaderAnimation = animation
+    }
+
     func setIsTableHeaderAnimating(_ isAnimating: Bool) {
-        tableHeaderView.setIsAnimating(isAnimating)
+        if isAnimating {
+            tableHeaderAnimation?.start(in: tableHeaderView)
+        } else {
+            tableHeaderAnimation?.stop()
+        }
     }
 
     // MARK: - private
@@ -70,7 +70,7 @@ final class PlanViewController: UIViewController, PlanViewControlling {
     private func bind(_ viewState: PlanViewStating) {
         guard isViewLoaded else { return }
         appVersionLabel.text = viewState.appVersionText
-        tableHeaderView.viewState = viewState.tableHeaderViewState
+        tableHeaderView.bounds.size.height = tableView.bounds.height * viewState.tableHeaderHeightPercentage
         tableView.isHidden = viewState.isTableHidden
         tableView.reloadData()
     }
@@ -156,10 +156,8 @@ extension PlanViewController: UIScrollViewDelegate {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let tableHeaderViewState = viewState?.tableHeaderViewState else { return }
-        viewState = viewState?.copy(tableHeaderViewState: tableHeaderViewState.copy(alpha: tableHeaderViewState.alpha(
-            forHeight: tableHeaderView.bounds.height,
-            scrollOffsetY: scrollView.contentOffset.y
-        )))
+        guard let tableHeaderAnimation = tableHeaderAnimation, let viewState = viewState else { return }
+        tableHeaderAnimation.alpha = viewState.tableHeaderAlpha(forHeight: tableHeaderView.bounds.height,
+                                                                scrollOffsetY: scrollView.contentOffset.y)
     }
 }

@@ -12,7 +12,6 @@ protocol ArchiveViewControllerDelegate: AnyObject {
     func viewControllerStartedSearch(_ viewController: ArchiveViewController)
     func viewController(_ viewController: ArchiveViewController, performSearch term: String)
     func viewControllerEndedSearch(_ viewController: ArchiveViewController)
-    func viewController(_ viewController: ArchiveViewController, undoItem item: TodoItem)
     func viewControllerTapped(_ viewController: ArchiveViewController)
 }
 
@@ -29,12 +28,6 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
     private weak var delegate: ArchiveViewControllerDelegate?
     var viewState: ArchiveViewStating? {
         didSet { _ = viewState.map(bind) }
-    }
-
-    static func initialise(viewState: ArchiveViewStating) -> ArchiveViewControlling {
-        let viewController = UIStoryboard.archive.instantiateInitialViewController() as! ArchiveViewController
-        viewController.viewState = viewState
-        return viewController
     }
 
     override func viewDidLoad() {
@@ -149,7 +142,7 @@ extension ArchiveViewController: UITableViewDelegate {
             style: .destructive,
             title: viewState?.undoTitle,
             handler: { _, _ in
-                self.delegate?.viewController(self, undoItem: item)
+                self.delegate?.viewController(self, performAction: .undo(item))
             })
         undo.backgroundColor = viewState?.undoBackgroundColor
         return [undo]

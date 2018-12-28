@@ -47,7 +47,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="Go0-ZL-SoM" customClass="TableHeaderView" customModule="EasyLife" customModuleProvider="target">
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="Go0-ZL-SoM">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="78"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -204,7 +204,7 @@
                         <outlet property="projectsButton" destination="m6I-wg-tY7" id="CkP-AW-qek"/>
                         <outlet property="tableHeaderView" destination="Go0-ZL-SoM" id="57a-RC-FDL"/>
                         <outlet property="tableView" destination="JxY-xr-jfn" id="wP4-ZL-zf2"/>
-                        <segue destination="qZo-Tc-21E" kind="show" identifier="openEventDetailViewController" id="ie8-87-mzO"/>
+                        <segue destination="qZo-Tc-21E" kind="show" identifier="openItemDetailViewController" id="ie8-87-mzO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -219,10 +219,10 @@
             </objects>
             <point key="canvasLocation" x="-1082" y="511"/>
         </scene>
-        <!--Event Detail-->
+        <!--Item Detail-->
         <scene sceneID="zZo-yR-UZI">
             <objects>
-                <viewController storyboardIdentifier="ItemDetailViewController" title="Event Detail" automaticallyAdjustsScrollViewInsets="NO" id="qZo-Tc-21E" customClass="ItemDetailViewController" customModule="EasyLife" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ItemDetailViewController" title="Event Detail" automaticallyAdjustsScrollViewInsets="NO" id="qZo-Tc-21E" userLabel="Item Detail" customClass="ItemDetailViewController" customModule="EasyLife" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5t7-wH-uqC"/>
                         <viewControllerLayoutGuide type="bottom" id="GRS-uV-Qel"/>
@@ -339,25 +339,17 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Detail" id="oyB-LV-uAX">
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="save" id="R7W-qF-ram">
-                                <connections>
-                                    <action selector="savePressed:" destination="qZo-Tc-21E" id="krv-Dh-BYM"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem enabled="NO" systemItem="pause" id="wHa-Ym-tN9">
-                                <connections>
-                                    <segue destination="8kt-14-cvv" kind="show" id="P8R-ol-kTN"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="pause" id="wHa-Ym-tN9">
+                            <connections>
+                                <segue destination="8kt-14-cvv" kind="show" id="P8R-ol-kTN"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="blockedButton" destination="wHa-Ym-tN9" id="9EU-Bj-z61"/>
                         <outlet property="dateTextField" destination="N9X-29-Ok4" id="WoA-xT-Pvc"/>
                         <outlet property="projectTextField" destination="AYs-OU-hc2" id="qBq-9o-Zjf"/>
                         <outlet property="repeatsTextField" destination="UrS-ej-3Q4" id="yaN-1T-XMe"/>
-                        <outlet property="saveButton" destination="R7W-qF-ram" id="EZt-2j-4d5"/>
                         <outlet property="scrollView" destination="ZOI-0m-DhZ" id="PAG-PC-zOj"/>
                         <outlet property="textView" destination="HjO-Jj-fpO" id="zeh-xK-laS"/>
                         <outlet property="titleTextField" destination="8Zj-lH-Rwk" id="GbJ-Ef-nGb"/>

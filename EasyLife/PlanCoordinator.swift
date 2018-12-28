@@ -9,7 +9,8 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
     private let itemDetailController: ItemDetailControlling
     private let blockedController: BlockedControlling
     private let navigationController: UINavigationController
-    private var itemDetailContext: Context<TodoItem>?
+    private var context: Context<TodoItem>?
+    private var lastNavigationStack = [UIViewController]()
 
     init(navigationController: UINavigationController, planController: PlanControlling,
          itemDetailController: ItemDetailControlling, blockedController: BlockedControlling) {
@@ -29,8 +30,8 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
 
     // MARK: - private
 
-    private func clearContexts() {
-        itemDetailContext = nil
+    private func isMovingBack(for viewController: UIViewController) -> Bool {
+        return navigationController.viewControllers.contains(viewController)
     }
 }
 
@@ -38,8 +39,8 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
 
 extension PlanCoordinator: PlanControllerDelegate {
     func controller(_ controller: PlanController, didSelectItem item: TodoItem, sender: Segueable) {
-        itemDetailContext = Context(object: item)
-        sender.performSegue(withIdentifier: "openEventDetailViewController", sender: self)
+        context = Context(object: item)
+        sender.performSegue(withIdentifier: "openItemDetailViewController", sender: self)
     }
 }
 
@@ -56,16 +57,32 @@ extension PlanCoordinator: ItemDetailControllerDelegate {
 extension PlanCoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController,
                               willShow viewController: UIViewController, animated: Bool) {
+        defer { lastNavigationStack = navigationController.viewControllers }
+
+        // if going back, ignore
+        guard !lastNavigationStack.contains(viewController) else { return }
+
+        // if first vc, reset the editing context
+        guard !(viewController is PlanViewController) else {
+            context = nil
+            return
+        }
+
+        // if other vcs, pass through the context
         if let viewController = viewController as? ItemDetailViewControlling {
-            guard let itemDetailContext = itemDetailContext else {
-                assertionFailure("unexpected state")
-                return
-            }
             itemDetailController.setViewController(viewController)
-            itemDetailController.setItem(itemDetailContext.object)
+            itemDetailController.setAlertController(AlertController(presenter: viewController))
+            if let item = context?.object {
+                itemDetailController.setItem(item)
+            }
         } else if let viewController = viewController as? BlockedViewControlling {
             blockedController.setViewController(viewController)
+            blockedController.setAlertController(AlertController(presenter: viewController))
+            if let item = context?.object {
+                blockedController.setItem(item)
+            }
+        } else {
+            assertionFailure("unhandled viewController: \(viewController.classForCoder)")
         }
-        clearContexts()
     }
 }

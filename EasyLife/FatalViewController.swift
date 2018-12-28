@@ -7,7 +7,7 @@ class FatalViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let error = error {
+        if let error = error { // TODO: viewState?
             label.text = L10n.errorLoadingDataMessage(error.localizedDescription)
         }
     }

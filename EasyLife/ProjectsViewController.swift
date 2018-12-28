@@ -24,12 +24,6 @@ final class ProjectsViewController: UIViewController, ProjectsViewControlling {
         didSet { _ = viewState.map(bind) }
     }
 
-    static func initialise(viewState: ProjectsViewStating) -> ProjectsViewControlling {
-        let viewController = UIStoryboard.project.instantiateInitialViewController() as! ProjectsViewController
-        viewController.viewState = viewState
-        return viewController
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         _ = viewState.map(bind)
@@ -82,9 +76,10 @@ extension ProjectsViewController: UITableViewDelegate {
                                           handler: { (_: UITableViewRowAction, _: IndexPath) in
             self.delegate?.viewController(self, performAction: .delete, forProject: project)
         })
-        delete.backgroundColor = Asset.Colors.red.color // TODO: viewstate
+        delete.backgroundColor = viewState.deleteColor
         guard let section = ProjectSection(rawValue: indexPath.section) else {
-            fatalError("unhandled section \(indexPath.section)")
+            assertionFailure("unhandled section \(indexPath.section)")
+            return nil
         }
         switch section {
         case .other:
