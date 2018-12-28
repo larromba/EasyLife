@@ -12,7 +12,7 @@ protocol PlanCellViewStating {
     var notesColor: UIColor { get }
     var isNotesLabelHidden: Bool { get }
     var tagViewAlpha: CGFloat { get }
-    var tagViewState: TagViewStating? { get }
+    var tagViewState: TagViewStating { get }
     var blockedIndicatorViewState: BlockedIndicatorViewStating { get }
 }
 
@@ -34,7 +34,7 @@ struct PlanCellViewState: PlanCellViewStating {
     let notesColor: UIColor
     let isNotesLabelHidden: Bool
     let tagViewAlpha: CGFloat
-    let tagViewState: TagViewStating?
+    let tagViewState: TagViewStating
     let blockedIndicatorViewState: BlockedIndicatorViewStating
 
     init(item: TodoItem, section: PlanSection) {
@@ -47,7 +47,7 @@ struct PlanCellViewState: PlanCellViewStating {
         tagViewAlpha = type(of: self).tagViewAlpha(for: section)
         isInfoLabelHidden = type(of: self).isInfoLabelHidden(for: section)
         infoText = type(of: self).infoText(for: item)
-        tagViewState = item.project.map { TagViewState(project: $0) }
+        tagViewState = item.project.map { TagViewState(project: $0) } ?? TagViewState()
         blockedIndicatorViewState = type(of: self).blockedIndicatorViewState(for: item)
         notesText = item.notes ?? ""
         isNotesLabelHidden = type(of: self).isNotesLabelHidden(for: item)

@@ -47,10 +47,10 @@ internal enum L10n {
   internal static let dateOptionTomorow = L10n.tr("Localizable", "date option tomorow")
   /// Cancel
   internal static let editProjectAlertCancel = L10n.tr("Localizable", "edit project alert cancel")
-  /// name
-  internal static let editProjectAlertName = L10n.tr("Localizable", "edit project alert name")
   /// OK
   internal static let editProjectAlertOk = L10n.tr("Localizable", "edit project alert ok")
+  /// name
+  internal static let editProjectAlertPlaceholder = L10n.tr("Localizable", "edit project alert placeholder")
   /// Edit Project
   internal static let editProjectAlertTitle = L10n.tr("Localizable", "edit project alert title")
   /// Empty
@@ -65,12 +65,6 @@ internal enum L10n {
   internal static let laterSection = L10n.tr("Localizable", "later section")
   /// Missed...
   internal static let missedSection = L10n.tr("Localizable", "missed section")
-  /// Cancel
-  internal static let newProjectAlertCancel = L10n.tr("Localizable", "new project alert cancel")
-  /// name
-  internal static let newProjectAlertName = L10n.tr("Localizable", "new project alert name")
-  /// OK
-  internal static let newProjectAlertOk = L10n.tr("Localizable", "new project alert ok")
   /// New Project
   internal static let newProjectAlertTitle = L10n.tr("Localizable", "new project alert title")
   /// no date

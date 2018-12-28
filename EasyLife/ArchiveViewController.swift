@@ -48,7 +48,7 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         tearDownNotifications()
-        searchBar.resignFirstResponder()
+        endEditing()
     }
 
     func setDelegate(_ delegate: ArchiveViewControllerDelegate) {
@@ -66,11 +66,9 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
         tableView.reloadData()
         tableView.isHidden = viewState.isEmpty
         searchBar.text = viewState.text
-        clearButton.isEnabled = !viewState.isEmpty && searchBar.text?.isEmpty ?? true // TODO: viewstate
-        if !viewState.isSearching {
-            searchBar.isUserInteractionEnabled = !viewState.isEmpty
-        }
-        thingsDoneLabel.text = L10n.archiveItemTotalMessage(viewState.totalItems)
+        clearButton.isEnabled = viewState.isClearButtonEnabled
+        searchBar.isUserInteractionEnabled = viewState.isSearchBarEnabled
+        thingsDoneLabel.text = viewState.doneText
     }
 
     private func setupNotifications() {

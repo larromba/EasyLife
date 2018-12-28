@@ -23,7 +23,7 @@ final class PlanCell: UITableViewCell, PlanCellable {
         iconImageView.image = viewState.iconImage
         iconImageView.isHidden = viewState.isIconHidden
         infoLabel.text = viewState.infoText
-        // tagView.setup(for: item.project) // TODO: this
+        tagView.viewState = viewState.tagViewState
         titleLabel.text = viewState.titleText
         titleLabel.textColor = viewState.titleColor
         notesLabel.isHidden = viewState.isNotesLabelHidden

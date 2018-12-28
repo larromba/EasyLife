@@ -4,6 +4,7 @@ import UIKit
 protocol PlanControlling {
     func start()
     func setDelegate(_ delegate: PlanControllerDelegate)
+    func setStoryboardRouter(_ router: StoryboardRouting)
 }
 
 protocol PlanControllerDelegate: AnyObject {
@@ -16,6 +17,7 @@ final class PlanController: PlanControlling {
     private let repository: PlanRepositoring
     private let badge: Badge
     private weak var delegate: PlanControllerDelegate?
+    private var router: StoryboardRouting?
 
     init(viewController: PlanViewControlling, alertController: AlertControlling, repository: PlanRepositoring,
          badge: Badge) {
@@ -35,6 +37,10 @@ final class PlanController: PlanControlling {
 
     func setDelegate(_ delegate: PlanControllerDelegate) {
         self.delegate = delegate
+    }
+
+    func setStoryboardRouter(_ router: StoryboardRouting) {
+        self.router = router
     }
 
     // MARK: - private
@@ -60,11 +66,10 @@ final class PlanController: PlanControlling {
                 PlanSection.missed: try await(self.repository.fetchMissedItems()),
                 PlanSection.later: try await(self.repository.fetchLaterItems())
             ]
-            let isAnimating = sections.reduce(0) { $0 + $1.value.count } > 0
             onMain {
-                self.viewController.setIsTableHeaderAnimating(isAnimating)
                 guard let viewState = self.viewController.viewState else { return }
                 self.viewController.viewState = viewState.copy(sections: sections)
+                self.viewController.setIsTableHeaderAnimating(!viewState.isTableHeaderHidden)
                 self.badge.number = (viewState.totalMissed + viewState.totalToday)
             }
         }, onError: { error in
@@ -74,10 +79,8 @@ final class PlanController: PlanControlling {
 
     private func addNewItem() {
         switch repository.newItem() {
-        case .success(let item):
-            delegate?.controller(self, didSelectItem: item, sender: viewController)
-        case .failure(let error):
-            alertController.showAlert(.dataError(error))
+        case .success(let item): delegate?.controller(self, didSelectItem: item, sender: viewController)
+        case .failure(let error): alertController.showAlert(.dataError(error))
         }
     }
 }
@@ -99,6 +102,10 @@ extension PlanController: PlanViewControllerDelegate {
         switch action {
         case .add: addNewItem()
         }
+    }
+
+    func viewController(_ viewController: PlanViewControlling, prepareForSegue segue: UIStoryboardSegue) {
+        router?.handleSegue(segue)
     }
 
     func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem) {

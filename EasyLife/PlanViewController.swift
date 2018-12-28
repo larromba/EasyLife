@@ -14,6 +14,7 @@ protocol PlanViewControlling: AnyObject, Presentable, Segueable, Mockable {
 protocol PlanViewControllerDelegate: AnyObject {
     func viewControllerWillAppear(_ viewController: PlanViewControlling)
     func viewControllerWillDisappear(_ viewController: PlanViewControlling)
+    func viewController(_ viewController: PlanViewControlling, prepareForSegue segue: UIStoryboardSegue)
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction)
     func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem)
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,
@@ -49,6 +50,11 @@ final class PlanViewController: UIViewController, PlanViewControlling {
         delegate?.viewControllerWillDisappear(self)
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        delegate?.viewController(self, prepareForSegue: segue)
+    }
+
     func setDelegate(_ delegate: PlanViewControllerDelegate) {
         self.delegate = delegate
     }
@@ -70,6 +76,7 @@ final class PlanViewController: UIViewController, PlanViewControlling {
     private func bind(_ viewState: PlanViewStating) {
         guard isViewLoaded else { return }
         appVersionLabel.text = viewState.appVersionText
+        tableHeaderView.isHidden = viewState.isTableHeaderHidden
         tableHeaderView.bounds.size.height = tableView.bounds.height * viewState.tableHeaderHeightPercentage
         tableView.isHidden = viewState.isTableHidden
         tableView.reloadData()

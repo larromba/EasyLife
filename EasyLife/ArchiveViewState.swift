@@ -6,6 +6,9 @@ protocol ArchiveViewStating {
     var totalItems: Int { get }
     var isEmpty: Bool { get }
     var isSearching: Bool { get }
+    var isClearButtonEnabled: Bool { get }
+    var isSearchBarEnabled: Bool { get }
+    var doneText: String { get }
     var rowHeight: CGFloat { get }
     var undoTitle: String { get }
     var undoBackgroundColor: UIColor { get }
@@ -26,7 +29,7 @@ struct ArchiveViewState: ArchiveViewStating {
     private let unknownSection = Character("-")
     private let searchSections: [Character: [TodoItem]]?
 
-    let sections: [Character: [TodoItem]] // TODO: private?
+    let sections: [Character: [TodoItem]]
     var numOfSections: Int {
         return sections.keys.count
     }
@@ -38,6 +41,16 @@ struct ArchiveViewState: ArchiveViewStating {
     }
     var isSearching: Bool {
         return searchSections != nil
+    }
+    var isClearButtonEnabled: Bool {
+        return !isEmpty && text?.isEmpty ?? true
+    }
+    var isSearchBarEnabled: Bool {
+        if isSearching { return true }
+        return !isEmpty
+    }
+    var doneText: String {
+        return L10n.archiveItemTotalMessage(totalItems)
     }
     let rowHeight: CGFloat = 50.0
     let undoTitle = L10n.archiveItemUndoOption

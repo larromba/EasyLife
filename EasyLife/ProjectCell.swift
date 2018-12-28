@@ -17,5 +17,6 @@ final class ProjectCell: UITableViewCell, ProjectCelling {
     private func bind(_ viewState: ProjectCellViewStating) {
         titleLabel.text = viewState.titleText
         titleLabel.textColor = viewState.titleColor
+        tagView.viewState = viewState.tagViewState
     }
 }

@@ -7,17 +7,17 @@ protocol AppControlling {
 
 final class AppController: AppControlling {
     private let dataManager: CoreDataManaging
-    private let planCoordinator: PlanCoordinating
+    private let appRouter: AppRouter
     private let fatalErrorHandler: FatalErrorHandler
 
-    init(dataManager: CoreDataManaging, planCoordinator: PlanCoordinating, fatalErrorHandler: FatalErrorHandler) {
+    init(dataManager: CoreDataManaging, appRouter: AppRouter, fatalErrorHandler: FatalErrorHandler) {
         self.dataManager = dataManager
-        self.planCoordinator = planCoordinator
+        self.appRouter = appRouter
         self.fatalErrorHandler = fatalErrorHandler
     }
 
     func start() {
-        planCoordinator.start()
+        appRouter.start()
     }
 
     func applicationWillTerminate() {

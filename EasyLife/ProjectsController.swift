@@ -4,6 +4,7 @@ import UIKit
 
 protocol ProjectsControlling: AnyObject {
     func setViewController(_ viewController: ProjectsViewControlling)
+    func setAlertController(_ alertController: AlertControlling)
     func setDelegate(_ delegate: ProjectsControllerDelegate)
 }
 
@@ -12,22 +13,25 @@ protocol ProjectsControllerDelegate: AnyObject {
 }
 
 final class ProjectsController: ProjectsControlling {
-    private struct EditContext {
-        var project: Project
-    }
-
-    private let alertController: AlertControlling
     private let repository: ProjectsRepositoring
     private var viewController: ProjectsViewControlling?
+    private var alertController: AlertControlling?
     private weak var delegate: ProjectsControllerDelegate?
+    private var editContext: ValueContext<String?>?
 
-    init(alertController: AlertControlling, repository: ProjectsRepositoring) {
-        self.alertController = alertController
+    init(repository: ProjectsRepositoring) {
         self.repository = repository
     }
 
     func setViewController(_ viewController: ProjectsViewControlling) {
         self.viewController = viewController
+        viewController.setDelegate(self)
+        viewController.viewState = ProjectsViewState(sections: [:], isEditing: false)
+        reload()
+    }
+
+    func setAlertController(_ alertController: AlertControlling) {
+        self.alertController = alertController
     }
 
     func setDelegate(_ delegate: ProjectsControllerDelegate) {
@@ -36,51 +40,71 @@ final class ProjectsController: ProjectsControlling {
 
     // MARK: - private
 
-    private func addProject() {
-        var editableName: String?
-        let action = Alert.Action(title: L10n.newProjectAlertOk, handler: {
-            // TODO: this
-            async({
-                _ = try await(self.repository.addProject(name: editableName!)) // TODO: bang
-                let sections = try await(self.repository.load())
+    private func reload() {
+        async({
+            let prioritizedProjects = try await(self.repository.fetchPrioritizedProjects())
+            let otherProjects = try await(self.repository.fetchOtherProjects())
+            let sections = [
+                ProjectSection.prioritized: prioritizedProjects,
+                ProjectSection.other: otherProjects
+            ]
+            onMain {
                 self.viewController?.viewState = self.viewController?.viewState?.copy(sections: sections)
-            }, onError: { _ in
-                // TODO: handle
-            })
+            }
+        }, onError: { error in
+            self.alertController?.showAlert(.dataError(error))
         })
-        let textField = Alert.TextField(placeholder: L10n.newProjectAlertName, text: "", handler: { text in
-            editableName = text
-        })
-        let alert = Alert(title: L10n.newProjectAlertTitle,
-                          message: "",
-                          cancel: Alert.Action(title: L10n.newProjectAlertCancel, handler: nil),
-                          actions: [action],
-                          textField: textField)
-        alertController.showAlert(alert)
     }
 
-    private func editProject(_ project: Project) {
-        var editableName = project.name
+    private func addProject(name: String) {
+        async({
+            _ = try await(self.repository.addProject(name: name))
+            self.reload()
+        }, onError: { error in
+            self.alertController?.showAlert(.dataError(error))
+        })
+    }
+
+    private func updateName(_ name: String, forProject project: Project) {
+        async({
+            _ = try await(self.repository.updateName(name, for: project))
+            self.reload()
+        }, onError: { error in
+            self.alertController?.showAlert(.dataError(error))
+        })
+    }
+
+    private func editProject(_ project: Project?) {
         let action = Alert.Action(title: L10n.editProjectAlertOk, handler: {
-            // TODO: this
-            async({
-                _ = try await(self.repository.updateName(name: editableName!, for: project)) // TODO: bang
-                let sections = try await(self.repository.load())
-                self.viewController?.viewState = self.viewController?.viewState?.copy(sections: sections)
-            }, onError: { _ in
-                // TODO: handle
-            })
+            guard let name = self.editContext?.object else { return }
+            if let project = project {
+                self.updateName(name, forProject: project)
+            } else {
+                self.addProject(name: name)
+            }
+            self.editContext = nil
         })
-        let textField = Alert.TextField(placeholder: L10n.editProjectAlertName, text: project.name, handler: { text in
-            editableName = text
-            //alertController.actions[1].isEnabled = (textField.text?.isEmpty == false) // TODO: this
+        let textField = Alert.TextField(placeholder: L10n.editProjectAlertPlaceholder, text: project?.name,
+                                        handler: { text in
+            self.editContext?.object = text
+            if let isEmpty = text?.isEmpty {
+                self.alertController?.setIsButtonEnabled(!isEmpty, at: 1)
+            }
         })
-        let alert = Alert(title: L10n.editProjectAlertTitle,
+        let isNewProject = (project == nil)
+        let alert = Alert(title: isNewProject ? L10n.newProjectAlertTitle : L10n.editProjectAlertTitle,
                           message: "",
                           cancel: Alert.Action(title: L10n.editProjectAlertCancel, handler: nil),
                           actions: [action],
                           textField: textField)
-        alertController.showAlert(alert)
+        editContext = ValueContext(object: project?.name)
+        alertController?.showAlert(alert)
+        alertController?.setIsButtonEnabled(false, at: 1)
+    }
+
+    private func toggleEditTable() {
+        guard let viewState = viewController?.viewState else { return }
+        viewController?.viewState = viewState.copy(isEditing: !viewState.isEditing)
     }
 }
 
@@ -89,12 +113,10 @@ final class ProjectsController: ProjectsControlling {
 extension ProjectsController: ProjectsViewControllerDelegate {
     func viewController(_ viewController: ProjectsViewController, performAction action: ProjectsAction) {
         switch action {
-        case .add:
-            addProject()
-        case .edit(let project):
-            editProject(project)
-        case .done:
-            delegate?.controllerFinished(self)
+        case .add: editProject(nil)
+        case .edit(let project): editProject(project)
+        case .editTable: toggleEditTable()
+        case .done: delegate?.controllerFinished(self)
         }
     }
 
@@ -103,15 +125,14 @@ extension ProjectsController: ProjectsViewControllerDelegate {
         guard let viewState = viewController.viewState else { return }
         async({
             switch action {
-            case .delete:
-                _ = try await(self.repository.delete(project: project))
-            case .prioritize:
-                _ = try await(self.repository.prioritize(project: project, max: viewState.maxPriorityItems))
-            case .deprioritize:
-                _ = try await(self.repository.deprioritize(project: project))
+            case .delete: _ = try await(self.repository.delete(project: project))
+            case .prioritize: _ = try await(self.repository.prioritize(project: project,
+                                                                       max: viewState.maxPriorityItems))
+            case .deprioritize: _ = try await(self.repository.deprioritize(project: project))
             }
-        }, onError: { _ in
-            // TODO: handle
+            self.reload()
+        }, onError: { error in
+            self.alertController?.showAlert(.dataError(error))
         })
     }
 
@@ -137,10 +158,9 @@ extension ProjectsController: ProjectsViewControllerDelegate {
             } else if sourceSection == .other && destinationSection == .prioritized {
                 _ = try await(self.repository.prioritize(project: sourceProject, max: viewState.maxPriorityItems))
             }
-            let sections = try await(self.repository.load())
-            self.viewController?.viewState = self.viewController?.viewState?.copy(sections: sections)
-        }, onError: { _ in
-            // TODO: handle
+            self.reload()
+        }, onError: { error in
+            self.alertController?.showAlert(.dataError(error))
         })
     }
 }

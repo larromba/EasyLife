@@ -11,7 +11,7 @@ struct Alert {
         let handler: (((String?) -> Void))?
 
         @objc
-        private func textChanged(_ textField: UITextField) {
+        func textChanged(_ textField: UITextField) {
             handler?(textField.text)
         }
 
@@ -31,6 +31,7 @@ struct Alert {
 
 extension Alert {
     static func dataError(_ error: Error?) -> Alert {
+        // TODO: localize
         return Alert(title: "", message: "", cancel: Alert.Action(title: "", handler: nil), actions: [], textField: nil)
     }
 }

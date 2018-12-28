@@ -28,14 +28,11 @@
 "archive item undo option" = "Undo";
 "archive item total message" = "%i done";
 "no date" = "no date";
-"new project alert title" = "New Project";
-"new project alert name" = "name";
-"new project alert cancel" = "Cancel";
-"new project alert ok" = "OK";
 "Focus" = "Focus"; // TODO: need this?
 "Other" = "Other"; // TODO: need this?
+"new project alert title" = "New Project";
 "edit project alert title" = "Edit Project";
-"edit project alert name" = "name";
+"edit project alert placeholder" = "name";
 "edit project alert cancel" = "Cancel";
 "edit project alert ok" = "OK";
 "project section prioritized" = "Prioritized";

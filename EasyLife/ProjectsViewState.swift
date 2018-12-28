@@ -26,6 +26,7 @@ protocol ProjectsViewStating {
     func canMoveRow(at indexPath: IndexPath) -> Bool
 
     func copy(sections: [ProjectSection: [Project]]) -> ProjectsViewStating
+    func copy(isEditing: Bool) -> ProjectsViewStating
 }
 
 struct ProjectsViewState: ProjectsViewStating {
@@ -68,6 +69,7 @@ struct ProjectsViewState: ProjectsViewStating {
     }
 
     func title(for section: ProjectSection) -> String? {
+        guard let items = sections[section], !items.isEmpty else { return nil }
         switch section {
         case .prioritized:
             return L10n.projectSectionPrioritized
@@ -112,6 +114,10 @@ struct ProjectsViewState: ProjectsViewStating {
 
 extension ProjectsViewState {
     func copy(sections: [ProjectSection: [Project]]) -> ProjectsViewStating {
+        return ProjectsViewState(sections: sections, isEditing: isEditing)
+    }
+
+    func copy(isEditing: Bool) -> ProjectsViewStating {
         return ProjectsViewState(sections: sections, isEditing: isEditing)
     }
 }

@@ -26,12 +26,22 @@ enum AppControllerFactory {
                                                       itemDetailController: itemDetailController,
                                                       blockedController: blockedController)
 
-                // TODO: this
-                //        let archiveRepository = ArchiveRepository(dataManager: dataManager)
-                //        let archiveController = ArchiveController(repository: archiveRepository)
+                let archiveRepository = ArchiveRepository(dataManager: dataManager)
+                let archiveController = ArchiveController(repository: archiveRepository)
+
+                let projectsRepository = ProjectsRepository(dataManager: dataManager)
+                let projectsController = ProjectsController(repository: projectsRepository)
+
+                let appRouter = AppRouter(
+                    planCoordinator: planCoordinator,
+                    archiveCoordinator: ArchiveCoordinator(archiveController: archiveController),
+                    projectsCoordinator: ProjectsCoordinator(projectsController: projectsController)
+                )
+                planController.setStoryboardRouter(appRouter)
 
                 let fatalErrorHandler = FatalErrorHandler(window: window)
-                let appController = AppController(dataManager: dataManager, planCoordinator: planCoordinator,
+
+                let appController = AppController(dataManager: dataManager, appRouter: appRouter,
                                                   fatalErrorHandler: fatalErrorHandler)
                 completion(.success(appController))
             }, onError: { error in

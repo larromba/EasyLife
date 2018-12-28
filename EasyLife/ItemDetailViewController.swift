@@ -113,6 +113,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
             delegate?.viewControllerWillDismiss(self)
         }
         tearDownNotifications()
+        view.endEditing(true)
     }
 
     func setDelegate(_ delegate: ItemDetailViewControllerDelegate) {

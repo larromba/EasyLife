@@ -5,7 +5,7 @@ import Foundation
 protocol ArchiveRepositoring {
     func undo(item: TodoItem) -> Async<Void>
     func clearAll(items: [TodoItem]) -> Async<Void>
-    func load() -> Async<[Character: [TodoItem]]>
+    func fetchItems() -> Async<[TodoItem]>
 }
 
 final class ArchiveRepository: ArchiveRepositoring {
@@ -44,24 +44,12 @@ final class ArchiveRepository: ArchiveRepositoring {
         }
     }
 
-    func load() -> Async<[Character: [TodoItem]]> {
+    func fetchItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
                 let items = try await(self.dataManager.fetch(entityClass: TodoItem.self, sortBy: nil, context: .main,
                                                              predicate: self.donePredicate))
-                var sections = [Character: [TodoItem]]()
-                for item in items {
-                    let section: Character
-                    if let name = item.name, !name.isEmpty {
-                        section = Character(String(name[name.startIndex]).uppercased())
-                    } else {
-                        section = Character("-")
-                    }
-                    var items = sections[section] ?? [TodoItem]()
-                    items.append(item)
-                    sections[section] = items.sorted(by: { ($0.name ?? "") < ($1.name ?? "") })
-                }
-                completion(.success(sections))
+                completion(.success(items))
             }, onError: { error in
                 completion(.failure(error))
             })

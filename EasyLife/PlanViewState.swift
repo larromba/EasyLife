@@ -38,7 +38,9 @@ struct PlanViewState: PlanViewStating {
     let fadeInDuration = 0.2
     let fadeOutDuration = 0.4
     let appVersionText = Bundle.appVersion()
-    let tableHeaderHeightPercentage: CGFloat = 0.3
+    var tableHeaderHeightPercentage: CGFloat {
+        return isTableHeaderHidden ? 0.0 : 0.3
+    }
     var total: Int {
         return sections.reduce(0) { $0 + $1.value.count }
     }

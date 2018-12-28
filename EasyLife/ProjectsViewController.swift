@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ProjectsViewControlling: AnyObject {
+protocol ProjectsViewControlling: AnyObject, Presentable {
     var viewState: ProjectsViewStating? { get set }
 
     func setDelegate(_ delegate: ProjectsViewControllerDelegate)
@@ -39,13 +39,17 @@ final class ProjectsViewController: UIViewController, ProjectsViewControlling {
     private func bind(_ viewState: ProjectsViewStating) {
         guard isViewLoaded else { return }
         tableView.setEditing(viewState.isEditing, animated: true)
-        tableView.reloadData()
         tableView.isHidden = viewState.isEmpty
+        tableView.reloadData()
         editButton.isEnabled = viewState.isEditable
     }
 
     @IBAction private func addButtonPressed(_ sender: UIBarButtonItem) {
         delegate?.viewController(self, performAction: .add)
+    }
+
+    @IBAction private func editButtonPressed(_ sender: UIBarButtonItem) {
+        delegate?.viewController(self, performAction: .editTable)
     }
 
     @IBAction private func doneButtonPressed(_ sender: UIBarButtonItem) {
