@@ -122,6 +122,7 @@ extension ItemDetailController: ItemDetailViewControllerDelegate {
     }
 
     func viewControllerWillDismiss(_ viewController: ItemDetailViewControlling) {
+        guard let item = editContext?.object, item.hasChanges else { return }
         save()
     }
 

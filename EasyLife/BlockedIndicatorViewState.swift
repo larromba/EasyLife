@@ -12,12 +12,9 @@ struct BlockedIndicatorViewState: BlockedIndicatorViewStating {
     let isBottomViewHidden: Bool
 
     init(state: BlockedState) {
-        //    let blockedColor = Asset.Colors.red.color
-        //let blockingColor = Asset.Colors.grey.color ??
-
         switch state {
         case .blocked:
-            backgroundColor = Asset.Colors.red.color // TODO: these might be wrong
+            backgroundColor = Asset.Colors.red.color
             bottomBackgroundColor = .clear
             isBottomViewHidden = true
         case .blocking:

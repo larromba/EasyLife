@@ -91,7 +91,7 @@
 		7FAC2C821E9E692E00F14ECB /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C811E9E692E00F14ECB /* ItemDetailViewController.swift */; };
 		7FAC2C841E9E71BA00F14ECB /* PlanRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C831E9E71BA00F14ECB /* PlanRepository.swift */; };
 		7FAC2C921E9E7EEA00F14ECB /* PlanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C911E9E7EEA00F14ECB /* PlanCell.swift */; };
-		7FAC2C941E9EBC9A00F14ECB /* TodoItem+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C931E9EBC9A00F14ECB /* TodoItem+Utility.swift */; };
+		7FAC2C941E9EBC9A00F14ECB /* TodoItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C931E9EBC9A00F14ECB /* TodoItemExtensions.swift */; };
 		7FAC2C961E9EBF6400F14ECB /* ResponderSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C951E9EBF6400F14ECB /* ResponderSelection.swift */; };
 		7FAC2C981E9EC91400F14ECB /* RepeatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C971E9EC91400F14ECB /* RepeatState.swift */; };
 		7FAC2C9F1E9ECACB00F14ECB /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAC2C9E1E9ECACB00F14ECB /* DateExtensions.swift */; };
@@ -122,7 +122,7 @@
 		7FD2E4E41F8EB2EB00A57FB5 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD2E4E31F8EB2EB00A57FB5 /* UIViewExtensions.swift */; };
 		7FE4488F2041F49900F2DE77 /* ItemDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE4488E2041F49900F2DE77 /* ItemDetailRepository.swift */; };
 		7FE4489120420B2C00F2DE77 /* BlockingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE4489020420B2C00F2DE77 /* BlockingContext.swift */; };
-		7FEEF2CE2042FB3500616041 /* Project+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEEF2CD2042FB3500616041 /* Project+Utility.swift */; };
+		7FEEF2CE2042FB3500616041 /* ProjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEEF2CD2042FB3500616041 /* ProjectExtensions.swift */; };
 		7FEEF2D22043522900616041 /* EasyLife 1.5.0.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7FEEF2D12043522900616041 /* EasyLife 1.5.0.sqlite */; };
 /* End PBXBuildFile section */
 
@@ -234,7 +234,7 @@
 		7FAC2C811E9E692E00F14ECB /* ItemDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
 		7FAC2C831E9E71BA00F14ECB /* PlanRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanRepository.swift; sourceTree = "<group>"; };
 		7FAC2C911E9E7EEA00F14ECB /* PlanCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanCell.swift; sourceTree = "<group>"; };
-		7FAC2C931E9EBC9A00F14ECB /* TodoItem+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TodoItem+Utility.swift"; sourceTree = "<group>"; };
+		7FAC2C931E9EBC9A00F14ECB /* TodoItemExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoItemExtensions.swift; sourceTree = "<group>"; };
 		7FAC2C951E9EBF6400F14ECB /* ResponderSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponderSelection.swift; sourceTree = "<group>"; };
 		7FAC2C971E9EC91400F14ECB /* RepeatState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatState.swift; sourceTree = "<group>"; };
 		7FAC2C9E1E9ECACB00F14ECB /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
@@ -267,7 +267,7 @@
 		7FD2E4E31F8EB2EB00A57FB5 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		7FE4488E2041F49900F2DE77 /* ItemDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailRepository.swift; sourceTree = "<group>"; };
 		7FE4489020420B2C00F2DE77 /* BlockingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingContext.swift; sourceTree = "<group>"; };
-		7FEEF2CD2042FB3500616041 /* Project+Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+Utility.swift"; sourceTree = "<group>"; };
+		7FEEF2CD2042FB3500616041 /* ProjectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectExtensions.swift; sourceTree = "<group>"; };
 		7FEEF2D02043094200616041 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Plan.strings; sourceTree = "<group>"; };
 		7FEEF2D12043522900616041 /* EasyLife 1.5.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EasyLife 1.5.0.sqlite"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -347,14 +347,14 @@
 			children = (
 				7F429C7A21C3F88800195E32 /* PlanViewState.swift */,
 				7F3BD2C621D183590035F540 /* PlanCellViewState.swift */,
-				7F429C9621C5413400195E32 /* ArchiveViewState.swift */,
-				7F3BD2C821D2ACCE0035F540 /* ArchiveCellViewState.swift */,
-				7F429C9E21C5B7D500195E32 /* ProjectsViewState.swift */,
-				7F3BD2CA21D2BA010035F540 /* ProjectCellViewState.swift */,
 				7F3BD2B621CFE9C70035F540 /* ItemDetailViewState.swift */,
 				7F3BD2C021D13D2C0035F540 /* BlockedViewState.swift */,
 				7F3BD2D221D2D93D0035F540 /* BlockedIndicatorViewState.swift */,
 				7F3BD2CC21D2D4E40035F540 /* BlockedCellViewState.swift */,
+				7F429C9E21C5B7D500195E32 /* ProjectsViewState.swift */,
+				7F3BD2CA21D2BA010035F540 /* ProjectCellViewState.swift */,
+				7F429C9621C5413400195E32 /* ArchiveViewState.swift */,
+				7F3BD2C821D2ACCE0035F540 /* ArchiveCellViewState.swift */,
 				7F3BD2CE21D2D5FF0035F540 /* TagViewState.swift */,
 				7F3BD2D921D3F27F0035F540 /* SimpleDatePickerViewState.swift */,
 			);
@@ -367,9 +367,9 @@
 				7F429C8621C41B3500195E32 /* AppController.swift */,
 				7F429C7821C3E9D000195E32 /* PlanController.swift */,
 				7F3BD2B421CFE9BE0035F540 /* ItemDetailController.swift */,
+				7F3BD2BE21D13D030035F540 /* BlockedController.swift */,
 				7F429C9C21C5B60100195E32 /* ProjectsController.swift */,
 				7F429C9021C539CD00195E32 /* ArchiveController.swift */,
-				7F3BD2BE21D13D030035F540 /* BlockedController.swift */,
 				7F429C9821C55E0300195E32 /* AlertController.swift */,
 			);
 			name = Controller;
@@ -499,22 +499,20 @@
 				7F429C7E21C4040E00195E32 /* PlanSection.swift */,
 				7F3BD2C421D14A010035F540 /* PlanAction.swift */,
 				7F429C8021C4041B00195E32 /* PlanItemAction.swift */,
-				7F429C9421C5402100195E32 /* ArchiveAction.swift */,
+				7F3BD2BA21D016FA0035F540 /* ItemDetailComponent.swift */,
+				7F3BD2B821CFEC970035F540 /* ItemDetailAction.swift */,
+				7F3BD2D021D2D82D0035F540 /* BlockedState.swift */,
+				7FE4489020420B2C00F2DE77 /* BlockingContext.swift */,
 				7F429CA421C6663500195E32 /* ProjectSections.swift */,
 				7F429CA621C66B5000195E32 /* ProjectsAction.swift */,
 				7F429CA821C66B5C00195E32 /* ProjectItemAction.swift */,
-				7F3BD2BA21D016FA0035F540 /* ItemDetailComponent.swift */,
-				7F3BD2B821CFEC970035F540 /* ItemDetailAction.swift */,
+				7F429C9421C5402100195E32 /* ArchiveAction.swift */,
 				7FAC2C971E9EC91400F14ECB /* RepeatState.swift */,
 				7F93792E1EA7661B009E33FA /* DateSegment.swift */,
-				7FAC2C931E9EBC9A00F14ECB /* TodoItem+Utility.swift */,
-				7FEEF2CD2042FB3500616041 /* Project+Utility.swift */,
 				7F429C9A21C55E4400195E32 /* Alert.swift */,
 				7F429CA021C6578D00195E32 /* Error.swift */,
-				7F429CA221C65EA700195E32 /* CoreDataContext.swift */,
-				7F3BD2D021D2D82D0035F540 /* BlockedState.swift */,
 				7F3BD2D721D3BB670035F540 /* Context.swift */,
-				7FE4489020420B2C00F2DE77 /* BlockingContext.swift */,
+				7F429CA221C65EA700195E32 /* CoreDataContext.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -522,6 +520,8 @@
 		7FAC2C9A1E9ECA9700F14ECB /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				7FAC2C931E9EBC9A00F14ECB /* TodoItemExtensions.swift */,
+				7FEEF2CD2042FB3500616041 /* ProjectExtensions.swift */,
 				7FAC2C9E1E9ECACB00F14ECB /* DateExtensions.swift */,
 				7F9C62202018BE5E006890EB /* DateComponentsFormatterExtensions.swift */,
 				7FAC2CA11E9ED15100F14ECB /* UIStoryboardExtensions.swift */,
@@ -542,11 +542,11 @@
 			children = (
 				7FAC2C911E9E7EEA00F14ECB /* PlanCell.swift */,
 				7FBA028A1EE1E60D00C3103A /* ArchiveCell.swift */,
-				7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */,
 				7FC488D32041A3DD003F6F19 /* BlockedCell.swift */,
+				7F0D924920461A1F00D9AE6B /* BlockedIndicatorView.swift */,
+				7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */,
 				7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */,
 				7FD1EE251F8E8D750042C317 /* TagView.swift */,
-				7F0D924920461A1F00D9AE6B /* BlockedIndicatorView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -557,8 +557,8 @@
 				7FAC2C5E1E9E673400F14ECB /* PlanViewController.swift */,
 				7FAC2C811E9E692E00F14ECB /* ItemDetailViewController.swift */,
 				7FC488D62041A763003F6F19 /* BlockedViewController.swift */,
-				7FBA02881EE1E50800C3103A /* ArchiveViewController.swift */,
 				7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */,
+				7FBA02881EE1E50800C3103A /* ArchiveViewController.swift */,
 				7FAC2CA31E9ED1C800F14ECB /* FatalViewController.swift */,
 			);
 			name = ViewController;
@@ -568,10 +568,10 @@
 			isa = PBXGroup;
 			children = (
 				7FAC2C831E9E71BA00F14ECB /* PlanRepository.swift */,
-				7FBA028C1EE1E85800C3103A /* ArchiveRepository.swift */,
-				7F426E791F59B52800C55AD2 /* ProjectsRepository.swift */,
 				7FE4488E2041F49900F2DE77 /* ItemDetailRepository.swift */,
 				7F3BD2C221D13D350035F540 /* BlockedRepository.swift */,
+				7F426E791F59B52800C55AD2 /* ProjectsRepository.swift */,
+				7FBA028C1EE1E85800C3103A /* ArchiveRepository.swift */,
 				7FAC2C7F1E9E676A00F14ECB /* CoreDataManager.swift */,
 				7F163D2B1EDD746B00DC52B6 /* AppBadge.swift */,
 				7F2F41292112FF6E0070FCAD /* FatalErrorHandler.swift */,
@@ -887,7 +887,7 @@
 				7FE4488F2041F49900F2DE77 /* ItemDetailRepository.swift in Sources */,
 				7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */,
 				7F3BD2D121D2D82D0035F540 /* BlockedState.swift in Sources */,
-				7FEEF2CE2042FB3500616041 /* Project+Utility.swift in Sources */,
+				7FEEF2CE2042FB3500616041 /* ProjectExtensions.swift in Sources */,
 				7F102DE11F5ABF9300E262B1 /* ProjectsViewController.swift in Sources */,
 				7F429C8E21C42FF600195E32 /* PlanCoordinator.swift in Sources */,
 				7F3BD2E021D65E970035F540 /* RainbowAnimation.swift in Sources */,
@@ -923,7 +923,7 @@
 				7FA9C21F1EAA216A0089A87C /* DisplayEnum.swift in Sources */,
 				7FBA02891EE1E50800C3103A /* ArchiveViewController.swift in Sources */,
 				7FBA028D1EE1E85800C3103A /* ArchiveRepository.swift in Sources */,
-				7FAC2C941E9EBC9A00F14ECB /* TodoItem+Utility.swift in Sources */,
+				7FAC2C941E9EBC9A00F14ECB /* TodoItemExtensions.swift in Sources */,
 				7F3BD2CD21D2D4E40035F540 /* BlockedCellViewState.swift in Sources */,
 				7FAC2CA81E9ED67200F14ECB /* ArrayExtensions.swift in Sources */,
 				7FBA028B1EE1E60D00C3103A /* ArchiveCell.swift in Sources */,
