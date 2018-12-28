@@ -44,3 +44,9 @@
 "archive delete all option yes" = "Yes";
 "archive delete all option no" = "No";
 "empty table text" = "Empty";
+"data error title" = "Error";
+"data error message" = "Something went wrong with the database. Please try again. If the problem persists, please delete and reinstall the app";
+"unsaved changes title" = "Unsaved Changed";
+"unsaved changes message" = "Do you want to save your changes?";
+"unsaved changes no" = "No";
+"unsaved changes yes" = "Yes";

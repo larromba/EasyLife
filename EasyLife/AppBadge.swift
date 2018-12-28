@@ -1,32 +1,40 @@
+import AsyncAwait
+import Logging
 import UIKit
 import UserNotifications
 
 protocol Badge: AnyObject {
-    var number: Int { get set }
+    var number: Int { get }
+
+    func setNumber(_ number: Int) -> Async<Void>
 }
 
 final class AppBadge: Badge {
     private let notificationCenter: UNUserNotificationCenter
     private let application: UIApplication
     var number: Int {
-        get {
-            return application.applicationIconBadgeNumber
-        }
-        set {
-            notificationCenter.requestAuthorization(options: [.badge]) { granted, error in
-                guard granted, error == nil else {
-                    // TODO: granted?
-                    return
-                }
-                DispatchQueue.main.async {
-                    self.application.applicationIconBadgeNumber = newValue
-                }
-            }
-        }
+        return application.applicationIconBadgeNumber
     }
 
     init(notificationCenter: UNUserNotificationCenter = .current(), application: UIApplication = .shared) {
         self.notificationCenter = notificationCenter
         self.application = application
+    }
+
+    func setNumber(_ number: Int) -> Async<Void> {
+        return Async { completion in
+            self.notificationCenter.requestAuthorization(options: [.badge]) { granted, error in
+                if let error = error {
+                    completion(.failure(BadgeError.frameworkError(error)))
+                    return
+                }
+                guard granted else {
+                    completion(.failure(BadgeError.unauthorized))
+                    return
+                }
+                onMain { self.application.applicationIconBadgeNumber = number }
+                completion(.success(()))
+            }
+        }
     }
 }

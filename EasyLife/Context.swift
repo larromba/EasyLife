@@ -1,9 +1,9 @@
 import Foundation
 
-struct Context<T: AnyObject> {
+struct ObjectContext<T: AnyObject> {
     let object: T
 }
 
 struct ValueContext<T> {
-    var object: T
+    var value: T
 }

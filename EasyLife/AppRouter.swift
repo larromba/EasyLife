@@ -1,10 +1,5 @@
 import UIKit
 
-// TODO: move
-protocol StoryboardRouting {
-    func handleSegue(_ segue: UIStoryboardSegue)
-}
-
 protocol AppRouting: StoryboardRouting {
     func start()
 }

@@ -1,7 +1,8 @@
 # Changelog
 
-## v2.0.0 (...)
+## v2.0.0 (...) (Free)
     refactor code
+    pressing back on new item with changes by mistake now asks if you want to save the changes
 
 ## v1.5.0 (25/02/2018)
     Can now split recurring items and reschedule them without affecting the recurring date
@@ -51,14 +52,13 @@ Apple ID: 1229095589
 
 # Ideas
 
-press back on new item - want to save?
 noise / animation when done 
 icloud backup?
 apreciation diary
 lists:
     to watch
     to read
-    to get
+    to buy
     shopping list
 todo: alert button tests
 siri integration

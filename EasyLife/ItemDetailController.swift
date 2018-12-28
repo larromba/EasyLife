@@ -16,7 +16,7 @@ final class ItemDetailController: ItemDetailControlling {
     private var viewController: ItemDetailViewControlling?
     private let repository: ItemDetailRepositoring
     private var alertController: AlertControlling?
-    private var editContext: Context<TodoItem>?
+    private var editContext: ObjectContext<TodoItem>?
     private weak var delegate: ItemDetailControllerDelegate?
 
     init(repository: ItemDetailRepositoring) {
@@ -38,20 +38,20 @@ final class ItemDetailController: ItemDetailControlling {
 
     func setItem(_ item: TodoItem) {
         viewController?.viewState = ItemDetailViewState(item: item, items: [], projects: [])
-        editContext = Context(object: item)
+        editContext = ObjectContext(object: item)
         reload()
     }
 
     // MARK: - private
 
     private func showCancelAlert() {
-        let alert = Alert( // TODO: localize
-            title: "Unsaved Changed",
-            message: "Do you want to save your changes?",
-            cancel: Alert.Action(title: "No", handler: {
+        let alert = Alert(
+            title: L10n.unsavedChangesTitle,
+            message: L10n.unsavedChangesMessage,
+            cancel: Alert.Action(title: L10n.unsavedChangesNo, handler: {
                 self.delegate?.controllerFinished(self)
             }),
-            actions: [Alert.Action(title: "Yes", handler: {
+            actions: [Alert.Action(title: L10n.unsavedChangesYes, handler: {
                 self.save()
             })],
             textField: nil
@@ -68,7 +68,7 @@ final class ItemDetailController: ItemDetailControlling {
                 self.viewController?.viewState = ItemDetailViewState(item: item, items: items, projects: projects)
             }
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 
@@ -88,7 +88,7 @@ final class ItemDetailController: ItemDetailControlling {
                 self.delegate?.controllerFinished(self)
             }
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 
@@ -100,7 +100,7 @@ final class ItemDetailController: ItemDetailControlling {
                 self.delegate?.controllerFinished(self)
             }
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 

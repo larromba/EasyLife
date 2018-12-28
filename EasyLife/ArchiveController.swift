@@ -59,7 +59,7 @@ final class ArchiveController: ArchiveControlling {
                 self.viewController?.viewState = viewState.copy(sections: sections, searchSections: nil)
             }
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 
@@ -83,7 +83,7 @@ final class ArchiveController: ArchiveControlling {
                 self.viewController?.viewState = viewState.copy(sections: [:], searchSections: nil)
             }
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 
@@ -92,7 +92,7 @@ final class ArchiveController: ArchiveControlling {
             _ = try await(self.repository.undo(item: item))
             self.reload()
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 }

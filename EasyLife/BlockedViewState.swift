@@ -1,5 +1,5 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
 protocol BlockedViewStating {
     var data: [BlockingContext<TodoItem>] { get }

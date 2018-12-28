@@ -339,11 +339,14 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Detail" id="oyB-LV-uAX">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="pause" id="wHa-Ym-tN9">
-                            <connections>
-                                <segue destination="8kt-14-cvv" kind="show" id="P8R-ol-kTN"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="trash" id="Ht6-Kc-eLO"/>
+                            <barButtonItem enabled="NO" systemItem="pause" id="wHa-Ym-tN9">
+                                <connections>
+                                    <segue destination="8kt-14-cvv" kind="show" id="P8R-ol-kTN"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="blockedButton" destination="wHa-Ym-tN9" id="9EU-Bj-z61"/>

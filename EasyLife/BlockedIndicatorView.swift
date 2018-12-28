@@ -26,7 +26,6 @@ final class BlockedIndicatorView: UIView {
     // MARK: - private
 
     private func bind(_ viewState: BlockedIndicatorViewStating) {
-        // TODO: check
         bottomView.backgroundColor = viewState.bottomBackgroundColor
         bottomView.isHidden = viewState.isBottomViewHidden
         backgroundColor = viewState.backgroundColor

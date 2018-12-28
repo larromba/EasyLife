@@ -66,21 +66,21 @@ final class PlanController: PlanControlling {
                 PlanSection.missed: try await(self.repository.fetchMissedItems()),
                 PlanSection.later: try await(self.repository.fetchLaterItems())
             ]
+            guard let viewState = self.viewController.viewState else { return }
+            _ = try? await(self.badge.setNumber(viewState.totalMissed + viewState.totalToday))
             onMain {
-                guard let viewState = self.viewController.viewState else { return }
                 self.viewController.viewState = viewState.copy(sections: sections)
                 self.viewController.setIsTableHeaderAnimating(!viewState.isTableHeaderHidden)
-                self.badge.number = (viewState.totalMissed + viewState.totalToday)
             }
         }, onError: { error in
-            self.alertController.showAlert(.dataError(error))
+            self.alertController.showAlert(Alert(error: error))
         })
     }
 
     private func addNewItem() {
         switch repository.newItem() {
         case .success(let item): delegate?.controller(self, didSelectItem: item, sender: viewController)
-        case .failure(let error): alertController.showAlert(.dataError(error))
+        case .failure(let error): alertController.showAlert(Alert(error: error))
         }
     }
 }
@@ -123,7 +123,7 @@ extension PlanController: PlanViewControllerDelegate {
             }
             self.reload()
         }, onError: { error in
-            self.alertController.showAlert(.dataError(error))
+            self.alertController.showAlert(Alert(error: error))
         })
     }
 }

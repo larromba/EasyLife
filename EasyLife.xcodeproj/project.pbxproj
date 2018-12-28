@@ -42,6 +42,9 @@
 		7F3BD2E421D68D940035F540 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2E321D68D940035F540 /* AppRouter.swift */; };
 		7F3BD2E621D68E1C0035F540 /* ArchiveCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2E521D68E1C0035F540 /* ArchiveCoordinator.swift */; };
 		7F3BD2E821D68E240035F540 /* ProjectsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2E721D68E240035F540 /* ProjectsCoordinator.swift */; };
+		7F3BD2EB21D6BF640035F540 /* Routing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2EA21D6BF640035F540 /* Routing.swift */; };
+		7F3BD2ED21D6D3590035F540 /* FatalViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2EC21D6D3590035F540 /* FatalViewState.swift */; };
+		7F3BD2EF21D6D6440035F540 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2EE21D6D6440035F540 /* Utility.swift */; };
 		7F429C7621C3D99E00195E32 /* assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7421C3D99E00195E32 /* assets.swift */; };
 		7F429C7721C3D99E00195E32 /* strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7521C3D99E00195E32 /* strings.swift */; };
 		7F429C7921C3E9D000195E32 /* PlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7821C3E9D000195E32 /* PlanController.swift */; };
@@ -175,6 +178,9 @@
 		7F3BD2E321D68D940035F540 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		7F3BD2E521D68E1C0035F540 /* ArchiveCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveCoordinator.swift; sourceTree = "<group>"; };
 		7F3BD2E721D68E240035F540 /* ProjectsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsCoordinator.swift; sourceTree = "<group>"; };
+		7F3BD2EA21D6BF640035F540 /* Routing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routing.swift; sourceTree = "<group>"; };
+		7F3BD2EC21D6D3590035F540 /* FatalViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatalViewState.swift; sourceTree = "<group>"; };
+		7F3BD2EE21D6D6440035F540 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
 		7F426E791F59B52800C55AD2 /* ProjectsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsRepository.swift; sourceTree = "<group>"; };
 		7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
@@ -371,6 +377,7 @@
 				7F3BD2C821D2ACCE0035F540 /* ArchiveCellViewState.swift */,
 				7F3BD2CE21D2D5FF0035F540 /* TagViewState.swift */,
 				7F3BD2D921D3F27F0035F540 /* SimpleDatePickerViewState.swift */,
+				7F3BD2EC21D6D3590035F540 /* FatalViewState.swift */,
 			);
 			name = ViewState;
 			sourceTree = "<group>";
@@ -594,6 +601,7 @@
 				7F2F41292112FF6E0070FCAD /* FatalErrorHandler.swift */,
 				7F429C9221C53B7800195E32 /* LayoutConstraintCache.swift */,
 				7F3BD2DF21D65E970035F540 /* RainbowAnimation.swift */,
+				7F3BD2EE21D6D6440035F540 /* Utility.swift */,
 			);
 			name = Object;
 			sourceTree = "<group>";
@@ -606,6 +614,7 @@
 				7F429CAA21C7FD0D00195E32 /* Presentable.swift */,
 				7F3BD2D421D389330035F540 /* Segueable.swift */,
 				7F3BD2E121D667EA0035F540 /* Animation.swift */,
+				7F3BD2EA21D6BF640035F540 /* Routing.swift */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -909,6 +918,7 @@
 				7F429C8E21C42FF600195E32 /* PlanCoordinator.swift in Sources */,
 				7F3BD2E021D65E970035F540 /* RainbowAnimation.swift in Sources */,
 				7F429CA721C66B5000195E32 /* ProjectsAction.swift in Sources */,
+				7F3BD2EB21D6BF640035F540 /* Routing.swift in Sources */,
 				7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */,
 				7F3BD2E821D68E240035F540 /* ProjectsCoordinator.swift in Sources */,
 				7F163D2C1EDD746B00DC52B6 /* AppBadge.swift in Sources */,
@@ -957,6 +967,7 @@
 				7F429C8121C4041B00195E32 /* PlanItemAction.swift in Sources */,
 				7F3BD2CF21D2D5FF0035F540 /* TagViewState.swift in Sources */,
 				7F429C9B21C55E4400195E32 /* Alert.swift in Sources */,
+				7F3BD2ED21D6D3590035F540 /* FatalViewState.swift in Sources */,
 				7FAC2CB01E9F7B3D00F14ECB /* UITextViewStyle.swift in Sources */,
 				7F3BD2BB21D016FA0035F540 /* ItemDetailComponent.swift in Sources */,
 				7F429C7B21C3F88800195E32 /* PlanViewState.swift in Sources */,
@@ -964,6 +975,7 @@
 				7F429CA521C6663500195E32 /* ProjectSections.swift in Sources */,
 				7FAC2CB21E9F7EDF00F14ECB /* NotificationName.swift in Sources */,
 				7F3BD2B721CFE9C70035F540 /* ItemDetailViewState.swift in Sources */,
+				7F3BD2EF21D6D6440035F540 /* Utility.swift in Sources */,
 				7F429C9721C5413400195E32 /* ArchiveViewState.swift in Sources */,
 				7F3BD2D321D2D93D0035F540 /* BlockedIndicatorViewState.swift in Sources */,
 			);

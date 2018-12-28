@@ -25,6 +25,10 @@ internal enum L10n {
   }
   /// Undo
   internal static let archiveItemUndoOption = L10n.tr("Localizable", "archive item undo option")
+  /// Something went wrong with the database. Please try again. If the problem persists, please delete and reinstall the app
+  internal static let dataErrorMessage = L10n.tr("Localizable", "data error message")
+  /// Error
+  internal static let dataErrorTitle = L10n.tr("Localizable", "data error title")
   /// 1 month
   internal static let dateOption1Month = L10n.tr("Localizable", "date option 1 month")
   /// 2 weeks
@@ -107,6 +111,14 @@ internal enum L10n {
   internal static let todoItemOptionLater = L10n.tr("Localizable", "todo item option later")
   /// Split
   internal static let todoItemOptionSplit = L10n.tr("Localizable", "todo item option split")
+  /// Do you want to save your changes?
+  internal static let unsavedChangesMessage = L10n.tr("Localizable", "unsaved changes message")
+  /// No
+  internal static let unsavedChangesNo = L10n.tr("Localizable", "unsaved changes no")
+  /// Unsaved Changed
+  internal static let unsavedChangesTitle = L10n.tr("Localizable", "unsaved changes title")
+  /// Yes
+  internal static let unsavedChangesYes = L10n.tr("Localizable", "unsaved changes yes")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name

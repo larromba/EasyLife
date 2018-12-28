@@ -1,5 +1,5 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
 protocol ItemDetailViewStating {
     var name: String? { get }
@@ -33,7 +33,7 @@ struct ItemDetailViewState: ItemDetailViewStating {
 
     var name: String?
     var notes: String?
-    var minimumDate: Date? // TODO: ?
+    var minimumDate: Date?
     let simpleDatePickerViewState: SimpleDatePickerViewStating = {
         return SimpleDatePickerViewState(date: Date(), rows: DateSegment.display)
     }()
@@ -68,6 +68,8 @@ struct ItemDetailViewState: ItemDetailViewStating {
     init(item: TodoItem, items: [TodoItem], projects: [Project]) {
         name = item.name
         notes = item.notes
+        date = item.date
+        minimumDate = Date().earliest
         repeatState = item.repeatState
         project = item.project
         isBlockedButtonEnabled = !items.isEmpty

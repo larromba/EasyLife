@@ -52,7 +52,7 @@ final class ProjectsController: ProjectsControlling {
                 self.viewController?.viewState = self.viewController?.viewState?.copy(sections: sections)
             }
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 
@@ -61,7 +61,7 @@ final class ProjectsController: ProjectsControlling {
             _ = try await(self.repository.addProject(name: name))
             self.reload()
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 
@@ -70,13 +70,13 @@ final class ProjectsController: ProjectsControlling {
             _ = try await(self.repository.updateName(name, for: project))
             self.reload()
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 
     private func editProject(_ project: Project?) {
         let action = Alert.Action(title: L10n.editProjectAlertOk, handler: {
-            guard let name = self.editContext?.object else { return }
+            guard let name = self.editContext?.value else { return }
             if let project = project {
                 self.updateName(name, forProject: project)
             } else {
@@ -86,7 +86,7 @@ final class ProjectsController: ProjectsControlling {
         })
         let textField = Alert.TextField(placeholder: L10n.editProjectAlertPlaceholder, text: project?.name,
                                         handler: { text in
-            self.editContext?.object = text
+            self.editContext?.value = text
             if let isEmpty = text?.isEmpty {
                 self.alertController?.setIsButtonEnabled(!isEmpty, at: 1)
             }
@@ -97,7 +97,7 @@ final class ProjectsController: ProjectsControlling {
                           cancel: Alert.Action(title: L10n.editProjectAlertCancel, handler: nil),
                           actions: [action],
                           textField: textField)
-        editContext = ValueContext(object: project?.name)
+        editContext = ValueContext(value: project?.name)
         alertController?.showAlert(alert)
         alertController?.setIsButtonEnabled(false, at: 1)
     }
@@ -132,7 +132,7 @@ extension ProjectsController: ProjectsViewControllerDelegate {
             }
             self.reload()
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 
@@ -160,7 +160,7 @@ extension ProjectsController: ProjectsViewControllerDelegate {
             }
             self.reload()
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 }

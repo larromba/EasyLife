@@ -11,7 +11,7 @@ final class BlockedController: BlockedControlling {
     private var viewController: BlockedViewControlling?
     private var alertController: AlertControlling?
     private let repository: BlockedRepositoring
-    private var editContext: Context<TodoItem>?
+    private var editContext: ObjectContext<TodoItem>?
 
     init(repository: BlockedRepositoring) {
         self.repository = repository
@@ -27,14 +27,14 @@ final class BlockedController: BlockedControlling {
     }
 
     func setItem(_ item: TodoItem) {
-        editContext = Context(object: item)
+        editContext = ObjectContext(object: item)
         async({
             let items = try await(self.repository.fetchItems(for: item))
             onMain {
                 self.viewController?.viewState = BlockedViewState(item: item, items: items)
             }
         }, onError: { error in
-            self.alertController?.showAlert(.dataError(error))
+            self.alertController?.showAlert(Alert(error: error))
         })
     }
 }

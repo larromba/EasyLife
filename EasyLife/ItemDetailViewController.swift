@@ -61,7 +61,6 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         return pickerView
     }()
     private var calendarButton: UIBarButtonItem?
-    private var actionButton: UIBarButtonItem?
     private weak var delegate: ItemDetailViewControllerDelegate?
     var responders: [UIResponder]!
     var viewState: ItemDetailViewState? {
@@ -70,7 +69,6 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         responders = [
             titleTextField,
             dateTextField,
@@ -91,13 +89,11 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         textView.applyTextFieldStyle()
         textView.dataDetectorTypes = .all
         textView.isEditable = false
-
-        let tap = UITapGestureRecognizer(target: self, action: #selector(textViewTapped(_:)))
-        tap.numberOfTapsRequired = 1
-        tap.cancelsTouchesInView = false
-        tap.delaysTouchesEnded = false
-        textView.addGestureRecognizer(tap)
-
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(textViewTapped(_:)))
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.cancelsTouchesInView = false
+        tapGesture.delaysTouchesEnded = false
+        textView.addGestureRecognizer(tapGesture)
         _ = viewState.map(bind)
     }
 
@@ -136,11 +132,11 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         }
         switch viewState.rightButton {
         case .save:
-            setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .save, target: self,
-                                                  action: #selector(savePressed(_:))))
+            navigationItem.rightBarButtonItems?.replace(UIBarButtonItem(barButtonSystemItem: .save, target: self,
+                                                                        action: #selector(savePressed(_:))), at: 0)
         case .delete:
-            setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .trash, target: self,
-                                                  action: #selector(deletePressed(_:))))
+            navigationItem.rightBarButtonItems?.replace(UIBarButtonItem(barButtonSystemItem: .trash, target: self,
+                                                                        action: #selector(deletePressed(_:))), at: 0)
         }
         titleTextField.text = viewState.name
         textView.text = viewState.notes
@@ -165,46 +161,38 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
     }
 
-    private func setRightBarButtonItem(_ item: UIBarButtonItem) {
-        if let actionButton = actionButton, let items = navigationItem.rightBarButtonItems,
-            items.contains(actionButton) { return }
-        navigationItem.rightBarButtonItems = navigationItem.rightBarButtonItems?.filter { $0 !== actionButton }
-        actionButton = item
-        navigationItem.rightBarButtonItems?.insert(item, at: 0)
-    }
-
     private func makeFirstResponder(_ responder: UIResponder?) {
-        if responder == textView {
-            textView.isEditable = true
-        }
+        if responder == textView { textView.isEditable = true }
         responder?.becomeFirstResponder()
     }
 
     private func addCalendarButton() {
-        guard
-            let items = toolbar.items, items.count == 5,
-            let item = toolbar.items?[4], item != calendarButton else { return }
-        let button: UIBarButtonItem
+        guard calendarButton == nil else { return }
         switch dateTextField.inputView {
         case datePicker:
-            button = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self,
-                                     action: #selector(calendarButtonPressed(_:)))
+            calendarButton = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self,
+                                             action: #selector(calendarButtonPressed(_:)))
         case simpleDatePicker:
-            button = UIBarButtonItem(barButtonSystemItem: .search, target: self,
-                                     action: #selector(calendarButtonPressed(_:)))
+            calendarButton = UIBarButtonItem(barButtonSystemItem: .search, target: self,
+                                             action: #selector(calendarButtonPressed(_:)))
         default:
             assertionFailure("unexpected dateTextField.inputView")
             return
         }
-        toolbar.items?.insert(button, at: 4)
-        calendarButton = button
+        toolbar.items?.insert(calendarButton!, at: 4)
     }
 
     private func removeCalendarButton() {
-        guard let calendarButton = calendarButton, let index = toolbar.items?.index(of: calendarButton) else {
+        guard let calendarButton = calendarButton, let index = toolbar.items?.firstIndex(of: calendarButton) else {
             return
         }
         toolbar.items?.remove(at: index)
+        self.calendarButton = nil
+    }
+
+    private func toggleCalendarButton() {
+        removeCalendarButton()
+        addCalendarButton()
     }
 
     // MARK: - action
@@ -243,8 +231,8 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
     }
 
     @objc
-    private func dateTapped(_ sender: UIDatePicker) {
-        viewState?.date = sender.date
+    private func dateTapped(_ sender: UITapGestureRecognizer) {
+        viewState?.date = datePicker.date
         notifyStateUpdated()
     }
 
@@ -265,8 +253,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
             return
         }
         dateTextField.reloadInputViews()
-        removeCalendarButton()
-        addCalendarButton()
+        toggleCalendarButton()
     }
 
     @IBAction private func textFieldChanged(_ sender: UITextField) {

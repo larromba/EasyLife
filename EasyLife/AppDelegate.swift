@@ -31,8 +31,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             onMain {
                 self.appController?.start()
             }
-        }, onError: { _ in
-            // TODO: handle
+        }, onError: { error in
+            assertionFailure(error.localizedDescription)
         })
         return true
     }

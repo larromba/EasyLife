@@ -15,6 +15,10 @@ protocol CoreDataManaging: AnyObject {
                                    predicate: NSPredicate?) -> Async<[T]>
     func load() -> Async<Void>
     func save(context: CoreDataContext) -> Async<Void>
+
+    #if DEBUG
+    func reset() throws
+    #endif
 }
 
 final class CoreDataManager: CoreDataManaging {
@@ -83,7 +87,8 @@ final class CoreDataManager: CoreDataManaging {
                                    context: CoreDataContext, predicate: NSPredicate? = nil) -> Async<[T]> {
         return Async { completion in
             guard self.isLoaded else {
-                return completion(.failure(CoreDataError.notLoaded))
+                completion(.failure(CoreDataError.notLoaded))
+                return
             }
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName(entityClass))
             request.returnsObjectsAsFaults = false
@@ -135,6 +140,20 @@ final class CoreDataManager: CoreDataManaging {
             })
         }
     }
+
+    #if DEBUG
+    func reset() throws {
+        guard self.isLoaded else { throw CoreDataError.notLoaded }
+        let context = self.managedObjectContext(for: .main)
+        var deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName(TodoItem.self))
+        var deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        try context.execute(deleteRequest)
+
+        deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName(Project.self))
+        deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        try context.execute(deleteRequest)
+    }
+    #endif
 
     // MARK: - private
 

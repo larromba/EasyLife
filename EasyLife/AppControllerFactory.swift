@@ -18,17 +18,16 @@ enum AppControllerFactory {
                     badge: AppBadge()
                 )
                 let blockedRepository = BlockedRepository(dataManager: dataManager)
-                let blockedController = BlockedController(repository: blockedRepository)
                 let itemDetailRepository = ItemDetailRepository(dataManager: dataManager, now: Date())
-                let itemDetailController = ItemDetailController(repository: itemDetailRepository)
-                let planCoordinator = PlanCoordinator(navigationController: navigationController,
-                                                      planController: planController,
-                                                      itemDetailController: itemDetailController,
-                                                      blockedController: blockedController)
+                let planCoordinator = PlanCoordinator(
+                    navigationController: navigationController,
+                    planController: planController,
+                    itemDetailController: ItemDetailController(repository: itemDetailRepository),
+                    blockedController: BlockedController(repository: blockedRepository)
+                )
 
                 let archiveRepository = ArchiveRepository(dataManager: dataManager)
                 let archiveController = ArchiveController(repository: archiveRepository)
-
                 let projectsRepository = ProjectsRepository(dataManager: dataManager)
                 let projectsController = ProjectsController(repository: projectsRepository)
 
@@ -39,10 +38,8 @@ enum AppControllerFactory {
                 )
                 planController.setStoryboardRouter(appRouter)
 
-                let fatalErrorHandler = FatalErrorHandler(window: window)
-
                 let appController = AppController(dataManager: dataManager, appRouter: appRouter,
-                                                  fatalErrorHandler: fatalErrorHandler)
+                                                  fatalErrorHandler: FatalErrorHandler(window: window))
                 completion(.success(appController))
             }, onError: { error in
                 completion(.failure(error))

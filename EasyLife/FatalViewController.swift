@@ -1,14 +1,24 @@
 import UIKit
 
-class FatalViewController: UIViewController {
-    @IBOutlet weak var label: UILabel!
+protocol FatalViewControlling: AnyObject {
+    var viewState: FatalViewStating? { get set }
+}
 
-    var error: Error?
+final class FatalViewController: UIViewController {
+    @IBOutlet private(set) weak var label: UILabel!
+
+    var viewState: FatalViewStating? {
+        didSet { _ = viewState.map(bind) }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let error = error { // TODO: viewState?
-            label.text = L10n.errorLoadingDataMessage(error.localizedDescription)
-        }
+        _ = viewState.map(bind)
+    }
+
+    // MARK: - private
+
+    private func bind(_ viewState: FatalViewStating) {
+        label.text = viewState.text
     }
 }
