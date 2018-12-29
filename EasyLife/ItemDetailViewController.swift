@@ -82,9 +82,9 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         repeatsTextField.inputAccessoryView = toolbar
         dateTextField.inputView = simpleDatePicker
         dateTextField.inputAccessoryView = toolbar
-        dateTextField.readonly = true
+        dateTextField.readOnly = true
         titleTextField.inputAccessoryView = toolbar
-        titleTextField.readonly = true
+        titleTextField.readOnly = true
         textView.inputAccessoryView = toolbar
         textView.applyTextFieldStyle()
         textView.dataDetectorTypes = .all

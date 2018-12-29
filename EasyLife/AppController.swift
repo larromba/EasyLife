@@ -1,4 +1,6 @@
+import AsyncAwait
 import Foundation
+import Logging
 
 protocol AppControlling {
     func start()
@@ -21,6 +23,10 @@ final class AppController: AppControlling {
     }
 
     func applicationWillTerminate() {
-        _ = dataManager.save(context: .main) // TODO: does this work?
+        async({
+            _ = try await(self.dataManager.save(context: .main))
+        }, onError: { error in
+            logError(error.localizedDescription)
+        })
     }
 }

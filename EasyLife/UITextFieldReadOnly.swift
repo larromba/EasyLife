@@ -5,20 +5,14 @@ private var key: Void?
 // swiftlint:disable line_length
 // @see http://stackoverflow.com/questions/6701019/how-to-disable-copy-paste-option-from-uitextfield-programmatically/28833795#28833795
 extension UITextField {
-    fileprivate class Additions: NSObject {
-        var readonly: Bool = false
+    var readOnly: Bool {
+        get { return additions.readOnly }
+        set { additions.readOnly = newValue }
     }
 
-    var readonly: Bool {
-        get {
-            return additions.readonly
-        } set {
-            additions.readonly = newValue
-        }
-    }
-
+    // swiftlint:disable override_in_extension
     open override func target(forAction action: Selector, withSender sender: Any?) -> Any? {
-        guard !readonly &&
+        guard !readOnly &&
             (!(action == #selector(UIResponderStandardEditActions.paste(_:))) ||
             !(action == #selector(UIResponderStandardEditActions.cut(_:)))) else {
                 return nil
@@ -28,12 +22,16 @@ extension UITextField {
 
     // MARK: - private
 
+    private class Additions: NSObject {
+        var readOnly: Bool = false
+    }
+
     private var additions: Additions {
-        if let additions = objc_getAssociatedObject(self, &key) as? Additions {
+        guard let additions = objc_getAssociatedObject(self, &key) as? Additions else {
+            let additions = Additions()
+            objc_setAssociatedObject(self, &key, additions, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
             return additions
         }
-        let additions = Additions()
-        objc_setAssociatedObject(self, &key, additions, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
         return additions
     }
 }

@@ -3,7 +3,6 @@ import Foundation
 enum CoreDataError: LocalizedError {
     case missingEntitiyName
     case notLoaded
-    case copy
     case entityDescription
     case frameworkError(Error)
 

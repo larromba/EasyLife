@@ -53,9 +53,7 @@ final class CoreDataManager: CoreDataManaging {
         guard let name = entity.entity.name else {
             return .failure(CoreDataError.missingEntitiyName)
         }
-        guard let copy = insert(entityName: name, context: context) as? T else { // TODO: way around this cast?
-            return .failure(CoreDataError.copy)
-        }
+        let copy = insert(entityClass: T.self, context: context)
         let description = NSEntityDescription.entity(forEntityName: name, in: managedObjectContext(for: context))
         guard
             let attributess = description?.attributesByName,
