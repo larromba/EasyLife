@@ -1,11 +1,11 @@
 import Foundation
 
 extension Bundle {
-    class func appVersion() -> String {
+    static func appVersion() -> String {
         return "v\(main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?")"
     }
 
-    class var safeMain: Bundle {
+    static var safeMain: Bundle {
         return Bundle(identifier: "com.pinkchicken.easylife")!
     }
 }

@@ -1,7 +1,7 @@
 import CoreData
 
 extension NSPersistentContainer {
-    class func test(url: URL? = nil) -> NSPersistentContainer {
+    static func test(url: URL? = nil) -> NSPersistentContainer {
         let container = NSPersistentContainer(name: "EasyLife")
         let description = container.persistentStoreDescriptions.first!
         description.type = NSInMemoryStoreType

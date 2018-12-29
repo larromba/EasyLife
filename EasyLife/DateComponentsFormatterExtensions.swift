@@ -1,7 +1,7 @@
 import Foundation
 
 extension DateComponentsFormatter {
-    class func timeIntervalToString(_ time: TimeInterval, calendar: Calendar = Calendar.current,
+    static func timeIntervalToString(_ time: TimeInterval, calendar: Calendar = Calendar.current,
                                     unitsStyle: UnitsStyle = .full,
                                     allowedUnits: NSCalendar.Unit = [.year, .month, .day],
                                     collapsesLargestUnit: Bool = true) -> String? {
