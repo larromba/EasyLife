@@ -38,9 +38,9 @@ final class ProjectsViewController: UIViewController, ProjectsViewControlling {
 
     private func bind(_ viewState: ProjectsViewStating) {
         guard isViewLoaded else { return }
+        tableView.reloadData()
         tableView.setEditing(viewState.isEditing, animated: true)
         tableView.isHidden = viewState.isEmpty
-        tableView.reloadData()
         editButton.isEnabled = viewState.isEditable
     }
 

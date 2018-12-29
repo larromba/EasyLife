@@ -20,15 +20,12 @@ protocol ArchiveViewStating {
     func section(at index: Int) -> [TodoItem]?
 
     func copy(text: String?) -> ArchiveViewStating
+    func copy(sections: [Character: [TodoItem]], isSearching: Bool) -> ArchiveViewStating
     func copy(sections: [Character: [TodoItem]]) -> ArchiveViewStating
-    func copy(searchSections: [Character: [TodoItem]]?) -> ArchiveViewStating
-    func copy(sections: [Character: [TodoItem]], searchSections: [Character: [TodoItem]]?) -> ArchiveViewStating
 }
 
 struct ArchiveViewState: ArchiveViewStating {
     private let unknownSection = Character("-")
-    private let searchSections: [Character: [TodoItem]]?
-
     let sections: [Character: [TodoItem]]
     var numOfSections: Int {
         return sections.keys.count
@@ -39,9 +36,7 @@ struct ArchiveViewState: ArchiveViewStating {
     var isEmpty: Bool {
         return totalItems == 0
     }
-    var isSearching: Bool {
-        return searchSections != nil
-    }
+    let isSearching: Bool
     var isClearButtonEnabled: Bool {
         return !isEmpty && text?.isEmpty ?? true
     }
@@ -57,10 +52,10 @@ struct ArchiveViewState: ArchiveViewStating {
     let undoBackgroundColor = Asset.Colors.grey.color
     let text: String?
 
-    init(sections: [Character: [TodoItem]], searchSections: [Character: [TodoItem]]?, text: String?) {
+    init(sections: [Character: [TodoItem]], text: String?, isSearching: Bool) {
         self.sections = sections
-        self.searchSections = searchSections
         self.text = text
+        self.isSearching = isSearching
     }
 
     func title(for section: Int) -> String? {
@@ -94,18 +89,14 @@ struct ArchiveViewState: ArchiveViewStating {
 
 extension ArchiveViewState {
     func copy(text: String?) -> ArchiveViewStating {
-        return ArchiveViewState(sections: sections, searchSections: searchSections, text: text)
+        return ArchiveViewState(sections: sections, text: text, isSearching: isSearching)
     }
 
     func copy(sections: [Character: [TodoItem]]) -> ArchiveViewStating {
-        return ArchiveViewState(sections: sections, searchSections: searchSections, text: text)
+        return ArchiveViewState(sections: sections, text: text, isSearching: isSearching)
     }
 
-    func copy(searchSections: [Character: [TodoItem]]?) -> ArchiveViewStating {
-        return ArchiveViewState(sections: sections, searchSections: searchSections, text: text)
-    }
-
-    func copy(sections: [Character: [TodoItem]], searchSections: [Character: [TodoItem]]?) -> ArchiveViewStating {
-        return ArchiveViewState(sections: sections, searchSections: searchSections, text: text)
+    func copy(sections: [Character: [TodoItem]], isSearching: Bool) -> ArchiveViewStating {
+        return ArchiveViewState(sections: sections, text: text, isSearching: isSearching)
     }
 }

@@ -17,6 +17,7 @@ final class ArchiveController: ArchiveControlling {
     private var viewController: ArchiveViewControlling?
     private var alertController: AlertControlling?
     private weak var delegate: ArchiveControllerDelegate?
+    private var sections = [Character: [TodoItem]]()
 
     init(repository: ArchiveRepositoring) {
         self.repository = repository
@@ -29,7 +30,7 @@ final class ArchiveController: ArchiveControlling {
     func setViewController(_ viewController: ArchiveViewControlling) {
         self.viewController = viewController
         viewController.setDelegate(self)
-        viewController.viewState = ArchiveViewState(sections: [:], searchSections: [:], text: nil)
+        viewController.viewState = ArchiveViewState(sections: [:], text: nil, isSearching: false)
         reload()
     }
 
@@ -56,7 +57,8 @@ final class ArchiveController: ArchiveControlling {
                 sections[section] = items.sorted(by: { ($0.name ?? "") < ($1.name ?? "") })
             }
             onMain {
-                self.viewController?.viewState = viewState.copy(sections: sections, searchSections: nil)
+                self.sections = sections
+                self.viewController?.viewState = viewState.copy(sections: sections)
             }
         }, onError: { error in
             self.alertController?.showAlert(Alert(error: error))
@@ -79,9 +81,7 @@ final class ArchiveController: ArchiveControlling {
         guard let viewState = viewController?.viewState else { return }
         async({
             _ = try await(self.repository.clearAll(items: viewState.sections.flatMap { $0.value }))
-            onMain {
-                self.viewController?.viewState = viewState.copy(sections: [:], searchSections: nil)
-            }
+            self.reload()
         }, onError: { error in
             self.alertController?.showAlert(Alert(error: error))
         })
@@ -95,6 +95,23 @@ final class ArchiveController: ArchiveControlling {
             self.alertController?.showAlert(Alert(error: error))
         })
     }
+
+    private func sections(for term: String) -> [Character: [TodoItem]] {
+        guard !term.isEmpty else {
+            return sections
+        }
+        var filteredSections = [Character: [TodoItem]]()
+        sections.keys.forEach {
+            if let result = sections[$0]?.filter({
+                $0.name?.lowercased().contains(term.lowercased()) ?? false
+            }), !result.isEmpty {
+                filteredSections[$0] = result
+            } else {
+                filteredSections.removeValue(forKey: $0)
+            }
+        }
+        return filteredSections
+    }
 }
 
 // MARK: - PlanViewControllerDelegate
@@ -102,7 +119,10 @@ final class ArchiveController: ArchiveControlling {
 extension ArchiveController: ArchiveViewControllerDelegate {
     func viewController(_ viewController: ArchiveViewController, performAction action: ArchiveAction) {
         switch action {
-        case .clear: showClearAllAlert()
+        case .clear:
+            viewController.viewState = viewController.viewState?.copy(text: nil)
+            viewController.endEditing()
+            showClearAllAlert()
         case .done: delegate?.controllerFinished(self)
         case .undo(let item): undoItem(item)
         }
@@ -110,31 +130,17 @@ extension ArchiveController: ArchiveViewControllerDelegate {
 
     func viewControllerStartedSearch(_ viewController: ArchiveViewController) {
         guard let viewState = viewController.viewState else { return }
-        viewController.viewState = viewState.copy(searchSections: viewState.sections)
+        viewController.viewState = viewState.copy(sections: sections, isSearching: true)
     }
 
     func viewController(_ viewController: ArchiveViewController, performSearch term: String) {
         guard let viewState = viewController.viewState else { return }
-        guard !term.isEmpty else {
-            viewController.viewState = viewState.copy(searchSections: viewState.sections)
-            return
-        }
-        var sections = viewState.sections
-        for key in viewState.sections.keys {
-            if let result = viewState.sections[key]?.filter({
-                $0.name?.lowercased().contains(term.lowercased()) ?? false
-            }), !result.isEmpty {
-                sections[key] = result
-            } else {
-                sections.removeValue(forKey: key)
-            }
-        }
-        viewController.viewState = viewState.copy(searchSections: sections)
+        viewController.viewState = viewState.copy(sections: sections(for: term))
     }
 
     func viewControllerEndedSearch(_ viewController: ArchiveViewController) {
         guard let viewState = viewController.viewState else { return }
-        viewController.viewState = viewState.copy(searchSections: nil)
+        viewController.viewState = viewState.copy(sections: sections, isSearching: false)
     }
 
     func viewControllerTapped(_ viewController: ArchiveViewController) {

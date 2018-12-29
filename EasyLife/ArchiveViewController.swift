@@ -21,8 +21,8 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
     @IBOutlet private(set) weak var doneButton: UIBarButtonItem!
     @IBOutlet private(set) weak var clearButton: UIBarButtonItem!
     @IBOutlet private(set) weak var thingsDoneLabel: UILabel!
-    @IBOutlet private(set) weak var emptyLabelHeightLayoutConstraint: NSLayoutConstraint! {
-        didSet { layoutConstraintCache.set(emptyLabelHeightLayoutConstraint) }
+    @IBOutlet private(set) weak var emptyLabelVerticalLayoutConstraint: NSLayoutConstraint! {
+        didSet { layoutConstraintCache.set(emptyLabelVerticalLayoutConstraint) }
     }
     private let layoutConstraintCache = LayoutConstraintCache()
     private weak var delegate: ArchiveViewControllerDelegate?
@@ -34,7 +34,7 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
         super.viewDidLoad()
 
         _ = viewState.map(bind)
-        searchBar.autocapitalizationType = .none // TODO: needed?
+        searchBar.autocapitalizationType = .none // this is specified in nib, but somehow still needed...
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:)))
         view.addGestureRecognizer(tapGestureRecognizer)
         tableView.applyDefaultStyleFix()
@@ -56,7 +56,7 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
     }
 
     func endEditing() {
-        searchBar.resignFirstResponder()
+        view.endEditing(true)
     }
 
     // MARK: - private
@@ -102,19 +102,17 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
 
     @objc
     private func keyboardWillShow(_ notification: Notification) {
-        guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
-            return
-        }
+        guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else { return }
         tableView.contentInset.bottom = height.cgRectValue.height
-        let originalValue = layoutConstraintCache.get(emptyLabelHeightLayoutConstraint)
-        emptyLabelHeightLayoutConstraint.constant = originalValue - height.cgRectValue.height / 2.0
+        let originalValue = layoutConstraintCache.get(emptyLabelVerticalLayoutConstraint)
+        emptyLabelVerticalLayoutConstraint.constant = originalValue - height.cgRectValue.height / 2.0
         view.layoutIfNeeded()
     }
 
     @objc
     private func keyboardWillHide(_ notification: Notification) {
         tableView.contentInset.bottom = 0
-        layoutConstraintCache.reset(emptyLabelHeightLayoutConstraint)
+        layoutConstraintCache.reset(emptyLabelVerticalLayoutConstraint)
         view.layoutIfNeeded()
     }
 }
@@ -177,6 +175,7 @@ extension ArchiveViewController: UISearchBarDelegate {
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewState = viewState?.copy(text: searchText)
         delegate?.viewController(self, performSearch: searchText)
     }
 
