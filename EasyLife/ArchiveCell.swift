@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ArchiveCelling {
+protocol ArchiveCelling: Mockable {
     var viewState: ArchiveCellViewStating? { get set }
 }
 

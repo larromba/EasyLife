@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ProjectCelling {
+protocol ProjectCelling: Mockable {
     var viewState: ProjectCellViewStating? { get set }
 }
 

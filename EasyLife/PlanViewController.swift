@@ -18,7 +18,7 @@ protocol PlanViewControllerDelegate: AnyObject {
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction)
     func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem)
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,
-                        onItem item: TodoItem)
+                        onItem item: TodoItem, at indexPath: IndexPath)
 }
 
 final class PlanViewController: UIViewController, PlanViewControlling {
@@ -114,13 +114,18 @@ extension PlanViewController: UITableViewDelegate {
                 style: viewState.style(for: itemAction),
                 title: viewState.text(for: itemAction),
                 handler: { _, _ in
-                    self.delegate?.viewController(self, performAction: itemAction, onItem: item)
+                    self.delegate?.viewController(self, performAction: itemAction, onItem: item, at: indexPath)
                 }
             )
             action.backgroundColor = viewState.color(for: itemAction)
             return action
         }
     }
+
+    // TODO: this
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        <#code#>
+//    }
 }
 
 // MARK: - UITableViewDataSource

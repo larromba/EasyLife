@@ -2,9 +2,9 @@ import Foundation
 
 extension DateComponentsFormatter {
     static func timeIntervalToString(_ time: TimeInterval, calendar: Calendar = Calendar.current,
-                                    unitsStyle: UnitsStyle = .full,
-                                    allowedUnits: NSCalendar.Unit = [.year, .month, .day],
-                                    collapsesLargestUnit: Bool = true) -> String? {
+                                     unitsStyle: UnitsStyle = .full,
+                                     allowedUnits: NSCalendar.Unit = [.year, .month, .day],
+                                     collapsesLargestUnit: Bool = true) -> String? {
         let formatter = DateComponentsFormatter()
         formatter.calendar = calendar
         formatter.unitsStyle = unitsStyle

@@ -2,6 +2,8 @@ import AsyncAwait
 import Logging
 import UIKit
 
+// TODO: weak vcs?
+
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?

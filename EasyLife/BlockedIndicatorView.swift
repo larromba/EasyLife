@@ -1,6 +1,6 @@
 import UIKit
 
-protocol BlockedIndicatorViewing {
+protocol BlockedIndicatorViewing: Mockable {
     var viewState: BlockedIndicatorViewStating? { get set }
 }
 

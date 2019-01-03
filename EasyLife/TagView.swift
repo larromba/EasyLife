@@ -1,11 +1,11 @@
 import UIKit
 
-protocol TagViewable {
+protocol TagViewable: Mockable {
     var viewState: TagViewStating? { get set }
 }
 
 @IBDesignable
-class TagView: UIView, TagViewable {
+final class TagView: UIView, TagViewable {
     @IBOutlet private(set) weak var label: UILabel!
     @IBOutlet private(set) weak var cornerLayerView: UIView!
     @IBInspectable private var cornerColor: UIColor? {

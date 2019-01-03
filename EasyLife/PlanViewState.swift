@@ -32,7 +32,7 @@ protocol PlanViewStating {
 }
 
 struct PlanViewState: PlanViewStating {
-    private let sections: [PlanSection: [TodoItem]]
+    private(set) var sections: [PlanSection: [TodoItem]]
 
     let rowHeight: CGFloat = 50.0
     let fadeInDuration = 0.2

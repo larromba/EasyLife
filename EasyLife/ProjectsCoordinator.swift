@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ProjectsCoordinating {
+protocol ProjectsCoordinating: Mockable {
     func setNavigationController(_ navigationController: UINavigationController)
     func setViewController(_ viewController: ProjectsViewControlling)
     func setAlertController(_ alertController: AlertControlling)

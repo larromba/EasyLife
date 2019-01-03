@@ -1,7 +1,7 @@
 import AsyncAwait
 import Foundation
 
-protocol BlockedControlling {
+protocol BlockedControlling: Mockable {
     func setViewController(_ viewController: BlockedViewControlling)
     func setAlertController(_ alertController: AlertControlling)
     func setItem(_ item: TodoItem)

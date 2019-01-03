@@ -3,7 +3,7 @@ import Logging
 import UIKit
 import UserNotifications
 
-protocol Badge: AnyObject {
+protocol Badge: AnyObject, Mockable {
     var number: Int { get }
 
     func setNumber(_ number: Int) -> Async<Void>

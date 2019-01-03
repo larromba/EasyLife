@@ -1,7 +1,7 @@
 import PPBadgeView
 import UIKit
 
-protocol ItemDetailViewControlling: AnyObject, ResponderSelection, Presentable {
+protocol ItemDetailViewControlling: AnyObject, ResponderSelection, Presentable, Mockable {
     var viewState: ItemDetailViewState? { get set }
 
     func setDelegate(_ delegate: ItemDetailViewControllerDelegate)

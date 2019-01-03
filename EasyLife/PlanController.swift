@@ -1,7 +1,7 @@
 import AsyncAwait
 import UIKit
 
-protocol PlanControlling {
+protocol PlanControlling: Mockable {
     func start()
     func setDelegate(_ delegate: PlanControllerDelegate)
     func setStoryboardRouter(_ router: StoryboardRouting)
@@ -113,7 +113,7 @@ extension PlanController: PlanViewControllerDelegate {
     }
 
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,
-                        onItem item: TodoItem) {
+                        onItem item: TodoItem, at indexPath: IndexPath) {
         async({
             switch action {
             case .delete: _ = try await(self.repository.delete(item: item))

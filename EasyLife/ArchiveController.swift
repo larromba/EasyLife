@@ -2,7 +2,7 @@ import AsyncAwait
 import Foundation
 import UIKit
 
-protocol ArchiveControlling {
+protocol ArchiveControlling: Mockable {
     func setDelegate(_ delegate: ArchiveControllerDelegate)
     func setViewController(_ viewController: ArchiveViewControlling)
     func setAlertController(_ alertController: AlertControlling)
@@ -103,7 +103,7 @@ final class ArchiveController: ArchiveControlling {
         var filteredSections = [Character: [TodoItem]]()
         sections.keys.forEach {
             if let result = sections[$0]?.filter({
-                $0.name?.lowercased().contains(term.lowercased()) ?? false
+                $0.name?.lowercased().range(of: term, options: .caseInsensitive) != nil
             }), !result.isEmpty {
                 filteredSections[$0] = result
             } else {

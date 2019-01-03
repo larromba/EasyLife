@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ProjectsViewControlling: AnyObject, Presentable {
+protocol ProjectsViewControlling: AnyObject, Presentable, Mockable {
     var viewState: ProjectsViewStating? { get set }
 
     func setDelegate(_ delegate: ProjectsViewControllerDelegate)
@@ -75,36 +75,15 @@ extension ProjectsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard let viewState = viewState, let project = viewState.project(at: indexPath) else { return nil }
-        let delete = UITableViewRowAction(style: .destructive,
-                                          title: viewState.deleteTitle,
-                                          handler: { (_: UITableViewRowAction, _: IndexPath) in
-            self.delegate?.viewController(self, performAction: .delete, forProject: project)
-        })
-        delete.backgroundColor = viewState.deleteColor
-        guard let section = ProjectSection(rawValue: indexPath.section) else {
-            assertionFailure("unhandled section \(indexPath.section)")
-            return nil
-        }
-        switch section {
-        case .other:
-            if viewState.isMaxPriorityItemLimitReached {
-                return [delete]
-            }
-            let prioritize = UITableViewRowAction(style: .normal,
-                                                  title: viewState.prioritizeTitle,
-                                                  handler: { _, _ in
-                self.delegate?.viewController(self, performAction: .prioritize, forProject: project)
+        return viewState.availableActions(at: indexPath).map { action in
+            let rowAction = UITableViewRowAction(
+                style: viewState.style(for: action),
+                title: viewState.text(for: action),
+                handler: { _, _ in
+                    self.delegate?.viewController(self, performAction: action, forProject: project)
             })
-            prioritize.backgroundColor = viewState.prioritizeColor
-            return [delete, prioritize]
-        case .prioritized:
-            let deprioritize = UITableViewRowAction(style: .normal,
-                                                    title: viewState.deprioritizeTitle,
-                                                    handler: { _, _ in
-                self.delegate?.viewController(self, performAction: .deprioritize, forProject: project)
-            })
-            deprioritize.backgroundColor = viewState.deprioritizeColor
-            return [delete, deprioritize]
+            rowAction.backgroundColor = viewState.color(for: action)
+            return rowAction
         }
     }
 

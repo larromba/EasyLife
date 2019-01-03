@@ -1,7 +1,7 @@
 import CoreData
 
 extension NSPersistentContainer {
-    static func test(url: URL? = nil) -> NSPersistentContainer {
+    static func test(url: URL? = nil) throws -> NSPersistentContainer {
         let container = NSPersistentContainer(name: "EasyLife")
         let description = container.persistentStoreDescriptions.first!
         description.type = NSInMemoryStoreType
@@ -10,8 +10,9 @@ extension NSPersistentContainer {
         }
         let group = DispatchGroup()
         group.enter()
+        var loadError: Error?
         container.loadPersistentStores(completionHandler: { (_: NSPersistentStoreDescription, error: Error?) in
-            assert(error == nil, error?.localizedDescription)
+            loadError = error
             group.leave()
         })
         if let loadError = loadError {

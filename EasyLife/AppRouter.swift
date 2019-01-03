@@ -1,6 +1,6 @@
 import UIKit
 
-protocol AppRouting: StoryboardRouting {
+protocol AppRouting: StoryboardRouting, Mockable {
     func start()
 }
 

@@ -1,7 +1,7 @@
 import AsyncAwait
 import Foundation
 
-protocol ItemDetailControlling {
+protocol ItemDetailControlling: Mockable {
     func setViewController(_ viewController: ItemDetailViewControlling)
     func setAlertController(_ alertController: AlertControlling)
     func setDelegate(_ delegate: ItemDetailControllerDelegate)

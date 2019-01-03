@@ -68,3 +68,4 @@ later in missed
 focus mode
 better sorting
 better deletion animations 
+autorefresh

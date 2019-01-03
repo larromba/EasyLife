@@ -3,7 +3,7 @@ import CoreData
 import Foundation
 import Result
 
-protocol PlanRepositoring {
+protocol PlanRepositoring: Mockable {
     func newItem() -> Result<TodoItem>
     func fetchMissedItems() -> Async<[TodoItem]>
     func fetchLaterItems() -> Async<[TodoItem]>
@@ -42,7 +42,7 @@ final class PlanRepository: PlanRepositoring {
         #if DEBUG
         if __isSnapshot {
             do {
-                try dataManager.reset()
+                try await(dataManager.reset())
             } catch {
                 fatalError(error.localizedDescription)
             }

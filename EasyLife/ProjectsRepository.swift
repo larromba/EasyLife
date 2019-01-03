@@ -1,7 +1,7 @@
 import AsyncAwait
 import Foundation
 
-protocol ProjectsRepositoring {
+protocol ProjectsRepositoring: Mockable {
     func delete(project: Project) -> Async<Void>
     func addProject(name: String) -> Async<Project>
     func updateName(_ name: String, for project: Project) -> Async<Void>

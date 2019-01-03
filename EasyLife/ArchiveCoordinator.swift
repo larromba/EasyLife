@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ArchiveCoordinating {
+protocol ArchiveCoordinating: Mockable {
     func setNavigationController(_ navigationController: UINavigationController)
     func setViewController(_ viewController: ArchiveViewControlling)
     func setAlertController(_ alertController: AlertControlling)

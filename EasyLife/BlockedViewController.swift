@@ -1,7 +1,7 @@
 import Logging
 import UIKit
 
-protocol BlockedViewControlling: Presentable {
+protocol BlockedViewControlling: Presentable, Mockable {
     var viewState: BlockedViewStating? { get set }
 
     func setDelegate(_ delegate: BlockedViewControllerDelegate)

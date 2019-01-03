@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ArchiveViewControlling: AnyObject, Presentable {
+protocol ArchiveViewControlling: AnyObject, Presentable, Mockable {
     var viewState: ArchiveViewStating? { get set }
 
     func setDelegate(_ delegate: ArchiveViewControllerDelegate)
@@ -100,6 +100,7 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
 
     // MARK: - notifications
 
+    // TODO: keyboard notif object?
     @objc
     private func keyboardWillShow(_ notification: Notification) {
         guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else { return }

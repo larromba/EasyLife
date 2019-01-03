@@ -1,6 +1,6 @@
 import UIKit
 
-protocol PlanCellable {
+protocol PlanCellable: Mockable {
     var viewState: PlanCellViewStating? { get set }
 }
 

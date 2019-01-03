@@ -4,7 +4,7 @@ import Foundation
 import Logging
 import Result
 
-protocol CoreDataManaging: AnyObject {
+protocol CoreDataManaging: AnyObject, Mockable {
     var isLoaded: Bool { get }
 
     func insert<T: NSManagedObject>(entityClass: T.Type, context: CoreDataContext) -> T
@@ -15,10 +15,7 @@ protocol CoreDataManaging: AnyObject {
                                    predicate: NSPredicate?) -> Async<[T]>
     func load() -> Async<Void>
     func save(context: CoreDataContext) -> Async<Void>
-
-    #if DEBUG
-    func reset() throws
-    #endif
+    func reset() -> Async<Void>
 }
 
 final class CoreDataManager: CoreDataManaging {
@@ -139,19 +136,32 @@ final class CoreDataManager: CoreDataManaging {
         }
     }
 
-    #if DEBUG
-    func reset() throws {
-        guard self.isLoaded else { throw CoreDataError.notLoaded }
-        let context = self.managedObjectContext(for: .main)
-        var deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName(TodoItem.self))
-        var deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-        try context.execute(deleteRequest)
-
-        deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName(Project.self))
-        deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-        try context.execute(deleteRequest)
+    func reset() -> Async<Void> {
+        return Async { completion in
+            guard self.isLoaded else {
+                return completion(.failure(CoreDataError.notLoaded))
+            }
+            let context = self.managedObjectContext(for: .main)
+            guard context.hasChanges else {
+                completion(.success(()))
+                return
+            }
+            context.perform({ [unowned context] in
+                do {
+                    var deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName(TodoItem.self))
+                    var deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+                    try context.execute(deleteRequest)
+                    deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName(Project.self))
+                    deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+                    try context.execute(deleteRequest)
+                    completion(.success(()))
+                } catch {
+                    completion(.failure(CoreDataError.frameworkError(error)))
+                    self.notificationCenter.post(name: .applicationDidReceiveFatalError, object: error)
+                }
+            })
+        }
     }
-    #endif
 
     // MARK: - private
 
@@ -170,10 +180,8 @@ final class CoreDataManager: CoreDataManaging {
 
     private func managedObjectContext(for context: CoreDataContext) -> NSManagedObjectContext {
         switch context {
-        case .main:
-            return mainContext
-        case .background:
-            return backgroundContext
+        case .main: return mainContext
+        case .background: return backgroundContext
         }
     }
 

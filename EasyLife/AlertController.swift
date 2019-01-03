@@ -1,6 +1,6 @@
 import UIKit
 
-protocol AlertControlling {
+protocol AlertControlling: Mockable {
     func showAlert(_ alert: Alert)
     func setIsButtonEnabled(_ isEnabled: Bool, at index: Int)
 }

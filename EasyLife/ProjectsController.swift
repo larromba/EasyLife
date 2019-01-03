@@ -2,7 +2,7 @@ import AsyncAwait
 import Foundation
 import UIKit
 
-protocol ProjectsControlling: AnyObject {
+protocol ProjectsControlling: AnyObject, Mockable {
     func setViewController(_ viewController: ProjectsViewControlling)
     func setAlertController(_ alertController: AlertControlling)
     func setDelegate(_ delegate: ProjectsControllerDelegate)

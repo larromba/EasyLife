@@ -2,12 +2,6 @@ import UIKit
 
 protocol ProjectsViewStating {
     var rowHeight: CGFloat { get }
-    var deleteTitle: String { get }
-    var deleteColor: UIColor { get }
-    var prioritizeTitle: String { get }
-    var prioritizeColor: UIColor { get }
-    var deprioritizeTitle: String { get }
-    var deprioritizeColor: UIColor { get }
     var maxPriorityItems: Int { get }
     var isEditing: Bool { get }
     var totalItems: Int { get }
@@ -24,6 +18,10 @@ protocol ProjectsViewStating {
     func items(for section: ProjectSection) -> [Project]?
     func name(at indexPath: IndexPath) -> String?
     func canMoveRow(at indexPath: IndexPath) -> Bool
+    func availableActions(at indexPath: IndexPath) -> [ProjectItemAction]
+    func color(for action: ProjectItemAction) -> UIColor
+    func text(for action: ProjectItemAction) -> String
+    func style(for action: ProjectItemAction) -> UITableViewRowAction.Style
 
     func copy(sections: [ProjectSection: [Project]]) -> ProjectsViewStating
     func copy(isEditing: Bool) -> ProjectsViewStating
@@ -33,12 +31,6 @@ struct ProjectsViewState: ProjectsViewStating {
     private let sections: [ProjectSection: [Project]]
 
     let rowHeight: CGFloat = 50.0
-    let deleteTitle = L10n.todoItemOptionDelete
-    let deleteColor = Asset.Colors.red.color
-    let prioritizeTitle = L10n.projectOptionPrioritize
-    let prioritizeColor = Asset.Colors.green.color
-    let deprioritizeTitle = L10n.projectOptionDeprioritize
-    let deprioritizeColor = Asset.Colors.grey.color
     let maxPriorityItems = 5
     let isEditing: Bool
     var totalItems: Int {
@@ -109,6 +101,43 @@ struct ProjectsViewState: ProjectsViewStating {
     func canMoveRow(at indexPath: IndexPath) -> Bool {
         return indexPath.section == 0 ||
             (indexPath.section == 1 && !isMaxPriorityItemLimitReached && totalPriorityItems > 0)
+    }
+
+    func availableActions(at indexPath: IndexPath) -> [ProjectItemAction] {
+        guard let section = ProjectSection(rawValue: indexPath.section) else { return [] }
+        switch section {
+        case .other:
+            if isMaxPriorityItemLimitReached {
+                return [.delete]
+            }
+            return [.delete, .prioritize]
+        case .prioritized:
+            return [.delete, .deprioritize]
+        }
+    }
+
+    func color(for action: ProjectItemAction) -> UIColor {
+        switch action {
+        case .delete: return Asset.Colors.red.color
+        case .prioritize: return Asset.Colors.green.color
+        case .deprioritize: return Asset.Colors.grey.color
+        }
+    }
+
+    func text(for action: ProjectItemAction) -> String {
+        switch action {
+        case .delete: return L10n.todoItemOptionDelete
+        case .prioritize: return L10n.projectOptionPrioritize
+        case .deprioritize: return L10n.projectOptionDeprioritize
+        }
+    }
+
+    func style(for action: ProjectItemAction) -> UITableViewRowAction.Style {
+        switch action {
+        case .delete: return .destructive
+        case .prioritize: return .normal
+        case .deprioritize: return .normal
+        }
     }
 }
 

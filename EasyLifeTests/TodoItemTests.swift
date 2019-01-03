@@ -11,8 +11,8 @@ class TodoItemTests: XCTestCase {
         let todoItem = MockTodoItem()
 
         // prepare
-        todoItem._date = date
-        todoItem._repeats = Int16(RepeatState.monthly.rawValue)
+        todoItem.date = date
+        todoItem.repeats = Int16(RepeatState.monthly.rawValue)
 
         // test
         todoItem.incrementDate()

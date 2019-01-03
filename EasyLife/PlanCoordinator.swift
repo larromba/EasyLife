@@ -1,6 +1,6 @@
 import UIKit
 
-protocol PlanCoordinating {
+protocol PlanCoordinating: Mockable {
     func start()
 }
 
