@@ -2,6 +2,7 @@ import AsyncAwait
 import Foundation
 import Logging
 
+// sourcery: name = ItemDetailRepository
 protocol ItemDetailRepositoring: Mockable {
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]>
     func fetchProjects(for item: TodoItem) -> Async<[Project]>

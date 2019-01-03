@@ -14,7 +14,7 @@ protocol ProjectsControllerDelegate: AnyObject {
 
 final class ProjectsController: ProjectsControlling {
     private let repository: ProjectsRepositoring
-    private var viewController: ProjectsViewControlling?
+    private weak var viewController: ProjectsViewControlling?
     private var alertController: AlertControlling?
     private weak var delegate: ProjectsControllerDelegate?
     private var editContext: ValueContext<String?>?

@@ -1,5 +1,6 @@
 import UIKit
 
+// sourcery: name = PlanCoordinator
 protocol PlanCoordinating: Mockable {
     func start()
 }

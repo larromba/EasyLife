@@ -1,6 +1,7 @@
 import AsyncAwait
 import Foundation
 
+// sourcery: name = ProjectsRepository
 protocol ProjectsRepositoring: Mockable {
     func delete(project: Project) -> Async<Void>
     func addProject(name: String) -> Async<Project>

@@ -1,7 +1,7 @@
 import PPBadgeView
 import UIKit
 
-protocol ItemDetailViewControlling: AnyObject, ResponderSelection, Presentable, Mockable {
+protocol ItemDetailViewControlling: ResponderSelection, Presentable, Mockable {
     var viewState: ItemDetailViewState? { get set }
 
     func setDelegate(_ delegate: ItemDetailViewControllerDelegate)
@@ -61,6 +61,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         return pickerView
     }()
     private var calendarButton: UIBarButtonItem?
+    private let keyboardNotification = KeyboardNotification()
     private weak var delegate: ItemDetailViewControllerDelegate?
     var responders: [UIResponder]!
     var viewState: ItemDetailViewState? {
@@ -69,6 +70,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        keyboardNotification.delegate = self
         responders = [
             titleTextField,
             dateTextField,
@@ -100,7 +102,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         delegate?.viewControllerWillAppear(self)
-        setupNotifications()
+        keyboardNotification.setup()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -108,7 +110,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         if isMovingFromParentViewController {
             delegate?.viewControllerWillDismiss(self)
         }
-        tearDownNotifications()
+        keyboardNotification.tearDown()
         view.endEditing(true)
     }
 
@@ -147,18 +149,6 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         projectTextField.alpha = viewState.projectTextFieldAlpha
         blockedButton.isEnabled = viewState.isBlockedButtonEnabled
         blockedButton.pp.addBadge(number: viewState.blockedCount)
-    }
-
-    private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
-                                               name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
-                                               name: .UIKeyboardWillHide, object: nil)
-    }
-
-    private func tearDownNotifications() {
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
     }
 
     private func makeFirstResponder(_ responder: UIResponder?) {
@@ -261,20 +251,21 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         notifyStateUpdated()
     }
 
-    @objc
-    private func keyboardWillShow(_ notification: Notification) {
-        guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else { return }
-        scrollView.contentInset.bottom = height.cgRectValue.height
-    }
-
-    @objc
-    private func keyboardWillHide(_ notification: Notification) {
-        scrollView.contentInset.bottom = 0
-    }
-
     private func notifyStateUpdated() {
         guard let viewState = viewState else { return }
         delegate?.viewController(self, updatedState: viewState)
+    }
+}
+
+// MARK: - KeyboardNotificationDelegate
+
+extension ItemDetailViewController: KeyboardNotificationDelegate {
+    func keyboardWithShow(height: CGFloat) {
+        scrollView.contentInset.bottom = height
+    }
+
+    func keyboardWillHide() {
+        scrollView.contentInset.bottom = 0
     }
 }
 

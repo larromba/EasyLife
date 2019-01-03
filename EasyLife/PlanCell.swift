@@ -1,5 +1,6 @@
 import UIKit
 
+// sourcery: name = PlanCell
 protocol PlanCellable: Mockable {
     var viewState: PlanCellViewStating? { get set }
 }

@@ -1,6 +1,7 @@
 import AsyncAwait
 import UIKit
 
+// sourcery: name = PlanController
 protocol PlanControlling: Mockable {
     func start()
     func setDelegate(_ delegate: PlanControllerDelegate)

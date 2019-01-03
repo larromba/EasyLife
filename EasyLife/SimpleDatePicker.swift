@@ -4,6 +4,7 @@ protocol SimpleDatePickerDelegate: AnyObject {
     func datePicker(_ picker: SimpleDatePicker, didSelectDate date: Date?)
 }
 
+// sourcery: name = SimpleDatePicker
 protocol SimpleDatePickering: Mockable {
     var viewState: SimpleDatePickerViewStating? { get set }
 }

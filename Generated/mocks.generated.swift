@@ -127,7 +127,7 @@ final class _Invocations {
 
 // MARK: - Sourcery Mocks
 
-class MockAlertControlling: NSObject, AlertControlling {
+class MockAlertController: NSObject, AlertControlling {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -168,7 +168,7 @@ class MockAlertControlling: NSObject, AlertControlling {
     }
 }
 
-class MockAppControlling: NSObject, AppControlling {
+class MockAppController: NSObject, AppControlling {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -234,7 +234,7 @@ class MockAppRouting: NSObject, AppRouting {
     }
 }
 
-class MockArchiveCelling: NSObject, ArchiveCelling {
+class MockArchiveCell: NSObject, ArchiveCelling {
     var viewState: ArchiveCellViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
@@ -243,7 +243,7 @@ class MockArchiveCelling: NSObject, ArchiveCelling {
     var _viewStateHistory: [_Variable<ArchiveCellViewStating?>] = []
 }
 
-class MockArchiveControlling: NSObject, ArchiveControlling {
+class MockArchiveController: NSObject, ArchiveControlling {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -298,7 +298,7 @@ class MockArchiveControlling: NSObject, ArchiveControlling {
     }
 }
 
-class MockArchiveCoordinating: NSObject, ArchiveCoordinating {
+class MockArchiveCoordinator: NSObject, ArchiveCoordinating {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -353,7 +353,7 @@ class MockArchiveCoordinating: NSObject, ArchiveCoordinating {
     }
 }
 
-class MockArchiveRepositoring: NSObject, ArchiveRepositoring {
+class MockArchiveRepository: NSObject, ArchiveRepositoring {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -500,7 +500,7 @@ class MockBadge: NSObject, Badge {
     }
 }
 
-class MockBlockedCelling: NSObject, BlockedCelling {
+class MockBlockedCell: NSObject, BlockedCelling {
     var viewState: ProjectCellViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
@@ -509,7 +509,7 @@ class MockBlockedCelling: NSObject, BlockedCelling {
     var _viewStateHistory: [_Variable<ProjectCellViewStating?>] = []
 }
 
-class MockBlockedControlling: NSObject, BlockedControlling {
+class MockBlockedController: NSObject, BlockedControlling {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -564,7 +564,7 @@ class MockBlockedControlling: NSObject, BlockedControlling {
     }
 }
 
-class MockBlockedIndicatorViewing: NSObject, BlockedIndicatorViewing {
+class MockBlockedIndicatorView: NSObject, BlockedIndicatorViewing {
     var viewState: BlockedIndicatorViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
@@ -573,7 +573,7 @@ class MockBlockedIndicatorViewing: NSObject, BlockedIndicatorViewing {
     var _viewStateHistory: [_Variable<BlockedIndicatorViewStating?>] = []
 }
 
-class MockBlockedRepositoring: NSObject, BlockedRepositoring {
+class MockBlockedRepository: NSObject, BlockedRepositoring {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -815,7 +815,7 @@ class MockFatalViewControlling: NSObject, FatalViewControlling {
     var _viewStateHistory: [_Variable<FatalViewStating?>] = []
 }
 
-class MockItemDetailControlling: NSObject, ItemDetailControlling {
+class MockItemDetailController: NSObject, ItemDetailControlling {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -886,7 +886,7 @@ class MockItemDetailControlling: NSObject, ItemDetailControlling {
     }
 }
 
-class MockItemDetailRepositoring: NSObject, ItemDetailRepositoring {
+class MockItemDetailRepository: NSObject, ItemDetailRepositoring {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -1060,7 +1060,7 @@ class MockItemDetailViewControlling: NSObject, ItemDetailViewControlling {
     }
 }
 
-class MockPlanCellable: NSObject, PlanCellable {
+class MockPlanCell: NSObject, PlanCellable {
     var viewState: PlanCellViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
@@ -1069,7 +1069,7 @@ class MockPlanCellable: NSObject, PlanCellable {
     var _viewStateHistory: [_Variable<PlanCellViewStating?>] = []
 }
 
-class MockPlanControlling: NSObject, PlanControlling {
+class MockPlanController: NSObject, PlanControlling {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -1120,7 +1120,7 @@ class MockPlanControlling: NSObject, PlanControlling {
     }
 }
 
-class MockPlanCoordinating: NSObject, PlanCoordinating {
+class MockPlanCoordinator: NSObject, PlanCoordinating {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -1139,7 +1139,7 @@ class MockPlanCoordinating: NSObject, PlanCoordinating {
     }
 }
 
-class MockPlanRepositoring: NSObject, PlanRepositoring {
+class MockPlanRepository: NSObject, PlanRepositoring {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -1369,7 +1369,7 @@ class MockPlanViewControllers: NSObject, PlanViewControlling {
     }
 }
 
-class MockProjectCelling: NSObject, ProjectCelling {
+class MockProjectCell: NSObject, ProjectCelling {
     var viewState: ProjectCellViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
@@ -1433,7 +1433,7 @@ class MockProjectsControlling: NSObject, ProjectsControlling {
     }
 }
 
-class MockProjectsCoordinating: NSObject, ProjectsCoordinating {
+class MockProjectsCoordinator: NSObject, ProjectsCoordinating {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -1488,7 +1488,7 @@ class MockProjectsCoordinating: NSObject, ProjectsCoordinating {
     }
 }
 
-class MockProjectsRepositoring: NSObject, ProjectsRepositoring {
+class MockProjectsRepository: NSObject, ProjectsRepositoring {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -1699,7 +1699,7 @@ class MockProjectsViewControlling: NSObject, ProjectsViewControlling {
     }
 }
 
-class MockSimpleDatePickering: NSObject, SimpleDatePickering {
+class MockSimpleDatePicker: NSObject, SimpleDatePickering {
     var viewState: SimpleDatePickerViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
@@ -1708,7 +1708,7 @@ class MockSimpleDatePickering: NSObject, SimpleDatePickering {
     var _viewStateHistory: [_Variable<SimpleDatePickerViewStating?>] = []
 }
 
-class MockTagViewable: NSObject, TagViewable {
+class MockTagView: NSObject, TagViewable {
     var viewState: TagViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }

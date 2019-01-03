@@ -3,7 +3,7 @@ import SafariServices
 import UIKit
 
 // sourcery: name = PlanViewControllers
-protocol PlanViewControlling: AnyObject, Presentable, Segueable, Mockable {
+protocol PlanViewControlling: Presentable, Segueable, Mockable {
     var viewState: PlanViewStating? { get set }
 
     func setDelegate(_ delegate: PlanViewControllerDelegate)
@@ -121,11 +121,6 @@ extension PlanViewController: UITableViewDelegate {
             return action
         }
     }
-
-    // TODO: this
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        <#code#>
-//    }
 }
 
 // MARK: - UITableViewDataSource

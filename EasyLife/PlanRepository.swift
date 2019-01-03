@@ -3,6 +3,7 @@ import CoreData
 import Foundation
 import Result
 
+// sourcery: name = PlanRepository
 protocol PlanRepositoring: Mockable {
     func newItem() -> Result<TodoItem>
     func fetchMissedItems() -> Async<[TodoItem]>

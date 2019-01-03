@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ArchiveViewControlling: AnyObject, Presentable, Mockable {
+protocol ArchiveViewControlling: Presentable, Mockable {
     var viewState: ArchiveViewStating? { get set }
 
     func setDelegate(_ delegate: ArchiveViewControllerDelegate)
@@ -25,6 +25,7 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
         didSet { layoutConstraintCache.set(emptyLabelVerticalLayoutConstraint) }
     }
     private let layoutConstraintCache = LayoutConstraintCache()
+    private let keyboardNotification = KeyboardNotification()
     private weak var delegate: ArchiveViewControllerDelegate?
     var viewState: ArchiveViewStating? {
         didSet { _ = viewState.map(bind) }
@@ -33,21 +34,21 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        _ = viewState.map(bind)
-        searchBar.autocapitalizationType = .none // this is specified in nib, but somehow still needed...
+        keyboardNotification.delegate = self
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:)))
         view.addGestureRecognizer(tapGestureRecognizer)
         tableView.applyDefaultStyleFix()
+        _ = viewState.map(bind)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupNotifications()
+        keyboardNotification.setup()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        tearDownNotifications()
+        keyboardNotification.tearDown()
         endEditing()
     }
 
@@ -69,18 +70,7 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
         clearButton.isEnabled = viewState.isClearButtonEnabled
         searchBar.isUserInteractionEnabled = viewState.isSearchBarEnabled
         thingsDoneLabel.text = viewState.doneText
-    }
-
-    private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
-                                               name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
-                                               name: Notification.Name.UIKeyboardWillHide, object: nil)
-    }
-
-    private func tearDownNotifications() {
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
+        searchBar.autocapitalizationType = viewState.searchBarAutocapitalizationType
     }
 
     @objc
@@ -97,21 +87,19 @@ final class ArchiveViewController: UIViewController, ArchiveViewControlling {
     @IBAction private func clearButtonPressed(_ sender: UIBarButtonItem) {
         delegate?.viewController(self, performAction: .clear)
     }
+}
 
-    // MARK: - notifications
+// MARK: - KeyboardNotificationDelegate
 
-    // TODO: keyboard notif object?
-    @objc
-    private func keyboardWillShow(_ notification: Notification) {
-        guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else { return }
-        tableView.contentInset.bottom = height.cgRectValue.height
+extension ArchiveViewController: KeyboardNotificationDelegate {
+    func keyboardWithShow(height: CGFloat) {
+        tableView.contentInset.bottom = height
         let originalValue = layoutConstraintCache.get(emptyLabelVerticalLayoutConstraint)
-        emptyLabelVerticalLayoutConstraint.constant = originalValue - height.cgRectValue.height / 2.0
+        emptyLabelVerticalLayoutConstraint.constant = originalValue - height / 2.0
         view.layoutIfNeeded()
     }
 
-    @objc
-    private func keyboardWillHide(_ notification: Notification) {
+    func keyboardWillHide() {
         tableView.contentInset.bottom = 0
         layoutConstraintCache.reset(emptyLabelVerticalLayoutConstraint)
         view.layoutIfNeeded()

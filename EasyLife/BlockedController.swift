@@ -1,6 +1,7 @@
 import AsyncAwait
 import Foundation
 
+// sourcery: name = BlockedController
 protocol BlockedControlling: Mockable {
     func setViewController(_ viewController: BlockedViewControlling)
     func setAlertController(_ alertController: AlertControlling)
@@ -8,7 +9,7 @@ protocol BlockedControlling: Mockable {
 }
 
 final class BlockedController: BlockedControlling {
-    private var viewController: BlockedViewControlling?
+    private weak var viewController: BlockedViewControlling?
     private var alertController: AlertControlling?
     private let repository: BlockedRepositoring
     private var editContext: ObjectContext<TodoItem>?

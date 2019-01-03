@@ -1,5 +1,6 @@
 import UIKit
 
+// sourcery: name = BlockedIndicatorView
 protocol BlockedIndicatorViewing: Mockable {
     var viewState: BlockedIndicatorViewStating? { get set }
 }

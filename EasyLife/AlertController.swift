@@ -1,12 +1,13 @@
 import UIKit
 
+// sourcery: name = AlertController
 protocol AlertControlling: Mockable {
     func showAlert(_ alert: Alert)
     func setIsButtonEnabled(_ isEnabled: Bool, at index: Int)
 }
 
 final class AlertController: AlertControlling {
-    private let presenter: Presentable
+    private weak var presenter: Presentable?
     private weak var currentAlert: UIAlertController?
 
     init(presenter: Presentable) {
@@ -37,7 +38,7 @@ final class AlertController: AlertControlling {
                                     for: .editingChanged)
             }
         }
-        presenter.present(viewController, animated: true, completion: nil)
+        presenter?.present(viewController, animated: true, completion: nil)
         currentAlert = viewController
     }
 

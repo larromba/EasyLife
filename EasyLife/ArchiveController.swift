@@ -2,6 +2,7 @@ import AsyncAwait
 import Foundation
 import UIKit
 
+// sourcery: name = ArchiveController
 protocol ArchiveControlling: Mockable {
     func setDelegate(_ delegate: ArchiveControllerDelegate)
     func setViewController(_ viewController: ArchiveViewControlling)
@@ -14,7 +15,7 @@ protocol ArchiveControllerDelegate: AnyObject {
 
 final class ArchiveController: ArchiveControlling {
     private let repository: ArchiveRepositoring
-    private var viewController: ArchiveViewControlling?
+    private weak var viewController: ArchiveViewControlling?
     private var alertController: AlertControlling?
     private weak var delegate: ArchiveControllerDelegate?
     private var sections = [Character: [TodoItem]]()

@@ -13,6 +13,7 @@ protocol ArchiveViewStating {
     var undoTitle: String { get }
     var undoBackgroundColor: UIColor { get }
     var text: String? { get }
+    var searchBarAutocapitalizationType: UITextAutocapitalizationType { get }
 
     func title(for section: Int) -> String?
     func item(at indexPath: IndexPath) -> TodoItem?
@@ -51,6 +52,7 @@ struct ArchiveViewState: ArchiveViewStating {
     let undoTitle = L10n.archiveItemUndoOption
     let undoBackgroundColor = Asset.Colors.grey.color
     let text: String?
+    let searchBarAutocapitalizationType: UITextAutocapitalizationType = .none
 
     init(sections: [Character: [TodoItem]], text: String?, isSearching: Bool) {
         self.sections = sections

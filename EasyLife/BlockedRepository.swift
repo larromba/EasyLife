@@ -1,6 +1,7 @@
 import AsyncAwait
 import Foundation
 
+// sourcery: name = BlockedRepository
 protocol BlockedRepositoring: Mockable {
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]>
 }

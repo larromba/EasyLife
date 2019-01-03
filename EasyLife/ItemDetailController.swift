@@ -1,6 +1,7 @@
 import AsyncAwait
 import Foundation
 
+// sourcery: name = ItemDetailController
 protocol ItemDetailControlling: Mockable {
     func setViewController(_ viewController: ItemDetailViewControlling)
     func setAlertController(_ alertController: AlertControlling)
@@ -13,7 +14,7 @@ protocol ItemDetailControllerDelegate: AnyObject {
 }
 
 final class ItemDetailController: ItemDetailControlling {
-    private var viewController: ItemDetailViewControlling?
+    private weak var viewController: ItemDetailViewControlling?
     private let repository: ItemDetailRepositoring
     private var alertController: AlertControlling?
     private var editContext: ObjectContext<TodoItem>?

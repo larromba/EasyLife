@@ -79,6 +79,8 @@
 		7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */; };
 		7F93792F1EA7661B009E33FA /* DateSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792E1EA7661B009E33FA /* DateSegment.swift */; };
 		7F9C62222018BF32006890EB /* DateComponentsFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C62202018BE5E006890EB /* DateComponentsFormatterExtensions.swift */; };
+		7FA1696621DE642300D8BA3F /* KeyboardNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA1696521DE642300D8BA3F /* KeyboardNotification.swift */; };
+		7FA1696821DE68DB00D8BA3F /* PlanEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA1696721DE68DB00D8BA3F /* PlanEnvironment.swift */; };
 		7FA59D8A21BEBDB100538013 /* Logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA59D8821BEBDB000538013 /* Logging.framework */; };
 		7FA59DEE21BEC4DE00538013 /* PPBadgeView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FA59DED21BEC4DE00538013 /* PPBadgeView.framework */; };
 		7FA9C2171EA9161C0089A87C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7FA9C2191EA9161C0089A87C /* Localizable.strings */; };
@@ -213,6 +215,8 @@
 		7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleDatePicker.swift; sourceTree = "<group>"; };
 		7F93792E1EA7661B009E33FA /* DateSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegment.swift; sourceTree = "<group>"; };
 		7F9C62202018BE5E006890EB /* DateComponentsFormatterExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateComponentsFormatterExtensions.swift; sourceTree = "<group>"; };
+		7FA1696521DE642300D8BA3F /* KeyboardNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNotification.swift; sourceTree = "<group>"; };
+		7FA1696721DE68DB00D8BA3F /* PlanEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanEnvironment.swift; sourceTree = "<group>"; };
 		7FA59D8321BEB65A00538013 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7FA59D8421BEB65A00538013 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7FA59D8821BEBDB000538013 /* Logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Logging.framework; path = Carthage/Build/iOS/Logging.framework; sourceTree = "<group>"; };
@@ -588,6 +592,7 @@
 				7F429C9221C53B7800195E32 /* LayoutConstraintCache.swift */,
 				7F3BD2DF21D65E970035F540 /* RainbowAnimation.swift */,
 				7F3BD2EE21D6D6440035F540 /* Utility.swift */,
+				7FA1696521DE642300D8BA3F /* KeyboardNotification.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -623,6 +628,7 @@
 			isa = PBXGroup;
 			children = (
 				7F5A839621D8CE32008F30BE /* Testable.swift */,
+				7FA1696721DE68DB00D8BA3F /* PlanEnvironment.swift */,
 				7F7770CC1EE8358500A58494 /* GCD.swift */,
 				7F90548A1EA7B6DF006D8F73 /* MockTodoItem.swift */,
 				7FC73E761F5AA89200A55703 /* MockProject.swift */,
@@ -886,6 +892,7 @@
 				7FEEF2CE2042FB3500616041 /* ProjectExtensions.swift in Sources */,
 				7F102DE11F5ABF9300E262B1 /* ProjectsViewController.swift in Sources */,
 				7F429C8E21C42FF600195E32 /* PlanCoordinator.swift in Sources */,
+				7FA1696621DE642300D8BA3F /* KeyboardNotification.swift in Sources */,
 				7F3BD2E021D65E970035F540 /* RainbowAnimation.swift in Sources */,
 				7F429CA721C66B5000195E32 /* ProjectsAction.swift in Sources */,
 				7F3BD2EB21D6BF640035F540 /* Routing.swift in Sources */,
@@ -966,6 +973,7 @@
 				7F1711E91FB1B7C600ED08D8 /* TodoItemTests.swift in Sources */,
 				7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */,
 				7F102DE51F5AC22200E262B1 /* DataManagerTests.swift in Sources */,
+				7FA1696821DE68DB00D8BA3F /* PlanEnvironment.swift in Sources */,
 				7FCEC9281EA8E3B500BA5187 /* CoreData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

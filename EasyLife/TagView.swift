@@ -1,5 +1,6 @@
 import UIKit
 
+// sourcery: name = TagView
 protocol TagViewable: Mockable {
     var viewState: TagViewStating? { get set }
 }

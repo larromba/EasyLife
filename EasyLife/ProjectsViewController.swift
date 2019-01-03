@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ProjectsViewControlling: AnyObject, Presentable, Mockable {
+protocol ProjectsViewControlling: Presentable, Mockable {
     var viewState: ProjectsViewStating? { get set }
 
     func setDelegate(_ delegate: ProjectsViewControllerDelegate)
@@ -75,15 +75,16 @@ extension ProjectsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard let viewState = viewState, let project = viewState.project(at: indexPath) else { return nil }
-        return viewState.availableActions(at: indexPath).map { action in
-            let rowAction = UITableViewRowAction(
-                style: viewState.style(for: action),
-                title: viewState.text(for: action),
+        return viewState.availableActions(at: indexPath).map { projectAction in
+            let action = UITableViewRowAction(
+                style: viewState.style(for: projectAction),
+                title: viewState.text(for: projectAction),
                 handler: { _, _ in
-                    self.delegate?.viewController(self, performAction: action, forProject: project)
-            })
-            rowAction.backgroundColor = viewState.color(for: action)
-            return rowAction
+                    self.delegate?.viewController(self, performAction: projectAction, forProject: project)
+                }
+            )
+            action.backgroundColor = viewState.color(for: projectAction)
+            return action
         }
     }
 

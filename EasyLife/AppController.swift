@@ -2,6 +2,7 @@ import AsyncAwait
 import Foundation
 import Logging
 
+// sourcery: name = AppController
 protocol AppControlling: Mockable {
     func start()
     func applicationWillTerminate()

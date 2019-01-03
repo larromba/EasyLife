@@ -2,6 +2,7 @@ import AsyncAwait
 import CoreData
 import Foundation
 
+// sourcery: name = ArchiveRepository
 protocol ArchiveRepositoring: Mockable {
     func undo(item: TodoItem) -> Async<Void>
     func clearAll(items: [TodoItem]) -> Async<Void>

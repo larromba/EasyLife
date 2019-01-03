@@ -1,5 +1,6 @@
 import UIKit
 
+// sourcery: name = BlockedCell
 protocol BlockedCelling: Mockable {
     var viewState: ProjectCellViewStating? { get set }
 }
