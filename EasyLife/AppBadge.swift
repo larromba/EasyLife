@@ -6,6 +6,7 @@ import UserNotifications
 protocol Badge: AnyObject, Mockable {
     var number: Int { get }
 
+    // sourcery: returnValue = Async.success(())
     func setNumber(_ number: Int) -> Async<Void>
 }
 

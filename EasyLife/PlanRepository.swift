@@ -91,7 +91,7 @@ final class PlanRepository: PlanRepositoring {
                 let items = try await(self.dataManager.fetch(
                     entityClass: TodoItem.self,
                     sortBy: nil, context: .main,
-                    predicate: self.missedPredicate)
+                    predicate: self.missedPredicate) // use to check ui --> self.todayPredicate
                 ).sorted(by: self.sortByPriority)
                 completion(.success(items))
             }, onError: { error in
@@ -206,12 +206,14 @@ final class PlanRepository: PlanRepositoring {
         let priority2 = item2.project?.priority ?? Project.defaultPriority
         if priority1 == Project.defaultPriority { return false }
         if priority2 == Project.defaultPriority { return true }
-        return priority1 < priority2
+        if priority1 < priority2 { return true }
+        if let name1 = item1.name, let name2 = item2.name, priority1 == priority2 { return name1 < name2 }
+        return false
     }
 
     private func sortByDateAndPriority(item1: TodoItem, item2: TodoItem) -> Bool {
         if item1.date == nil && item2.date == nil { return sortByPriority(item1: item1, item2: item2) }
-        guard let date1 = item1.date else { return true }
+        guard let date1 = item1.date else { return true } // [items with <?>]
         guard let date2 = item2.date else { return false }
         if date1.day == date2.day { return sortByPriority(item1: item1, item2: item2) }
         return date1 < date2

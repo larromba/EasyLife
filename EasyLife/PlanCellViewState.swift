@@ -49,7 +49,7 @@ struct PlanCellViewState: PlanCellViewStating {
         infoText = type(of: self).infoText(for: item)
         tagViewState = item.project.map { TagViewState(project: $0) } ?? TagViewState()
         blockedIndicatorViewState = type(of: self).blockedIndicatorViewState(for: item)
-        notesText = item.notes ?? ""
+        notesText = (item.notes == nil) ? "" : "..."
         isNotesLabelHidden = type(of: self).isNotesLabelHidden(for: item)
     }
 

@@ -489,6 +489,7 @@ class MockBadge: NSObject, Badge {
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: number, forKey: setNumber1.params.number)
         invocations.record(invocation)
+        actions.set(defaultReturnValue: Async.success(()), for: functionName)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
@@ -1266,7 +1267,7 @@ class MockPlanRepository: NSObject, PlanRepositoring {
     }
 }
 
-class MockPlanViewControllers: NSObject, PlanViewControlling {
+class MockPlanViewController: NSObject, PlanViewControlling {
     var viewState: PlanViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }

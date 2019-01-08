@@ -2,7 +2,7 @@ import XCTest
 import CoreData
 @testable import EasyLife
 
-class TodoItemTests: XCTestCase {
+final class TodoItemTests: XCTestCase {
     func testDateIncrementsPastTodayWhenFarInThePast() {
         // mocks
         let dateFormatter = DateFormatter()

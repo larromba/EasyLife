@@ -18,6 +18,7 @@ protocol CoreDataManaging: AnyObject, Mockable {
     func reset() -> Async<Void>
 }
 
+// TODO: move to new repo?
 final class CoreDataManager: CoreDataManaging {
     private let persistentContainer: NSPersistentContainer
     private let notificationCenter: NotificationCenter
@@ -27,10 +28,12 @@ final class CoreDataManager: CoreDataManaging {
     private var backgroundContext: NSManagedObjectContext {
         return persistentContainer.newBackgroundContext()
     }
-    var isLoaded: Bool = false
+    private(set) var isLoaded: Bool = false
 
-    init(persistentContainer: NSPersistentContainer, notificationCenter: NotificationCenter = .default) {
+    init(persistentContainer: NSPersistentContainer, isLoaded: Bool = false,
+         notificationCenter: NotificationCenter = .default) {
         self.persistentContainer = persistentContainer
+        self.isLoaded = isLoaded
         self.notificationCenter = notificationCenter
     }
 

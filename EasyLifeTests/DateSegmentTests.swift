@@ -2,7 +2,7 @@ import XCTest
 import CoreData
 @testable import EasyLife
 
-class DateSegmentTests: XCTestCase {
+final class DateSegmentTests: XCTestCase {
     func testDisplay() {
         XCTAssertEqual(DateSegment.display.count, 11)
     }

@@ -3,6 +3,7 @@ import CoreData
 import UIKit
 @testable import EasyLife
 
+// TODO: remove
 final class Env: TestEnvironment {
     init(persistentContainer: NSPersistentContainer,
          planViewController: PlanViewControlling,

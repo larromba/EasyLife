@@ -2,7 +2,7 @@ import Logging
 import SafariServices
 import UIKit
 
-// sourcery: name = PlanViewControllers
+// sourcery: name = PlanViewController
 protocol PlanViewControlling: Presentable, Segueable, Mockable {
     var viewState: PlanViewStating? { get set }
 

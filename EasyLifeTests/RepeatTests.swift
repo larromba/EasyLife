@@ -2,7 +2,7 @@ import CoreData
 @testable import EasyLife
 import XCTest
 
-class RepeatStateTests: XCTestCase {
+final class RepeatStateTests: XCTestCase {
     func testDisplay() {
         XCTAssertEqual(RepeatState.display.count, 9)
     }

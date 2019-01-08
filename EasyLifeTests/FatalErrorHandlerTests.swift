@@ -2,7 +2,7 @@
 import XCTest
 import CoreData
 
-class FatalErrorHandlerTests: XCTestCase {
+final class FatalErrorHandlerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         UIView.setAnimationsEnabled(false)
