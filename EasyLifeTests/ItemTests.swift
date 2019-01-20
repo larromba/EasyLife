@@ -2,24 +2,21 @@ import XCTest
 import CoreData
 @testable import EasyLife
 
-final class TodoItemTests: XCTestCase {
+final class ItemTests: XCTestCase {
     func testDateIncrementsPastTodayWhenFarInThePast() {
         // mocks
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let date = dateFormatter.date(from: "07/01/2016")!.earliest
         let todoItem = MockTodoItem()
-
-        // prepare
         todoItem.date = date
         todoItem.repeats = Int16(RepeatState.monthly.rawValue)
 
-        // test
+        // sut
         todoItem.incrementDate()
-        guard let incrementedDate = todoItem.date else {
-            XCTFail()
-            return
-        }
+
+        // test
+        guard let incrementedDate = todoItem.date else { return XCTFail("expected Date") }
         XCTAssertGreaterThan(incrementedDate, Date())
     }
 }

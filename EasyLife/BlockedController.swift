@@ -33,6 +33,7 @@ final class BlockedController: BlockedControlling {
             let items = try await(self.repository.fetchItems(for: item))
             onMain {
                 self.viewController?.viewState = BlockedViewState(item: item, items: items)
+                self.viewController?.reload()
             }
         }, onError: { error in
             self.alertController?.showAlert(Alert(error: error))
@@ -52,5 +53,13 @@ extension BlockedController: BlockedViewControllerDelegate {
                 item.removeFromBlockedBy($0.object)
             }
         }
+    }
+
+    func viewController(_ viewController: BlockedViewControlling, didSelectRowAtIndexPath indexPath: IndexPath) {
+        guard let viewState = viewController.viewState else { return }
+        var data = viewState.data
+        data[indexPath.row].isBlocking = !data[indexPath.row].isBlocking
+        viewController.viewState = viewState.copy(data: data)
+        viewController.reloadRows(at: indexPath)
     }
 }

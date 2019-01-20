@@ -22,7 +22,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
     @IBOutlet private(set) weak var textView: UITextView!
     @IBOutlet private(set) weak var blockedButton: UIBarButtonItem!
     @IBOutlet private(set) weak var scrollView: UIScrollView!
-    private lazy var toolbar: UIToolbar = {
+    private(set) lazy var toolbar: UIToolbar = {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
         toolbar.barStyle = .default
         let prev = UIBarButtonItem(image: Asset.Assets.backwardArrow.image, style: .plain, target: self,
@@ -36,7 +36,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         toolbar.setItems([prev, spacer, next, spacer, flexSpace, spacer, done], animated: false)
         return toolbar
     }()
-    private lazy var datePicker: UIDatePicker = {
+    private(set) lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
@@ -47,20 +47,21 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         datePicker.addGestureRecognizer(tap)
         return datePicker
     }()
-    private lazy var simpleDatePicker = SimpleDatePicker(delegate: self)
-    private lazy var repeatPicker: UIPickerView = {
+    private(set) lazy var simpleDatePicker = SimpleDatePicker(delegate: self)
+    private(set) lazy var repeatPicker: UIPickerView = {
         let pickerView = UIPickerView()
         pickerView.delegate = self
         pickerView.dataSource = self
         return pickerView
     }()
-    private lazy var projectPicker: UIPickerView = {
+    private(set) lazy var projectPicker: UIPickerView = {
         let pickerView = UIPickerView()
         pickerView.delegate = self
         pickerView.dataSource = self
         return pickerView
     }()
-    private var calendarButton: UIBarButtonItem?
+    private(set) var calendarButton: UIBarButtonItem?
+    private(set) var blockedBadgeLabel: PPBadgeLabel?
     private let keyboardNotification = KeyboardNotification()
     private weak var delegate: ItemDetailViewControllerDelegate?
     var responders: [UIResponder]!
@@ -149,6 +150,8 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         projectTextField.alpha = viewState.projectTextFieldAlpha
         blockedButton.isEnabled = viewState.isBlockedButtonEnabled
         blockedButton.pp.addBadge(number: viewState.blockedCount)
+        blockedButton.pp.setBadgeLabel(attributes: { self.blockedBadgeLabel = $0 })
+        print(self.blockedBadgeLabel)
     }
 
     private func makeFirstResponder(_ responder: UIResponder?) {
@@ -326,9 +329,13 @@ extension ItemDetailViewController: UITextFieldDelegate {
     }
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        guard let viewState = viewState else { return false }
         switch textField {
         case dateTextField:
-            textField.inputView = viewState?.date == nil ? simpleDatePicker : datePicker
+            switch viewState.datePickerType {
+            case .simple: textField.inputView = simpleDatePicker
+            case .normal: textField.inputView = datePicker
+            }
             addCalendarButton()
         default:
             removeCalendarButton()

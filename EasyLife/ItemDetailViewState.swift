@@ -8,6 +8,7 @@ protocol ItemDetailViewStating {
     var simpleDatePickerViewState: SimpleDatePickerViewStating { get }
     var date: Date? { get }
     var dateString: String? { get }
+    var datePickerType: ItemDetailDatePickerType { get }
     var repeatState: RepeatState? { get }
     var project: Project? { get }
     var leftButton: ItemDetailLeftButton { get }
@@ -22,6 +23,11 @@ protocol ItemDetailViewStating {
 
     func repeatStatePickerComponent(at row: Int) -> RepeatStateComponentItem
     func projectPickerComponent(at row: Int) -> ProjectComponentItem
+}
+
+enum ItemDetailDatePickerType {
+    case simple
+    case normal
 }
 
 struct ItemDetailViewState: ItemDetailViewStating {
@@ -41,6 +47,9 @@ struct ItemDetailViewState: ItemDetailViewStating {
     var dateString: String? {
         guard let date = date else { return nil }
         return dateFormatter.string(from: date)
+    }
+    var datePickerType: ItemDetailDatePickerType {
+        return date == nil ? .simple : .normal
     }
     var repeatState: RepeatState?
     var project: Project?

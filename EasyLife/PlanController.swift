@@ -68,13 +68,14 @@ final class PlanController: PlanControlling {
                 PlanSection.later: try await(self.repository.fetchLaterItems())
             ]
             guard let viewState = self.viewController.viewState else { return }
-            _ = try? await(self.badge.setNumber(viewState.totalMissed + viewState.totalToday))
+            let newViewState = viewState.copy(sections: sections)
+            _ = try? await(self.badge.setNumber(newViewState.totalMissed + newViewState.totalToday))
             onMain {
-                self.viewController.viewState = viewState.copy(sections: sections)
-                self.viewController.setIsTableHeaderAnimating(!viewState.isTableHeaderHidden)
+                self.viewController.viewState = newViewState
+                self.viewController.setIsTableHeaderAnimating(!newViewState.isTableHeaderHidden)
             }
         }, onError: { error in
-            self.alertController.showAlert(Alert(error: error))
+            onMain { self.alertController.showAlert(Alert(error: error)) }
         })
     }
 
@@ -124,7 +125,7 @@ extension PlanController: PlanViewControllerDelegate {
             }
             self.reload()
         }, onError: { error in
-            self.alertController.showAlert(Alert(error: error))
+            onMain { self.alertController.showAlert(Alert(error: error)) }
         })
     }
 }

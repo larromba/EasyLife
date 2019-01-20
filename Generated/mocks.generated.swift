@@ -49,80 +49,80 @@ final class _Invocation {
 }
 
 final class _Actions {
-  enum Keys: String, _StringRawRepresentable {
-      case returnValue
-      case defaultReturnValue
-      case error
-  }
-  private var invocations: [_Invocation] = []
+    enum Keys: String, _StringRawRepresentable {
+        case returnValue
+        case defaultReturnValue
+        case error
+    }
+    private var invocations: [_Invocation] = []
 
-  // MARK: - returnValue
+    // MARK: - returnValue
 
-  func set<T: _StringRawRepresentable>(returnValue value: Any, for functionName: T) {
-      let invocation = self.invocation(for: functionName)
-      invocation.set(parameter: value, forKey: Keys.returnValue)
-  }
-  func returnValue<T: _StringRawRepresentable>(for functionName: T) -> Any? {
-      let invocation = self.invocation(for: functionName)
-      return invocation.parameter(for: Keys.returnValue) ?? invocation.parameter(for: Keys.defaultReturnValue)
-  }
+    func set<T: _StringRawRepresentable>(returnValue value: Any, for functionName: T) {
+        let invocation = self.invocation(for: functionName)
+        invocation.set(parameter: value, forKey: Keys.returnValue)
+    }
+    func returnValue<T: _StringRawRepresentable>(for functionName: T) -> Any? {
+        let invocation = self.invocation(for: functionName)
+        return invocation.parameter(for: Keys.returnValue) ?? invocation.parameter(for: Keys.defaultReturnValue)
+    }
 
-  // MARK: - defaultReturnValue
+    // MARK: - defaultReturnValue
 
-  fileprivate func set<T: _StringRawRepresentable>(defaultReturnValue value: Any, for functionName: T) {
-      let invocation = self.invocation(for: functionName)
-      invocation.set(parameter: value, forKey: Keys.defaultReturnValue)
-  }
-  fileprivate func defaultReturnValue<T: _StringRawRepresentable>(for functionName: T) -> Any? {
-      let invocation = self.invocation(for: functionName)
-      return invocation.parameter(for: Keys.defaultReturnValue) as? (() -> Void)
-  }
+    fileprivate func set<T: _StringRawRepresentable>(defaultReturnValue value: Any, for functionName: T) {
+        let invocation = self.invocation(for: functionName)
+        invocation.set(parameter: value, forKey: Keys.defaultReturnValue)
+    }
+    fileprivate func defaultReturnValue<T: _StringRawRepresentable>(for functionName: T) -> Any? {
+        let invocation = self.invocation(for: functionName)
+        return invocation.parameter(for: Keys.defaultReturnValue) as? (() -> Void)
+    }
 
-  // MARK: - error
+    // MARK: - error
 
-  func set<T: _StringRawRepresentable>(error: Error, for functionName: T) {
-      let invocation = self.invocation(for: functionName)
-      invocation.set(parameter: error, forKey: Keys.error)
-  }
-  func error<T: _StringRawRepresentable>(for functionName: T) -> Error? {
-      let invocation = self.invocation(for: functionName)
-      return invocation.parameter(for: Keys.error) as? Error
-  }
+    func set<T: _StringRawRepresentable>(error: Error, for functionName: T) {
+        let invocation = self.invocation(for: functionName)
+        invocation.set(parameter: error, forKey: Keys.error)
+    }
+    func error<T: _StringRawRepresentable>(for functionName: T) -> Error? {
+        let invocation = self.invocation(for: functionName)
+        return invocation.parameter(for: Keys.error) as? Error
+    }
 
-  // MARK: - private
+    // MARK: - private
 
-  private func invocation<T: _StringRawRepresentable>(for name: T) -> _Invocation {
-      if let invocation = invocations.filter({ $0.name == name.rawValue }).first {
-          return invocation
-      }
-      let invocation = _Invocation(name: name.rawValue)
-      invocations += [invocation]
-      return invocation
-  }
+    private func invocation<T: _StringRawRepresentable>(for name: T) -> _Invocation {
+        if let invocation = invocations.filter({ $0.name == name.rawValue }).first {
+            return invocation
+        }
+        let invocation = _Invocation(name: name.rawValue)
+        invocations += [invocation]
+        return invocation
+    }
 }
 
 final class _Invocations {
-  private var history = [_Invocation]()
+    private var history = [_Invocation]()
 
-  fileprivate func record(_ invocation: _Invocation) {
-      history += [invocation]
-  }
+    fileprivate func record(_ invocation: _Invocation) {
+        history += [invocation]
+    }
 
-  func isInvoked<T: _StringRawRepresentable>(_ name: T) -> Bool {
-      return history.contains(where: { $0.name == name.rawValue })
-  }
+    func isInvoked<T: _StringRawRepresentable>(_ name: T) -> Bool {
+        return history.contains(where: { $0.name == name.rawValue })
+    }
 
-  func count<T: _StringRawRepresentable>(_ name: T) -> Int {
-      return history.filter {  $0.name == name.rawValue }.count
-  }
+    func count<T: _StringRawRepresentable>(_ name: T) -> Int {
+        return history.filter {  $0.name == name.rawValue }.count
+    }
 
-  func all() -> [_Invocation] {
-      return history.sorted { $0.date < $1.date }
-  }
+    func all() -> [_Invocation] {
+        return history.sorted { $0.date < $1.date }
+    }
 
-  func find<T: _StringRawRepresentable>(_ name: T) -> [_Invocation] {
-      return history.filter {  $0.name == name.rawValue }.sorted { $0.date < $1.date }
-  }
+    func find<T: _StringRawRepresentable>(_ name: T) -> [_Invocation] {
+        return history.filter {  $0.name == name.rawValue }.sorted { $0.date < $1.date }
+    }
 }
 
 // MARK: - Sourcery Mocks
@@ -626,21 +626,49 @@ class MockBlockedViewControlling: NSObject, BlockedViewControlling {
         }
     }
 
+    // MARK: - reload
+
+    func reload() {
+        let functionName = reload2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum reload2: String, _StringRawRepresentable {
+        case name = "reload2"
+    }
+
+    // MARK: - reloadRows
+
+    func reloadRows(at indexPath: IndexPath) {
+        let functionName = reloadRows3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: indexPath, forKey: reloadRows3.params.indexPath)
+        invocations.record(invocation)
+    }
+
+    enum reloadRows3: String, _StringRawRepresentable {
+        case name = "reloadRows3"
+        enum params: String, _StringRawRepresentable {
+            case indexPath = "reloadRows(atindexPath:IndexPath).indexPath"
+        }
+    }
+
     // MARK: - present
 
     func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
-        let functionName = present2.name
+        let functionName = present4.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: viewControllerToPresent, forKey: present2.params.viewControllerToPresent)
-        invocation.set(parameter: flag, forKey: present2.params.flag)
+        invocation.set(parameter: viewControllerToPresent, forKey: present4.params.viewControllerToPresent)
+        invocation.set(parameter: flag, forKey: present4.params.flag)
         if let completion = completion {
-            invocation.set(parameter: completion, forKey: present2.params.completion)
+            invocation.set(parameter: completion, forKey: present4.params.completion)
         }
         invocations.record(invocation)
     }
 
-    enum present2: String, _StringRawRepresentable {
-        case name = "present2"
+    enum present4: String, _StringRawRepresentable {
+        case name = "present4"
         enum params: String, _StringRawRepresentable {
             case viewControllerToPresent = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
             case flag = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).flag"

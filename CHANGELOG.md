@@ -60,7 +60,6 @@ lists:
     to read
     to buy
     shopping list
-todo: alert button tests
 siri integration
 weird animation flash at start?
 holiday mode

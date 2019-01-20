@@ -91,7 +91,7 @@ final class PlanRepository: PlanRepositoring {
                 let items = try await(self.dataManager.fetch(
                     entityClass: TodoItem.self,
                     sortBy: nil, context: .main,
-                    predicate: self.missedPredicate) // use to check ui --> self.todayPredicate
+                    predicate: self.missedPredicate) // use "self.todayPredicate" to check test ui without waiting
                 ).sorted(by: self.sortByPriority)
                 completion(.success(items))
             }, onError: { error in
@@ -186,7 +186,7 @@ final class PlanRepository: PlanRepositoring {
                 case .success(let copy):
                     item.incrementDate()
                     item.blockedBy = nil
-                    copy.repeatState = .none
+                    copy.repeatState = RepeatState.none
                     _ = try await(self.dataManager.save(context: .main))
                     completion(.success(()))
                 case .failure(let error):
@@ -201,22 +201,30 @@ final class PlanRepository: PlanRepositoring {
     // MARK: - private
 
     // @note coredata sorts are a bit shit, so need to do it here for advanced sorting
-    private func sortByPriority(item1: TodoItem, item2: TodoItem) -> Bool {
-        let priority1 = item1.project?.priority ?? Project.defaultPriority
-        let priority2 = item2.project?.priority ?? Project.defaultPriority
-        if priority1 == Project.defaultPriority { return false }
-        if priority2 == Project.defaultPriority { return true }
-        if priority1 < priority2 { return true }
-        if let name1 = item1.name, let name2 = item2.name, priority1 == priority2 { return name1 < name2 }
-        return false
+    private func sortByPriority(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
+        if item1.project?.priority != nil && item2.project?.priority == nil { return true }
+        if item1.project?.priority == nil && item2.project?.priority != nil { return false }
+        if item1.project?.priority == nil && item2.project?.priority == nil { return sortByName(item1, item2) }
+        if item1.project!.priority == Project.defaultPriority { return false }
+        if item2.project!.priority == Project.defaultPriority { return true }
+        if item1.project!.priority == item2.project!.priority { return sortByName(item1, item2) }
+        return item1.project!.priority < item2.project!.priority
     }
 
-    private func sortByDateAndPriority(item1: TodoItem, item2: TodoItem) -> Bool {
-        if item1.date == nil && item2.date == nil { return sortByPriority(item1: item1, item2: item2) }
-        guard let date1 = item1.date else { return true } // [items with <?>]
-        guard let date2 = item2.date else { return false }
-        if date1.day == date2.day { return sortByPriority(item1: item1, item2: item2) }
-        return date1 < date2
+    private func sortByName(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
+        if item1.name != nil && item2.name == nil { return true }
+        if item1.name == nil && item2.name != nil { return false }
+        if item1.name == nil && item2.name == nil { return false }
+        if item1.name! == item2.name { return false }
+        return item1.name! < item2.name!
+    }
+
+    private func sortByDateAndPriority(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
+        if item1.date != nil && item2.date == nil { return true }
+        if item1.date == nil && item2.date != nil { return false }
+        if item1.date == nil && item2.date == nil { return sortByPriority(item1, item2) }
+        if item1.date!.day == item2.date!.day { return sortByPriority(item1, item2) }
+        return item1.date! < item2.date!
     }
 }
 

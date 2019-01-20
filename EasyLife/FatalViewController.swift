@@ -19,6 +19,7 @@ final class FatalViewController: UIViewController {
     // MARK: - private
 
     private func bind(_ viewState: FatalViewStating) {
+        guard isViewLoaded else { return }
         label.text = viewState.text
     }
 }

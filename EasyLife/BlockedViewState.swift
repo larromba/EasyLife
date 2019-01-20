@@ -7,9 +7,10 @@ protocol BlockedViewStating {
     var rowCount: Int { get }
     var rowHeight: CGFloat { get }
 
-    mutating func toggle(_ indexPath: IndexPath)
     func isBlocking(_ item: TodoItem) -> Bool
     func cellViewState(at indexPath: IndexPath) -> BlockedCellViewState?
+
+    func copy(data: [BlockingContext<TodoItem>]) -> BlockedViewState
 }
 
 struct BlockedViewState: BlockedViewStating {
@@ -24,9 +25,8 @@ struct BlockedViewState: BlockedViewStating {
         data = items.map { BlockingContext(object: $0, isBlocking: $0.blocking?.contains(item) ?? false) }
     }
 
-    mutating func toggle(_ indexPath: IndexPath) {
-        guard indexPath.row >= data.startIndex && indexPath.row < data.endIndex else { return }
-        data[indexPath.row].isBlocking = !data[indexPath.row].isBlocking
+    init(data: [BlockingContext<TodoItem>]) {
+        self.data = data
     }
 
     func isBlocking(_ item: TodoItem) -> Bool {
@@ -36,5 +36,11 @@ struct BlockedViewState: BlockedViewStating {
     func cellViewState(at indexPath: IndexPath) -> BlockedCellViewState? {
         let context = data[indexPath.row]
         return BlockedCellViewState(item: context.object, isBlocking: context.isBlocking)
+    }
+}
+
+extension BlockedViewState {
+    func copy(data: [BlockingContext<TodoItem>]) -> BlockedViewState {
+        return BlockedViewState(data: data)
     }
 }

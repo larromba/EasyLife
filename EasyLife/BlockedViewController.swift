@@ -5,22 +5,25 @@ protocol BlockedViewControlling: Presentable, Mockable {
     var viewState: BlockedViewStating? { get set }
 
     func setDelegate(_ delegate: BlockedViewControllerDelegate)
+    func reload()
+    func reloadRows(at indexPath: IndexPath)
 }
 
 protocol BlockedViewControllerDelegate: AnyObject {
     func viewControllerWillDismiss(_ viewController: BlockedViewControlling)
+    func viewController(_ viewController: BlockedViewControlling, didSelectRowAtIndexPath indexPath: IndexPath)
 }
 
 final class BlockedViewController: UIViewController, BlockedViewControlling {
     @IBOutlet weak var tableView: UITableView!
-    private weak var delegte: BlockedViewControllerDelegate?
+    private weak var delegate: BlockedViewControllerDelegate?
 
     var viewState: BlockedViewStating? {
         didSet { _ = viewState.map(bind) }
     }
 
     func setDelegate(_ delegate: BlockedViewControllerDelegate) {
-        self.delegte = delegate
+        self.delegate = delegate
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -31,15 +34,22 @@ final class BlockedViewController: UIViewController, BlockedViewControlling {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if isMovingFromParentViewController {
-            delegte?.viewControllerWillDismiss(self)
+            delegate?.viewControllerWillDismiss(self)
         }
+    }
+
+    func reload() {
+        tableView.reloadData()
+    }
+
+    func reloadRows(at indexPath: IndexPath) {
+        tableView.reloadRows(at: [indexPath], with: .fade)
     }
 
     // MARK: - private
 
     private func bind(_ viewState: BlockedViewStating) {
         guard isViewLoaded else { return }
-        tableView.reloadData()
     }
 }
 
@@ -51,8 +61,7 @@ extension BlockedViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewState?.toggle(indexPath)
-        tableView.reloadRows(at: [indexPath], with: .fade)
+        delegate?.viewController(self, didSelectRowAtIndexPath: indexPath)
     }
 }
 

@@ -15,12 +15,12 @@ protocol ProjectsRepositoring: Mockable {
 }
 
 final class ProjectsRepository: ProjectsRepositoring {
-    private let dataManager: CoreDataManager
+    private let dataManager: CoreDataManaging
     private let priorityPredicate = NSPredicate(format: "%K != %d",
                                                 argumentArray: ["priority", Project.defaultPriority])
     private let otherPredicate = NSPredicate(format: "%K = %d", argumentArray: ["priority", Project.defaultPriority])
 
-    init(dataManager: CoreDataManager) {
+    init(dataManager: CoreDataManaging) {
         self.dataManager = dataManager
     }
 
@@ -65,7 +65,7 @@ final class ProjectsRepository: ProjectsRepositoring {
         assert(max > 0)
         return Async { completion in
             async({
-                let projects = try await(self.dataManager.fetch(entityClass: Project.self, context: .main,
+                let projects = try await(self.dataManager.fetch(entityClass: Project.self, sortBy: nil, context: .main,
                                                                 predicate: self.priorityPredicate))
                 var available = Set(Array(0..<max))
                 available.subtract(projects.map { Int($0.priority) })
@@ -85,7 +85,7 @@ final class ProjectsRepository: ProjectsRepositoring {
             async({
                 let predicate = NSPredicate(format: "%K > %d",
                                             argumentArray: ["priority", project.priority])
-                let projects = try await(self.dataManager.fetch(entityClass: Project.self, context: .main,
+                let projects = try await(self.dataManager.fetch(entityClass: Project.self, sortBy: nil, context: .main,
                                                                 predicate: predicate))
                 projects.forEach { $0.priority -= 1 }
                 project.priority = Int16(Project.defaultPriority)
@@ -105,7 +105,7 @@ final class ProjectsRepository: ProjectsRepositoring {
                     format: "%K >= %d AND %K < %d",
                     argumentArray: ["priority", projectB.priority, "priority", projectA.priority]
                 )
-                let projects = try await(self.dataManager.fetch(entityClass: Project.self, context: .main,
+                let projects = try await(self.dataManager.fetch(entityClass: Project.self, sortBy: nil, context: .main,
                                                                 predicate: predicate))
                 projects.forEach { $0.priority += 1 }
                 projectA.priority = projectADestinationPriority
@@ -125,7 +125,7 @@ final class ProjectsRepository: ProjectsRepositoring {
                     format: "%K <= %d AND %K != %d",
                     argumentArray: ["priority", projectB.priority, "priority", Project.defaultPriority]
                 )
-                let projects = try await(self.dataManager.fetch(entityClass: Project.self, context: .main,
+                let projects = try await(self.dataManager.fetch(entityClass: Project.self, sortBy: nil, context: .main,
                                                                 predicate: predicate))
                 projects.forEach { $0.priority -= 1 }
                 projectA.priority = projectADestinationPriority
