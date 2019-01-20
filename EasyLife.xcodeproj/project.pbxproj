@@ -138,6 +138,7 @@
 		7FFB4A6821F4B51B0011DA66 /* UIAlertController+PrivateAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FFB4A6721F4B51B0011DA66 /* UIAlertController+PrivateAPI.m */; };
 		7FFB4A6A21F4C13A0011DA66 /* BlockedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFB4A6921F4C13A0011DA66 /* BlockedTests.swift */; };
 		7FFB4A6C21F4DB510011DA66 /* ArchiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFB4A6B21F4DB510011DA66 /* ArchiveTests.swift */; };
+		7FFB4A6E21F4EC740011DA66 /* ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFB4A6D21F4EC740011DA66 /* ProjectTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -311,6 +312,7 @@
 		7FFB4A6721F4B51B0011DA66 /* UIAlertController+PrivateAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+PrivateAPI.m"; sourceTree = "<group>"; };
 		7FFB4A6921F4C13A0011DA66 /* BlockedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedTests.swift; sourceTree = "<group>"; };
 		7FFB4A6B21F4DB510011DA66 /* ArchiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTests.swift; sourceTree = "<group>"; };
+		7FFB4A6D21F4EC740011DA66 /* ProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -531,6 +533,7 @@
 				7F61898B21E8DCC40047832C /* ItemDetailTests.swift */,
 				7FFB4A6921F4C13A0011DA66 /* BlockedTests.swift */,
 				7FFB4A6B21F4DB510011DA66 /* ArchiveTests.swift */,
+				7FFB4A6D21F4EC740011DA66 /* ProjectTests.swift */,
 				7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */,
 				7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */,
 				7F1711E81FB1B7C600ED08D8 /* ItemTests.swift */,
@@ -1008,6 +1011,7 @@
 				7FD585F721DE2B36002E9B85 /* mocks.generated.swift in Sources */,
 				7FFB4A6821F4B51B0011DA66 /* UIAlertController+PrivateAPI.m in Sources */,
 				7F61898A21E7F0CB0047832C /* UITableViewExtensions.swift in Sources */,
+				7FFB4A6E21F4EC740011DA66 /* ProjectTests.swift in Sources */,
 				7FD585FA21DE2B67002E9B85 /* TestEnvironment.swift in Sources */,
 				7F12FFD921E532F4000C13E3 /* UITableViewRowAction+PrivateAPI.h in Sources */,
 				7F7770CD1EE8358500A58494 /* GCD.swift in Sources */,

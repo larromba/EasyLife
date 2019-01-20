@@ -1,7 +1,5 @@
-import AsyncAwait
 @testable import EasyLife
 import TestExtensions
-import PPBadgeView
 import XCTest
 import UIKit
 
@@ -13,11 +11,11 @@ final class ArchiveTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        navigationController = UINavigationController()
+        navigationController = UINavigationController() // TODO: from story?
         viewController = UIStoryboard.archive
             .instantiateViewController(withIdentifier: "ArchiveViewController") as? ArchiveViewController
-        navigationController.pushViewController(viewController, animated: false)
         viewController.prepareView()
+        navigationController.pushViewController(viewController, animated: false)
         alertController = AlertController(presenter: viewController)
         env = AppTestEnvironment(navigationController: navigationController)
         UIView.setAnimationsEnabled(false)
@@ -30,6 +28,8 @@ final class ArchiveTests: XCTestCase {
         UIView.setAnimationsEnabled(true)
         super.tearDown()
     }
+
+    // MARK: - ui
 
     func testNoDataHidesTableView() {
         // mocks
@@ -70,6 +70,8 @@ final class ArchiveTests: XCTestCase {
         XCTAssertEqual(viewController.title(row: 0, section: 2), "b1")
         XCTAssertEqual(viewController.title(row: 0, section: 3), "x1")
     }
+
+    // MARK: - search
 
     func testSearchFiltersResults() {
         // mocks
@@ -113,7 +115,9 @@ final class ArchiveTests: XCTestCase {
         XCTAssertTrue(viewController.tableView.isHidden)
     }
 
-    func testActions() {
+    // MARK: - cell actions
+
+    func testCellActions() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty, isDone: true)
@@ -187,6 +191,8 @@ final class ArchiveTests: XCTestCase {
         }
     }
 
+    // MARK: - actions
+
     func testDoneCloses() {
         // mocks
         env.inject()
@@ -205,6 +211,8 @@ final class ArchiveTests: XCTestCase {
         waitSync()
         XCTAssertNil(presenter.presentedViewController)
     }
+
+    // MARK: - other
 
     func testErrorAlertShows() {
         // mocks
