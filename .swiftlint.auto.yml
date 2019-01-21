@@ -1,0 +1,6 @@
+included:
+- EasyLife
+- EasyLifeTests
+
+opt_in_rules:
+- trailing_whitespace

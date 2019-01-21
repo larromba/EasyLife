@@ -1,25 +1,21 @@
-//
-//  ArchiveCell.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 12/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
 
-class ArchiveCell: UITableViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
-    
-    var item: TodoItem? {
-        didSet {
-            if let name = item?.name, !name.isEmpty {
-                titleLabel.text = item?.name
-                titleLabel.textColor = .black
-                return
-            }
-            titleLabel.text = "[no name]".localized
-            titleLabel.textColor = .appleGrey
-        }
+// sourcery: name = ArchiveCell
+protocol ArchiveCelling: Mockable {
+    var viewState: ArchiveCellViewStating? { get set }
+}
+
+final class ArchiveCell: UITableViewCell, ArchiveCelling {
+    @IBOutlet private(set) weak var titleLabel: UILabel!
+
+    var viewState: ArchiveCellViewStating? {
+        didSet { _ = viewState.map(bind) }
+    }
+
+    // MARK: - private
+
+    private func bind(_ viewState: ArchiveCellViewStating) {
+        titleLabel.text = viewState.titleText
+        titleLabel.textColor = viewState.titleColor
     }
 }

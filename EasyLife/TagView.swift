@@ -1,28 +1,28 @@
-//
-//  swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 11/10/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
 
-@IBDesignable class TagView: UIView {
-    @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var cornerLayerView: UIView!
-    private var cornerLayer: CAShapeLayer? = nil
-    @IBInspectable var cornerColor: UIColor = .clear {
-        didSet {
-            cornerLayer?.fillColor = cornerColor.cgColor
-        }
+// sourcery: name = TagView
+protocol TagViewable: Mockable {
+    var viewState: TagViewStating? { get set }
+}
+
+@IBDesignable
+final class TagView: UIView, TagViewable {
+    @IBOutlet private(set) weak var label: UILabel!
+    @IBOutlet private(set) weak var cornerLayerView: UIView!
+    @IBInspectable private var cornerColor: UIColor? {
+        didSet { cornerLayer?.fillColor = cornerColor?.cgColor }
+    }
+    private var cornerLayer: CAShapeLayer?
+
+    var viewState: TagViewStating? {
+        didSet { _ = viewState.map(bind) }
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         loadXib()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         loadXib()
@@ -46,31 +46,16 @@ import UIKit
         let layer = CAShapeLayer()
         layer.frame = rect
         layer.path = path.cgPath
-        layer.fillColor = cornerColor.cgColor
+        layer.fillColor = cornerColor?.cgColor
         cornerLayerView.layer.addSublayer(layer)
-        self.cornerLayer = layer
+        cornerLayer = layer
     }
-    
-    func setup(for project: Project?) {
-        if let priority = project?.priority, priority != Project.defaultPriority {
-            isHidden = false
-            label.text = "\(priority + 1)"
-            switch priority {
-            case 0:
-                cornerColor = .priority1
-            case 1:
-                cornerColor = .priority2
-            case 2:
-                cornerColor = .priority3
-            case 3:
-                cornerColor = .priority4
-            case 4:
-                cornerColor = .priority5
-            default:
-                break
-            }
-        } else {
-            isHidden = true
-        }
+
+    // MARK: - private
+
+    private func bind(_ viewState: TagViewStating) {
+        label.text = viewState.labelText
+        cornerLayerView.isHidden = viewState.isHidden
+        cornerColor = viewState.cornerColor
     }
 }

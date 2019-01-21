@@ -1,100 +1,107 @@
-//
-//  ArchiveViewController.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 02/06/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
 
-class ArchiveViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var doneButton: UIBarButtonItem!
-    @IBOutlet weak var clearButton: UIBarButtonItem!
-    @IBOutlet weak var thingsDoneLabel: UILabel!
-    @IBOutlet weak var emptyLabelHeightLayoutConstraint: NSLayoutConstraint!
-    
-    var dataSource: ArchiveDataSource
+protocol ArchiveViewControlling: Presentable, Mockable {
+    var viewState: ArchiveViewStating? { get set }
 
-    lazy var origEmptyLabelYConstraintHeight: CGFloat = {
-        return self.emptyLabelHeightLayoutConstraint.constant
-    }()
-    
-    required init?(coder aDecoder: NSCoder) {
-        dataSource = ArchiveDataSource()
-        super.init(coder: aDecoder)
-        dataSource.delegate = self
+    func setDelegate(_ delegate: ArchiveViewControllerDelegate)
+    func endEditing()
+}
+
+protocol ArchiveViewControllerDelegate: AnyObject {
+    func viewController(_ viewController: ArchiveViewController, performAction action: ArchiveAction)
+    func viewControllerStartedSearch(_ viewController: ArchiveViewController)
+    func viewController(_ viewController: ArchiveViewController, performSearch term: String)
+    func viewControllerEndedSearch(_ viewController: ArchiveViewController)
+    func viewControllerTapped(_ viewController: ArchiveViewController)
+}
+
+final class ArchiveViewController: UIViewController, ArchiveViewControlling {
+    @IBOutlet private(set) weak var tableView: UITableView!
+    @IBOutlet private(set) weak var searchBar: UISearchBar!
+    @IBOutlet private(set) weak var doneButton: UIBarButtonItem!
+    @IBOutlet private(set) weak var clearButton: UIBarButtonItem!
+    @IBOutlet private(set) weak var thingsDoneLabel: UILabel!
+    @IBOutlet private(set) weak var emptyLabelVerticalLayoutConstraint: NSLayoutConstraint! {
+        didSet { layoutConstraintCache.set(emptyLabelVerticalLayoutConstraint) }
     }
-    
+    private let layoutConstraintCache = LayoutConstraintCache()
+    private let keyboardNotification = KeyboardNotification()
+    private weak var delegate: ArchiveViewControllerDelegate?
+    var viewState: ArchiveViewStating? {
+        didSet { _ = viewState.map(bind) }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        searchBar.autocapitalizationType = .none
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endEditing))
+
+        keyboardNotification.delegate = self
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:)))
         view.addGestureRecognizer(tapGestureRecognizer)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        dataSource.load()
         tableView.applyDefaultStyleFix()
-        setupNotifications()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        tearDownNotifications()
-        searchBar.resignFirstResponder()
-    }
-    
-    // MARK: - private
-    
-    @objc fileprivate func endEditing() {
-        searchBar.text = nil
-        searchBar.resignFirstResponder()
+        _ = viewState.map(bind)
     }
 
-    private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        keyboardNotification.setup()
     }
-    
-    private func tearDownNotifications() {
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        keyboardNotification.tearDown()
+        endEditing()
     }
-    
+
+    func setDelegate(_ delegate: ArchiveViewControllerDelegate) {
+        self.delegate = delegate
+    }
+
+    func endEditing() {
+        view.endEditing(true)
+    }
+
+    // MARK: - private
+
+    private func bind(_ viewState: ArchiveViewStating) {
+        guard isViewLoaded else { return }
+        tableView.reloadData()
+        tableView.isHidden = viewState.isEmpty
+        searchBar.text = viewState.text
+        clearButton.isEnabled = viewState.isClearButtonEnabled
+        searchBar.isUserInteractionEnabled = viewState.isSearchBarEnabled
+        thingsDoneLabel.text = viewState.doneText
+        searchBar.autocapitalizationType = viewState.searchBarAutocapitalizationType
+    }
+
+    @objc
+    private func viewTapped(_ sender: UITapGestureRecognizer) {
+        delegate?.viewControllerTapped(self)
+    }
+
     // MARK: - action
-    
+
     @IBAction private func doneButtonPressed(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+        delegate?.viewController(self, performAction: .done)
     }
 
     @IBAction private func clearButtonPressed(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "Empty".localized, message: "Are you sure?".localized, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "No".localized, style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Yes".localized, style: .default, handler: { action in
-            self.dataSource.clearAll()
-        }))
-        present(alert, animated: true, completion: nil)
+        delegate?.viewController(self, performAction: .clear)
     }
-    
-    // MARK: - notifications
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let height = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
-            return
-        }
-        tableView.contentInset.bottom = height.cgRectValue.height
-        emptyLabelHeightLayoutConstraint.constant = origEmptyLabelYConstraintHeight - height.cgRectValue.height / 2.0
+}
+
+// MARK: - KeyboardNotificationDelegate
+
+extension ArchiveViewController: KeyboardNotificationDelegate {
+    func keyboardWithShow(height: CGFloat) {
+        tableView.contentInset.bottom = height
+        let originalValue = layoutConstraintCache.get(emptyLabelVerticalLayoutConstraint)
+        emptyLabelVerticalLayoutConstraint.constant = originalValue - height / 2.0
         view.layoutIfNeeded()
     }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
+
+    func keyboardWillHide() {
         tableView.contentInset.bottom = 0
-        emptyLabelHeightLayoutConstraint.constant = origEmptyLabelYConstraintHeight
+        layoutConstraintCache.reset(emptyLabelVerticalLayoutConstraint)
         view.layoutIfNeeded()
     }
 }
@@ -103,22 +110,26 @@ class ArchiveViewController: UIViewController {
 
 extension ArchiveViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50.0
+        return viewState?.rowHeight ?? 0.0
     }
-    
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return dataSource.title(for: section)
+        return viewState?.title(for: section)
     }
-    
+
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
+
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let undo = UITableViewRowAction(style: .destructive, title: "Undo".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
-            self?.dataSource.undo(at: indexPath)
-        })
-        undo.backgroundColor = .appleGrey
+        guard let item = self.viewState?.item(at: indexPath) else { return nil }
+        let undo = UITableViewRowAction(
+            style: .destructive,
+            title: viewState?.undoTitle,
+            handler: { _, _ in
+                self.delegate?.viewController(self, performAction: .undo(item))
+            })
+        undo.backgroundColor = viewState?.undoBackgroundColor
         return [undo]
     }
 }
@@ -127,18 +138,21 @@ extension ArchiveViewController: UITableViewDelegate {
 
 extension ArchiveViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.section(at: section)?.count ?? 0
+        return viewState?.section(at: section)?.count ?? 0
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = dataSource.item(at: indexPath)
+        guard let cellViewState = viewState?.cellViewState(at: indexPath) else {
+            assertionFailure("expected item")
+            return UITableViewCell()
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArchiveCell", for: indexPath) as! ArchiveCell
-        cell.item = item
+        cell.viewState = cellViewState
         return cell
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.numOfSections
+        return viewState?.numOfSections ?? 0
     }
 }
 
@@ -146,31 +160,15 @@ extension ArchiveViewController: UITableViewDataSource {
 
 extension ArchiveViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        dataSource.startSearch()
+        delegate?.viewControllerStartedSearch(self)
     }
-    
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        dataSource.search(searchText)
+        viewState = viewState?.copy(text: searchText)
+        delegate?.viewController(self, performSearch: searchText)
     }
-    
+
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        dataSource.endSearch()
-    }
-}
-
-// MARK: - ArchiveDataSource
-
-extension ArchiveViewController: TableDataSourceDelegate {
-    func dataSorceDidLoad<T: TableDataSource>(_ dataSource: T) {
-        guard let dataSource = dataSource as? ArchiveDataSource else {
-            return
-        }
-        tableView.reloadData()
-        tableView.isHidden = dataSource.isEmpty
-        clearButton.isEnabled = !dataSource.isEmpty && searchBar.text?.isEmpty ?? true
-        if !dataSource.isSearching {
-            searchBar.isUserInteractionEnabled = !dataSource.isEmpty
-        }
-        thingsDoneLabel.text = String(format: "%i done".localized, dataSource.totalItems)
+        delegate?.viewControllerEndedSearch(self)
     }
 }

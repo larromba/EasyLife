@@ -1,78 +1,89 @@
-//
-//  PlanViewController.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 12/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
+import Logging
+import SafariServices
 import UIKit
 
-class PlanViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addButton: UIBarButtonItem!
-    @IBOutlet weak var archiveButton: UIBarButtonItem!
-    @IBOutlet weak var projectsButton: UIBarButtonItem!
-    @IBOutlet weak var tableHeaderView: TableHeaderView!
-    @IBOutlet weak var appVersionLabel: UILabel!
+// sourcery: name = PlanViewController
+protocol PlanViewControlling: Presentable, Segueable, Mockable {
+    var viewState: PlanViewStating? { get set }
 
-    var dataSource: PlanDataSource
-    var badge: Badge
+    func setDelegate(_ delegate: PlanViewControllerDelegate)
+    func setTableHeaderAnimation(_ animation: RepeatColorViewAnimation)
+    func setIsTableHeaderAnimating(_ isAnimating: Bool)
+}
 
-    required init?(coder aDecoder: NSCoder) {
-        dataSource = PlanDataSource()
-        badge = Badge()
-        #if DEBUG
-            //dataSource.itunesConnect()
-        #endif
-        super.init(coder: aDecoder)
-        dataSource.delegate = self
+protocol PlanViewControllerDelegate: AnyObject {
+    func viewControllerWillAppear(_ viewController: PlanViewControlling)
+    func viewControllerWillDisappear(_ viewController: PlanViewControlling)
+    func viewController(_ viewController: PlanViewControlling, prepareForSegue segue: UIStoryboardSegue)
+    func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction)
+    func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem)
+    func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,
+                        onItem item: TodoItem, at indexPath: IndexPath)
+}
+
+final class PlanViewController: UIViewController, PlanViewControlling {
+    @IBOutlet private(set) weak var tableView: UITableView!
+    @IBOutlet private(set) weak var addButton: UIBarButtonItem!
+    @IBOutlet private(set) weak var archiveButton: UIBarButtonItem!
+    @IBOutlet private(set) weak var projectsButton: UIBarButtonItem!
+    @IBOutlet private(set) weak var tableHeaderView: UITableView!
+    @IBOutlet private(set) weak var appVersionLabel: UILabel!
+    private var tableHeaderAnimation: RepeatColorViewAnimation?
+    private weak var delegate: PlanViewControllerDelegate?
+    var viewState: PlanViewStating? {
+        didSet { _ = viewState.map(bind) }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        _ = viewState.map(bind)
         tableView.applyDefaultStyleFix()
-        tableHeaderView.setupWithHeight(tableView.bounds.size.height * 0.3)
-        appVersionLabel.text = Bundle.appVersion()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupNotifications()
-        tableHeaderView.startAnimation()
-        dataSource.load()
+        delegate?.viewControllerWillAppear(self)
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        tableHeaderView.stopAnimation()
-        tearDownNotifications()
+        delegate?.viewControllerWillDisappear(self)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? ItemDetailViewController, let item = sender as? TodoItem {
-            vc.dataSource.item = item
-        }
-    }
-    
-    // MARK: - private
-    
-    private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterForeground(_:)), name: .UIApplicationWillEnterForeground, object: nil)
-    }
-    
-    private func tearDownNotifications() {
-        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
-    }
-    
-    // MARK: - action
-    
-    @IBAction private func addButtonPressed(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "openEventDetailViewController", sender: nil)
+        super.prepare(for: segue, sender: sender)
+        delegate?.viewController(self, prepareForSegue: segue)
     }
 
-    @objc private func applicationDidEnterForeground(_ notification: Notification) {
-        dataSource.load()
+    func setDelegate(_ delegate: PlanViewControllerDelegate) {
+        self.delegate = delegate
+    }
+
+    func setTableHeaderAnimation(_ animation: RepeatColorViewAnimation) {
+        tableHeaderAnimation = animation
+    }
+
+    func setIsTableHeaderAnimating(_ isAnimating: Bool) {
+        if isAnimating {
+            tableHeaderAnimation?.start(in: tableHeaderView)
+        } else {
+            tableHeaderAnimation?.stop()
+        }
+    }
+
+    // MARK: - private
+
+    private func bind(_ viewState: PlanViewStating) {
+        guard isViewLoaded else { return }
+        appVersionLabel.text = viewState.appVersionText
+        tableHeaderView.isHidden = viewState.isTableHeaderHidden
+        tableHeaderView.bounds.size.height = tableView.bounds.height * viewState.tableHeaderHeightPercentage
+        tableView.isHidden = viewState.isTableHidden
+        tableView.reloadData()
+    }
+
+    @IBAction private func addButtonPressed(_ sender: UIBarButtonItem) {
+        delegate?.viewController(self, performAction: .add)
     }
 }
 
@@ -80,70 +91,35 @@ class PlanViewController: UIViewController {
 
 extension PlanViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50.0
+        return viewState?.rowHeight ?? 0
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = dataSource.sections[indexPath.section][indexPath.row]
-        performSegue(withIdentifier: "openEventDetailViewController", sender: item)
+        guard let item = viewState?.item(at: indexPath) else { return }
+        delegate?.viewController(self, didSelectItem: item)
     }
-    
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return dataSource.title(for: section)
+        return viewState?.title(for: section)
     }
-    
+
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
+
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard let item = dataSource.item(at: indexPath) else {
-            log("epic fail")
-            return [] // shouldnt happen
+        guard let viewState = viewState, let item = viewState.item(at: indexPath) else { return nil }
+        return viewState.availableActions(for: item, at: indexPath).map { itemAction in
+            let action = UITableViewRowAction(
+                style: viewState.style(for: itemAction),
+                title: viewState.text(for: itemAction),
+                handler: { _, _ in
+                    self.delegate?.viewController(self, performAction: itemAction, onItem: item, at: indexPath)
+                }
+            )
+            action.backgroundColor = viewState.color(for: itemAction)
+            return action
         }
-
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
-            self?.dataSource.delete(at: indexPath)
-        })
-        let done = UITableViewRowAction(style: .normal, title: "Done".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
-            self?.dataSource.done(at: indexPath)
-        })
-        let split = UITableViewRowAction(style: .normal, title: "Split".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
-            self?.dataSource.split(at: indexPath)
-        })
-        let later = UITableViewRowAction(style: .normal, title: "Later".localized, handler: { [weak self] (action: UITableViewRowAction, path: IndexPath) in
-            self?.dataSource.later(at: indexPath)
-        })
-
-        delete.backgroundColor = .lightRed
-        done.backgroundColor = .lightGreen
-        split.backgroundColor = .appleGrey
-
-        var actions = [UITableViewRowAction]()
-        if (item.blockedBy?.count ?? 0) == 0 {
-            actions += [done]
-        }
-        actions += [delete]
-
-        switch indexPath.section {
-        case 0:
-            if item.repeatState != RepeatState.none {
-                actions += [split]
-            }
-        case 1:
-            if item.repeatState == RepeatState.none {
-                actions += [later]
-            } else {
-                actions += [later, split]
-            }
-        case 2:
-            break
-        default:
-            log("unhandled switch")
-            return []
-        }
-
-        return actions
     }
 }
 
@@ -151,36 +127,21 @@ extension PlanViewController: UITableViewDelegate {
 
 extension PlanViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.section(at: section)?.count ?? 0
+        return viewState?.items(for: section)?.count ?? 0
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let item = dataSource.item(at: indexPath) else {
-            log("epic fail")
-            return UITableViewCell() // shouldnt happen
+        guard
+            let cellViewState = viewState?.cellViewState(at: indexPath),
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PlanCell", for: indexPath) as? PlanCell else {
+                return UITableViewCell()
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PlanCell", for: indexPath) as! PlanCell
-        cell.indexPath = indexPath
-        cell.item = item
+        cell.viewState = cellViewState
         return cell
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.sections.count
-    }
-}
-
-// MARK: - DataSourceDelegate
-
-extension PlanViewController: TableDataSourceDelegate {
-    func dataSorceDidLoad<T: TableDataSource>(_ dataSource: T) {
-        guard let dataSource = dataSource as? PlanDataSource else {
-            return
-        }
-        tableHeaderView.isHidden = !dataSource.isDoneForNow
-        tableView.isHidden = dataSource.isDoneTotally
-        tableView.reloadData()
-        badge.number = (dataSource.totalMissed + dataSource.totalToday)
+        return viewState?.numOfSections ?? 0
     }
 }
 
@@ -188,22 +149,22 @@ extension PlanViewController: TableDataSourceDelegate {
 
 extension PlanViewController: UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        UIView.animate(withDuration: 0.2) { 
+        guard let viewState = viewState else { return }
+        UIView.animate(withDuration: viewState.fadeInDuration) {
             self.appVersionLabel.alpha = 0.0
         }
     }
-    
+
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        UIView.animate(withDuration: 0.4) {
+        guard let viewState = viewState else { return }
+        UIView.animate(withDuration: viewState.fadeOutDuration) {
             self.appVersionLabel.alpha = 1.0
         }
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollView.contentOffset.y < 0, tableHeaderView.bounds.height > 0 else {
-            return
-        }
-        let height = tableHeaderView.bounds.height / 4
-        tableHeaderView.alphaMultiplier = max(0.0, 1.0 - (fabs(scrollView.contentOffset.y) / height))
+        guard let tableHeaderAnimation = tableHeaderAnimation, let viewState = viewState else { return }
+        tableHeaderAnimation.alpha = viewState.tableHeaderAlpha(forHeight: tableHeaderView.bounds.height,
+                                                                scrollOffsetY: scrollView.contentOffset.y)
     }
 }

@@ -1,0 +1,6 @@
+sources:
+  - ./EasyLife
+templates:
+  - ./Templates
+output:
+  ./Generated

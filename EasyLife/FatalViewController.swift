@@ -1,21 +1,25 @@
-//
-//  FatalErrorViewController.swift
-//  EasyLife
-//
-//  Created by Lee Arromba on 12/04/2017.
-//  Copyright © 2017 Pink Chicken Ltd. All rights reserved.
-//
-
 import UIKit
 
-class FatalViewController: UIViewController {
-    @IBOutlet weak var label: UILabel!
-    
-    var error: Error?
-    
+protocol FatalViewControlling: AnyObject, Mockable {
+    var viewState: FatalViewStating? { get set }
+}
+
+final class FatalViewController: UIViewController {
+    @IBOutlet private(set) weak var label: UILabel!
+
+    var viewState: FatalViewStating? {
+        didSet { _ = viewState.map(bind) }
+    }
+
     override func viewDidLoad() {
-        if let error = error {
-            label.text = String(format: "Error loading data. Please restart the app and try again.\n\nDetailed error:\n%@".localized, error.localizedDescription)
-        }
+        super.viewDidLoad()
+        _ = viewState.map(bind)
+    }
+
+    // MARK: - private
+
+    private func bind(_ viewState: FatalViewStating) {
+        guard isViewLoaded else { return }
+        label.text = viewState.text
     }
 }

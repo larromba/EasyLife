@@ -1,0 +1,13 @@
+strings:
+  inputs: 
+    - EasyLife/en.lproj/Localizable.strings
+  outputs:
+    - templateName: structured-swift4
+      output: Generated/strings.swift
+xcassets:
+  inputs:
+    - EasyLife/Assets.xcassets
+    - EasyLife/Colors.xcassets
+  outputs:
+    - templateName: swift4
+      output: Generated/assets.swift
