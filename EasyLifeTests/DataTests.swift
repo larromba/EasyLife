@@ -4,8 +4,8 @@ import CoreData
 
 final class DataTests: XCTestCase {
     func testMigrations() {
-        // prepare
-        let bundle = Bundle(for: DataManagerTests.self)
+        // mocks
+        let bundle = Bundle(for: DataTests.self)
         do {
             // tests
             var url = bundle.url(forResource: "EasyLife", withExtension: "sqlite")

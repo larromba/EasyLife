@@ -15,7 +15,6 @@ final class ProjectsTests: XCTestCase {
         navigationController = UIStoryboard.project.instantiateInitialViewController() as? UINavigationController
         viewController = navigationController.viewControllers.first as? ProjectsViewController
         viewController.prepareView()
-        navigationController.pushViewController(viewController, animated: false)
         alertController = AlertController(presenter: viewController)
         env = AppTestEnvironment(navigationController: navigationController)
         UIView.setAnimationsEnabled(false)

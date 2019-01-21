@@ -15,7 +15,6 @@ final class ArchiveTests: XCTestCase {
         navigationController = UIStoryboard.archive.instantiateInitialViewController() as? UINavigationController
         viewController = navigationController.viewControllers.first as? ArchiveViewController
         viewController.prepareView()
-        navigationController.pushViewController(viewController, animated: false)
         alertController = AlertController(presenter: viewController)
         env = AppTestEnvironment(navigationController: navigationController)
         UIView.setAnimationsEnabled(false)
