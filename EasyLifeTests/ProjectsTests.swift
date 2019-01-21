@@ -54,7 +54,7 @@ final class ProjectsTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
-        _ = env.project(priority: -1)
+        _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
 
         // test
@@ -88,7 +88,7 @@ final class ProjectsTests: XCTestCase {
     func testBadgeHidesInOtherSection() {
         // mocks
         env.inject()
-        _ = env.project(priority: -1)
+        _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
 
         // test
@@ -99,7 +99,7 @@ final class ProjectsTests: XCTestCase {
     func testTextColorInOtherSection() {
         // mocks
         env.inject()
-        _ = env.project(priority: -1)
+        _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
 
         // test
@@ -298,7 +298,7 @@ final class ProjectsTests: XCTestCase {
     func testCellOtherActions() {
         // mocks
         env.inject()
-        _ = env.project(priority: -1)
+        _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
 
         // test
@@ -315,7 +315,7 @@ final class ProjectsTests: XCTestCase {
     func testCellOtherActionsMaxPriority() {
         // mocks
         env.inject()
-        _ = env.project(priority: -1)
+        _ = env.project(priority: Project.defaultPriority)
         _ = env.project(priority: 0)
         _ = env.project(priority: 1)
         _ = env.project(priority: 2)
@@ -336,7 +336,7 @@ final class ProjectsTests: XCTestCase {
     func testPrioritizeActionPrioritizesProject() {
         // mocks
         env.inject()
-        let project = env.project(priority: -1)
+        let project = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
         waitSync()
         guard let action = viewController.actions(row: 0, section: .other)?[safe: 1] else {
@@ -380,7 +380,7 @@ final class ProjectsTests: XCTestCase {
         waitSync()
         XCTAssertEqual(viewController.rows(.other), 1)
         XCTAssertEqual(viewController.rows(.prioritized), 0)
-        XCTAssertEqual(project.priority, -1)
+        XCTAssertEqual(project.priority, Project.defaultPriority)
     }
 
     func testDeleteActionDeletesProject() {
@@ -416,7 +416,7 @@ final class ProjectsTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
-        let project = env.project(priority: -1)
+        let project = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
         waitSync()
 
@@ -438,7 +438,7 @@ final class ProjectsTests: XCTestCase {
         // mocks
         env.inject()
         let project = env.project(priority: 0)
-        _ = env.project(priority: -1)
+        _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
         waitSync()
 
@@ -453,7 +453,7 @@ final class ProjectsTests: XCTestCase {
         waitSync()
         XCTAssertEqual(viewController.rows(.other), 2)
         XCTAssertEqual(viewController.rows(.prioritized), 0)
-        XCTAssertEqual(project.priority, -1)
+        XCTAssertEqual(project.priority, Project.defaultPriority)
     }
 
     func testMoveCellPrioritizesLesser() {
@@ -504,7 +504,7 @@ final class ProjectsTests: XCTestCase {
         _ = env.project(priority: 2)
         _ = env.project(priority: 3)
         _ = env.project(priority: 4)
-        _ = env.project(priority: -1)
+        _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
         waitSync()
 

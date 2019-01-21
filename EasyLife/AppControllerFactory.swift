@@ -54,7 +54,7 @@ enum AppControllerFactory {
 
                     let project3 = dataManager.insert(entityClass: Project.self, context: .main)
                     project3.name = "Learn German"
-                    project3.priority = -1
+                    project3.priority = Project.defaultPriority
 
                     // archive section
 

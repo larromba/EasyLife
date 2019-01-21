@@ -67,7 +67,7 @@ final class PlanRepository: PlanRepositoring {
                     entityClass: TodoItem.self,
                     sortBy: nil, context: .main,
                     predicate: self.laterPredicate)
-                ).sorted(by: self.sortByDateAndPriority)
+                ).sorted(by: self.sortByDateAndLaterPriority)
                 completion(.success(items))
             }, onError: { error in
                 completion(.failure(error))
@@ -159,8 +159,8 @@ final class PlanRepository: PlanRepositoring {
     }
 
     // MARK: - private
-
     // @note coredata sorts are a bit shit, so need to do it here for advanced sorting
+
     private func sortByPriority(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
         if item1.project?.priority != nil && item2.project?.priority == nil { return true }
         if item1.project?.priority == nil && item2.project?.priority != nil { return false }
@@ -179,9 +179,9 @@ final class PlanRepository: PlanRepositoring {
         return item1.name! < item2.name!
     }
 
-    private func sortByDateAndPriority(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
-        if item1.date != nil && item2.date == nil { return true }
-        if item1.date == nil && item2.date != nil { return false }
+    private func sortByDateAndLaterPriority(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
+        if item1.date != nil && item2.date == nil { return false }
+        if item1.date == nil && item2.date != nil { return true }
         if item1.date == nil && item2.date == nil { return sortByPriority(item1, item2) }
         if item1.date!.day == item2.date!.day { return sortByPriority(item1, item2) }
         return item1.date! < item2.date!

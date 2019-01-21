@@ -686,17 +686,17 @@ final class PlanTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertEqual(title(for: 0), "item1")
-        XCTAssertEqual(title(for: 1), "item6")
-        XCTAssertEqual(title(for: 2), "item5")
-        XCTAssertEqual(title(for: 3), "item9")
-        XCTAssertEqual(title(for: 4), "item2")
-        XCTAssertEqual(title(for: 5), "item3")
-        XCTAssertEqual(title(for: 6), "item4")
+        XCTAssertEqual(title(for: 0), "item7")
+        XCTAssertEqual(title(for: 1), "item8")
+        XCTAssertEqual(title(for: 2), "[no name]")
+        XCTAssertEqual(title(for: 3), "item1")
+        XCTAssertEqual(title(for: 4), "item6")
+        XCTAssertEqual(title(for: 5), "item5")
+        XCTAssertEqual(title(for: 6), "item9")
         viewController.tableView.scrollUp(by: 150) // assuming iphone6
-        XCTAssertEqual(title(for: 7), "item7")
-        XCTAssertEqual(title(for: 8), "item8")
-        XCTAssertEqual(title(for: 9), "[no name]")
+        XCTAssertEqual(title(for: 7), "item2")
+        XCTAssertEqual(title(for: 8), "item3")
+        XCTAssertEqual(title(for: 9), "item4")
     }
 }
 
