@@ -63,7 +63,7 @@ Marking recurring items as done moves them to a later date. Marking normal items
 
 Todo items can block the progress of other todo items. Any blocking items must first be marked as done before the topmost item can be marked as done.
 
-If a recurring item has been missed, rather than changing the recurring date, the item can be split, which creates a copy to be rescheduled, and automatically reschedules the original item at the next available recurring date
+If a recurring item has been missed, rather than changing the recurring date, the item can be split, which creates a copy to be rescheduled, and automatically reschedules the original item at the next available recurring date.
 
 ## Licence
 [![licensebuttons by-nc-sa](https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0) 
