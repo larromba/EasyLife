@@ -1,3 +1,4 @@
+import Logging
 import UIKit
 
 // sourcery: name = AlertController
@@ -9,24 +10,25 @@ protocol AlertControlling: Mockable {
 final class AlertController: AlertControlling {
     private weak var presenter: Presentable?
     private weak var currentAlert: UIAlertController?
-    private let alertActionFactory: AlertActionFactoring
 
-    init(presenter: Presentable, alertActionFactory: AlertActionFactoring = AlertActionFactory()) {
+    init(presenter: Presentable) {
         self.presenter = presenter
-        self.alertActionFactory = alertActionFactory
     }
 
     func showAlert(_ alert: Alert) {
-        guard currentAlert == nil else { return }
+        guard currentAlert == nil else {
+            logWarning("already showing alert")
+            return
+        }
         let viewController = UIAlertController(title: alert.title,
                                                message: alert.message,
                                                preferredStyle: .alert)
-        viewController.addAction(alertActionFactory.make(withTitle: alert.cancel.title, style: .cancel, handler: { _ in
+        viewController.addAction(.init(title: alert.cancel.title, style: .cancel, handler: { _ in
             alert.cancel.handler?()
         }))
         alert.actions.forEach { action in
-            viewController.addAction(alertActionFactory.make(
-                withTitle: action.title,
+            viewController.addAction(.init(
+                title: action.title,
                 style: .default,
                 handler: { _ in
                     action.handler?()

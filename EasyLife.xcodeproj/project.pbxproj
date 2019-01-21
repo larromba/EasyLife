@@ -74,7 +74,6 @@
 		7F61898721E67E540047832C /* UIBarButtonItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F61898621E67E540047832C /* UIBarButtonItemExtensions.swift */; };
 		7F61898A21E7F0CB0047832C /* UITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F61898921E7F0CB0047832C /* UITableViewExtensions.swift */; };
 		7F61898C21E8DCC40047832C /* ItemDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F61898B21E8DCC40047832C /* ItemDetailTests.swift */; };
-		7F61899021E8F7400047832C /* AlertActionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F61898F21E8F7400047832C /* AlertActionFactory.swift */; };
 		7F7540111F5AD1A900A0F06C /* Project.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F75400F1F5AD1A900A0F06C /* Project.storyboard */; };
 		7F7770C71EE827F000A58494 /* Archive.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F7770C91EE827F000A58494 /* Archive.storyboard */; };
 		7F7770CD1EE8358500A58494 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7770CC1EE8358500A58494 /* GCD.swift */; };
@@ -244,7 +243,6 @@
 		7F61898621E67E540047832C /* UIBarButtonItemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItemExtensions.swift; sourceTree = "<group>"; };
 		7F61898921E7F0CB0047832C /* UITableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtensions.swift; sourceTree = "<group>"; };
 		7F61898B21E8DCC40047832C /* ItemDetailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailTests.swift; sourceTree = "<group>"; };
-		7F61898F21E8F7400047832C /* AlertActionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertActionFactory.swift; sourceTree = "<group>"; };
 		7F7540101F5AD1A900A0F06C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Project.storyboard; sourceTree = "<group>"; };
 		7F7540131F5AD29C00A0F06C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Project.strings; sourceTree = "<group>"; };
 		7F7770C81EE827F000A58494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Archive.storyboard; sourceTree = "<group>"; };
@@ -420,7 +418,6 @@
 			isa = PBXGroup;
 			children = (
 				7F429C8821C41BFD00195E32 /* AppControllerFactory.swift */,
-				7F61898F21E8F7400047832C /* AlertActionFactory.swift */,
 			);
 			name = Factory;
 			sourceTree = "<group>";
@@ -1054,7 +1051,6 @@
 				7F429CA521C6663500195E32 /* ProjectSections.swift in Sources */,
 				7FAC2CB21E9F7EDF00F14ECB /* NotificationName.swift in Sources */,
 				7F3BD2B721CFE9C70035F540 /* ItemDetailViewState.swift in Sources */,
-				7F61899021E8F7400047832C /* AlertActionFactory.swift in Sources */,
 				7F3BD2EF21D6D6440035F540 /* Utility.swift in Sources */,
 				7F429C9721C5413400195E32 /* ArchiveViewState.swift in Sources */,
 				7F3BD2D321D2D93D0035F540 /* BlockedIndicatorViewState.swift in Sources */,
