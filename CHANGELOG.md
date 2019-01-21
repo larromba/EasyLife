@@ -53,8 +53,7 @@ Apple ID: 1229095589
 
 # Ideas
 
-noise / animation when done 
-icloud backup?
+noise when done 
 apreciation diary
 lists:
     to watch
@@ -66,6 +65,4 @@ weird animation flash at start?
 holiday mode
 later in missed
 focus mode
-better sorting
-better deletion animations 
-autorefresh
+local notification to update badge?
