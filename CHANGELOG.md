@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.0.0 (...) (Free)
+## v2.0.0 (21/01/2019) (Free)
     huge code refactor
     open sourced code
     pressing back on new item with changes by mistake now asks if you want to save the changes
