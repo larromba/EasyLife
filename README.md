@@ -2,7 +2,7 @@
 
 | master  | dev |
 | ------------- | ------------- |
-| [![Build Status](https://travis-ci.com/larromba/EasyLife.svg?branch=master)](https://travis-ci.com/larromba/EasyLife) | [![Build Status](https://travis-ci.com/larromba/EasyLife.svg?branch=dev)](https://travis-ci.com/larromba/EasyLife) |
+| [![Build Status](https://travis-ci.com/larromba/EasyLife.svg?branch=master)](https://travis-ci.com/larromba/EasyLife) | [![Build Status](https://travis-ci.com/larromba/EasyLife.svg?branch=develop)](https://travis-ci.com/larromba/EasyLife) |
 
 ## About
 EasyLife [(app store)](https://itunes.apple.com/app/id1229095589) is a simple app designed to streamline and focus your todo items by combining them all into 1 organized view.
