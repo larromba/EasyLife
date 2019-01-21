@@ -3,6 +3,7 @@ import CoreData
 import UIKit
 
 enum AppControllerFactory {
+    // swiftlint:disable function_body_length
     static func make(window: UIWindow, navigationController: UINavigationController,
                      planViewController: PlanViewControlling) -> Async<AppControlling> {
         return Async { completion in
