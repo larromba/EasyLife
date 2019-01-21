@@ -24,6 +24,9 @@ final class AppBadge: Badge {
 
     func setNumber(_ number: Int) -> Async<Void> {
         return Async { completion in
+            #if DEBUG
+            if __isSnapshot { return completion(.success(())) }
+            #endif
             self.notificationCenter.requestAuthorization(options: [.badge]) { granted, error in
                 if let error = error {
                     completion(.failure(BadgeError.frameworkError(error)))

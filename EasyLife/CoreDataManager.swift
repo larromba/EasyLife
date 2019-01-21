@@ -145,10 +145,6 @@ final class CoreDataManager: CoreDataManaging {
                 return completion(.failure(CoreDataError.notLoaded))
             }
             let context = self.managedObjectContext(for: .main)
-            guard context.hasChanges else {
-                completion(.success(()))
-                return
-            }
             context.perform({ [unowned context] in
                 do {
                     var deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName(TodoItem.self))

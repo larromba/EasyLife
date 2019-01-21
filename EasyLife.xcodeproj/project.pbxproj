@@ -122,6 +122,8 @@
 		7FC73E771F5AA89200A55703 /* MockProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E761F5AA89200A55703 /* MockProject.swift */; };
 		7FC73E7D1F5ABE6700A55703 /* EasyLife.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E7B1F5ABE6700A55703 /* EasyLife.xcdatamodeld */; };
 		7FCC1B8721F61FDE00DDD446 /* AssertionFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC1B8621F61FDE00DDD446 /* AssertionFailure.swift */; };
+		7FCC1B8F21F6237000DDD446 /* Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC1B8E21F6237000DDD446 /* Snapshots.swift */; };
+		7FCC1B9721F6238A00DDD446 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC1B9621F6238A00DDD446 /* SnapshotHelper.swift */; };
 		7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */; };
 		7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */; };
 		7FCEC9281EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9271EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift */; };
@@ -143,6 +145,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		7FAC2C711E9E673400F14ECB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7FAC2C511E9E673400F14ECB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7FAC2C581E9E673400F14ECB;
+			remoteInfo = EasyLife;
+		};
+		7FCC1B9121F6237000DDD446 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7FAC2C511E9E673400F14ECB /* Project object */;
 			proxyType = 1;
@@ -293,6 +302,10 @@
 		7FC73E7C1F5ABE6700A55703 /* EasyLife.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyLife.xcdatamodel; sourceTree = "<group>"; };
 		7FC73E7E1F5ABE7A00A55703 /* EasyLife 1.3.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EasyLife 1.3.0.xcdatamodel"; sourceTree = "<group>"; };
 		7FCC1B8621F61FDE00DDD446 /* AssertionFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertionFailure.swift; sourceTree = "<group>"; };
+		7FCC1B8C21F6237000DDD446 /* EasyLifeSnapshot.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyLifeSnapshot.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FCC1B8E21F6237000DDD446 /* Snapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshots.swift; sourceTree = "<group>"; };
+		7FCC1B9021F6237000DDD446 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7FCC1B9621F6238A00DDD446 /* SnapshotHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatTests.swift; sourceTree = "<group>"; };
 		7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegmentTests.swift; sourceTree = "<group>"; };
 		7FCEC9271EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSPersistentContainerExtensions.swift; sourceTree = "<group>"; };
@@ -330,6 +343,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7FA169B121E3D98000D8BA3F /* TestExtensions.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7FCC1B8921F6237000DDD446 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,6 +507,7 @@
 				7FA59D8321BEB65A00538013 /* CHANGELOG.md */,
 				7FAC2C5B1E9E673400F14ECB /* EasyLife */,
 				7FAC2C731E9E673400F14ECB /* EasyLifeTests */,
+				7FCC1B8D21F6237000DDD446 /* EasyLifeSnapshot */,
 				7FAC2C5A1E9E673400F14ECB /* Products */,
 				7FA59D8721BEBDB000538013 /* Frameworks */,
 			);
@@ -497,6 +518,7 @@
 			children = (
 				7FAC2C591E9E673400F14ECB /* EasyLife.app */,
 				7FAC2C701E9E673400F14ECB /* EasyLifeTests.xctest */,
+				7FCC1B8C21F6237000DDD446 /* EasyLifeSnapshot.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -657,6 +679,16 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		7FCC1B8D21F6237000DDD446 /* EasyLifeSnapshot */ = {
+			isa = PBXGroup;
+			children = (
+				7FCC1B8E21F6237000DDD446 /* Snapshots.swift */,
+				7FCC1B9621F6238A00DDD446 /* SnapshotHelper.swift */,
+				7FCC1B9021F6237000DDD446 /* Info.plist */,
+			);
+			path = EasyLifeSnapshot;
+			sourceTree = "<group>";
+		};
 		7FCEC9201EA7BB4500BA5187 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -733,13 +765,31 @@
 			productReference = 7FAC2C701E9E673400F14ECB /* EasyLifeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		7FCC1B8B21F6237000DDD446 /* EasyLifeSnapshot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7FCC1B9321F6237000DDD446 /* Build configuration list for PBXNativeTarget "EasyLifeSnapshot" */;
+			buildPhases = (
+				7FCC1B8821F6237000DDD446 /* Sources */,
+				7FCC1B8921F6237000DDD446 /* Frameworks */,
+				7FCC1B8A21F6237000DDD446 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7FCC1B9221F6237000DDD446 /* PBXTargetDependency */,
+			);
+			name = EasyLifeSnapshot;
+			productName = EasyLifeSnapshot;
+			productReference = 7FCC1B8C21F6237000DDD446 /* EasyLifeSnapshot.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		7FAC2C511E9E673400F14ECB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Pink Chicken Ltd";
 				TargetAttributes = {
@@ -753,6 +803,12 @@
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = PFC77GK3D7;
 						LastSwiftMigration = 0900;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 7FAC2C581E9E673400F14ECB;
+					};
+					7FCC1B8B21F6237000DDD446 = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = PFC77GK3D7;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 7FAC2C581E9E673400F14ECB;
 					};
@@ -773,6 +829,7 @@
 			targets = (
 				7FAC2C581E9E673400F14ECB /* EasyLife */,
 				7FAC2C6F1E9E673400F14ECB /* EasyLifeTests */,
+				7FCC1B8B21F6237000DDD446 /* EasyLifeSnapshot */,
 			);
 		};
 /* End PBXProject section */
@@ -800,6 +857,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7FEEF2D22043522900616041 /* EasyLife 1.5.0.sqlite in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7FCC1B8A21F6237000DDD446 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1027,6 +1091,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7FCC1B8821F6237000DDD446 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7FCC1B8F21F6237000DDD446 /* Snapshots.swift in Sources */,
+				7FCC1B9721F6238A00DDD446 /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1034,6 +1107,11 @@
 			isa = PBXTargetDependency;
 			target = 7FAC2C581E9E673400F14ECB /* EasyLife */;
 			targetProxy = 7FAC2C711E9E673400F14ECB /* PBXContainerItemProxy */;
+		};
+		7FCC1B9221F6237000DDD446 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7FAC2C581E9E673400F14ECB /* EasyLife */;
+			targetProxy = 7FCC1B9121F6237000DDD446 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1288,6 +1366,53 @@
 			};
 			name = Release;
 		};
+		7FCC1B9421F6237000DDD446 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PFC77GK3D7;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = EasyLifeSnapshot/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pinkchicken.EasyLifeSnapshot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EasyLife;
+			};
+			name = Debug;
+		};
+		7FCC1B9521F6237000DDD446 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PFC77GK3D7;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = EasyLifeSnapshot/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pinkchicken.EasyLifeSnapshot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EasyLife;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1314,6 +1439,15 @@
 			buildConfigurations = (
 				7FAC2C7D1E9E673400F14ECB /* Debug */,
 				7FAC2C7E1E9E673400F14ECB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7FCC1B9321F6237000DDD446 /* Build configuration list for PBXNativeTarget "EasyLifeSnapshot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7FCC1B9421F6237000DDD446 /* Debug */,
+				7FCC1B9521F6237000DDD446 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

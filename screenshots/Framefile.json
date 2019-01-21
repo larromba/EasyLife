@@ -1,0 +1,49 @@
+{
+  "default": {
+    "title": {},
+    "background": "./background.jpg",
+    "padding": 50
+  },
+  "data": [
+    {
+      "filter": "Archive",
+      "title":
+      {
+        "color": "#000000",
+        "text": "Easy Life"
+      }
+    },
+    {
+      "filter": "BlockedBy",
+      "title":
+      {
+        "color": "#000000",
+        "text": "Easy Life"
+      }
+    },
+    {
+      "filter": "ItemDetail",
+      "title":
+      {
+        "color": "#000000",
+        "text": "Easy Life"
+      }
+    },
+    {
+      "filter": "Plan",
+      "title":
+      {
+        "color": "#000000",
+        "text": "Easy Life"
+      }
+    },
+    {
+      "filter": "Projects",
+      "title":
+      {
+        "color": "#000000",
+        "text": "Easy Life"
+      }
+    }
+  ]
+}

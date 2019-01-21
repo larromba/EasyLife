@@ -39,46 +39,6 @@ final class PlanRepository: PlanRepositoring {
 
     init(dataManager: CoreDataManaging) {
         self.dataManager = dataManager
-
-        #if DEBUG
-        if __isSnapshot {
-            do {
-                try await(dataManager.reset())
-            } catch {
-                fatalError(error.localizedDescription)
-            }
-
-            let missed1 = dataManager.insert(entityClass: TodoItem.self, context: .main)
-            missed1.date = Date().addingTimeInterval(-24 * 60 * 60)
-            missed1.name = "send letter"
-
-            let now1 = dataManager.insert(entityClass: TodoItem.self, context: .main)
-            now1.date = Date()
-            now1.name = "fix bike"
-
-            let now2 = dataManager.insert(entityClass: TodoItem.self, context: .main)
-            now2.date = Date()
-            now2.name = "get party food!"
-
-            let later1 = dataManager.insert(entityClass: TodoItem.self, context: .main)
-            later1.date = Date().addingTimeInterval(24 * 60 * 60)
-            later1.name = "phone mum"
-
-            let later2 = dataManager.insert(entityClass: TodoItem.self, context: .main)
-            later2.date = Date().addingTimeInterval(24 * 60 * 60)
-            later2.name = "clean flat"
-
-            let later3 = dataManager.insert(entityClass: TodoItem.self, context: .main)
-            later3.date = Date().addingTimeInterval(24 * 60 * 60)
-            later3.name = "call landlord"
-
-            async({
-                _ = try await(dataManager.save(context: .main))
-            }, onError: { error in
-                fatalError(error.localizedDescription)
-            })
-        }
-        #endif
     }
 
     func newItem() -> Result<TodoItem> {
