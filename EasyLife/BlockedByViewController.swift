@@ -1,28 +1,28 @@
 import Logging
 import UIKit
 
-protocol BlockedViewControlling: Presentable, Mockable {
-    var viewState: BlockedViewStating? { get set }
+protocol BlockedByViewControlling: Presentable, Mockable {
+    var viewState: BlockedByViewStating? { get set }
 
-    func setDelegate(_ delegate: BlockedViewControllerDelegate)
+    func setDelegate(_ delegate: BlockedByViewControllerDelegate)
     func reload()
     func reloadRows(at indexPath: IndexPath)
 }
 
-protocol BlockedViewControllerDelegate: AnyObject {
-    func viewControllerWillDismiss(_ viewController: BlockedViewControlling)
-    func viewController(_ viewController: BlockedViewControlling, didSelectRowAtIndexPath indexPath: IndexPath)
+protocol BlockedByViewControllerDelegate: AnyObject {
+    func viewControllerWillDismiss(_ viewController: BlockedByViewControlling)
+    func viewController(_ viewController: BlockedByViewControlling, didSelectRowAtIndexPath indexPath: IndexPath)
 }
 
-final class BlockedViewController: UIViewController, BlockedViewControlling {
+final class BlockedByViewController: UIViewController, BlockedByViewControlling {
     @IBOutlet weak var tableView: UITableView!
-    private weak var delegate: BlockedViewControllerDelegate?
+    private weak var delegate: BlockedByViewControllerDelegate?
 
-    var viewState: BlockedViewStating? {
+    var viewState: BlockedByViewStating? {
         didSet { _ = viewState.map(bind) }
     }
 
-    func setDelegate(_ delegate: BlockedViewControllerDelegate) {
+    func setDelegate(_ delegate: BlockedByViewControllerDelegate) {
         self.delegate = delegate
     }
 
@@ -48,14 +48,14 @@ final class BlockedViewController: UIViewController, BlockedViewControlling {
 
     // MARK: - private
 
-    private func bind(_ viewState: BlockedViewStating) {
+    private func bind(_ viewState: BlockedByViewStating) {
         guard isViewLoaded else { return }
     }
 }
 
 // MARK: - UITableViewDelegate
 
-extension BlockedViewController: UITableViewDelegate {
+extension BlockedByViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return viewState?.rowHeight ?? 0.0
     }
@@ -67,7 +67,7 @@ extension BlockedViewController: UITableViewDelegate {
 
 // MARK: - UITableViewDataSource
 
-extension BlockedViewController: UITableViewDataSource {
+extension BlockedByViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewState?.rowCount ?? 0
     }

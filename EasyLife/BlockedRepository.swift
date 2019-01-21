@@ -1,12 +1,12 @@
 import AsyncAwait
 import Foundation
 
-// sourcery: name = BlockedRepository
-protocol BlockedRepositoring: Mockable {
+// sourcery: name = BlockedByRepository
+protocol BlockedByRepositoring: Mockable {
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]>
 }
 
-final class BlockedRepository: BlockedRepositoring {
+final class BlockedByRepository: BlockedByRepositoring {
     private let dataManager: CoreDataManaging
 
     init(dataManager: CoreDataManaging) {

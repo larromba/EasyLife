@@ -1,3 +1,4 @@
+import AsyncAwait
 @testable import EasyLife
 import TestExtensions
 import XCTest
@@ -11,9 +12,8 @@ final class ArchiveTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        navigationController = UINavigationController() // TODO: from story?
-        viewController = UIStoryboard.archive
-            .instantiateViewController(withIdentifier: "ArchiveViewController") as? ArchiveViewController
+        navigationController = UIStoryboard.archive.instantiateInitialViewController() as? UINavigationController
+        viewController = navigationController.viewControllers.first as? ArchiveViewController
         viewController.prepareView()
         navigationController.pushViewController(viewController, animated: false)
         alertController = AlertController(presenter: viewController)
@@ -138,7 +138,7 @@ final class ArchiveTests: XCTestCase {
         // sut
         waitSync()
         guard let action = viewController.actions(row: 0, section: 0)?.first else { return XCTFail("expected action") }
-        action._handler(action, IndexPath())
+        XCTAssertTrue(action.fire())
 
         // test
         waitSync()
@@ -176,7 +176,7 @@ final class ArchiveTests: XCTestCase {
         }
 
         // sut
-        alertController.triggerAction(alertController.actions[1])
+        XCTAssertTrue(alertController.actions[safe: 1]?.fire() ?? false)
 
         // test
         waitAsync(delay: 0.5) { completion in
@@ -191,7 +191,7 @@ final class ArchiveTests: XCTestCase {
         }
     }
 
-    // MARK: - actions
+    // MARK: - other
 
     func testDoneCloses() {
         // mocks
@@ -204,15 +204,12 @@ final class ArchiveTests: XCTestCase {
         presenter.present(navigationController, animated: false, completion: nil)
 
         // sut
-        waitSync()
         viewController.doneButton.fire()
 
         // test
         waitSync()
         XCTAssertNil(presenter.presentedViewController)
     }
-
-    // MARK: - other
 
     func testErrorAlertShows() {
         // mocks

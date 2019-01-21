@@ -48,7 +48,7 @@ final class ItemDetailTests: XCTestCase {
             XCTFail("expected UIAlertController")
             return
         }
-        alertController.triggerAction(alertController.actions[1])
+        XCTAssertTrue(alertController.actions[safe: 1]?.fire() ?? false)
 
         // test
         waitAsync { completion in
@@ -397,7 +397,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertEqual(viewController.blockedBadgeLabel?.text, "1")
     }
 
-    func testBlockedButtonOpensBlockedViewController() {
+    func testBlockedButtonOpensBlockedByViewController() {
         // mocks
         env.inject()
         env.itemDetailController.setViewController(viewController)
@@ -407,7 +407,7 @@ final class ItemDetailTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertTrue(navigationController.viewControllers.last is BlockedViewController)
+        XCTAssertTrue(navigationController.viewControllers.last is BlockedByViewController)
     }
 
     func testBlockedButtonDisabledWhenOnly1Item() {

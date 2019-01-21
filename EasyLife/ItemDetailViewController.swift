@@ -151,7 +151,6 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         blockedButton.isEnabled = viewState.isBlockedButtonEnabled
         blockedButton.pp.addBadge(number: viewState.blockedCount)
         blockedButton.pp.setBadgeLabel(attributes: { self.blockedBadgeLabel = $0 })
-        print(self.blockedBadgeLabel)
     }
 
     private func makeFirstResponder(_ responder: UIResponder?) {

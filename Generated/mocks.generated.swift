@@ -501,16 +501,7 @@ class MockBadge: NSObject, Badge {
     }
 }
 
-class MockBlockedCell: NSObject, BlockedCelling {
-    var viewState: ProjectCellViewStating? {
-        get { return _viewState }
-        set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
-    }
-    var _viewState: ProjectCellViewStating?
-    var _viewStateHistory: [_Variable<ProjectCellViewStating?>] = []
-}
-
-class MockBlockedController: NSObject, BlockedControlling {
+class MockBlockedByController: NSObject, BlockedByControlling {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -518,7 +509,7 @@ class MockBlockedController: NSObject, BlockedControlling {
 
     // MARK: - setViewController
 
-    func setViewController(_ viewController: BlockedViewControlling) {
+    func setViewController(_ viewController: BlockedByViewControlling) {
         let functionName = setViewController1.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: viewController, forKey: setViewController1.params.viewController)
@@ -528,7 +519,7 @@ class MockBlockedController: NSObject, BlockedControlling {
     enum setViewController1: String, _StringRawRepresentable {
         case name = "setViewController1"
         enum params: String, _StringRawRepresentable {
-            case viewController = "setViewController(_viewController:BlockedViewControlling).viewController"
+            case viewController = "setViewController(_viewController:BlockedByViewControlling).viewController"
         }
     }
 
@@ -565,16 +556,7 @@ class MockBlockedController: NSObject, BlockedControlling {
     }
 }
 
-class MockBlockedIndicatorView: NSObject, BlockedIndicatorViewing {
-    var viewState: BlockedIndicatorViewStating? {
-        get { return _viewState }
-        set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
-    }
-    var _viewState: BlockedIndicatorViewStating?
-    var _viewStateHistory: [_Variable<BlockedIndicatorViewStating?>] = []
-}
-
-class MockBlockedRepository: NSObject, BlockedRepositoring {
+class MockBlockedByRepository: NSObject, BlockedByRepositoring {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -598,13 +580,13 @@ class MockBlockedRepository: NSObject, BlockedRepositoring {
     }
 }
 
-class MockBlockedViewControlling: NSObject, BlockedViewControlling {
-    var viewState: BlockedViewStating? {
+class MockBlockedByViewControlling: NSObject, BlockedByViewControlling {
+    var viewState: BlockedByViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
     }
-    var _viewState: BlockedViewStating?
-    var _viewStateHistory: [_Variable<BlockedViewStating?>] = []
+    var _viewState: BlockedByViewStating?
+    var _viewStateHistory: [_Variable<BlockedByViewStating?>] = []
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -612,7 +594,7 @@ class MockBlockedViewControlling: NSObject, BlockedViewControlling {
 
     // MARK: - setDelegate
 
-    func setDelegate(_ delegate: BlockedViewControllerDelegate) {
+    func setDelegate(_ delegate: BlockedByViewControllerDelegate) {
         let functionName = setDelegate1.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: delegate, forKey: setDelegate1.params.delegate)
@@ -622,7 +604,7 @@ class MockBlockedViewControlling: NSObject, BlockedViewControlling {
     enum setDelegate1: String, _StringRawRepresentable {
         case name = "setDelegate1"
         enum params: String, _StringRawRepresentable {
-            case delegate = "setDelegate(_delegate:BlockedViewControllerDelegate).delegate"
+            case delegate = "setDelegate(_delegate:BlockedByViewControllerDelegate).delegate"
         }
     }
 
@@ -675,6 +657,24 @@ class MockBlockedViewControlling: NSObject, BlockedViewControlling {
             case completion = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).completion"
         }
     }
+}
+
+class MockBlockedCell: NSObject, BlockedCelling {
+    var viewState: ProjectCellViewStating? {
+        get { return _viewState }
+        set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
+    }
+    var _viewState: ProjectCellViewStating?
+    var _viewStateHistory: [_Variable<ProjectCellViewStating?>] = []
+}
+
+class MockBlockedIndicatorView: NSObject, BlockedIndicatorViewing {
+    var viewState: BlockedIndicatorViewStating? {
+        get { return _viewState }
+        set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
+    }
+    var _viewState: BlockedIndicatorViewStating?
+    var _viewStateHistory: [_Variable<BlockedIndicatorViewStating?>] = []
 }
 
 class MockCoreDataManaging: NSObject, CoreDataManaging {

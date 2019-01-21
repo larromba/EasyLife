@@ -17,13 +17,13 @@ enum AppControllerFactory {
                     repository: PlanRepository(dataManager: dataManager),
                     badge: AppBadge()
                 )
-                let blockedRepository = BlockedRepository(dataManager: dataManager)
+                let blockedByRepository = BlockedByRepository(dataManager: dataManager)
                 let itemDetailRepository = ItemDetailRepository(dataManager: dataManager, now: Date())
                 let planCoordinator = PlanCoordinator(
                     navigationController: navigationController,
                     planController: planController,
                     itemDetailController: ItemDetailController(repository: itemDetailRepository),
-                    blockedController: BlockedController(repository: blockedRepository)
+                    blockedByController: BlockedByController(repository: blockedByRepository)
                 )
 
                 let archiveRepository = ArchiveRepository(dataManager: dataManager)

@@ -8,17 +8,17 @@ protocol PlanCoordinating: Mockable {
 final class PlanCoordinator: NSObject, PlanCoordinating {
     private let planController: PlanControlling
     private let itemDetailController: ItemDetailControlling
-    private let blockedController: BlockedControlling
+    private let blockedByController: BlockedByControlling
     private let navigationController: UINavigationController
     private var context: ObjectContext<TodoItem>?
     private var lastNavigationStack = [UIViewController]()
 
     init(navigationController: UINavigationController, planController: PlanControlling,
-         itemDetailController: ItemDetailControlling, blockedController: BlockedControlling) {
+         itemDetailController: ItemDetailControlling, blockedByController: BlockedByControlling) {
         self.navigationController = navigationController
         self.planController = planController
         self.itemDetailController = itemDetailController
-        self.blockedController = blockedController
+        self.blockedByController = blockedByController
         super.init()
         navigationController.delegate = self
         planController.setDelegate(self)
@@ -76,11 +76,11 @@ extension PlanCoordinator: UINavigationControllerDelegate {
             if let item = context?.object {
                 itemDetailController.setItem(item)
             }
-        } else if let viewController = viewController as? BlockedViewControlling {
-            blockedController.setViewController(viewController)
-            blockedController.setAlertController(AlertController(presenter: viewController))
+        } else if let viewController = viewController as? BlockedByViewControlling {
+            blockedByController.setViewController(viewController)
+            blockedByController.setAlertController(AlertController(presenter: viewController))
             if let item = context?.object {
-                blockedController.setItem(item)
+                blockedByController.setItem(item)
             }
         } else {
             // TODO: this?

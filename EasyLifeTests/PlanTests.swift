@@ -430,7 +430,7 @@ final class PlanTests: XCTestCase {
         waitSync()
         guard let action = viewController.actions(row: 0, section: .today)?
             .first(where: { $0.title == "Done" }) else { return XCTFail("expected action") }
-        action._handler(action, IndexPath())
+        action.fire()
 
         // test
         waitSync()
@@ -448,7 +448,7 @@ final class PlanTests: XCTestCase {
         waitSync()
         guard let action = viewController.actions(row: 0, section: .today)?
             .first(where: { $0.title == "Done" }) else { return XCTFail("expected action") }
-        action._handler(action, IndexPath())
+        XCTAssertTrue(action.fire())
 
         // test
         waitSync()
@@ -465,7 +465,7 @@ final class PlanTests: XCTestCase {
         waitSync()
         guard let action = viewController.actions(row: 0, section: .today)?
             .first(where: { $0.title == "Delete" }) else { return XCTFail("expected action") }
-        action._handler(action, IndexPath())
+        XCTAssertTrue(action.fire())
 
         // test
         waitAsync(delay: 0.5, queue: .asyncAwait) { completion in
@@ -489,7 +489,7 @@ final class PlanTests: XCTestCase {
         waitSync()
         guard let action = viewController.actions(row: 0, section: .today)?
             .first(where: { $0.title == "Split" }) else { return XCTFail("expected action") }
-        action._handler(action, IndexPath())
+        XCTAssertTrue(action.fire())
 
         // test
         waitAsync(delay: 0.5, queue: .asyncAwait) { completion in
@@ -513,7 +513,7 @@ final class PlanTests: XCTestCase {
         waitSync()
         guard let action = viewController.actions(row: 0, section: .today)?
             .first(where: { $0.title == "Later" }) else { return XCTFail("expected action") }
-        action._handler(action, IndexPath())
+        XCTAssertTrue(action.fire())
 
         // test
         waitSync()

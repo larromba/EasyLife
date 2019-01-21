@@ -1,24 +1,24 @@
 import AsyncAwait
 import Foundation
 
-// sourcery: name = BlockedController
-protocol BlockedControlling: Mockable {
-    func setViewController(_ viewController: BlockedViewControlling)
+// sourcery: name = BlockedByController
+protocol BlockedByControlling: Mockable {
+    func setViewController(_ viewController: BlockedByViewControlling)
     func setAlertController(_ alertController: AlertControlling)
     func setItem(_ item: TodoItem)
 }
 
-final class BlockedController: BlockedControlling {
-    private weak var viewController: BlockedViewControlling?
+final class BlockedByController: BlockedByControlling {
+    private weak var viewController: BlockedByViewControlling?
     private var alertController: AlertControlling?
-    private let repository: BlockedRepositoring
+    private let repository: BlockedByRepositoring
     private var editContext: ObjectContext<TodoItem>?
 
-    init(repository: BlockedRepositoring) {
+    init(repository: BlockedByRepositoring) {
         self.repository = repository
     }
 
-    func setViewController(_ viewController: BlockedViewControlling) {
+    func setViewController(_ viewController: BlockedByViewControlling) {
         self.viewController = viewController
         viewController.setDelegate(self)
     }
@@ -32,7 +32,7 @@ final class BlockedController: BlockedControlling {
         async({
             let items = try await(self.repository.fetchItems(for: item))
             onMain {
-                self.viewController?.viewState = BlockedViewState(item: item, items: items)
+                self.viewController?.viewState = BlockedByViewState(item: item, items: items)
                 self.viewController?.reload()
             }
         }, onError: { error in
@@ -41,10 +41,10 @@ final class BlockedController: BlockedControlling {
     }
 }
 
-// MARK: - BlockedViewControllerDelegate
+// MARK: - BlockedByViewControllerDelegate
 
-extension BlockedController: BlockedViewControllerDelegate {
-    func viewControllerWillDismiss(_ viewController: BlockedViewControlling) {
+extension BlockedByController: BlockedByViewControllerDelegate {
+    func viewControllerWillDismiss(_ viewController: BlockedByViewControlling) {
         guard let item = editContext?.object, let viewState = viewController.viewState else { return }
         viewState.data.forEach {
             if $0.isBlocking {
@@ -55,7 +55,7 @@ extension BlockedController: BlockedViewControllerDelegate {
         }
     }
 
-    func viewController(_ viewController: BlockedViewControlling, didSelectRowAtIndexPath indexPath: IndexPath) {
+    func viewController(_ viewController: BlockedByViewControlling, didSelectRowAtIndexPath indexPath: IndexPath) {
         guard let viewState = viewController.viewState else { return }
         var data = viewState.data
         data[indexPath.row].isBlocking = !data[indexPath.row].isBlocking

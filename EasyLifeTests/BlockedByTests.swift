@@ -3,9 +3,9 @@ import TestExtensions
 import XCTest
 import UIKit
 
-final class BlockedTests: XCTestCase {
+final class BlockedByTests: XCTestCase {
     private var navigationController: UINavigationController!
-    private var viewController: BlockedViewController!
+    private var viewController: BlockedByViewController!
     private var alertController: AlertController!
     private var env: AppTestEnvironment!
 
@@ -13,7 +13,7 @@ final class BlockedTests: XCTestCase {
         super.setUp()
         navigationController = UIStoryboard.plan.instantiateInitialViewController() as? UINavigationController
         viewController = UIStoryboard.plan
-            .instantiateViewController(withIdentifier: "BlockedViewController") as? BlockedViewController
+            .instantiateViewController(withIdentifier: "BlockedByViewController") as? BlockedByViewController
         viewController.prepareView()
         alertController = AlertController(presenter: viewController)
         navigationController.pushViewController(viewController, animated: false)
@@ -34,8 +34,8 @@ final class BlockedTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty, name: "b")
-        env.blockedController.setViewController(viewController)
-        env.blockedController.setItem(item)
+        env.blockedByController.setViewController(viewController)
+        env.blockedByController.setItem(item)
 
         // test
         waitSync()
@@ -47,8 +47,8 @@ final class BlockedTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty)
-        env.blockedController.setViewController(viewController)
-        env.blockedController.setItem(item)
+        env.blockedByController.setViewController(viewController)
+        env.blockedByController.setItem(item)
 
         // test
         waitSync()
@@ -60,8 +60,8 @@ final class BlockedTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty, name: "b")
-        env.blockedController.setViewController(viewController)
-        env.blockedController.setItem(item)
+        env.blockedByController.setViewController(viewController)
+        env.blockedByController.setItem(item)
 
         // precondition
         waitSync()
@@ -83,8 +83,8 @@ final class BlockedTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty, name: "b")
-        env.blockedController.setViewController(viewController)
-        env.blockedController.setItem(item)
+        env.blockedByController.setViewController(viewController)
+        env.blockedByController.setItem(item)
         env.addToWindow()
         waitSync()
         viewController.selectRow(0)
@@ -104,8 +104,8 @@ final class BlockedTests: XCTestCase {
         _ = env.todoItem(type: .empty, name: "b")
         _ = env.todoItem(type: .empty, name: "c")
         _ = env.todoItem(type: .empty, name: "1")
-        env.blockedController.setViewController(viewController)
-        env.blockedController.setItem(item)
+        env.blockedByController.setViewController(viewController)
+        env.blockedByController.setItem(item)
 
         // test
         waitSync()
@@ -120,9 +120,9 @@ final class BlockedTests: XCTestCase {
         env.inject()
         env.addToWindow()
         let item = env.todoItem(type: .empty)
-        env.blockedController.setViewController(viewController)
-        env.blockedController.setAlertController(alertController)
-        env.blockedController.setItem(item)
+        env.blockedByController.setViewController(viewController)
+        env.blockedByController.setAlertController(alertController)
+        env.blockedByController.setItem(item)
 
         // test
         waitSync()
@@ -130,9 +130,9 @@ final class BlockedTests: XCTestCase {
     }
 }
 
-// MARK: - BlockedViewController
+// MARK: - BlockedByViewController
 
-private extension BlockedViewController {
+private extension BlockedByViewController {
     func rows(section: Int) -> Int {
         return tableView(tableView, numberOfRowsInSection: section)
     }

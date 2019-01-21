@@ -1,19 +1,19 @@
 import CoreGraphics
 import Foundation
 
-protocol BlockedViewStating {
+protocol BlockedByViewStating {
     var data: [BlockingContext<TodoItem>] { get }
     var sectionCount: Int { get }
     var rowCount: Int { get }
     var rowHeight: CGFloat { get }
 
-    func isBlocking(_ item: TodoItem) -> Bool
+    //func isBlocking(_ item: TodoItem) -> Bool
     func cellViewState(at indexPath: IndexPath) -> BlockedCellViewState?
 
-    func copy(data: [BlockingContext<TodoItem>]) -> BlockedViewState
+    func copy(data: [BlockingContext<TodoItem>]) -> BlockedByViewState
 }
 
-struct BlockedViewState: BlockedViewStating {
+struct BlockedByViewState: BlockedByViewStating {
     private(set) var data: [BlockingContext<TodoItem>]
     let sectionCount = 1
     var rowCount: Int {
@@ -29,9 +29,9 @@ struct BlockedViewState: BlockedViewStating {
         self.data = data
     }
 
-    func isBlocking(_ item: TodoItem) -> Bool {
-        return data.first(where: { $0.object === item })?.isBlocking ?? false
-    }
+//    func isBlocking(_ item: TodoItem) -> Bool {
+//        return data.first(where: { $0.object === item })?.isBlocking ?? false
+//    }
 
     func cellViewState(at indexPath: IndexPath) -> BlockedCellViewState? {
         let context = data[indexPath.row]
@@ -39,8 +39,8 @@ struct BlockedViewState: BlockedViewStating {
     }
 }
 
-extension BlockedViewState {
-    func copy(data: [BlockingContext<TodoItem>]) -> BlockedViewState {
-        return BlockedViewState(data: data)
+extension BlockedByViewState {
+    func copy(data: [BlockingContext<TodoItem>]) -> BlockedByViewState {
+        return BlockedByViewState(data: data)
     }
 }

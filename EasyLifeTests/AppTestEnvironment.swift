@@ -2,6 +2,7 @@ import AsyncAwait
 import CoreData
 import Foundation
 @testable import EasyLife
+import UIKit
 
 final class AppTestEnvironment: TestEnvironment {
     enum TodoItemType {
@@ -25,9 +26,9 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var alertController: AlertControlling!
     private(set) var planController: PlanControlling!
     private(set) var itemDetailRepository: ItemDetailRepository!
-    private(set) var blockedRepository: BlockedRepository!
+    private(set) var blockedByRepository: BlockedByRepository!
     private(set) var itemDetailController: ItemDetailController!
-    private(set) var blockedController: BlockedController!
+    private(set) var blockedByController: BlockedByController!
     private(set) var planCoordinator: PlanCoordinator!
     private(set) var archiveRepository: ArchiveRepository!
     private(set) var archiveController: ArchiveController!
@@ -63,15 +64,15 @@ final class AppTestEnvironment: TestEnvironment {
                                         alertController: alertController,
                                         repository: repository,
                                         badge: badge)
-        blockedRepository = BlockedRepository(dataManager: dataManager)
+        blockedByRepository = BlockedByRepository(dataManager: dataManager)
         itemDetailRepository = ItemDetailRepository(dataManager: dataManager, now: now)
         itemDetailController = ItemDetailController(repository: itemDetailRepository)
-        blockedController = BlockedController(repository: blockedRepository)
+        blockedByController = BlockedByController(repository: blockedByRepository)
         planCoordinator = PlanCoordinator(
             navigationController: navigationController,
             planController: planController,
             itemDetailController: itemDetailController,
-            blockedController: blockedController
+            blockedByController: blockedByController
         )
         archiveRepository = ArchiveRepository(dataManager: dataManager)
         archiveController = ArchiveController(repository: archiveRepository)
