@@ -24,7 +24,7 @@ struct PlanCellViewState: PlanCellViewStating {
     }
 
     let iconImage: UIImage?
-    let isIconHidden: Bool // TODO: remove?
+    let isIconHidden: Bool
     let infoText: String
     let infoColor: UIColor
     let isInfoLabelHidden: Bool

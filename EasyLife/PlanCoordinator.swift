@@ -83,8 +83,7 @@ extension PlanCoordinator: UINavigationControllerDelegate {
                 blockedByController.setItem(item)
             }
         } else {
-            // TODO: this?
-            //assertionFailure("unhandled viewController: \(viewController.classForCoder)")
+            assertionFailureIgnoreTests("unhandled viewController: \(viewController.classForCoder)")
         }
     }
 }

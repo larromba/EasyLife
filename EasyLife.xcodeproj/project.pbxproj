@@ -121,6 +121,7 @@
 		7FC488D72041A763003F6F19 /* BlockedByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D62041A763003F6F19 /* BlockedByViewController.swift */; };
 		7FC73E771F5AA89200A55703 /* MockProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E761F5AA89200A55703 /* MockProject.swift */; };
 		7FC73E7D1F5ABE6700A55703 /* EasyLife.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E7B1F5ABE6700A55703 /* EasyLife.xcdatamodeld */; };
+		7FCC1B8721F61FDE00DDD446 /* AssertionFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC1B8621F61FDE00DDD446 /* AssertionFailure.swift */; };
 		7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */; };
 		7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */; };
 		7FCEC9281EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9271EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift */; };
@@ -291,6 +292,7 @@
 		7FC73E761F5AA89200A55703 /* MockProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockProject.swift; sourceTree = "<group>"; };
 		7FC73E7C1F5ABE6700A55703 /* EasyLife.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyLife.xcdatamodel; sourceTree = "<group>"; };
 		7FC73E7E1F5ABE7A00A55703 /* EasyLife 1.3.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EasyLife 1.3.0.xcdatamodel"; sourceTree = "<group>"; };
+		7FCC1B8621F61FDE00DDD446 /* AssertionFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertionFailure.swift; sourceTree = "<group>"; };
 		7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatTests.swift; sourceTree = "<group>"; };
 		7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegmentTests.swift; sourceTree = "<group>"; };
 		7FCEC9271EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSPersistentContainerExtensions.swift; sourceTree = "<group>"; };
@@ -623,6 +625,7 @@
 				7F3BD2DF21D65E970035F540 /* RainbowAnimation.swift */,
 				7F3BD2EE21D6D6440035F540 /* Utility.swift */,
 				7FA1696521DE642300D8BA3F /* KeyboardNotification.swift */,
+				7FCC1B8621F61FDE00DDD446 /* AssertionFailure.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -920,6 +923,7 @@
 				7F429C9321C53B7800195E32 /* LayoutConstraintCache.swift in Sources */,
 				7FC488D72041A763003F6F19 /* BlockedByViewController.swift in Sources */,
 				7F3BD2BF21D13D030035F540 /* BlockedByController.swift in Sources */,
+				7FCC1B8721F61FDE00DDD446 /* AssertionFailure.swift in Sources */,
 				7FE4488F2041F49900F2DE77 /* ItemDetailRepository.swift in Sources */,
 				7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */,
 				7F3BD2D121D2D82D0035F540 /* BlockedState.swift in Sources */,
