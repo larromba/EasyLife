@@ -2,7 +2,7 @@ import XCTest
 import CoreData
 @testable import EasyLife
 
-final class DataManagerTests: XCTestCase {
+final class DataTests: XCTestCase {
     func testMigrations() {
         // prepare
         let bundle = Bundle(for: DataManagerTests.self)
