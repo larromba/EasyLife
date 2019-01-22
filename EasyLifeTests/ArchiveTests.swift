@@ -1,8 +1,8 @@
 import AsyncAwait
 @testable import EasyLife
 import TestExtensions
-import XCTest
 import UIKit
+import XCTest
 
 final class ArchiveTests: XCTestCase {
     private var navigationController: UINavigationController!

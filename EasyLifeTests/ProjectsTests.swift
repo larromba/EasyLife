@@ -1,9 +1,10 @@
 import AsyncAwait
 @testable import EasyLife
 import TestExtensions
-import XCTest
 import UIKit
+import XCTest
 
+// swiftlint:disable file_length type_body_length
 final class ProjectsTests: XCTestCase {
     private var navigationController: UINavigationController!
     private var viewController: ProjectsViewController!
@@ -425,7 +426,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertEqual(viewController.rows(.prioritized), 1)
 
         // sut
-        viewController.move(from: 0, fromSection: .other, to: 0, toSection: .prioritized)
+        viewController.move(fromRow: 0, fromSection: .other, toRow: 0, toSection: .prioritized)
 
         // test
         waitSync()
@@ -447,7 +448,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertEqual(viewController.rows(.prioritized), 1)
 
         // sut
-        viewController.move(from: 0, fromSection: .prioritized, to: 0, toSection: .other)
+        viewController.move(fromRow: 0, fromSection: .prioritized, toRow: 0, toSection: .other)
 
         // test
         waitSync()
@@ -466,7 +467,7 @@ final class ProjectsTests: XCTestCase {
         waitSync()
 
         // sut
-        viewController.move(from: 1, fromSection: .prioritized, to: 0, toSection: .prioritized)
+        viewController.move(fromRow: 1, fromSection: .prioritized, toRow: 0, toSection: .prioritized)
 
         // test
         waitSync()
@@ -486,7 +487,7 @@ final class ProjectsTests: XCTestCase {
         waitSync()
 
         // sut
-        viewController.move(from: 0, fromSection: .prioritized, to: 1, toSection: .prioritized)
+        viewController.move(fromRow: 0, fromSection: .prioritized, toRow: 1, toSection: .prioritized)
 
         // test
         waitSync()
@@ -587,9 +588,9 @@ private extension ProjectsViewController {
         return tableView(tableView, editActionsForRowAt: indexPath)
     }
 
-    func move(from: Int, fromSection: ProjectSection, to: Int, toSection: ProjectSection) {
-        let fromIndexPath = IndexPath(row: from, section: fromSection.rawValue)
-        let toIndexPath = IndexPath(row: to, section: toSection.rawValue)
+    func move(fromRow: Int, fromSection: ProjectSection, toRow: Int, toSection: ProjectSection) {
+        let fromIndexPath = IndexPath(row: fromRow, section: fromSection.rawValue)
+        let toIndexPath = IndexPath(row: toRow, section: toSection.rawValue)
         tableView(tableView, moveRowAt: fromIndexPath, to: toIndexPath)
     }
 

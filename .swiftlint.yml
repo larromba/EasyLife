@@ -1,6 +1,6 @@
 included:
   - EasyLife
-  #- EasyLifeTests
+  - EasyLifeTests
 excluded:
   - Pods
   - Carthage

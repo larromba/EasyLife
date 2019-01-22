@@ -1,12 +1,12 @@
-import XCTest
-import CoreData
 @testable import EasyLife
+import XCTest
 
 final class DateSegmentTests: XCTestCase {
     func testDisplay() {
         XCTAssertEqual(DateSegment.display.count, 11)
     }
 
+    // swiftlint:disable cyclomatic_complexity
     func testIncrement() {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(identifier: "GMT")

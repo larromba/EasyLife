@@ -1,6 +1,6 @@
-import XCTest
 import CoreData
 @testable import EasyLife
+import XCTest
 
 final class DataTests: XCTestCase {
     func testMigrations() {

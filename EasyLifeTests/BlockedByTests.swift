@@ -1,7 +1,7 @@
 @testable import EasyLife
 import TestExtensions
-import XCTest
 import UIKit
+import XCTest
 
 final class BlockedByTests: XCTestCase {
     private var navigationController: UINavigationController!

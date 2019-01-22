@@ -76,8 +76,6 @@
 		7F61898C21E8DCC40047832C /* ItemDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F61898B21E8DCC40047832C /* ItemDetailTests.swift */; };
 		7F7540111F5AD1A900A0F06C /* Project.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F75400F1F5AD1A900A0F06C /* Project.storyboard */; };
 		7F7770C71EE827F000A58494 /* Archive.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F7770C91EE827F000A58494 /* Archive.storyboard */; };
-		7F7770CD1EE8358500A58494 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7770CC1EE8358500A58494 /* GCD.swift */; };
-		7F90548B1EA7B6DF006D8F73 /* MockTodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90548A1EA7B6DF006D8F73 /* MockTodoItem.swift */; };
 		7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */; };
 		7F93792F1EA7661B009E33FA /* DateSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792E1EA7661B009E33FA /* DateSegment.swift */; };
 		7F9C62222018BF32006890EB /* DateComponentsFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C62202018BE5E006890EB /* DateComponentsFormatterExtensions.swift */; };
@@ -118,7 +116,6 @@
 		7FBA028D1EE1E85800C3103A /* ArchiveRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA028C1EE1E85800C3103A /* ArchiveRepository.swift */; };
 		7FC488D42041A3DD003F6F19 /* BlockedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D32041A3DD003F6F19 /* BlockedCell.swift */; };
 		7FC488D72041A763003F6F19 /* BlockedByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D62041A763003F6F19 /* BlockedByViewController.swift */; };
-		7FC73E771F5AA89200A55703 /* MockProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E761F5AA89200A55703 /* MockProject.swift */; };
 		7FC73E7D1F5ABE6700A55703 /* EasyLife.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E7B1F5ABE6700A55703 /* EasyLife.xcdatamodeld */; };
 		7FCC1B8721F61FDE00DDD446 /* AssertionFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC1B8621F61FDE00DDD446 /* AssertionFailure.swift */; };
 		7FCC1B8F21F6237000DDD446 /* Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC1B8E21F6237000DDD446 /* Snapshots.swift */; };
@@ -247,8 +244,6 @@
 		7F7540131F5AD29C00A0F06C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Project.strings; sourceTree = "<group>"; };
 		7F7770C81EE827F000A58494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Archive.storyboard; sourceTree = "<group>"; };
 		7F7770CB1EE827F200A58494 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Archive.strings; sourceTree = "<group>"; };
-		7F7770CC1EE8358500A58494 /* GCD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCD.swift; sourceTree = "<group>"; };
-		7F90548A1EA7B6DF006D8F73 /* MockTodoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTodoItem.swift; sourceTree = "<group>"; };
 		7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleDatePicker.swift; sourceTree = "<group>"; };
 		7F93792E1EA7661B009E33FA /* DateSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegment.swift; sourceTree = "<group>"; };
 		7F9C62202018BE5E006890EB /* DateComponentsFormatterExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateComponentsFormatterExtensions.swift; sourceTree = "<group>"; };
@@ -296,7 +291,6 @@
 		7FC488D32041A3DD003F6F19 /* BlockedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedCell.swift; sourceTree = "<group>"; };
 		7FC488D52041A50C003F6F19 /* EasyLife 1.5.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EasyLife 1.5.0.xcdatamodel"; sourceTree = "<group>"; };
 		7FC488D62041A763003F6F19 /* BlockedByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedByViewController.swift; sourceTree = "<group>"; };
-		7FC73E761F5AA89200A55703 /* MockProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockProject.swift; sourceTree = "<group>"; };
 		7FC73E7C1F5ABE6700A55703 /* EasyLife.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyLife.xcdatamodel; sourceTree = "<group>"; };
 		7FC73E7E1F5ABE7A00A55703 /* EasyLife 1.3.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EasyLife 1.3.0.xcdatamodel"; sourceTree = "<group>"; };
 		7FCC1B8621F61FDE00DDD446 /* AssertionFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertionFailure.swift; sourceTree = "<group>"; };
@@ -690,9 +684,6 @@
 			isa = PBXGroup;
 			children = (
 				7FA1696721DE68DB00D8BA3F /* AppTestEnvironment.swift */,
-				7F7770CC1EE8358500A58494 /* GCD.swift */,
-				7F90548A1EA7B6DF006D8F73 /* MockTodoItem.swift */,
-				7FC73E761F5AA89200A55703 /* MockProject.swift */,
 				7FA169AF21E3D79700D8BA3F /* DateExtensions.swift */,
 				7FA169BA21E3EF0600D8BA3F /* ArrayExtensions.swift */,
 				7F61898621E67E540047832C /* UIBarButtonItemExtensions.swift */,
@@ -1069,13 +1060,10 @@
 				7FFB4A6E21F4EC740011DA66 /* ProjectsTests.swift in Sources */,
 				7FFB4A7221F5C64A0011DA66 /* UITableViewRowActionExtensions.swift in Sources */,
 				7FD585FA21DE2B67002E9B85 /* TestEnvironment.swift in Sources */,
-				7F7770CD1EE8358500A58494 /* GCD.swift in Sources */,
 				7FFB4A7021F5C62E0011DA66 /* UIAlertActionExtensions.swift in Sources */,
 				7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */,
-				7F90548B1EA7B6DF006D8F73 /* MockTodoItem.swift in Sources */,
 				7F61898C21E8DCC40047832C /* ItemDetailTests.swift in Sources */,
 				7FA1696D21DE804300D8BA3F /* UIViewControllerExtensions.swift in Sources */,
-				7FC73E771F5AA89200A55703 /* MockProject.swift in Sources */,
 				7F1711E91FB1B7C600ED08D8 /* ItemTests.swift in Sources */,
 				7FA169BB21E3EF0600D8BA3F /* ArrayExtensions.swift in Sources */,
 				7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */,

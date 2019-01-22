@@ -1,9 +1,10 @@
 import AsyncAwait
-import Foundation
 @testable import EasyLife
+import Foundation
 import TestExtensions
 import XCTest
 
+// swiftlint:disable file_length type_body_length
 final class PlanTests: XCTestCase {
     private var navigationController: UINavigationController!
     private var viewController: PlanViewController!

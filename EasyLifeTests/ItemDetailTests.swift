@@ -1,10 +1,11 @@
 import AsyncAwait
 @testable import EasyLife
-import TestExtensions
 import PPBadgeView
-import XCTest
+import TestExtensions
 import UIKit
+import XCTest
 
+// swiftlint:disable type_body_length file_length
 final class ItemDetailTests: XCTestCase {
     private var navigationController: UINavigationController!
     private var viewController: ItemDetailViewController!

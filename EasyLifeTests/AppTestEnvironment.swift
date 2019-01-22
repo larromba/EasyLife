@@ -1,7 +1,7 @@
 import AsyncAwait
 import CoreData
-import Foundation
 @testable import EasyLife
+import Foundation
 import UIKit
 
 final class AppTestEnvironment: TestEnvironment {
