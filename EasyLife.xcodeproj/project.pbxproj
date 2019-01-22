@@ -472,6 +472,11 @@
 		7FA1696921DE6C2F00D8BA3F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				7FA169AF21E3D79700D8BA3F /* DateExtensions.swift */,
+				7FA169BA21E3EF0600D8BA3F /* ArrayExtensions.swift */,
+				7F61898621E67E540047832C /* UIBarButtonItemExtensions.swift */,
+				7FFB4A6F21F5C62E0011DA66 /* UIAlertActionExtensions.swift */,
+				7FFB4A7121F5C64A0011DA66 /* UITableViewRowActionExtensions.swift */,
 				7FCEC9271EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift */,
 				7FA1696C21DE804300D8BA3F /* UIViewControllerExtensions.swift */,
 				7F61898921E7F0CB0047832C /* UITableViewExtensions.swift */,
@@ -684,11 +689,6 @@
 			isa = PBXGroup;
 			children = (
 				7FA1696721DE68DB00D8BA3F /* AppTestEnvironment.swift */,
-				7FA169AF21E3D79700D8BA3F /* DateExtensions.swift */,
-				7FA169BA21E3EF0600D8BA3F /* ArrayExtensions.swift */,
-				7F61898621E67E540047832C /* UIBarButtonItemExtensions.swift */,
-				7FFB4A6F21F5C62E0011DA66 /* UIAlertActionExtensions.swift */,
-				7FFB4A7121F5C64A0011DA66 /* UITableViewRowActionExtensions.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
