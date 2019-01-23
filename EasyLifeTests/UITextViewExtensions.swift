@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 extension UITextView {
     func setText(_ text: String) {
