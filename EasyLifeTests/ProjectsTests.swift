@@ -158,8 +158,7 @@ final class ProjectsTests: XCTestCase {
             XCTFail("expected alert")
             return
         }
-        alert.textFields?[safe: 0]?.text = "test"
-        alert.textFields?[safe: 0]?.sendActions(for: .editingChanged)
+        alert.textFields?[safe: 0]?.setText("test")
         XCTAssertTrue(alert.actions[safe: 1]?.isEnabled ?? false)
     }
 
@@ -174,8 +173,7 @@ final class ProjectsTests: XCTestCase {
             XCTFail("expected alert")
             return
         }
-        alert.textFields?[safe: 0]?.text = "test"
-        alert.textFields?[safe: 0]?.sendActions(for: .editingChanged)
+        alert.textFields?[safe: 0]?.setText("test")
 
         // sut
         XCTAssertTrue(alert.actions[safe: 1]?.fire() ?? false)
@@ -248,8 +246,7 @@ final class ProjectsTests: XCTestCase {
             XCTFail("expected alert")
             return
         }
-        alert.textFields?[safe: 0]?.text = "test"
-        alert.textFields?[safe: 0]?.sendActions(for: .editingChanged)
+        alert.textFields?[safe: 0]?.setText("test")
         XCTAssertTrue(alert.actions[safe: 1]?.isEnabled ?? false)
     }
 
@@ -266,8 +263,7 @@ final class ProjectsTests: XCTestCase {
             XCTFail("expected alert")
             return
         }
-        alert.textFields?[safe: 0]?.text = "test"
-        alert.textFields?[safe: 0]?.sendActions(for: .editingChanged)
+        alert.textFields?[safe: 0]?.setText("test")
 
         // sut
         XCTAssertTrue(alert.actions[safe: 1]?.fire() ?? false)

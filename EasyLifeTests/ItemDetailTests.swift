@@ -507,13 +507,11 @@ final class ItemDetailTests: XCTestCase {
 
         // sut
         waitSync()
-        viewController.titleTextField.text = "foo"
-        viewController.titleTextField.sendActions(for: .editingChanged)
+        viewController.titleTextField?.setText("foo")
         viewController.datePicker(viewController.simpleDatePicker, didSelectDate: Date.distantPast)
         viewController.pickerView(viewController.repeatPicker, didSelectRow: 1, inComponent: 0)
         viewController.pickerView(viewController.projectPicker, didSelectRow: 0, inComponent: 0)
-        viewController.textView.text = "bar"
-        viewController.textViewDidChange(viewController.textView)
+        viewController.textView.setText("bar")
 
         // test
         XCTAssertEqual(item.name, "foo")
@@ -531,8 +529,7 @@ final class ItemDetailTests: XCTestCase {
         env.itemDetailController.setItem(item)
         env.itemDetailController.setAlertController(alertController)
         env.addToWindow()
-        viewController.titleTextField.text = "foo"
-        viewController.titleTextField.sendActions(for: .editingChanged)
+        viewController.titleTextField.setText("foo")
 
         // sut
         XCTAssertTrue(viewController.navigationItem.leftBarButtonItem?.fire() ?? false)

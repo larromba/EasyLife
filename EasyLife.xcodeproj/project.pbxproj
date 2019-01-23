@@ -71,6 +71,8 @@
 		7F429CA721C66B5000195E32 /* ProjectsAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429CA621C66B5000195E32 /* ProjectsAction.swift */; };
 		7F429CA921C66B5C00195E32 /* ProjectItemAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429CA821C66B5C00195E32 /* ProjectItemAction.swift */; };
 		7F429CAB21C7FD0D00195E32 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429CAA21C7FD0D00195E32 /* Presentable.swift */; };
+		7F48FEDF21F7D52600EACC03 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F48FEDE21F7D52600EACC03 /* UITextFieldExtensions.swift */; };
+		7F48FEE121F7D63200EACC03 /* UITextViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F48FEE021F7D63200EACC03 /* UITextViewExtensions.swift */; };
 		7F61898721E67E540047832C /* UIBarButtonItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F61898621E67E540047832C /* UIBarButtonItemExtensions.swift */; };
 		7F61898A21E7F0CB0047832C /* UITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F61898921E7F0CB0047832C /* UITableViewExtensions.swift */; };
 		7F61898C21E8DCC40047832C /* ItemDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F61898B21E8DCC40047832C /* ItemDetailTests.swift */; };
@@ -237,6 +239,8 @@
 		7F429CA621C66B5000195E32 /* ProjectsAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsAction.swift; sourceTree = "<group>"; };
 		7F429CA821C66B5C00195E32 /* ProjectItemAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectItemAction.swift; sourceTree = "<group>"; };
 		7F429CAA21C7FD0D00195E32 /* Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
+		7F48FEDE21F7D52600EACC03 /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
+		7F48FEE021F7D63200EACC03 /* UITextViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExtensions.swift; sourceTree = "<group>"; };
 		7F61898621E67E540047832C /* UIBarButtonItemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItemExtensions.swift; sourceTree = "<group>"; };
 		7F61898921E7F0CB0047832C /* UITableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtensions.swift; sourceTree = "<group>"; };
 		7F61898B21E8DCC40047832C /* ItemDetailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailTests.swift; sourceTree = "<group>"; };
@@ -480,6 +484,8 @@
 				7FCEC9271EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift */,
 				7FA1696C21DE804300D8BA3F /* UIViewControllerExtensions.swift */,
 				7F61898921E7F0CB0047832C /* UITableViewExtensions.swift */,
+				7F48FEDE21F7D52600EACC03 /* UITextFieldExtensions.swift */,
+				7F48FEE021F7D63200EACC03 /* UITextViewExtensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1064,6 +1070,7 @@
 				7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */,
 				7F61898C21E8DCC40047832C /* ItemDetailTests.swift in Sources */,
 				7FA1696D21DE804300D8BA3F /* UIViewControllerExtensions.swift in Sources */,
+				7F48FEDF21F7D52600EACC03 /* UITextFieldExtensions.swift in Sources */,
 				7F1711E91FB1B7C600ED08D8 /* ItemTests.swift in Sources */,
 				7FA169BB21E3EF0600D8BA3F /* ArrayExtensions.swift in Sources */,
 				7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */,
@@ -1072,6 +1079,7 @@
 				7FA169B021E3D79700D8BA3F /* DateExtensions.swift in Sources */,
 				7FA1696821DE68DB00D8BA3F /* AppTestEnvironment.swift in Sources */,
 				7FCEC9281EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift in Sources */,
+				7F48FEE121F7D63200EACC03 /* UITextViewExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
