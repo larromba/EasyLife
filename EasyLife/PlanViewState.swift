@@ -62,7 +62,7 @@ struct PlanViewState: PlanViewStating {
     }
     let isDoneHidden: Bool
     var isTableHeaderHidden: Bool {
-        return !isDoneForNow && !isDoneTotally
+        return !isDoneForNow || isTableHidden
     }
     var isTableHidden: Bool {
         return isDoneTotally
