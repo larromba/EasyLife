@@ -28,6 +28,7 @@ final class PlanViewController: UIViewController, PlanViewControlling {
     @IBOutlet private(set) weak var projectsButton: UIBarButtonItem!
     @IBOutlet private(set) weak var tableHeaderView: UITableView!
     @IBOutlet private(set) weak var appVersionLabel: UILabel!
+    @IBOutlet private(set) weak var doneLabel: UILabel!
     private var tableHeaderAnimation: RepeatColorViewAnimation?
     private weak var delegate: PlanViewControllerDelegate?
     var viewState: PlanViewStating? {
@@ -76,6 +77,7 @@ final class PlanViewController: UIViewController, PlanViewControlling {
     private func bind(_ viewState: PlanViewStating) {
         guard isViewLoaded else { return }
         appVersionLabel.text = viewState.appVersionText
+        doneLabel.isHidden = viewState.isDoneHidden
         tableHeaderView.isHidden = viewState.isTableHeaderHidden
         tableHeaderView.bounds.size.height = tableView.bounds.height * viewState.tableHeaderHeightPercentage
         tableView.isHidden = viewState.isTableHidden

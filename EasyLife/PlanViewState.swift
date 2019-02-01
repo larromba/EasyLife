@@ -14,6 +14,7 @@ protocol PlanViewStating {
     var totalLater: Int { get }
     var isDoneTotally: Bool { get }
     var isDoneForNow: Bool { get }
+    var isDoneHidden: Bool { get }
     var isTableHeaderHidden: Bool { get }
     var isTableHidden: Bool { get }
     var numOfSections: Int { get }
@@ -28,7 +29,7 @@ protocol PlanViewStating {
     func availableActions(for item: TodoItem, at indexPath: IndexPath) -> [PlanItemAction]
     func tableHeaderAlpha(forHeight height: CGFloat, scrollOffsetY: CGFloat) -> CGFloat
 
-    func copy(sections: [PlanSection: [TodoItem]]) -> PlanViewStating
+    func copy(sections: [PlanSection: [TodoItem]], isDoneHidden: Bool) -> PlanViewStating
 }
 
 struct PlanViewState: PlanViewStating {
@@ -59,8 +60,9 @@ struct PlanViewState: PlanViewStating {
     var isDoneForNow: Bool {
         return totalMissed == 0 && totalToday == 0
     }
+    let isDoneHidden: Bool
     var isTableHeaderHidden: Bool {
-        return !isDoneForNow
+        return !isDoneForNow && !isDoneTotally
     }
     var isTableHidden: Bool {
         return isDoneTotally
@@ -69,8 +71,9 @@ struct PlanViewState: PlanViewStating {
         return sections.count
     }
 
-    init(sections: [PlanSection: [TodoItem]]) {
+    init(sections: [PlanSection: [TodoItem]], isDoneHidden: Bool) {
         self.sections = sections
+        self.isDoneHidden = isDoneHidden
     }
 
     func color(for action: PlanItemAction) -> UIColor {
@@ -162,7 +165,7 @@ struct PlanViewState: PlanViewStating {
 }
 
 extension PlanViewState {
-    func copy(sections: [PlanSection: [TodoItem]]) -> PlanViewStating {
-        return PlanViewState(sections: sections)
+    func copy(sections: [PlanSection: [TodoItem]], isDoneHidden: Bool) -> PlanViewStating {
+        return PlanViewState(sections: sections, isDoneHidden: isDoneHidden)
     }
 }

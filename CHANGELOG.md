@@ -1,5 +1,8 @@
 # Changelog
 
+## v2.0.1 (01/02/2019)
+    minor bug fixes and improvements
+
 ## v2.0.0 (21/01/2019) (Free)
     huge code refactor
     open sourced code
@@ -51,18 +54,18 @@
 SKU: 421042017
 Apple ID: 1229095589
 
-# Ideas
+# Future Work
 
-noise when done 
-apreciation diary
-lists:
+- noise when done 
+- apreciation diary
+- cursom lists:
     to watch
     to read
     to buy
     shopping list
-siri integration
-weird animation flash at start?
-holiday mode
-later in missed
-focus mode
-local notification to update badge?
+    apreciation diary
+- siri integration
+- holiday mode
+- later in missed?
+- focus mode
+- local notification to update badge?

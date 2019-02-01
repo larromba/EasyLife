@@ -31,7 +31,7 @@ final class PlanController: PlanControlling {
     }
 
     func start() {
-        viewController.viewState = PlanViewState(sections: [:])
+        viewController.viewState = PlanViewState(sections: [:], isDoneHidden: true)
         viewController.setTableHeaderAnimation(RainbowAnimation())
         reload()
     }
@@ -68,7 +68,7 @@ final class PlanController: PlanControlling {
                 PlanSection.later: try await(self.repository.fetchLaterItems())
             ]
             guard let viewState = self.viewController.viewState else { return }
-            let newViewState = viewState.copy(sections: sections)
+            let newViewState = viewState.copy(sections: sections, isDoneHidden: false)
             _ = try? await(self.badge.setNumber(newViewState.totalMissed + newViewState.totalToday))
             onMain {
                 self.viewController.viewState = newViewState

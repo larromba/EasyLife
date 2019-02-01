@@ -45,18 +45,7 @@ final class ArchiveController: ArchiveControlling {
         guard let viewState = viewController?.viewState else { return }
         async({
             let items = try await(self.repository.fetchItems())
-            var sections = [Character: [TodoItem]]()
-            items.forEach {
-                let section: Character
-                if let name = $0.name, !name.isEmpty {
-                    section = Character(String(name[name.startIndex]).uppercased())
-                } else {
-                    section = Character("-")
-                }
-                var items = sections[section] ?? [TodoItem]()
-                items.append($0)
-                sections[section] = items.sorted(by: { ($0.name ?? "") < ($1.name ?? "") })
-            }
+            let sections = self.sections(for: items)
             onMain {
                 self.sections = sections
                 self.viewController?.viewState = viewState.copy(sections: sections)
@@ -95,6 +84,22 @@ final class ArchiveController: ArchiveControlling {
         }, onError: { error in
             self.alertController?.showAlert(Alert(error: error))
         })
+    }
+
+    private func sections(for items: [TodoItem]) -> [Character: [TodoItem]] {
+        var sections = [Character: [TodoItem]]()
+        items.forEach {
+            let section: Character
+            if let name = $0.name, !name.isEmpty {
+                section = Character(String(name[name.startIndex]).uppercased())
+            } else {
+                section = Character("-")
+            }
+            var items = sections[section] ?? [TodoItem]()
+            items.append($0)
+            sections[section] = items.sorted(by: { ($0.name ?? "") < ($1.name ?? "") })
+        }
+        return sections
     }
 
     private func sections(for term: String) -> [Character: [TodoItem]] {
