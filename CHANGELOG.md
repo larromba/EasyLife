@@ -69,3 +69,5 @@ Apple ID: 1229095589
 - later in missed?
 - focus mode
 - local notification to update badge?
+* fix space bug
+* fix initial load flickers

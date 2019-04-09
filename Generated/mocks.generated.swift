@@ -955,18 +955,35 @@ class MockItemDetailRepository: NSObject, ItemDetailRepositoring {
         }
     }
 
+    // MARK: - copy
+
+    func copy(item: TodoItem) -> Async<TodoItem> {
+        let functionName = copy3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: item, forKey: copy3.params.item)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<TodoItem>
+    }
+
+    enum copy3: String, _StringRawRepresentable {
+        case name = "copy3"
+        enum params: String, _StringRawRepresentable {
+            case item = "copy(item:TodoItem).item"
+        }
+    }
+
     // MARK: - save
 
     func save(item: TodoItem) -> Async<Void> {
-        let functionName = save3.name
+        let functionName = save4.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: save3.params.item)
+        invocation.set(parameter: item, forKey: save4.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
-    enum save3: String, _StringRawRepresentable {
-        case name = "save3"
+    enum save4: String, _StringRawRepresentable {
+        case name = "save4"
         enum params: String, _StringRawRepresentable {
             case item = "save(item:TodoItem).item"
         }
@@ -975,15 +992,15 @@ class MockItemDetailRepository: NSObject, ItemDetailRepositoring {
     // MARK: - delete
 
     func delete(item: TodoItem) -> Async<Void> {
-        let functionName = delete4.name
+        let functionName = delete5.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: delete4.params.item)
+        invocation.set(parameter: item, forKey: delete5.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
-    enum delete4: String, _StringRawRepresentable {
-        case name = "delete4"
+    enum delete5: String, _StringRawRepresentable {
+        case name = "delete5"
         enum params: String, _StringRawRepresentable {
             case item = "delete(item:TodoItem).item"
         }

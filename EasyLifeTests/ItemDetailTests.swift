@@ -87,6 +87,34 @@ final class ItemDetailTests: XCTestCase {
         }
     }
 
+    // #bug 09 Apr 19 - "Illegal attempt to establish a relationship 'xyz' between objects in different contexts"
+    func testSaveButtonOnNewItemSavesProjectFromMainContext() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .empty, isTransient: true) // nil context
+        let project = env.project(priority: 1) // main context
+        env.itemDetailController.setViewController(viewController)
+        env.itemDetailController.setItem(item)
+        waitSync()
+
+        // sut
+        viewController.pickerView(viewController.projectPicker, didSelectRow: 0, inComponent: 0)
+        viewController.navigationItem.rightBarButtonItem?.fire()
+
+        // test
+        waitAsync(delay: 0.5) { completion in
+            async({
+                let items = try await(self.env.dataManager.fetch(entityClass: TodoItem.self, sortBy: nil,
+                                                                 context: .main, predicate: nil))
+                XCTAssertEqual(items.first?.project, project)
+                XCTAssertEqual(items.count, 1)
+                completion()
+            }, onError: { error in
+                XCTFail(error.localizedDescription)
+            })
+        }
+    }
+
     func testBackButtonOnExistingItemSavesDataInput() {
         // mocks
         env.inject()

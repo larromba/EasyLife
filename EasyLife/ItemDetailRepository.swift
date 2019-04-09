@@ -6,6 +6,7 @@ import Logging
 protocol ItemDetailRepositoring: Mockable {
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]>
     func fetchProjects(for item: TodoItem) -> Async<[Project]>
+    func copy(item: TodoItem) -> Async<TodoItem>
     func save(item: TodoItem) -> Async<Void>
     func delete(item: TodoItem) -> Async<Void>
 }
@@ -52,18 +53,19 @@ final class ItemDetailRepository: ItemDetailRepositoring {
         }
     }
 
+    func copy(item: TodoItem) -> Async<TodoItem> {
+        return Async { completion in
+            async({
+                completion(self.dataManager.copy(item, context: .main))
+            }, onError: { error in
+                completion(.failure(error))
+            })
+        }
+    }
+
     func save(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                if item.managedObjectContext == nil {
-                    switch self.dataManager.copy(item, context: .main) {
-                    case .success:
-                        break
-                    case .failure(let error):
-                        completion(.failure(error))
-                        return
-                    }
-                }
                 _ = try await(self.dataManager.save(context: .main))
                 completion(.success(()))
             }, onError: { error in

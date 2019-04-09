@@ -18,6 +18,7 @@ final class ItemDetailController: ItemDetailControlling {
     private let repository: ItemDetailRepositoring
     private var alertController: AlertControlling?
     private var editContext: ObjectContext<TodoItem>?
+    private var project: Project?
     private weak var delegate: ItemDetailControllerDelegate?
 
     init(repository: ItemDetailRepositoring) {
@@ -74,17 +75,31 @@ final class ItemDetailController: ItemDetailControlling {
     }
 
     private func cancel() {
-        if let item = editContext?.object, !item.isEmpty {
+        if hasUnsavedChanges() {
             showCancelAlert()
         } else {
             delegate?.controllerFinished(self)
         }
     }
 
+    private func hasUnsavedChanges() -> Bool {
+        if let item = editContext?.object, !item.isEmpty || project != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+
     private func save() {
         guard let item = editContext?.object else { return }
         async({
-            _ = try await(self.repository.save(item: item))
+            if item.managedObjectContext == nil {
+                let itemCopy = try await(self.repository.copy(item: item))
+                itemCopy.project = self.project
+                _ = try await(self.repository.save(item: itemCopy))
+            } else {
+                _ = try await(self.repository.save(item: item))
+            }
             onMain {
                 self.delegate?.controllerFinished(self)
             }
@@ -111,7 +126,11 @@ final class ItemDetailController: ItemDetailControlling {
         item.notes = state.notes
         item.date = state.date
         item.repeatState = state.repeatState
-        item.project = state.project
+        if item.managedObjectContext != nil {
+            item.project = state.project
+        } else {
+            project = state.project
+        }
     }
 }
 
