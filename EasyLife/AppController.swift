@@ -10,10 +10,10 @@ protocol AppControlling: Mockable {
 
 final class AppController: AppControlling {
     private let dataManager: CoreDataManaging
-    private let appRouter: AppRouter
+    private let appRouter: AppRouting
     private let fatalErrorHandler: FatalErrorHandler
 
-    init(dataManager: CoreDataManaging, appRouter: AppRouter, fatalErrorHandler: FatalErrorHandler) {
+    init(dataManager: CoreDataManaging, appRouter: AppRouting, fatalErrorHandler: FatalErrorHandler) {
         self.dataManager = dataManager
         self.appRouter = appRouter
         self.fatalErrorHandler = fatalErrorHandler
