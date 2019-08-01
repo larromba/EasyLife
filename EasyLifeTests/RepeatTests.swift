@@ -7,6 +7,7 @@ final class RepeatStateTests: XCTestCase {
         XCTAssertEqual(RepeatState.display.count, 9)
     }
 
+    // swiftlint:disable cyclomatic_complexity
     func testIncrement() {
         // mocks
         let dateFormatter = DateFormatter()
@@ -29,6 +30,8 @@ final class RepeatStateTests: XCTestCase {
                 XCTAssertEqual(dateFormatter.date(from: "12/05/2017")!, date2)
             case .monthly:
                 XCTAssertEqual(dateFormatter.date(from: "21/05/2017")!, date2)
+            case .bimonthly:
+                XCTAssertEqual(dateFormatter.date(from: "21/06/2017")!, date2)
             case .quarterly:
                 XCTAssertEqual(dateFormatter.date(from: "21/07/2017")!, date2)
             case .halfyear:
