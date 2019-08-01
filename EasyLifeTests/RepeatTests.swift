@@ -4,7 +4,7 @@ import XCTest
 
 final class RepeatStateTests: XCTestCase {
     func testDisplay() {
-        XCTAssertEqual(RepeatState.display.count, 9)
+        XCTAssertEqual(RepeatState.display.count, 10)
     }
 
     // swiftlint:disable cyclomatic_complexity
