@@ -10,7 +10,8 @@ enum RepeatState: Int, DisplayEnum {
     case quarterly
     case halfyear
     case yearly
-    // WARNING: please add new elements here. edit display for ordering
+    case bimonthly
+    // WARNING: please add new elements here (bottom of list). edit 'display' for ordering
 
     static var display: [RepeatState] {
         return [
@@ -20,6 +21,7 @@ enum RepeatState: Int, DisplayEnum {
             .biweekly,
             .triweekly,
             .monthly,
+            .bimonthly,
             .quarterly,
             .halfyear,
             .yearly
@@ -38,6 +40,8 @@ enum RepeatState: Int, DisplayEnum {
             return L10n.repeatOptionTriWeekly
         case .monthly:
             return L10n.repeatOptionMonthly
+        case .bimonthly:
+            return L10n.repeatOptionBiMonthly
         case .quarterly:
             return L10n.repeatOptionQuarterly
         case .halfyear:
@@ -62,6 +66,8 @@ enum RepeatState: Int, DisplayEnum {
             return calendar.date(byAdding: .weekOfMonth, value: 3, to: date)
         case .monthly:
             return calendar.date(byAdding: .month, value: 1, to: date)
+        case .bimonthly:
+            return calendar.date(byAdding: .month, value: 2, to: date)
         case .quarterly:
             return calendar.date(byAdding: .month, value: 3, to: date)
         case .halfyear:

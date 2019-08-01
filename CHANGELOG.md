@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.0.3 (30/07/2019)
+    fixed ordering bug in later section
+    added 'bi-monthly' option
+
+## v2.0.2 (09/04/2019)
+    fixed crash when selecting project
+
 ## v2.0.1 (01/02/2019)
     minor bug fixes and improvements
 

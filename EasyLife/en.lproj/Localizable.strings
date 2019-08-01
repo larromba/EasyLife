@@ -12,6 +12,7 @@
 "repeat option biWeekly" = "bi-weekly";
 "repeat option triWeekly" = "tri-weekly";
 "repeat option monthly" = "monthly";
+"repeat option biMonthly" = "bi-monthly";
 "repeat option quarterly" = "quarterly";
 "repeat option every 6 months" = "every 6 months";
 "repeat option yearly" = "yearly";

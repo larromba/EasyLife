@@ -162,11 +162,12 @@ final class PlanRepository: PlanRepositoring {
     // @note coredata sorts are a bit shit, so need to do it here for advanced sorting
 
     private func sortByPriority(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
-        if item1.project?.priority != nil && item2.project?.priority == nil { return true }
-        if item1.project?.priority == nil && item2.project?.priority != nil { return false }
-        if item1.project?.priority == nil && item2.project?.priority == nil { return sortByName(item1, item2) }
-        if item1.project!.priority == Project.defaultPriority { return false }
-        if item2.project!.priority == Project.defaultPriority { return true }
+        if item1.project != nil && item2.project == nil { return true }
+        if item1.project == nil && item2.project != nil { return false }
+        if item1.project == nil && item2.project == nil { return sortByName(item1, item2) }
+        let defaultPriority = Project.defaultPriority
+        if item1.project!.priority != defaultPriority && item2.project!.priority == defaultPriority { return true }
+        if item1.project!.priority == defaultPriority && item2.project!.priority != defaultPriority { return false }
         if item1.project!.priority == item2.project!.priority { return sortByName(item1, item2) }
         return item1.project!.priority < item2.project!.priority
     }
@@ -183,7 +184,7 @@ final class PlanRepository: PlanRepositoring {
         if item1.date != nil && item2.date == nil { return false }
         if item1.date == nil && item2.date != nil { return true }
         if item1.date == nil && item2.date == nil { return sortByPriority(item1, item2) }
-        if item1.date!.day == item2.date!.day { return sortByPriority(item1, item2) }
+        if item1.date!.isSameDay(item2.date!) { return sortByPriority(item1, item2) }
         return item1.date! < item2.date!
     }
 }
@@ -191,8 +192,11 @@ final class PlanRepository: PlanRepositoring {
 // MARK: - Date
 
 private extension Date {
-    var day: Int {
+    func isSameDay(_ date: Date) -> Bool {
         let calendar = Calendar.current
-        return calendar.component(.day, from: self)
+        let isDayEqual = (calendar.component(.day, from: self) == calendar.component(.day, from: date))
+        let isMonthEqual = (calendar.component(.month, from: self) == calendar.component(.month, from: date))
+        let isYearEqual = (calendar.component(.year, from: self) == calendar.component(.year, from: date))
+        return (isDayEqual && isMonthEqual && isYearEqual)
     }
 }

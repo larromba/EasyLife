@@ -10,7 +10,8 @@ final class AppTestEnvironment: TestEnvironment {
         case missed
         case today
         case later
-        case laterCustom(Int)
+        case laterDay(Int)
+        case laterDate(Date)
     }
 
     var viewController: PlanViewControlling
@@ -118,7 +119,8 @@ final class AppTestEnvironment: TestEnvironment {
         switch type {
         case .empty: item.date = nil
         case .later: item.date = Date().plusDays(2)
-        case .laterCustom(let day): item.date = Date().plusDays(day)
+        case .laterDay(let day): item.date = Date().plusDays(day)
+        case .laterDate(let date): item.date = date
         case .missed: item.date = Date().minusDays(2)
         case .today: item.date = Date()
         }

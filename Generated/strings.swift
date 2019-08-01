@@ -83,6 +83,8 @@ internal enum L10n {
   internal static let projectSectionDeprioritized = L10n.tr("Localizable", "project section deprioritized")
   /// Prioritized
   internal static let projectSectionPrioritized = L10n.tr("Localizable", "project section prioritized")
+  /// bi-monthly
+  internal static let repeatOptionBiMonthly = L10n.tr("Localizable", "repeat option biMonthly")
   /// bi-weekly
   internal static let repeatOptionBiWeekly = L10n.tr("Localizable", "repeat option biWeekly")
   /// daily

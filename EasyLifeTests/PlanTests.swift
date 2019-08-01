@@ -666,6 +666,10 @@ final class PlanTests: XCTestCase {
             guard let cell = viewController.cell(row: row, section: .later) else { return "not found" }
             return cell.titleLabel.text
         }
+        func date(_ string: String) -> Date {
+            let dateFormatter = ISO8601DateFormatter()
+            return dateFormatter.date(from: string)!
+        }
 
         // mocks
         env.inject()
@@ -673,15 +677,18 @@ final class PlanTests: XCTestCase {
         let project2 = env.project(priority: 1)
         let project3 = env.project(priority: 2)
         let project4 = env.project(priority: Project.defaultPriority)
-        _ = env.todoItem(type: .laterCustom(1), name: "item1", project: project1)
-        _ = env.todoItem(type: .laterCustom(2), name: "item2", project: project2)
-        _ = env.todoItem(type: .laterCustom(3), name: "item3", project: project3)
-        _ = env.todoItem(type: .laterCustom(3), name: "item4")
-        _ = env.todoItem(type: .laterCustom(1), name: "item5", project: project4)
-        _ = env.todoItem(type: .laterCustom(1), name: "item6", project: project1)
+        _ = env.todoItem(type: .laterDay(1), name: "item1", project: project1)
+        _ = env.todoItem(type: .laterDay(2), name: "item2", project: project2)
+        _ = env.todoItem(type: .laterDay(3), name: "item3", project: project3)
+        _ = env.todoItem(type: .laterDay(3), name: "item4")
+        _ = env.todoItem(type: .laterDay(1), name: "item5", project: project4)
+        _ = env.todoItem(type: .laterDay(1), name: "item6", project: project1)
         _ = env.todoItem(type: .empty, name: "item7", project: project1)
         _ = env.todoItem(type: .empty, name: "item8", project: project2)
-        _ = env.todoItem(type: .laterCustom(1), name: "item9")
+        _ = env.todoItem(type: .laterDay(1), name: "item9")
+        // #bug 30jul19: dates with same day appearing in wrong order
+        _ = env.todoItem(type: .laterDate(date("3001-04-14T10:44:00+0000")), name: "item10", project: project1)
+        _ = env.todoItem(type: .laterDate(date("3000-04-14T10:44:00+0000")), name: "item11", project: project1)
         _ = env.todoItem(type: .empty)
         env.start()
 
@@ -694,10 +701,12 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(title(for: 4), "item6")
         XCTAssertEqual(title(for: 5), "item5")
         XCTAssertEqual(title(for: 6), "item9")
-        viewController.tableView.scrollUp(by: 150) // assuming iphone6
+        viewController.tableView.scrollUp(by: 200) // assuming iphone6
         XCTAssertEqual(title(for: 7), "item2")
         XCTAssertEqual(title(for: 8), "item3")
         XCTAssertEqual(title(for: 9), "item4")
+        XCTAssertEqual(title(for: 10), "item11")
+        XCTAssertEqual(title(for: 11), "item10")
     }
 }
 
