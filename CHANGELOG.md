@@ -63,6 +63,7 @@ Apple ID: 1229095589
 
 # Future Work
 
+- make video
 - noise when done 
 - apreciation diary
 - cursom lists:
@@ -78,3 +79,6 @@ Apple ID: 1229095589
 - local notification to update badge?
 * fix space bug
 * fix initial load flickers
+BUG: missed doesnt change. Split then done doesnt work.
+BUG: typing in notes wierd for lists
+BUG: didn't update list on reentering app 
