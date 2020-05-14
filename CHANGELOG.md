@@ -75,7 +75,7 @@ Apple ID: 1229095589
 - siri integration
 - holiday mode
 - later in missed?
-- focus mode
+- focus mode (morning / afternoon / evening)
 - local notification to update badge?
 * fix space bug
 * fix initial load flickers

@@ -38,7 +38,7 @@ extension ResponderSelection {
     }
 
     func nextResponder(after responder: UIResponder) -> UIResponder? {
-        guard let index = responders.index(of: responder) else {
+        guard let index = responders.firstIndex(of: responder) else {
             return nil
         }
         let nextResponder: UIResponder
@@ -54,7 +54,7 @@ extension ResponderSelection {
     }
 
     func previousResponder(before responder: UIResponder) -> UIResponder? {
-        guard let index = responders.index(of: responder) else {
+        guard let index = responders.firstIndex(of: responder) else {
             return nil
         }
         let prevResponder: UIResponder

@@ -160,7 +160,7 @@ struct PlanViewState: PlanViewStating {
 
     func tableHeaderAlpha(forHeight height: CGFloat, scrollOffsetY: CGFloat) -> CGFloat {
         guard scrollOffsetY < 0.0, height > 0.0 else { return 1.0 }
-        return max(0.0, 1.0 - (fabs(scrollOffsetY) / (height / 4.0)))
+        return max(0.0, 1.0 - (abs(scrollOffsetY) / (height / 4.0)))
     }
 }
 

@@ -140,7 +140,7 @@ final class PlanRepository: PlanRepositoring {
     func split(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                guard item.repeatState != .none else { return }
+                guard item.repeatState != RepeatState.none else { return }
                 let result = self.dataManager.copy(item, context: .main)
                 switch result {
                 case .success(let copy):

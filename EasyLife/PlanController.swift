@@ -48,11 +48,12 @@ final class PlanController: PlanControlling {
 
     private func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterForeground(_:)),
-                                               name: .UIApplicationWillEnterForeground, object: nil)
+                                               name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
     private func tearDownNotifications() {
-        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification,
+                                                  object: nil)
     }
 
     @objc

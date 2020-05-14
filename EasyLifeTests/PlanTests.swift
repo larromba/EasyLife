@@ -56,7 +56,7 @@ final class PlanTests: XCTestCase {
 
         // sut
         _ = env.todoItem(type: .empty)
-        NotificationCenter.default.post(name: .UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
 
         // test
         waitSync()

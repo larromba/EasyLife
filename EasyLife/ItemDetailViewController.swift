@@ -108,7 +108,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if isMovingFromParentViewController {
+        if isMovingFromParent {
             delegate?.viewControllerWillDismiss(self)
         }
         keyboardNotification.tearDown()

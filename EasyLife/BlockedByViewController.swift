@@ -33,7 +33,7 @@ final class BlockedByViewController: UIViewController, BlockedByViewControlling 
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if isMovingFromParentViewController {
+        if isMovingFromParent {
             delegate?.viewControllerWillDismiss(self)
         }
     }

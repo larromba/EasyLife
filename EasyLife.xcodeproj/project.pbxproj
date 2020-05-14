@@ -784,25 +784,26 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Pink Chicken Ltd";
 				TargetAttributes = {
 					7FAC2C581E9E673400F14ECB = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = PFC77GK3D7;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
 					7FAC2C6F1E9E673400F14ECB = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = PFC77GK3D7;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 7FAC2C581E9E673400F14ECB;
 					};
 					7FCC1B8B21F6237000DDD446 = {
 						CreatedOnToolsVersion = 10.1;
 						DevelopmentTeam = PFC77GK3D7;
+						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 7FAC2C581E9E673400F14ECB;
 					};
@@ -810,7 +811,7 @@
 			};
 			buildConfigurationList = 7FAC2C541E9E673400F14ECB /* Build configuration list for PBXProject "EasyLife" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -1168,6 +1169,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1226,6 +1228,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1292,7 +1295,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1315,7 +1318,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1334,7 +1337,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EasyLife.app/EasyLife";
 			};
 			name = Debug;
@@ -1353,7 +1356,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EasyLife.app/EasyLife";
 			};
 			name = Release;
@@ -1376,7 +1379,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pinkchicken.EasyLifeSnapshot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = EasyLife;
 			};
@@ -1399,7 +1402,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pinkchicken.EasyLifeSnapshot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = EasyLife;
 			};
