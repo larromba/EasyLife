@@ -9,6 +9,8 @@ protocol FocusViewControlling: Presentable, Mockable {
 
 protocol FocusViewControllerDelegate: AnyObject {
     func viewController(_ viewController: FocusViewControlling, performAction action: FocusAction)
+    func viewController(_ viewController: FocusViewControlling, performAction action: PlanItemAction,
+                        onItem item: TodoItem, at indexPath: IndexPath)
 }
 
 final class FocusViewController: UIViewController, FocusViewControlling {
@@ -31,7 +33,7 @@ final class FocusViewController: UIViewController, FocusViewControlling {
         self.delegate = delegate
     }
 
-    // MARK: - actions
+    // MARK: - private
 
     private func bind(_ viewState: FocusViewStating) {
         guard isViewLoaded else { return }
@@ -42,7 +44,18 @@ final class FocusViewController: UIViewController, FocusViewControlling {
         tableView.contentInset = inset
 
         view.backgroundColor = viewState.backgroundColor
+
+        animateTableView(forDuration: viewState.tableFadeAnimationDuation)
     }
+
+    private func animateTableView(forDuration duration: TimeInterval) {
+        tableView.alpha = 0.0
+        UIView.animate(withDuration: duration) {
+            self.tableView.alpha = 1.0
+        }
+    }
+
+    // MARK: - actions
 
     @IBAction private func closeButtonPressed(_ sender: UIBarButtonItem) {
         delegate?.viewController(self, performAction: .close)
@@ -61,16 +74,16 @@ extension FocusViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard let viewState = viewState else { return nil }
-        return viewState.availableActions(at: indexPath).map { projectAction in
+        guard let viewState = viewState, let item = viewState.item else { return nil }
+        return viewState.availableActions(at: indexPath).map { itemAction in
             let action = UITableViewRowAction(
-                style: viewState.style(for: projectAction),
-                title: viewState.text(for: projectAction),
+                style: viewState.style(for: itemAction),
+                title: viewState.text(for: itemAction),
                 handler: { _, _ in
-                    //self.delegate?.viewController(self, performAction: projectAction, forProject: project)
+                    self.delegate?.viewController(self, performAction: itemAction, onItem: item, at: indexPath)
                 }
             )
-            action.backgroundColor = viewState.color(for: projectAction)
+            action.backgroundColor = viewState.color(for: itemAction)
             return action
         }
     }

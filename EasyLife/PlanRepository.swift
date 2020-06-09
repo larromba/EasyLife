@@ -198,16 +198,16 @@ final class PlanRepository: PlanRepositoring {
         if item1.blockingState == .blockedBy && item2.blockingState != .blockedBy { return true }
         if item1.blockingState != .blockedBy && item2.blockingState == .blockedBy { return false }
 
-//        if item1.isNotAllBlocking && !item2.isNotAllBlocking { return true }
-//        if !item1.isNotAllBlocking && item2.isNotAllBlocking { return false }
-//
-//        if item1.isBlocking && !item1.isBlockedBy && !item2.isBlocking && !item2.isBlockedBy { return true }
-//        if !item1.isBlocking && !item1.isBlockedBy && item2.isBlocking && !item2.isBlockedBy { return false }
-//
-//        if item1.isBlocking && !item1.isBlockedBy && !item2.isBlocking && !item2.isBlockedBy { return true }
-//        if !item1.isBlocking && !item1.isBlockedBy && item2.isBlocking && !item2.isBlockedBy { return false }
-//
-//        if !item1.isBlocking && item2.isBlocking { return false }
+////        if item1.isNotAllBlocking && !item2.isNotAllBlocking { return true }
+////        if !item1.isNotAllBlocking && item2.isNotAllBlocking { return false }
+////
+////        if item1.isBlocking && !item1.isBlockedBy && !item2.isBlocking && !item2.isBlockedBy { return true }
+////        if !item1.isBlocking && !item1.isBlockedBy && item2.isBlocking && !item2.isBlockedBy { return false }
+////
+////        if item1.isBlocking && !item1.isBlockedBy && !item2.isBlocking && !item2.isBlockedBy { return true }
+////        if !item1.isBlocking && !item1.isBlockedBy && item2.isBlocking && !item2.isBlockedBy { return false }
+////
+////        if !item1.isBlocking && item2.isBlocking { return false }
 
         return sortByName(item1, item2)
     }

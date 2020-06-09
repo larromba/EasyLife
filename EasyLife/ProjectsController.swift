@@ -42,6 +42,7 @@ final class ProjectsController: ProjectsControlling {
     // MARK: - private
 
     private func reload() {
+        guard let viewState = viewController?.viewState else { return }
         async({
             let prioritizedProjects = try await(self.repository.fetchPrioritizedProjects())
             let otherProjects = try await(self.repository.fetchOtherProjects())
@@ -50,7 +51,7 @@ final class ProjectsController: ProjectsControlling {
                 ProjectSection.other: otherProjects
             ]
             onMain {
-                self.viewController?.viewState = self.viewController?.viewState?.copy(sections: sections)
+                self.viewController?.viewState = viewState.copy(sections: sections)
             }
         }, onError: { error in
             onMain { self.alertController?.showAlert(Alert(error: error)) }

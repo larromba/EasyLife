@@ -1,11 +1,13 @@
 import UIKit
 
 protocol FocusViewStating {
+    var item: TodoItem? { get }
     var rowHeight: CGFloat { get }
     var totalItems: Int { get }
     var isEmpty: Bool { get }
     var numOfSections: Int { get }
     var backgroundColor: UIColor { get }
+    var tableFadeAnimationDuation: TimeInterval { get }
 
     func item(at indexPath: IndexPath) -> TodoItem?
     func cellViewState(at indexPath: IndexPath) -> PlanCellViewStating?
@@ -19,6 +21,9 @@ protocol FocusViewStating {
 struct FocusViewState: FocusViewStating {
     private let items: [TodoItem]
 
+    var item: TodoItem? {
+        return items.first
+    }
     let rowHeight: CGFloat = 50.0
     var totalItems: Int {
         return items.isEmpty ? 0 : 1
@@ -32,6 +37,7 @@ struct FocusViewState: FocusViewStating {
     var backgroundColor: UIColor {
         return .black
     }
+    var tableFadeAnimationDuation: TimeInterval = 0.5
 
     init(items: [TodoItem]) {
         self.items = items

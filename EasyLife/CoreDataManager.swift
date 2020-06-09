@@ -22,12 +22,16 @@ protocol CoreDataManaging: AnyObject, Mockable {
 final class CoreDataManager: CoreDataManaging {
     private let persistentContainer: NSPersistentContainer
     private let notificationCenter: NotificationCenter
-    private var mainContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
-    private var backgroundContext: NSManagedObjectContext {
-        return persistentContainer.newBackgroundContext()
-    }
+    private lazy var mainContext: NSManagedObjectContext = {
+        let context = persistentContainer.viewContext
+        context.automaticallyMergesChangesFromParent = true
+        return context
+    }()
+    private lazy var backgroundContext: NSManagedObjectContext = {
+        let context = persistentContainer.newBackgroundContext()
+        context.automaticallyMergesChangesFromParent = true
+        return context
+    }()
     private(set) var isLoaded: Bool = false
 
     init(persistentContainer: NSPersistentContainer, isLoaded: Bool = false,
@@ -93,13 +97,14 @@ final class CoreDataManager: CoreDataManaging {
             request.predicate = predicate
             request.sortDescriptors = sortBy
             let context = self.managedObjectContext(for: context)
-            context.perform({ [unowned context] in
+            context.perform { [unowned context] in
                 do {
-                    completion(.success(try context.fetch(request) as! [T]))
+                    let items = try context.fetch(request) as! [T]
+                    completion(.success(items))
                 } catch {
                     completion(.failure(CoreDataError.frameworkError(error)))
                 }
-            })
+            }
         }
     }
 
