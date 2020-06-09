@@ -9,7 +9,7 @@ protocol PlanControlling: Mockable {
 }
 
 protocol PlanControllerDelegate: AnyObject {
-    func controller(_ controller: PlanController, didSelectItem item: TodoItem, sender: Segueable)
+    func controller(_ controller: PlanControlling, didSelectItem item: TodoItem, sender: Segueable)
 }
 
 final class PlanController: PlanControlling {

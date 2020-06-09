@@ -844,6 +844,336 @@ class MockFatalViewControlling: NSObject, FatalViewControlling {
     var _viewStateHistory: [_Variable<FatalViewStating?>] = []
 }
 
+class MockFocusCell: NSObject, FocusCelling {
+    var viewState: FocusCellViewStating? {
+        get { return _viewState }
+        set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
+    }
+    var _viewState: FocusCellViewStating?
+    var _viewStateHistory: [_Variable<FocusCellViewStating?>] = []
+}
+
+class MockFocusController: NSObject, FocusControlling {
+    let invocations = _Invocations()
+    let actions = _Actions()
+    static let invocations = _Invocations()
+    static let actions = _Actions()
+
+    // MARK: - setViewController
+
+    func setViewController(_ viewController: FocusViewControlling) {
+        let functionName = setViewController1.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: viewController, forKey: setViewController1.params.viewController)
+        invocations.record(invocation)
+    }
+
+    enum setViewController1: String, _StringRawRepresentable {
+        case name = "setViewController1"
+        enum params: String, _StringRawRepresentable {
+            case viewController = "setViewController(_viewController:FocusViewControlling).viewController"
+        }
+    }
+
+    // MARK: - setAlertController
+
+    func setAlertController(_ alertController: AlertControlling) {
+        let functionName = setAlertController2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: alertController, forKey: setAlertController2.params.alertController)
+        invocations.record(invocation)
+    }
+
+    enum setAlertController2: String, _StringRawRepresentable {
+        case name = "setAlertController2"
+        enum params: String, _StringRawRepresentable {
+            case alertController = "setAlertController(_alertController:AlertControlling).alertController"
+        }
+    }
+
+    // MARK: - setDelegate
+
+    func setDelegate(_ delegate: FocusControllerDelegate) {
+        let functionName = setDelegate3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: delegate, forKey: setDelegate3.params.delegate)
+        invocations.record(invocation)
+    }
+
+    enum setDelegate3: String, _StringRawRepresentable {
+        case name = "setDelegate3"
+        enum params: String, _StringRawRepresentable {
+            case delegate = "setDelegate(_delegate:FocusControllerDelegate).delegate"
+        }
+    }
+}
+
+class MockFocusCoordinator: NSObject, FocusCoordinating {
+    let invocations = _Invocations()
+    let actions = _Actions()
+    static let invocations = _Invocations()
+    static let actions = _Actions()
+
+    // MARK: - setNavigationController
+
+    func setNavigationController(_ navigationController: UINavigationController) {
+        let functionName = setNavigationController1.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: navigationController, forKey: setNavigationController1.params.navigationController)
+        invocations.record(invocation)
+    }
+
+    enum setNavigationController1: String, _StringRawRepresentable {
+        case name = "setNavigationController1"
+        enum params: String, _StringRawRepresentable {
+            case navigationController = "setNavigationController(_navigationController:UINavigationController).navigationController"
+        }
+    }
+
+    // MARK: - setViewController
+
+    func setViewController(_ viewController: FocusViewControlling) {
+        let functionName = setViewController2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: viewController, forKey: setViewController2.params.viewController)
+        invocations.record(invocation)
+    }
+
+    enum setViewController2: String, _StringRawRepresentable {
+        case name = "setViewController2"
+        enum params: String, _StringRawRepresentable {
+            case viewController = "setViewController(_viewController:FocusViewControlling).viewController"
+        }
+    }
+
+    // MARK: - setAlertController
+
+    func setAlertController(_ alertController: AlertControlling) {
+        let functionName = setAlertController3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: alertController, forKey: setAlertController3.params.alertController)
+        invocations.record(invocation)
+    }
+
+    enum setAlertController3: String, _StringRawRepresentable {
+        case name = "setAlertController3"
+        enum params: String, _StringRawRepresentable {
+            case alertController = "setAlertController(_alertController:AlertControlling).alertController"
+        }
+    }
+}
+
+class MockFocusRepository: NSObject, FocusRepositoring {
+    let invocations = _Invocations()
+    let actions = _Actions()
+    static let invocations = _Invocations()
+    static let actions = _Actions()
+
+    // MARK: - delete
+
+    func delete(project: Project) -> Async<Void> {
+        let functionName = delete1.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: project, forKey: delete1.params.project)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Void>
+    }
+
+    enum delete1: String, _StringRawRepresentable {
+        case name = "delete1"
+        enum params: String, _StringRawRepresentable {
+            case project = "delete(project:Project).project"
+        }
+    }
+
+    // MARK: - addProject
+
+    func addProject(name: String) -> Async<Project> {
+        let functionName = addProject2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: name, forKey: addProject2.params.name)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Project>
+    }
+
+    enum addProject2: String, _StringRawRepresentable {
+        case name = "addProject2"
+        enum params: String, _StringRawRepresentable {
+            case name = "addProject(name:String).name"
+        }
+    }
+
+    // MARK: - updateName
+
+    func updateName(_ name: String, for project: Project) -> Async<Void> {
+        let functionName = updateName3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: name, forKey: updateName3.params.name)
+        invocation.set(parameter: project, forKey: updateName3.params.project)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Void>
+    }
+
+    enum updateName3: String, _StringRawRepresentable {
+        case name = "updateName3"
+        enum params: String, _StringRawRepresentable {
+            case name = "updateName(_name:String,forproject:Project).name"
+            case project = "updateName(_name:String,forproject:Project).project"
+        }
+    }
+
+    // MARK: - prioritize
+
+    func prioritize(project: Project, max: Int) -> Async<Void> {
+        let functionName = prioritize4.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: project, forKey: prioritize4.params.project)
+        invocation.set(parameter: max, forKey: prioritize4.params.max)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Void>
+    }
+
+    enum prioritize4: String, _StringRawRepresentable {
+        case name = "prioritize4"
+        enum params: String, _StringRawRepresentable {
+            case project = "prioritize(project:Project,max:Int).project"
+            case max = "prioritize(project:Project,max:Int).max"
+        }
+    }
+
+    // MARK: - prioritise
+
+    func prioritise(_ projectA: Project, above projectB: Project) -> Async<Void> {
+        let functionName = prioritise5.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: projectA, forKey: prioritise5.params.projectA)
+        invocation.set(parameter: projectB, forKey: prioritise5.params.projectB)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Void>
+    }
+
+    enum prioritise5: String, _StringRawRepresentable {
+        case name = "prioritise5"
+        enum params: String, _StringRawRepresentable {
+            case projectA = "prioritise(_projectA:Project,aboveprojectB:Project).projectA"
+            case projectB = "prioritise(_projectA:Project,aboveprojectB:Project).projectB"
+        }
+    }
+
+    // MARK: - prioritise
+
+    func prioritise(_ projectA: Project, below projectB: Project) -> Async<Void> {
+        let functionName = prioritise6.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: projectA, forKey: prioritise6.params.projectA)
+        invocation.set(parameter: projectB, forKey: prioritise6.params.projectB)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Void>
+    }
+
+    enum prioritise6: String, _StringRawRepresentable {
+        case name = "prioritise6"
+        enum params: String, _StringRawRepresentable {
+            case projectA = "prioritise(_projectA:Project,belowprojectB:Project).projectA"
+            case projectB = "prioritise(_projectA:Project,belowprojectB:Project).projectB"
+        }
+    }
+
+    // MARK: - deprioritize
+
+    func deprioritize(project: Project) -> Async<Void> {
+        let functionName = deprioritize7.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: project, forKey: deprioritize7.params.project)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Void>
+    }
+
+    enum deprioritize7: String, _StringRawRepresentable {
+        case name = "deprioritize7"
+        enum params: String, _StringRawRepresentable {
+            case project = "deprioritize(project:Project).project"
+        }
+    }
+
+    // MARK: - fetchPrioritizedProjects
+
+    func fetchPrioritizedProjects() -> Async<[Project]> {
+        let functionName = fetchPrioritizedProjects8.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<[Project]>
+    }
+
+    enum fetchPrioritizedProjects8: String, _StringRawRepresentable {
+        case name = "fetchPrioritizedProjects8"
+    }
+
+    // MARK: - fetchOtherProjects
+
+    func fetchOtherProjects() -> Async<[Project]> {
+        let functionName = fetchOtherProjects9.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<[Project]>
+    }
+
+    enum fetchOtherProjects9: String, _StringRawRepresentable {
+        case name = "fetchOtherProjects9"
+    }
+}
+
+class MockFocusViewController: NSObject, FocusViewControlling {
+    var viewState: FocusViewStating? {
+        get { return _viewState }
+        set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
+    }
+    var _viewState: FocusViewStating?
+    var _viewStateHistory: [_Variable<FocusViewStating?>] = []
+    let invocations = _Invocations()
+    let actions = _Actions()
+    static let invocations = _Invocations()
+    static let actions = _Actions()
+
+    // MARK: - setDelegate
+
+    func setDelegate(_ delegate: FocusViewControllerDelegate) {
+        let functionName = setDelegate1.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: delegate, forKey: setDelegate1.params.delegate)
+        invocations.record(invocation)
+    }
+
+    enum setDelegate1: String, _StringRawRepresentable {
+        case name = "setDelegate1"
+        enum params: String, _StringRawRepresentable {
+            case delegate = "setDelegate(_delegate:FocusViewControllerDelegate).delegate"
+        }
+    }
+
+    // MARK: - present
+
+    func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+        let functionName = present2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: viewControllerToPresent, forKey: present2.params.viewControllerToPresent)
+        invocation.set(parameter: flag, forKey: present2.params.flag)
+        if let completion = completion {
+            invocation.set(parameter: completion, forKey: present2.params.completion)
+        }
+        invocations.record(invocation)
+    }
+
+    enum present2: String, _StringRawRepresentable {
+        case name = "present2"
+        enum params: String, _StringRawRepresentable {
+            case viewControllerToPresent = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
+            case flag = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).flag"
+            case completion = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).completion"
+        }
+    }
+}
+
 class MockItemDetailController: NSObject, ItemDetailControlling {
     let invocations = _Invocations()
     let actions = _Actions()
@@ -1424,7 +1754,7 @@ class MockProjectCell: NSObject, ProjectCelling {
     var _viewStateHistory: [_Variable<ProjectCellViewStating?>] = []
 }
 
-class MockProjectsControlling: NSObject, ProjectsControlling {
+class MockProjectsController: NSObject, ProjectsControlling {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()

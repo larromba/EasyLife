@@ -14,32 +14,35 @@ final class AppTestEnvironment: TestEnvironment {
         case laterDate(Date)
     }
 
-    var viewController: PlanViewControlling
-    var navigationController: UINavigationController
     var window: UIWindow
+    var navigationController: UINavigationController
+    var viewController: PlanViewControlling
     var persistentContainer: NSPersistentContainer
     var isLoaded: Bool
     var badge: Badge
     var now: Date
 
-    private(set) var dataManager: CoreDataManaging!
-    private(set) var repository: PlanRepositoring!
-    private(set) var alertController: AlertControlling!
-    private(set) var planController: PlanControlling!
-    private(set) var itemDetailRepository: ItemDetailRepository!
-    private(set) var blockedByRepository: BlockedByRepository!
-    private(set) var itemDetailController: ItemDetailController!
-    private(set) var blockedByController: BlockedByController!
-    private(set) var planCoordinator: PlanCoordinator!
-    private(set) var archiveRepository: ArchiveRepository!
-    private(set) var archiveController: ArchiveController!
-    private(set) var projectsRepository: ProjectsRepository!
-    private(set) var projectsController: ProjectsController!
-    private(set) var archiveCoordinator: ArchiveCoordinator!
-    private(set) var projectsCoordinator: ProjectsCoordinator!
-    private(set) var appRouter: AppRouter!
+    private(set) var appRouter: AppRouting!
     private(set) var fatalErrorHandler: FatalErrorHandler!
-    private(set) var appController: AppController!
+    private(set) var appController: AppControlling!
+    private(set) var dataManager: CoreDataManaging!
+    private(set) var alertController: AlertControlling!
+    private(set) var planRepository: PlanRepositoring!
+    private(set) var planController: PlanControlling!
+    private(set) var planCoordinator: PlanCoordinating!
+    private(set) var itemDetailRepository: ItemDetailRepositoring!
+    private(set) var itemDetailController: ItemDetailControlling!
+    private(set) var blockedByRepository: BlockedByRepositoring!
+    private(set) var blockedByController: BlockedByControlling!
+    private(set) var archiveRepository: ArchiveRepositoring!
+    private(set) var archiveController: ArchiveControlling!
+    private(set) var archiveCoordinator: ArchiveCoordinating!
+    private(set) var projectsRepository: ProjectsRepositoring!
+    private(set) var projectsController: ProjectsControlling!
+    private(set) var projectsCoordinator: ProjectsCoordinating!
+    private(set) var focusRepository: FocusRepositoring!
+    private(set) var focusController: FocusControlling!
+    private(set) var focusCoordinator: FocusCoordinating!
 
     init(viewController: PlanViewControlling = MockPlanViewController(),
          navigationController: UINavigationController = UINavigationController(),
@@ -59,11 +62,11 @@ final class AppTestEnvironment: TestEnvironment {
 
     func inject() {
         dataManager = CoreDataManager(persistentContainer: persistentContainer, isLoaded: isLoaded)
-        repository = PlanRepository(dataManager: dataManager)
+        planRepository = PlanRepository(dataManager: dataManager)
         alertController = AlertController(presenter: viewController)
         planController = PlanController(viewController: viewController,
                                         alertController: alertController,
-                                        repository: repository,
+                                        repository: planRepository,
                                         badge: badge)
         blockedByRepository = BlockedByRepository(dataManager: dataManager)
         itemDetailRepository = ItemDetailRepository(dataManager: dataManager, now: now)
@@ -75,6 +78,9 @@ final class AppTestEnvironment: TestEnvironment {
             itemDetailController: itemDetailController,
             blockedByController: blockedByController
         )
+        focusRepository = FocusRepository(dataManager: dataManager)
+        focusController = FocusController(repository: focusRepository)
+        focusCoordinator = FocusCoordinator(focusController: focusController)
         archiveRepository = ArchiveRepository(dataManager: dataManager)
         archiveController = ArchiveController(repository: archiveRepository)
         projectsRepository = ProjectsRepository(dataManager: dataManager)
@@ -83,6 +89,7 @@ final class AppTestEnvironment: TestEnvironment {
         projectsCoordinator = ProjectsCoordinator(projectsController: projectsController)
         appRouter = AppRouter(
             planCoordinator: planCoordinator,
+            focusCoordinator: focusCoordinator,
             archiveCoordinator: archiveCoordinator,
             projectsCoordinator: projectsCoordinator
         )

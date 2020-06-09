@@ -63,15 +63,10 @@ Apple ID: 1229095589
 
 # Future Work
 
-- make video
+- long press: new note
+- long press on cell: make tomorrow
+- instructional video
 - noise when done 
-- apreciation diary
-- cursom lists:
-    to watch
-    to read
-    to buy
-    shopping list
-    apreciation diary
 - siri integration
 - holiday mode
 - later in missed?
@@ -82,3 +77,12 @@ Apple ID: 1229095589
 BUG: missed doesnt change. Split then done doesnt work.
 BUG: typing in notes wierd for lists
 BUG: didn't update list on reentering app 
+project buttons in weird order
+move coredata to new repo
+BUG: later done if recurring doesnt work
+prioritisation is weird
+add none selection to project picker
+revisit action rules for sections
+add: clear button to blocked list
+BUG: app becomes active not always updating
+update libs

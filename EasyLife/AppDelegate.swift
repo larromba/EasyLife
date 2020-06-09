@@ -2,6 +2,9 @@ import AsyncAwait
 import Logging
 import UIKit
 
+// TODO: check protocols are being used
+// TODO: done things should add copy to archive
+
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?

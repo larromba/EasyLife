@@ -1,3 +1,4 @@
+import AsyncAwait
 import UIKit
 
 // sourcery: name = PlanCoordinator
@@ -20,7 +21,7 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
         self.itemDetailController = itemDetailController
         self.blockedByController = blockedByController
         super.init()
-        navigationController.delegate = self
+        onMain { navigationController.delegate = self } // warning thrown if set on bg thread
         planController.setDelegate(self)
         itemDetailController.setDelegate(self)
     }
@@ -39,7 +40,7 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
 // MARK: - PlanControllerDelegate
 
 extension PlanCoordinator: PlanControllerDelegate {
-    func controller(_ controller: PlanController, didSelectItem item: TodoItem, sender: Segueable) {
+    func controller(_ controller: PlanControlling, didSelectItem item: TodoItem, sender: Segueable) {
         context = ObjectContext(object: item)
         sender.performSegue(withIdentifier: "openItemDetailViewController", sender: self)
     }
@@ -48,7 +49,7 @@ extension PlanCoordinator: PlanControllerDelegate {
 // MARK: - ItemDetailControllerDelegate
 
 extension PlanCoordinator: ItemDetailControllerDelegate {
-    func controllerFinished(_ controller: ItemDetailController) {
+    func controllerFinished(_ controller: ItemDetailControlling) {
         navigationController.popViewController(animated: true)
     }
 }

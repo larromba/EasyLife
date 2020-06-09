@@ -26,6 +26,7 @@ final class PlanViewController: UIViewController, PlanViewControlling {
     @IBOutlet private(set) weak var addButton: UIBarButtonItem!
     @IBOutlet private(set) weak var archiveButton: UIBarButtonItem!
     @IBOutlet private(set) weak var projectsButton: UIBarButtonItem!
+    @IBOutlet private(set) weak var focusButton: UIBarButtonItem!
     @IBOutlet private(set) weak var tableHeaderView: UITableView!
     @IBOutlet private(set) weak var appVersionLabel: UILabel!
     @IBOutlet private(set) weak var doneLabel: UILabel!

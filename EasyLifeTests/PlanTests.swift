@@ -583,6 +583,23 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(navigationController.viewControllers.first is ProjectsViewController)
     }
 
+    func testFocusViewOpensWhenPressingFocusButton() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+
+        // sut
+        waitSync()
+        XCTAssertTrue(viewController.focusButton.fire())
+
+        // test
+        guard let navigationController = navigationController.presentedViewController as? UINavigationController else {
+            XCTFail("expected UINavigationController")
+            return
+        }
+        XCTAssertTrue(navigationController.viewControllers.first is FocusViewController)
+    }
+
     // MARK: - order
 
     func testMissedOrder() {

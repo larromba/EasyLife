@@ -6,12 +6,14 @@ protocol AppRouting: StoryboardRouting, Mockable {
 
 final class AppRouter: AppRouting {
     private let planCoordinator: PlanCoordinating
+    private let focusCoordinator: FocusCoordinating
     private let archiveCoordinator: ArchiveCoordinating
     private let projectsCoordinator: ProjectsCoordinating
 
-    init(planCoordinator: PlanCoordinating, archiveCoordinator: ArchiveCoordinating,
-         projectsCoordinator: ProjectsCoordinating) {
+    init(planCoordinator: PlanCoordinating, focusCoordinator: FocusCoordinating,
+         archiveCoordinator: ArchiveCoordinating, projectsCoordinator: ProjectsCoordinating) {
         self.planCoordinator = planCoordinator
+        self.focusCoordinator = focusCoordinator
         self.archiveCoordinator = archiveCoordinator
         self.projectsCoordinator = projectsCoordinator
     }
@@ -30,6 +32,10 @@ final class AppRouter: AppRouting {
             archiveCoordinator.setViewController(viewController)
             archiveCoordinator.setNavigationController(navigationController)
             archiveCoordinator.setAlertController(AlertController(presenter: viewController))
+        } else if let viewController = navigationController.viewControllers.first as? FocusViewControlling {
+            focusCoordinator.setViewController(viewController)
+            focusCoordinator.setNavigationController(navigationController)
+            focusCoordinator.setAlertController(AlertController(presenter: viewController))
         }
     }
 }

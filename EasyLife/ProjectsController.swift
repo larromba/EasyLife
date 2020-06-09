@@ -2,6 +2,7 @@ import AsyncAwait
 import Foundation
 import UIKit
 
+// sourcery: name = ProjectsController
 protocol ProjectsControlling: AnyObject, Mockable {
     func setViewController(_ viewController: ProjectsViewControlling)
     func setAlertController(_ alertController: AlertControlling)
@@ -52,7 +53,7 @@ final class ProjectsController: ProjectsControlling {
                 self.viewController?.viewState = self.viewController?.viewState?.copy(sections: sections)
             }
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 
@@ -61,7 +62,7 @@ final class ProjectsController: ProjectsControlling {
             _ = try await(self.repository.addProject(name: name))
             self.reload()
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 
@@ -70,7 +71,7 @@ final class ProjectsController: ProjectsControlling {
             _ = try await(self.repository.updateName(name, for: project))
             self.reload()
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 
@@ -132,7 +133,7 @@ extension ProjectsController: ProjectsViewControllerDelegate {
             }
             self.reload()
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 
@@ -160,7 +161,7 @@ extension ProjectsController: ProjectsViewControllerDelegate {
             }
             self.reload()
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 }

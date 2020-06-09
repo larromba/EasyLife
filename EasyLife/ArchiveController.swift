@@ -51,7 +51,7 @@ final class ArchiveController: ArchiveControlling {
                 self.viewController?.viewState = viewState.copy(sections: sections)
             }
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 
@@ -73,7 +73,7 @@ final class ArchiveController: ArchiveControlling {
             _ = try await(self.repository.clearAll(items: viewState.sections.flatMap { $0.value }))
             self.reload()
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 
@@ -82,7 +82,7 @@ final class ArchiveController: ArchiveControlling {
             _ = try await(self.repository.undo(item: item))
             self.reload()
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 

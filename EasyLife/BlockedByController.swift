@@ -36,7 +36,7 @@ final class BlockedByController: BlockedByControlling {
                 self.viewController?.reload()
             }
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 }

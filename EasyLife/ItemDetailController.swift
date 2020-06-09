@@ -10,7 +10,7 @@ protocol ItemDetailControlling: Mockable {
 }
 
 protocol ItemDetailControllerDelegate: AnyObject {
-    func controllerFinished(_ controller: ItemDetailController)
+    func controllerFinished(_ controller: ItemDetailControlling)
 }
 
 final class ItemDetailController: ItemDetailControlling {
@@ -70,7 +70,7 @@ final class ItemDetailController: ItemDetailControlling {
                 self.viewController?.viewState = ItemDetailViewState(item: item, items: items, projects: projects)
             }
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 
@@ -116,7 +116,7 @@ final class ItemDetailController: ItemDetailControlling {
                 self.delegate?.controllerFinished(self)
             }
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 
