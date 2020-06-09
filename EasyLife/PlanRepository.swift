@@ -159,24 +159,42 @@ final class PlanRepository: PlanRepositoring {
     }
 
     // MARK: - private
-    // @note coredata sorts are a bit shit, so need to do it here for advanced sorting
+    // @note coredata sorts are are limited, so need to do it here for advanced sorting
 
     private func sortByPriority(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
         if item1.project != nil && item2.project == nil { return true }
         if item1.project == nil && item2.project != nil { return false }
-        if item1.project == nil && item2.project == nil { return sortByName(item1, item2) }
+        if item1.project == nil && item2.project == nil { return sortByBlocking(item1, item2) }
         let defaultPriority = Project.defaultPriority
         if item1.project!.priority != defaultPriority && item2.project!.priority == defaultPriority { return true }
         if item1.project!.priority == defaultPriority && item2.project!.priority != defaultPriority { return false }
-        if item1.project!.priority == item2.project!.priority { return sortByName(item1, item2) }
+        if item1.project!.priority == item2.project!.priority { return sortByBlocking(item1, item2) }
         return item1.project!.priority < item2.project!.priority
+    }
+
+    // TODO: test
+    private func sortByBlocking(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
+        let item1Blocking = item1.blocking?.count ?? 0
+        let item2Blocking = item2.blocking?.count ?? 0
+        let item1BlockedBy = item1.blockedBy?.count ?? 0
+        let item2BlockedBy = item2.blockedBy?.count ?? 0
+        if item1BlockedBy == 0 && item2BlockedBy == 0 {
+            if item1Blocking == 0 && item2Blocking > 0 { return true }
+            if item1Blocking > 0 && item2Blocking == 0 { return false }
+            if item1Blocking > item2Blocking { return true }
+            if item1Blocking < item2Blocking { return false }
+            if item1Blocking == item2Blocking { return sortByName(item1, item2) }
+        }
+        if item1BlockedBy == 0 && item2BlockedBy > 0 { return true }
+        if item1BlockedBy > 0 && item2BlockedBy == 0 { return false }
+        return item1BlockedBy < item2BlockedBy
     }
 
     private func sortByName(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
         if item1.name != nil && item2.name == nil { return true }
         if item1.name == nil && item2.name != nil { return false }
         if item1.name == nil && item2.name == nil { return false }
-        if item1.name! == item2.name { return false }
+        if item1.name! == item2.name! { return false }
         return item1.name! < item2.name!
     }
 
