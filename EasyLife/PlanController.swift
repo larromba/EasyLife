@@ -62,13 +62,13 @@ final class PlanController: PlanControlling {
     }
 
     private func reload() {
+        guard let viewState = self.viewController.viewState else { return }
         async({
             let sections = [
                 PlanSection.today: try await(self.repository.fetchTodayItems()),
                 PlanSection.missed: try await(self.repository.fetchMissedItems()),
                 PlanSection.later: try await(self.repository.fetchLaterItems())
             ]
-            guard let viewState = self.viewController.viewState else { return }
             let newViewState = viewState.copy(sections: sections, isDoneHidden: false)
             _ = try? await(self.badge.setNumber(newViewState.totalMissed + newViewState.totalToday))
             onMain {
