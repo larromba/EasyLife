@@ -5,7 +5,7 @@ protocol ProjectCelling: Mockable {
     var viewState: ProjectCellViewStating? { get set }
 }
 
-final class ProjectCell: UITableViewCell, ProjectCelling {
+final class ProjectCell: UITableViewCell, ProjectCelling, CellIdentifiable {
     @IBOutlet private(set) weak var titleLabel: UILabel!
     @IBOutlet private(set) weak var tagView: TagView!
 

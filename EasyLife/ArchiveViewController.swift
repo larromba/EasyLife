@@ -142,11 +142,12 @@ extension ArchiveViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cellViewState = viewState?.cellViewState(at: indexPath) else {
-            assertionFailure("expected item")
+        guard
+            let cellViewState = viewState?.cellViewState(at: indexPath),
+            let cell = tableView.dequeueReusableCell(withIdentifier: ArchiveCell.reuseIdentifier,
+                                                     for: indexPath) as? ArchiveCell else {
             return UITableViewCell()
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ArchiveCell", for: indexPath) as! ArchiveCell
         cell.viewState = cellViewState
         return cell
     }

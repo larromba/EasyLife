@@ -86,3 +86,4 @@ revisit action rules for sections
 add: clear button to blocked list
 BUG: app becomes active not always updating
 update libs
+bug: archive undo not updating ios13

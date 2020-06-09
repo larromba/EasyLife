@@ -111,11 +111,12 @@ extension ProjectsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cellViewState = viewState?.cellViewState(at: indexPath) else {
-            assertionFailure("expected project")
+        guard
+            let cellViewState = viewState?.cellViewState(at: indexPath),
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProjectCell.reuseIdentifier,
+                                                     for: indexPath) as? ProjectCell else {
             return UITableViewCell()
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectCell", for: indexPath) as! ProjectCell
         cell.viewState = cellViewState
         return cell
     }

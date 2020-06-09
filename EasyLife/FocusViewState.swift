@@ -2,89 +2,86 @@ import UIKit
 
 protocol FocusViewStating {
     var rowHeight: CGFloat { get }
-    var isEditing: Bool { get }
     var totalItems: Int { get }
     var isEmpty: Bool { get }
     var numOfSections: Int { get }
+    var backgroundColor: UIColor { get }
 
-    func title(for section: FocusSection) -> String?
     func item(at indexPath: IndexPath) -> TodoItem?
-    func cellViewState(at indexPath: IndexPath) -> FocusCellViewStating?
-    func items(for section: FocusSection) -> [TodoItem]?
+    func cellViewState(at indexPath: IndexPath) -> PlanCellViewStating?
     func name(at indexPath: IndexPath) -> String?
-    func canMoveRow(at indexPath: IndexPath) -> Bool
-    func availableActions(at indexPath: IndexPath) -> [ProjectItemAction]
-    func color(for action: ProjectItemAction) -> UIColor
-    func text(for action: ProjectItemAction) -> String
-    func style(for action: ProjectItemAction) -> UITableViewRowAction.Style
+    func availableActions(at indexPath: IndexPath) -> [PlanItemAction]
+    func color(for action: PlanItemAction) -> UIColor
+    func text(for action: PlanItemAction) -> String
+    func style(for action: PlanItemAction) -> UITableViewRowAction.Style
 }
 
 struct FocusViewState: FocusViewStating {
-    private let sections: [FocusSection: [TodoItem]]
+    private let items: [TodoItem]
 
     let rowHeight: CGFloat = 50.0
-    let isEditing: Bool
     var totalItems: Int {
-        return sections.reduce(0, { $0 + $1.value.count })
+        return items.isEmpty ? 0 : 1
     }
     var isEmpty: Bool {
         return totalItems == 0
     }
     var numOfSections: Int {
-        return sections.count
+        return 1
+    }
+    var backgroundColor: UIColor {
+        return .black
     }
 
-    init(sections: [FocusSection: [TodoItem]], isEditing: Bool) {
-        self.sections = sections
-        self.isEditing = isEditing
-    }
-
-    func title(for section: FocusSection) -> String? {
-        switch section {
-        case .morning:
-            return "TODO"
-        case .afternoon:
-            return "TODO"
-        case .evening:
-            return "TODO"
-        case .unassigned:
-            return "TODO"
-        }
+    init(items: [TodoItem]) {
+        self.items = items
     }
 
     func item(at indexPath: IndexPath) -> TodoItem? {
-        return nil
+        return items[indexPath.row]
     }
 
-    func cellViewState(at indexPath: IndexPath) -> FocusCellViewStating? {
-        return nil
-    }
-
-    func items(for section: FocusSection) -> [TodoItem]? {
-        return nil
+    func cellViewState(at indexPath: IndexPath) -> PlanCellViewStating? {
+        return item(at: indexPath).map { PlanCellViewState(item: $0, section: .today) }
     }
 
     func name(at indexPath: IndexPath) -> String? {
         return nil
     }
 
-    func canMoveRow(at indexPath: IndexPath) -> Bool {
-        return false
+    func availableActions(at indexPath: IndexPath) -> [PlanItemAction] {
+        guard let item = items.first else { return [] }
+        var actions = [PlanItemAction]()
+        if (item.blockedBy?.count ?? 0) == 0 {
+            actions += [.done]
+        }
+        return actions
     }
 
-    func availableActions(at indexPath: IndexPath) -> [ProjectItemAction] {
-        return []
+    func color(for action: PlanItemAction) -> UIColor {
+        switch action {
+        case .delete: return Asset.Colors.red.color
+        case .done: return Asset.Colors.green.color
+        case .later: return Asset.Colors.grey.color
+        case .split: return Asset.Colors.grey.color
+        }
     }
 
-    func color(for action: ProjectItemAction) -> UIColor {
-        return .black
+    func text(for action: PlanItemAction) -> String {
+        switch action {
+        case .delete: return  L10n.todoItemOptionDelete
+        case .done: return L10n.todoItemOptionDone
+        case .later: return L10n.todoItemOptionLater
+        case .split: return L10n.todoItemOptionSplit
+        }
     }
 
-    func text(for action: ProjectItemAction) -> String {
-        return ""
-    }
-
-    func style(for action: ProjectItemAction) -> UITableViewRowAction.Style {
-        return .default
+    func style(for action: PlanItemAction) -> UITableViewRowAction.Style {
+        switch action {
+        case .delete: return  .destructive
+        case .done: return .normal
+        case .later: return .normal
+        case .split: return .normal
+        }
     }
 }

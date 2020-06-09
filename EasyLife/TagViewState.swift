@@ -33,9 +33,17 @@ struct TagViewState: TagViewStating {
         }
     }
 
-    init() {
+    // MARK: - private
+
+    private init() {
         isHidden = true
         labelText = ""
         cornerColor = nil
+    }
+}
+
+extension TagViewState {
+    static var none: TagViewState {
+        return TagViewState()
     }
 }

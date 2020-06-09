@@ -16,10 +16,11 @@ enum AppControllerFactory {
                 #endif
                 try await(dataManager.load())
 
+                let planRepository = PlanRepository(dataManager: dataManager)
                 let planController = PlanController(
                     viewController: planViewController,
                     alertController: AlertController(presenter: planViewController),
-                    repository: PlanRepository(dataManager: dataManager),
+                    repository: planRepository,
                     badge: AppBadge()
                 )
                 let itemDetailRepository = ItemDetailRepository(dataManager: dataManager, now: Date())
@@ -31,8 +32,7 @@ enum AppControllerFactory {
                     blockedByController: BlockedByController(repository: blockedByRepository)
                 )
 
-                let focusRepository = FocusRepository(dataManager: dataManager)
-                let focusController = FocusController(repository: focusRepository)
+                let focusController = FocusController(repository: planRepository)
                 let archiveRepository = ArchiveRepository(dataManager: dataManager)
                 let archiveController = ArchiveController(repository: archiveRepository)
                 let projectsRepository = ProjectsRepository(dataManager: dataManager)

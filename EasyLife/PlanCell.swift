@@ -5,7 +5,7 @@ protocol PlanCellable: Mockable {
     var viewState: PlanCellViewStating? { get set }
 }
 
-final class PlanCell: UITableViewCell, PlanCellable {
+final class PlanCell: UITableViewCell, PlanCellable, CellIdentifiable, NibNameable {
     @IBOutlet private(set) weak var titleLabel: UILabel!
     @IBOutlet private(set) weak var infoLabel: UILabel!
     @IBOutlet private(set) weak var notesLabel: UILabel!

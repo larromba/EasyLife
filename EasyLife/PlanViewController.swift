@@ -38,6 +38,8 @@ final class PlanViewController: UIViewController, PlanViewControlling {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.register(UINib(nibName: PlanCell.nibName, bundle: .main),
+                           forCellReuseIdentifier: PlanCell.reuseIdentifier)
         _ = viewState.map(bind)
         tableView.applyDefaultStyleFix()
     }
@@ -137,7 +139,8 @@ extension PlanViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard
             let cellViewState = viewState?.cellViewState(at: indexPath),
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PlanCell", for: indexPath) as? PlanCell else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: PlanCell.reuseIdentifier,
+                                                     for: indexPath) as? PlanCell else {
                 return UITableViewCell()
         }
         cell.viewState = cellViewState

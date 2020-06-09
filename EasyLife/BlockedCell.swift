@@ -5,7 +5,7 @@ protocol BlockedCelling: Mockable {
     var viewState: ProjectCellViewStating? { get set }
 }
 
-final class BlockedCell: UITableViewCell {
+final class BlockedCell: UITableViewCell, CellIdentifiable {
     @IBOutlet private(set) weak var titleLabel: UILabel!
     @IBOutlet private(set) weak var iconImageView: UIImageView!
 

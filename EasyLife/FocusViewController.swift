@@ -9,8 +9,6 @@ protocol FocusViewControlling: Presentable, Mockable {
 
 protocol FocusViewControllerDelegate: AnyObject {
     func viewController(_ viewController: FocusViewControlling, performAction action: FocusAction)
-    func viewController(_ viewController: FocusViewControlling, moveRowAt sourceIndexPath: IndexPath,
-                        to destinationIndexPath: IndexPath)
 }
 
 final class FocusViewController: UIViewController, FocusViewControlling {
@@ -23,6 +21,8 @@ final class FocusViewController: UIViewController, FocusViewControlling {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.register(UINib(nibName: PlanCell.nibName, bundle: .main),
+                           forCellReuseIdentifier: PlanCell.reuseIdentifier)
         _ = viewState.map(bind)
         tableView.applyDefaultStyleFix()
     }
@@ -36,7 +36,12 @@ final class FocusViewController: UIViewController, FocusViewControlling {
     private func bind(_ viewState: FocusViewStating) {
         guard isViewLoaded else { return }
         tableView.reloadData()
-        tableView.setEditing(viewState.isEditing, animated: true)
+
+        var inset = tableView.contentInset
+        inset.top = (tableView.bounds.height / 2) - (viewState.rowHeight / 2.0)
+        tableView.contentInset = inset
+
+        view.backgroundColor = viewState.backgroundColor
     }
 
     @IBAction private func closeButtonPressed(_ sender: UIBarButtonItem) {
@@ -51,42 +56,23 @@ extension FocusViewController: UITableViewDelegate {
         return viewState?.rowHeight ?? 0.0
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let section = FocusSection(rawValue: section) else { return nil }
-        return viewState?.title(for: section)
-    }
-
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//        guard let viewState = viewState, let item = viewState.item(at: indexPath) else { return nil }
-//        return viewState.availableActions(at: indexPath).map { projectAction in
-//            let action = UITableViewRowAction(
-//                style: viewState.style(for: projectAction),
-//                title: viewState.text(for: projectAction),
-//                handler: { _, _ in
-//                    self.delegate?.viewController(self, performAction: projectAction, forProject: project)
-//                }
-//            )
-//            action.backgroundColor = viewState.color(for: projectAction)
-//            return action
-//        }
-        return nil
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard let project = viewState?.project(at: indexPath) else { return }
-//        delegate?.viewController(self, performAction: .edit(project: project))
-    }
-
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return viewState?.canMoveRow(at: indexPath) ?? false
-    }
-
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        delegate?.viewController(self, moveRowAt: sourceIndexPath, to: destinationIndexPath)
+        guard let viewState = viewState else { return nil }
+        return viewState.availableActions(at: indexPath).map { projectAction in
+            let action = UITableViewRowAction(
+                style: viewState.style(for: projectAction),
+                title: viewState.text(for: projectAction),
+                handler: { _, _ in
+                    //self.delegate?.viewController(self, performAction: projectAction, forProject: project)
+                }
+            )
+            action.backgroundColor = viewState.color(for: projectAction)
+            return action
+        }
     }
 }
 
@@ -94,16 +80,16 @@ extension FocusViewController: UITableViewDelegate {
 
 extension FocusViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let section = FocusSection(rawValue: section) else { return 0 }
-        return viewState?.items(for: section)?.count ?? 0
+        return viewState?.totalItems ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cellViewState = viewState?.cellViewState(at: indexPath) else {
-            assertionFailure("expected project")
-            return UITableViewCell()
+        guard
+            let cellViewState = viewState?.cellViewState(at: indexPath),
+            let cell = tableView.dequeueReusableCell(withIdentifier: PlanCell.reuseIdentifier,
+                                                     for: indexPath) as? PlanCell else {
+                return UITableViewCell()
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FocusCell", for: indexPath) as! FocusCell
         cell.viewState = cellViewState
         return cell
     }

@@ -5,7 +5,7 @@ protocol ArchiveCelling: Mockable {
     var viewState: ArchiveCellViewStating? { get set }
 }
 
-final class ArchiveCell: UITableViewCell, ArchiveCelling {
+final class ArchiveCell: UITableViewCell, ArchiveCelling, CellIdentifiable {
     @IBOutlet private(set) weak var titleLabel: UILabel!
 
     var viewState: ArchiveCellViewStating? {

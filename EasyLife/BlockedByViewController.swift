@@ -73,8 +73,12 @@ extension BlockedByViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cellViewState = viewState?.cellViewState(at: indexPath) else { return UITableViewCell() }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BlockedCell", for: indexPath) as! BlockedCell
+        guard
+            let cellViewState = viewState?.cellViewState(at: indexPath),
+            let cell = tableView.dequeueReusableCell(withIdentifier: BlockedCell.reuseIdentifier,
+                                                     for: indexPath) as? BlockedCell else {
+                return UITableViewCell()
+        }
         cell.viewState = cellViewState
         return cell
     }
