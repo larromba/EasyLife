@@ -63,6 +63,10 @@ Apple ID: 1229095589
 
 # Future Work
 
+- focus mode 
+    - add timer
+    - focus button should show message when uncompletable option in today
+
 - long press: new note
 - long press on cell: make tomorrow
 - instructional video
@@ -70,7 +74,6 @@ Apple ID: 1229095589
 - siri integration
 - holiday mode
 - later in missed?
-- focus mode (morning / afternoon / evening)
 - local notification to update badge?
 * fix space bug
 * fix initial load flickers

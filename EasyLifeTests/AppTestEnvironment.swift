@@ -40,7 +40,6 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var projectsRepository: ProjectsRepositoring!
     private(set) var projectsController: ProjectsControlling!
     private(set) var projectsCoordinator: ProjectsCoordinating!
-    private(set) var focusRepository: FocusRepositoring!
     private(set) var focusController: FocusControlling!
     private(set) var focusCoordinator: FocusCoordinating!
 
@@ -78,8 +77,7 @@ final class AppTestEnvironment: TestEnvironment {
             itemDetailController: itemDetailController,
             blockedByController: blockedByController
         )
-        focusRepository = FocusRepository(dataManager: dataManager)
-        focusController = FocusController(repository: focusRepository)
+        focusController = FocusController(repository: planRepository)
         focusCoordinator = FocusCoordinator(focusController: focusController)
         archiveRepository = ArchiveRepository(dataManager: dataManager)
         archiveController = ArchiveController(repository: archiveRepository)
@@ -114,7 +112,7 @@ final class AppTestEnvironment: TestEnvironment {
 
     func todoItem(type: TodoItemType, name: String? = nil, repeatState: RepeatState? = nil,
                   notes: String? = nil, project: Project? = nil, isTransient: Bool = false,
-                  isDone: Bool = false) -> TodoItem {
+                  isDone: Bool = false, blockedBy: [TodoItem]? = nil) -> TodoItem {
         let item = isTransient ?
             dataManager.insertTransient(entityClass: TodoItem.self, context: .main).value! :
             dataManager.insert(entityClass: TodoItem.self, context: .main)
@@ -123,6 +121,7 @@ final class AppTestEnvironment: TestEnvironment {
         item.notes = notes
         item.project = project
         item.done = isDone
+        blockedBy?.forEach { item.addToBlockedBy($0) }
         switch type {
         case .empty: item.date = nil
         case .later: item.date = Date().plusDays(2)

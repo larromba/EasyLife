@@ -623,81 +623,14 @@ final class PlanTests: XCTestCase {
     // MARK: - order
 
     func testMissedOrder() {
-        func title(for row: Int) -> String? {
-            guard let cell = viewController.cell(row: row, section: .missed) else { return "not found" }
-            return cell.titleLabel.text
-        }
-
-        // mocks
-        env.inject()
-        let project1 = env.project(priority: 0)
-        let project2 = env.project(priority: 1)
-        let project3 = env.project(priority: 2)
-        let project4 = env.project(priority: Project.defaultPriority)
-        _ = env.todoItem(type: .missed, name: "item1", project: project1)
-        _ = env.todoItem(type: .missed, name: "item2", project: project2)
-        _ = env.todoItem(type: .missed, name: "item3", project: project3)
-        _ = env.todoItem(type: .missed, name: "item4")
-        _ = env.todoItem(type: .missed, name: "item5", project: project4)
-        _ = env.todoItem(type: .missed, name: "item6", project: project1)
-        _ = env.todoItem(type: .missed, name: "item7", project: project1)
-        _ = env.todoItem(type: .missed, name: "item8", project: project2)
-        _ = env.todoItem(type: .missed, name: "item9")
-        _ = env.todoItem(type: .missed)
-        env.start()
-
-        // test
-        waitSync()
-        XCTAssertEqual(title(for: 0), "item1")
-        XCTAssertEqual(title(for: 1), "item6")
-        XCTAssertEqual(title(for: 2), "item7")
-        XCTAssertEqual(title(for: 3), "item2")
-        XCTAssertEqual(title(for: 4), "item8")
-        XCTAssertEqual(title(for: 5), "item3")
-        XCTAssertEqual(title(for: 6), "item5")
-        XCTAssertEqual(title(for: 7), "item4")
-        XCTAssertEqual(title(for: 8), "item9")
-        XCTAssertEqual(title(for: 9), "[no name]")
+        testOrder(type: .missed, section: .missed)
     }
 
     func testTodayOrder() {
-        func title(for row: Int) -> String? {
-            guard let cell = viewController.cell(row: row, section: .today) else { return "not found" }
-            return cell.titleLabel.text
-        }
-
-        // mocks
-        env.inject()
-        let project1 = env.project(priority: 0)
-        let project2 = env.project(priority: 1)
-        let project3 = env.project(priority: 2)
-        let project4 = env.project(priority: Project.defaultPriority)
-        _ = env.todoItem(type: .today, name: "item1", project: project1)
-        _ = env.todoItem(type: .today, name: "item2", project: project2)
-        _ = env.todoItem(type: .today, name: "item3", project: project3)
-        _ = env.todoItem(type: .today, name: "item4")
-        _ = env.todoItem(type: .today, name: "item5", project: project4)
-        _ = env.todoItem(type: .today, name: "item6", project: project1)
-        _ = env.todoItem(type: .today, name: "item7", project: project1)
-        _ = env.todoItem(type: .today, name: "item8", project: project2)
-        _ = env.todoItem(type: .today, name: "item9")
-        _ = env.todoItem(type: .today)
-        env.start()
-
-        // test
-        waitSync()
-        XCTAssertEqual(title(for: 0), "item1")
-        XCTAssertEqual(title(for: 1), "item6")
-        XCTAssertEqual(title(for: 2), "item7")
-        XCTAssertEqual(title(for: 3), "item2")
-        XCTAssertEqual(title(for: 4), "item8")
-        XCTAssertEqual(title(for: 5), "item3")
-        XCTAssertEqual(title(for: 6), "item5")
-        XCTAssertEqual(title(for: 7), "item4")
-        XCTAssertEqual(title(for: 8), "item9")
-        XCTAssertEqual(title(for: 9), "[no name]")
+        testOrder(type: .today, section: .today)
     }
 
+    // swiftlint:disable function_body_length
     func testLaterOrder() {
         func title(for row: Int) -> String? {
             guard let cell = viewController.cell(row: row, section: .later) else { return "not found" }
@@ -727,6 +660,15 @@ final class PlanTests: XCTestCase {
         _ = env.todoItem(type: .laterDate(date("3001-04-14T10:44:00+0000")), name: "item10", project: project1)
         _ = env.todoItem(type: .laterDate(date("3000-04-14T10:44:00+0000")), name: "item11", project: project1)
         _ = env.todoItem(type: .empty)
+        let blocker = env.todoItem(type: .laterDay(1), name: "blocker", project: project4)
+        let sharedBlocker1 = env.todoItem(type: .laterDay(1), name: "shared-blocker1", project: project4,
+                                          blockedBy: [blocker])
+        let sharedBlocker2 = env.todoItem(type: .laterDay(1), name: "shared-blocker2", project: project4,
+                                          blockedBy: [blocker])
+        _ = env.todoItem(type: .laterDay(1), name: "blockedBy1", project: project4,
+                         blockedBy: [blocker, sharedBlocker1, sharedBlocker2])
+        _ = env.todoItem(type: .laterDay(1), name: "blockedBy2", project: project4,
+                         blockedBy: [blocker, sharedBlocker1, sharedBlocker2])
         env.start()
 
         // test
@@ -737,13 +679,73 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(title(for: 3), "item1")
         XCTAssertEqual(title(for: 4), "item6")
         XCTAssertEqual(title(for: 5), "item5")
-        XCTAssertEqual(title(for: 6), "item9")
+        XCTAssertEqual(title(for: 6), "blocker")
         viewController.tableView.scrollUp(by: 200) // assuming iphone6
-        XCTAssertEqual(title(for: 7), "item2")
-        XCTAssertEqual(title(for: 8), "item3")
-        XCTAssertEqual(title(for: 9), "item4")
-        XCTAssertEqual(title(for: 10), "item11")
-        XCTAssertEqual(title(for: 11), "item10")
+        XCTAssertEqual(title(for: 7), "shared-blocker1")
+        XCTAssertEqual(title(for: 8), "shared-blocker2")
+        XCTAssertEqual(title(for: 9), "blockedBy1")
+        XCTAssertEqual(title(for: 10), "blockedBy2")
+        XCTAssertEqual(title(for: 11), "item9")
+        XCTAssertEqual(title(for: 12), "item2")
+        viewController.tableView.scrollUp(by: 400) // assuming iphone6
+        XCTAssertEqual(title(for: 13), "item3")
+        XCTAssertEqual(title(for: 14), "item4")
+        XCTAssertEqual(title(for: 15), "item11")
+        XCTAssertEqual(title(for: 16), "item10")
+    }
+
+    // swiftlint:disable function_body_length
+    private func testOrder(type: AppTestEnvironment.TodoItemType, section: PlanSection) {
+        func title(for row: Int, section: PlanSection) -> String? {
+            guard let cell = viewController.cell(row: row, section: section) else { return "not found" }
+            return cell.titleLabel.text
+        }
+
+        // mocks
+        env.inject()
+        let project1 = env.project(priority: 0)
+        let project2 = env.project(priority: 1)
+        let project3 = env.project(priority: 2)
+        let project4 = env.project(priority: Project.defaultPriority)
+        _ = env.todoItem(type: type, name: "item1", project: project1)
+        _ = env.todoItem(type: type, name: "item2", project: project2)
+        _ = env.todoItem(type: type, name: "item3", project: project3)
+        _ = env.todoItem(type: type, name: "item4")
+        _ = env.todoItem(type: type, name: "item5", project: project4)
+        _ = env.todoItem(type: type, name: "item6", project: project1)
+        _ = env.todoItem(type: type, name: "item7", project: project1)
+        _ = env.todoItem(type: type, name: "item8", project: project2)
+        _ = env.todoItem(type: type, name: "item9")
+        _ = env.todoItem(type: type)
+        let blocker = env.todoItem(type: type, name: "blocker", project: project4)
+        let sharedBlocker1 = env.todoItem(type: type, name: "shared-blocker1", project: project4,
+                                          blockedBy: [blocker])
+        let sharedBlocker2 = env.todoItem(type: type, name: "shared-blocker2", project: project4,
+                                          blockedBy: [blocker])
+        _ = env.todoItem(type: type, name: "blockedBy1", project: project4,
+                         blockedBy: [blocker, sharedBlocker1, sharedBlocker2])
+        _ = env.todoItem(type: type, name: "blockedBy2", project: project4,
+                         blockedBy: [blocker, sharedBlocker1, sharedBlocker2])
+        env.start()
+
+        // test
+        waitSync()
+        XCTAssertEqual(title(for: 0, section: section), "item1")
+        XCTAssertEqual(title(for: 1, section: section), "item6")
+        XCTAssertEqual(title(for: 2, section: section), "item7")
+        XCTAssertEqual(title(for: 3, section: section), "item2")
+        XCTAssertEqual(title(for: 4, section: section), "item8")
+        XCTAssertEqual(title(for: 5, section: section), "item3")
+        XCTAssertEqual(title(for: 6, section: section), "item5")
+        XCTAssertEqual(title(for: 7, section: section), "blocker")
+        XCTAssertEqual(title(for: 8, section: section), "shared-blocker1")
+        XCTAssertEqual(title(for: 9, section: section), "shared-blocker2")
+        XCTAssertEqual(title(for: 10, section: section), "blockedBy1")
+        XCTAssertEqual(title(for: 11, section: section), "blockedBy2")
+        viewController.tableView.scrollUp(by: 200) // assuming iphone6
+        XCTAssertEqual(title(for: 12, section: section), "item4")
+        XCTAssertEqual(title(for: 13, section: section), "item9")
+        XCTAssertEqual(title(for: 14, section: section), "[no name]")
     }
 }
 

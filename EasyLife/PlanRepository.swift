@@ -67,7 +67,7 @@ final class PlanRepository: PlanRepositoring {
                     entityClass: TodoItem.self,
                     sortBy: nil, context: .main,
                     predicate: self.laterPredicate)
-                ).sorted(by: self.sortByDateAndLaterPriority)
+                ).sorted(by: self.sortByDate)
                 completion(.success(items))
             }, onError: { error in
                 completion(.failure(error))
@@ -160,6 +160,18 @@ final class PlanRepository: PlanRepositoring {
 
     // MARK: - private
     // @note coredata sorts are are limited, so need to do it here for advanced sorting
+    // 1. date (<)
+    // 2. priority (<)
+    // 3. blocking (<) [none, blocking, both, blockedBy]
+    // 4. name (<)
+
+    private func sortByDate(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
+        if item1.date != nil && item2.date == nil { return false }
+        if item1.date == nil && item2.date != nil { return true }
+        if item1.date == nil && item2.date == nil { return sortByPriority(item1, item2) }
+        if item1.date!.isSameDay(item2.date!) { return sortByPriority(item1, item2) }
+        return item1.date! < item2.date!
+    }
 
     private func sortByPriority(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
         if item1.project != nil && item2.project == nil { return true }
@@ -174,20 +186,30 @@ final class PlanRepository: PlanRepositoring {
 
     // TODO: test
     private func sortByBlocking(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
-        let item1Blocking = item1.blocking?.count ?? 0
-        let item2Blocking = item2.blocking?.count ?? 0
-        let item1BlockedBy = item1.blockedBy?.count ?? 0
-        let item2BlockedBy = item2.blockedBy?.count ?? 0
-        if item1BlockedBy == 0 && item2BlockedBy == 0 {
-            if item1Blocking == 0 && item2Blocking > 0 { return true }
-            if item1Blocking > 0 && item2Blocking == 0 { return false }
-            if item1Blocking > item2Blocking { return true }
-            if item1Blocking < item2Blocking { return false }
-            if item1Blocking == item2Blocking { return sortByName(item1, item2) }
-        }
-        if item1BlockedBy == 0 && item2BlockedBy > 0 { return true }
-        if item1BlockedBy > 0 && item2BlockedBy == 0 { return false }
-        return item1BlockedBy < item2BlockedBy
+        if item1.blockingState == .none && item2.blockingState != .none { return true }
+        if item1.blockingState != .none && item2.blockingState == .none { return false }
+
+        if item1.blockingState == .blocking && item2.blockingState != .blocking { return true }
+        if item1.blockingState != .blocking && item2.blockingState == .blocking { return false }
+
+        if item1.blockingState == .both && item2.blockingState != .both { return true }
+        if item1.blockingState != .both && item2.blockingState == .both { return false }
+
+        if item1.blockingState == .blockedBy && item2.blockingState != .blockedBy { return true }
+        if item1.blockingState != .blockedBy && item2.blockingState == .blockedBy { return false }
+
+//        if item1.isNotAllBlocking && !item2.isNotAllBlocking { return true }
+//        if !item1.isNotAllBlocking && item2.isNotAllBlocking { return false }
+//
+//        if item1.isBlocking && !item1.isBlockedBy && !item2.isBlocking && !item2.isBlockedBy { return true }
+//        if !item1.isBlocking && !item1.isBlockedBy && item2.isBlocking && !item2.isBlockedBy { return false }
+//
+//        if item1.isBlocking && !item1.isBlockedBy && !item2.isBlocking && !item2.isBlockedBy { return true }
+//        if !item1.isBlocking && !item1.isBlockedBy && item2.isBlocking && !item2.isBlockedBy { return false }
+//
+//        if !item1.isBlocking && item2.isBlocking { return false }
+
+        return sortByName(item1, item2)
     }
 
     private func sortByName(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
@@ -196,14 +218,6 @@ final class PlanRepository: PlanRepositoring {
         if item1.name == nil && item2.name == nil { return false }
         if item1.name! == item2.name! { return false }
         return item1.name! < item2.name!
-    }
-
-    private func sortByDateAndLaterPriority(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
-        if item1.date != nil && item2.date == nil { return false }
-        if item1.date == nil && item2.date != nil { return true }
-        if item1.date == nil && item2.date == nil { return sortByPriority(item1, item2) }
-        if item1.date!.isSameDay(item2.date!) { return sortByPriority(item1, item2) }
-        return item1.date! < item2.date!
     }
 }
 
@@ -216,5 +230,35 @@ private extension Date {
         let isMonthEqual = (calendar.component(.month, from: self) == calendar.component(.month, from: date))
         let isYearEqual = (calendar.component(.year, from: self) == calendar.component(.year, from: date))
         return (isDayEqual && isMonthEqual && isYearEqual)
+    }
+}
+
+// MARK: - TodoItem
+
+private extension TodoItem {
+    enum BlockingState {
+        case none
+        case blocking
+        case both
+        case blockedBy
+    }
+
+    var isBlocking: Bool {
+        return (blocking?.count ?? 0) > 0
+    }
+    var isBlockedBy: Bool {
+        return (blockedBy?.count ?? 0) > 0
+    }
+    var blockingState: BlockingState {
+        if !isBlocking && !isBlockedBy {
+            return .none
+        }
+        if isBlocking && !isBlockedBy {
+            return .blocking
+        }
+        if isBlocking && isBlockedBy {
+            return .both
+        }
+        return .blockedBy
     }
 }
