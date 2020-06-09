@@ -600,6 +600,26 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(navigationController.viewControllers.first is FocusViewController)
     }
 
+    func test_focusButton_whenNoTodayItems_expectDisabled() {
+        // mocks
+        env.inject()
+        env.start()
+
+        // test
+        XCTAssertFalse(viewController.focusButton.isEnabled)
+    }
+
+    func test_focusButton_whenTodayItems_expectEnabled() {
+        // mocks
+        env.inject()
+        _ = env.todoItem(type: .today)
+        env.start()
+
+        // test
+        waitSync()
+        XCTAssertTrue(viewController.focusButton.isEnabled)
+    }
+
     // MARK: - order
 
     func testMissedOrder() {

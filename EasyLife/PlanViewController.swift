@@ -79,6 +79,7 @@ final class PlanViewController: UIViewController, PlanViewControlling {
         guard isViewLoaded else { return }
         appVersionLabel.text = viewState.appVersionText
         doneLabel.isHidden = viewState.isDoneHidden
+        focusButton.isEnabled = viewState.isFocusButtonEnabled
         tableHeaderView.isHidden = viewState.isTableHeaderHidden
         tableHeaderView.bounds.size.height = tableView.bounds.height * viewState.tableHeaderHeightPercentage
         tableView.isHidden = viewState.isTableHidden

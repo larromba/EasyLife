@@ -17,6 +17,7 @@ protocol PlanViewStating {
     var isDoneHidden: Bool { get }
     var isTableHeaderHidden: Bool { get }
     var isTableHidden: Bool { get }
+    var isFocusButtonEnabled: Bool { get }
     var numOfSections: Int { get }
 
     func color(for action: PlanItemAction) -> UIColor
@@ -66,6 +67,9 @@ struct PlanViewState: PlanViewStating {
     }
     var isTableHidden: Bool {
         return isDoneTotally
+    }
+    var isFocusButtonEnabled: Bool {
+        return totalToday == 0 ? false : true
     }
     var numOfSections: Int {
         return sections.count
