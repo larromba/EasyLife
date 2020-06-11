@@ -9,12 +9,12 @@ protocol AppControlling: Mockable {
 }
 
 final class AppController: AppControlling {
-    private let dataManager: DataManaging
+    private let dataProvider: DataContextProviding
     private let appRouter: AppRouting
     private let fatalErrorHandler: FatalErrorHandler
 
-    init(dataManager: DataManaging, appRouter: AppRouting, fatalErrorHandler: FatalErrorHandler) {
-        self.dataManager = dataManager
+    init(dataProvider: DataContextProviding, appRouter: AppRouting, fatalErrorHandler: FatalErrorHandler) {
+        self.dataProvider = dataProvider
         self.appRouter = appRouter
         self.fatalErrorHandler = fatalErrorHandler
     }
@@ -25,7 +25,7 @@ final class AppController: AppControlling {
 
     func applicationWillTerminate() {
         async({
-            let context = self.dataManager.mainContext()
+            let context = self.dataProvider.mainContext()
             _ = try await(context.save())
         }, onError: { error in
             logError(error.localizedDescription)

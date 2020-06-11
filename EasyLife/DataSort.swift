@@ -1,6 +1,6 @@
 import Foundation
 
-final class DataSort<T> {
+struct DataSort<T> {
     let sortDescriptor: [NSSortDescriptor]?
     let sortFunction: ((T, T) -> Bool)?
 

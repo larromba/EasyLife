@@ -63,11 +63,12 @@ Apple ID: 1229095589
 
 # Future Work
 
+- fix: tests
 - focus mode 
     - add timer
     - focus button should show message when uncompletable option in today
 
-- long press: new note
+- long press on app icon: new note
 - long press on cell: make tomorrow
 - instructional video
 - noise when done 
@@ -88,8 +89,10 @@ add none selection to project picker
 revisit action rules for sections
 add: clear button to blocked list
 BUG: app becomes active not always updating
+BUG: priority order
 update libs (
 bug: archive undo not updating ios13
 done things should add copy to archive
 new item should be done somewhere else so can use child context?
 remove: ObjectContext ValueContext
+// TODO: search app & check protocols are being used (not direct references)

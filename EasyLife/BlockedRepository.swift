@@ -7,16 +7,16 @@ protocol BlockedByRepositoring: Mockable {
 }
 
 final class BlockedByRepository: BlockedByRepositoring {
-    private let dataManager: DataManaging
+    private let dataProvider: DataContextProviding
 
-    init(dataManager: DataManaging) {
-        self.dataManager = dataManager
+    init(dataProvider: DataContextProviding) {
+        self.dataProvider = dataProvider
     }
 
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataManager.mainContext()
+                let context = self.dataProvider.mainContext()
                 let descriptor = NSSortDescriptor(key: "name", ascending: true,
                                                   selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
                 let items = try await(context.fetch(

@@ -15,15 +15,9 @@ protocol PlanRepositoring: Mockable {
     func split(item: TodoItem) -> Async<Void>
 }
 
-// TODO: move
-enum PlanItemContext {
-    case existing(item: TodoItem)
-    case new(item: TodoItem, context: DataContexting)
-}
-
 final class PlanRepository: PlanRepositoring {
-    private let dataManager: DataManaging
-    // not lazy as 'today' changes
+    private let dataProvider: DataContextProviding
+    // predicates not lazy as 'today' changes
     private var missedPredicate: NSPredicate {
         let date = today
         return NSPredicate(format: "%K < %@ AND (%K = NULL OR %K = false)",
@@ -43,12 +37,12 @@ final class PlanRepository: PlanRepositoring {
         return Date()
     }
 
-    init(dataManager: DataManaging) {
-        self.dataManager = dataManager
+    init(dataProvider: DataContextProviding) {
+        self.dataProvider = dataProvider
     }
 
     func newItemContext() -> PlanItemContext {
-        let context = dataManager.childContext(thread: .main)
+        let context = dataProvider.childContext(thread: .main)
         let item = context.insert(entityClass: TodoItem.self)
         return .new(item: item, context: context)
     }
@@ -56,7 +50,7 @@ final class PlanRepository: PlanRepositoring {
     func fetchMissedItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataManager.mainContext()
+                let context = self.dataProvider.mainContext()
                 let items = try await(context.fetch(
                     entityClass: TodoItem.self,
                     sortBy: DataSort(sortFunction: self.sortByPriority),
@@ -71,7 +65,7 @@ final class PlanRepository: PlanRepositoring {
     func fetchLaterItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataManager.mainContext()
+                let context = self.dataProvider.mainContext()
                 let items = try await(context.fetch(
                     entityClass: TodoItem.self,
                     sortBy: DataSort(sortFunction: self.sortByDate),
@@ -86,7 +80,7 @@ final class PlanRepository: PlanRepositoring {
     func fetchTodayItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataManager.mainContext()
+                let context = self.dataProvider.mainContext()
                 let items = try await(context.fetch(
                     entityClass: TodoItem.self,
                     sortBy: DataSort(sortFunction: self.sortByPriority),
@@ -101,7 +95,7 @@ final class PlanRepository: PlanRepositoring {
     func delete(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                let context = self.dataManager.mainContext()
+                let context = self.dataProvider.mainContext()
                 context.delete(item)
                 _ = try await(context.save())
                 completion(.success(()))
@@ -114,13 +108,16 @@ final class PlanRepository: PlanRepositoring {
     func later(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                switch item.repeatState! {
-                case .none:
-                    item.date = nil
-                default:
-                    item.incrementDate()
+                let context = self.dataProvider.mainContext()
+                context.performAndWait {
+                    switch item.repeatState! {
+                    case .none:
+                        item.date = nil
+                    default:
+                        item.incrementDate()
+                    }
                 }
-                _ = try await(self.dataManager.mainContext().save())
+                _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -131,14 +128,17 @@ final class PlanRepository: PlanRepositoring {
     func done(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                switch item.repeatState! {
-                case .none:
-                    item.done = true
-                default:
-                    item.incrementDate()
+                let context = self.dataProvider.mainContext()
+                context.performAndWait {
+                    switch item.repeatState! {
+                    case .none:
+                        item.done = true
+                    default:
+                        item.incrementDate()
+                    }
+                    item.blocking = nil
                 }
-                item.blocking = nil
-                _ = try await(self.dataManager.mainContext().save())
+                _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -149,14 +149,18 @@ final class PlanRepository: PlanRepositoring {
     func split(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                let context = self.dataManager.mainContext()
-                guard item.repeatState != RepeatState.none else { return }
+                let context = self.dataProvider.mainContext()
+                var isValid: Bool!
+                context.performAndWait { isValid = (item.repeatState != RepeatState.none) }
+                guard isValid else { return }
                 let result = context.copy(item)
                 switch result {
                 case .success(let copy):
-                    item.incrementDate()
-                    item.blockedBy = nil
-                    copy.repeatState = RepeatState.none
+                    context.performAndWait {
+                        item.incrementDate()
+                        item.blockedBy = nil
+                        copy.repeatState = RepeatState.none
+                    }
                     _ = try await(context.save())
                     completion(.success(()))
                 case .failure(let error):
@@ -245,15 +249,9 @@ private extension TodoItem {
         return (blockedBy?.count ?? 0) > 0
     }
     var blockingState: BlockingState {
-        if !isBlocking && !isBlockedBy {
-            return .none
-        }
-        if isBlocking && !isBlockedBy {
-            return .blocking
-        }
-        if isBlocking && isBlockedBy {
-            return .both
-        }
+        if !isBlocking && !isBlockedBy { return .none }
+        if isBlocking && !isBlockedBy { return .blocking }
+        if isBlocking && isBlockedBy { return .both }
         return .blockedBy
     }
 }

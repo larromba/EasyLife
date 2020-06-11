@@ -25,7 +25,7 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var appRouter: AppRouting!
     private(set) var fatalErrorHandler: FatalErrorHandler!
     private(set) var appController: AppControlling!
-    private(set) var dataManager: DataManaging!
+    private(set) var dataProvider: DataContextProviding!
     private(set) var alertController: AlertControlling!
     private(set) var planRepository: PlanRepositoring!
     private(set) var planController: PlanControlling!
@@ -60,15 +60,15 @@ final class AppTestEnvironment: TestEnvironment {
     }
 
     func inject() {
-        dataManager = DataManager(persistentContainer: persistentContainer, isLoaded: isLoaded)
-        planRepository = PlanRepository(dataManager: dataManager)
+        dataProvider = DataContextProvider(persistentContainer: persistentContainer, isLoaded: isLoaded)
+        planRepository = PlanRepository(dataProvider: dataProvider)
         alertController = AlertController(presenter: viewController)
         planController = PlanController(viewController: viewController,
                                         alertController: alertController,
                                         repository: planRepository,
                                         badge: badge)
-        blockedByRepository = BlockedByRepository(dataManager: dataManager)
-        itemDetailRepository = ItemDetailRepository(dataManager: dataManager, now: now)
+        blockedByRepository = BlockedByRepository(dataProvider: dataProvider)
+        itemDetailRepository = ItemDetailRepository(dataProvider: dataProvider, now: now)
         itemDetailController = ItemDetailController(repository: itemDetailRepository)
         blockedByController = BlockedByController(repository: blockedByRepository)
         planCoordinator = PlanCoordinator(
@@ -79,9 +79,9 @@ final class AppTestEnvironment: TestEnvironment {
         )
         focusController = FocusController(repository: planRepository)
         focusCoordinator = FocusCoordinator(focusController: focusController)
-        archiveRepository = ArchiveRepository(dataManager: dataManager)
+        archiveRepository = ArchiveRepository(dataProvider: dataProvider)
         archiveController = ArchiveController(repository: archiveRepository)
-        projectsRepository = ProjectsRepository(dataManager: dataManager)
+        projectsRepository = ProjectsRepository(dataProvider: dataProvider)
         projectsController = ProjectsController(repository: projectsRepository)
         archiveCoordinator = ArchiveCoordinator(archiveController: archiveController)
         projectsCoordinator = ProjectsCoordinator(projectsController: projectsController)
@@ -94,7 +94,7 @@ final class AppTestEnvironment: TestEnvironment {
         planController.setStoryboardRouter(appRouter)
         fatalErrorHandler = FatalErrorHandler(window: window)
         appController = AppController(
-            dataManager: dataManager,
+            dataProvider: dataProvider,
             appRouter: appRouter,
             fatalErrorHandler: fatalErrorHandler
         )
@@ -113,9 +113,8 @@ final class AppTestEnvironment: TestEnvironment {
     func todoItem(type: TodoItemType, name: String? = nil, repeatState: RepeatState? = nil,
                   notes: String? = nil, project: Project? = nil, isTransient: Bool = false,
                   isDone: Bool = false, blockedBy: [TodoItem]? = nil) -> TodoItem {
-        let item = isTransient ?
-            dataManager.insertTransient(entityClass: TodoItem.self, context: .main).value! :
-            dataManager.insert(entityClass: TodoItem.self, context: .main)
+        let context = isTransient ? dataProvider.mainContext() : dataProvider.childContext(thread: .main)
+        let item = context.insert(entityClass: TodoItem.self)
         item.name = name
         item.repeatState = repeatState
         item.notes = notes
@@ -134,7 +133,7 @@ final class AppTestEnvironment: TestEnvironment {
     }
 
     func project(priority: Int16, name: String? = nil) -> Project {
-        let project = dataManager.insert(entityClass: Project.self, context: .main)
+        let project = dataProvider.mainContext().insert(entityClass: Project.self)
         project.priority = priority
         project.name = name
         return project

@@ -2,8 +2,6 @@ import AsyncAwait
 import Logging
 import UIKit
 
-// TODO: search app & check protocols are being used (not direct references)
-
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?

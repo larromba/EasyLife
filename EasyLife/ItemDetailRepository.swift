@@ -12,12 +12,12 @@ protocol ItemDetailRepositoring: Mockable {
 }
 
 final class ItemDetailRepository: ItemDetailRepositoring {
-    private let dataManager: DataManaging
+    private let dataProvider: DataContextProviding
     private let now: Date
     private var childContext: DataContexting?
 
-    init(dataManager: DataManaging, now: Date) {
-        self.dataManager = dataManager
+    init(dataProvider: DataContextProviding, now: Date) {
+        self.dataProvider = dataProvider
         self.now = now
     }
 
@@ -28,7 +28,7 @@ final class ItemDetailRepository: ItemDetailRepositoring {
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataManager.mainContext()
+                let context = self.dataProvider.mainContext()
                 let descriptor = NSSortDescriptor(key: "name", ascending: true,
                                                   selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
                 let items = try await(context.fetch(
@@ -46,7 +46,7 @@ final class ItemDetailRepository: ItemDetailRepositoring {
     func fetchProjects(for item: TodoItem) -> Async<[Project]> {
         return Async { completion in
             async({
-                let context = self.dataManager.mainContext()
+                let context = self.dataProvider.mainContext()
                 let descriptor = NSSortDescriptor(key: "name", ascending: true)
                 let projects = try await(context.fetch(
                     entityClass: Project.self,
@@ -66,7 +66,7 @@ final class ItemDetailRepository: ItemDetailRepositoring {
                 if let childContext = self.childContext {
                     _ = try await(childContext.save())
                 }
-                let mainContext = self.dataManager.mainContext()
+                let mainContext = self.dataProvider.mainContext()
                 _ = try await(mainContext.save())
                 completion(.success(()))
             }, onError: { error in
@@ -78,7 +78,7 @@ final class ItemDetailRepository: ItemDetailRepositoring {
     func delete(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                let context = self.dataManager.mainContext()
+                let context = self.dataProvider.mainContext()
                 context.delete(item)
                 _ = try await(context.save())
                 completion(.success(()))

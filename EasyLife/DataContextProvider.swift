@@ -4,15 +4,14 @@ import Foundation
 import Logging
 import Result
 
-// sourcery: name = DataManager
-protocol DataManaging: AnyObject, Mockable {
+// sourcery: name = DataContextProvider
+protocol DataContextProviding: AnyObject, Mockable {
     func mainContext() -> DataContexting
     func backgroundContext() -> DataContexting
     func childContext(thread: ThreadType) -> DataContexting
     func load() -> Async<Void>
 }
 
-// TODO: move to new repo?
 //
 // CoreData is tricky. Here's some tips:
 //
@@ -20,14 +19,15 @@ protocol DataManaging: AnyObject, Mockable {
 //   -com.apple.CoreData.ConcurrencyDebug 1
 //
 // - Use the main context for fetch requests. This means NSManagedObject instances can then be manipulated on the main
-//   thread without violating concurrency rules
+//   thread without violating concurrency rules. Make this common practise.
 //
-// - Use a background context for long-running processes, so it doesn't block the main thread. Remember to save any
-//   changes to propagate them to the parent. Then save the parent
+// - Use a background context for long-running processes so you don't block the main thread.
+//   Save the bg context, then the parent context, to propagate changes.
 //
-
-// TODO: rename DataProviding
-final class DataManager: DataManaging {
+// - Use child processes when you have discardable data (e.g. forms).
+//   Save the child context, then the parent context, to propagate changes.
+//
+final class DataContextProvider: DataContextProviding {
     private let persistentContainer: NSPersistentContainer
     private let notificationCenter: NotificationCenter
 

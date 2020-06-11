@@ -539,19 +539,19 @@ class MockBlockedByController: NSObject, BlockedByControlling {
         }
     }
 
-    // MARK: - setItem
+    // MARK: - setContext
 
-    func setItem(_ item: TodoItem) {
-        let functionName = setItem3.name
+    func setContext(_ context: PlanItemContext) {
+        let functionName = setContext3.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: setItem3.params.item)
+        invocation.set(parameter: context, forKey: setContext3.params.context)
         invocations.record(invocation)
     }
 
-    enum setItem3: String, _StringRawRepresentable {
-        case name = "setItem3"
+    enum setContext3: String, _StringRawRepresentable {
+        case name = "setContext3"
         enum params: String, _StringRawRepresentable {
-            case item = "setItem(_item:TodoItem).item"
+            case context = "setContext(_context:PlanItemContext).context"
         }
     }
 }
@@ -677,161 +677,66 @@ class MockBlockedIndicatorView: NSObject, BlockedIndicatorViewing {
     var _viewStateHistory: [_Variable<BlockedIndicatorViewStating?>] = []
 }
 
-class MockCoreDataManaging: NSObject, DataManaging {
-    var isLoaded: Bool {
-        get { return _isLoaded }
-        set(value) { _isLoaded = value; _isLoadedHistory.append(_Variable(value)) }
-    }
-    var _isLoaded: Bool!
-    var _isLoadedHistory: [_Variable<Bool?>] = []
+class MockDataContextProvider: NSObject, DataContextProviding {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
     static let actions = _Actions()
 
-    // MARK: - insert<T: NSManagedObject>
+    // MARK: - mainContext
 
-    func insert<T: NSManagedObject>(entityClass: T.Type, context: DataContext) -> T {
-        let functionName = insert1.name
+    func mainContext() -> DataContexting {
+        let functionName = mainContext1.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: entityClass, forKey: insert1.params.entityClass)
-        invocation.set(parameter: context, forKey: insert1.params.context)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! T
+        return actions.returnValue(for: functionName) as! DataContexting
     }
 
-    enum insert1: String, _StringRawRepresentable {
-        case name = "insert1"
-        enum params: String, _StringRawRepresentable {
-            case entityClass = "insert<T:NSManagedObject>(entityClass:T.Type,context:CoreDataContext).entityClass"
-            case context = "insert<T:NSManagedObject>(entityClass:T.Type,context:CoreDataContext).context"
-        }
+    enum mainContext1: String, _StringRawRepresentable {
+        case name = "mainContext1"
     }
 
-    // MARK: - insertTransient<T: NSManagedObject>
+    // MARK: - backgroundContext
 
-    func insertTransient<T: NSManagedObject>(entityClass: T.Type, context: DataContext) -> Result<T> {
-        let functionName = insertTransient2.name
+    func backgroundContext() -> DataContexting {
+        let functionName = backgroundContext2.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: entityClass, forKey: insertTransient2.params.entityClass)
-        invocation.set(parameter: context, forKey: insertTransient2.params.context)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Result<T>
+        return actions.returnValue(for: functionName) as! DataContexting
     }
 
-    enum insertTransient2: String, _StringRawRepresentable {
-        case name = "insertTransient2"
-        enum params: String, _StringRawRepresentable {
-            case entityClass = "insertTransient<T:NSManagedObject>(entityClass:T.Type,context:CoreDataContext).entityClass"
-            case context = "insertTransient<T:NSManagedObject>(entityClass:T.Type,context:CoreDataContext).context"
-        }
+    enum backgroundContext2: String, _StringRawRepresentable {
+        case name = "backgroundContext2"
     }
 
-    // MARK: - copy<T: NSManagedObject>
+    // MARK: - childContext
 
-    func copy<T: NSManagedObject>(_ entity: T, context: DataContext) -> Result<T> {
-        let functionName = copy3.name
+    func childContext(thread: ThreadType) -> DataContexting {
+        let functionName = childContext3.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: entity, forKey: copy3.params.entity)
-        invocation.set(parameter: context, forKey: copy3.params.context)
+        invocation.set(parameter: thread, forKey: childContext3.params.thread)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Result<T>
+        return actions.returnValue(for: functionName) as! DataContexting
     }
 
-    enum copy3: String, _StringRawRepresentable {
-        case name = "copy3"
+    enum childContext3: String, _StringRawRepresentable {
+        case name = "childContext3"
         enum params: String, _StringRawRepresentable {
-            case entity = "copy<T:NSManagedObject>(_entity:T,context:CoreDataContext).entity"
-            case context = "copy<T:NSManagedObject>(_entity:T,context:CoreDataContext).context"
-        }
-    }
-
-    // MARK: - delete<T: NSManagedObject>
-
-    func delete<T: NSManagedObject>(_ entity: T, context: DataContext) {
-        let functionName = delete4.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: entity, forKey: delete4.params.entity)
-        invocation.set(parameter: context, forKey: delete4.params.context)
-        invocations.record(invocation)
-    }
-
-    enum delete4: String, _StringRawRepresentable {
-        case name = "delete4"
-        enum params: String, _StringRawRepresentable {
-            case entity = "delete<T:NSManagedObject>(_entity:T,context:CoreDataContext).entity"
-            case context = "delete<T:NSManagedObject>(_entity:T,context:CoreDataContext).context"
-        }
-    }
-
-    // MARK: - fetch<T: NSManagedObject>
-
-    func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: [NSSortDescriptor]?, context: DataContext, predicate: NSPredicate?) -> Async<[T]> {
-        let functionName = fetch5.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: entityClass, forKey: fetch5.params.entityClass)
-        if let sortBy = sortBy {
-            invocation.set(parameter: sortBy, forKey: fetch5.params.sortBy)
-        }
-        invocation.set(parameter: context, forKey: fetch5.params.context)
-        if let predicate = predicate {
-            invocation.set(parameter: predicate, forKey: fetch5.params.predicate)
-        }
-        invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[T]>
-    }
-
-    enum fetch5: String, _StringRawRepresentable {
-        case name = "fetch5"
-        enum params: String, _StringRawRepresentable {
-            case entityClass = "fetch<T:NSManagedObject>(entityClass:T.Type,sortBy:[NSSortDescriptor]?,context:CoreDataContext,predicate:NSPredicate?).entityClass"
-            case sortBy = "fetch<T:NSManagedObject>(entityClass:T.Type,sortBy:[NSSortDescriptor]?,context:CoreDataContext,predicate:NSPredicate?).sortBy"
-            case context = "fetch<T:NSManagedObject>(entityClass:T.Type,sortBy:[NSSortDescriptor]?,context:CoreDataContext,predicate:NSPredicate?).context"
-            case predicate = "fetch<T:NSManagedObject>(entityClass:T.Type,sortBy:[NSSortDescriptor]?,context:CoreDataContext,predicate:NSPredicate?).predicate"
+            case thread = "childContext(thread:ThreadType).thread"
         }
     }
 
     // MARK: - load
 
     func load() -> Async<Void> {
-        let functionName = load6.name
+        let functionName = load4.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
-    enum load6: String, _StringRawRepresentable {
-        case name = "load6"
-    }
-
-    // MARK: - save
-
-    func save(context: DataContext) -> Async<Void> {
-        let functionName = save7.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: context, forKey: save7.params.context)
-        invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
-    }
-
-    enum save7: String, _StringRawRepresentable {
-        case name = "save7"
-        enum params: String, _StringRawRepresentable {
-            case context = "save(context:CoreDataContext).context"
-        }
-    }
-
-    // MARK: - reset
-
-    func reset() -> Async<Void> {
-        let functionName = reset8.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
-    }
-
-    enum reset8: String, _StringRawRepresentable {
-        case name = "reset8"
+    enum load4: String, _StringRawRepresentable {
+        case name = "load4"
     }
 }
 
@@ -1059,19 +964,19 @@ class MockItemDetailController: NSObject, ItemDetailControlling {
         }
     }
 
-    // MARK: - setItem
+    // MARK: - setContext
 
-    func setItem(_ item: TodoItem) {
-        let functionName = setItem4.name
+    func setContext(_ context: PlanItemContext) {
+        let functionName = setContext4.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: setItem4.params.item)
+        invocation.set(parameter: context, forKey: setContext4.params.context)
         invocations.record(invocation)
     }
 
-    enum setItem4: String, _StringRawRepresentable {
-        case name = "setItem4"
+    enum setContext4: String, _StringRawRepresentable {
+        case name = "setContext4"
         enum params: String, _StringRawRepresentable {
-            case item = "setItem(_item:TodoItem).item"
+            case context = "setContext(_context:PlanItemContext).context"
         }
     }
 }
@@ -1082,18 +987,34 @@ class MockItemDetailRepository: NSObject, ItemDetailRepositoring {
     static let invocations = _Invocations()
     static let actions = _Actions()
 
+    // MARK: - setChildContext
+
+    func setChildContext(_ childContext: DataContexting) {
+        let functionName = setChildContext1.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: childContext, forKey: setChildContext1.params.childContext)
+        invocations.record(invocation)
+    }
+
+    enum setChildContext1: String, _StringRawRepresentable {
+        case name = "setChildContext1"
+        enum params: String, _StringRawRepresentable {
+            case childContext = "setChildContext(_childContext:DataContexting).childContext"
+        }
+    }
+
     // MARK: - fetchItems
 
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {
-        let functionName = fetchItems1.name
+        let functionName = fetchItems2.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: fetchItems1.params.item)
+        invocation.set(parameter: item, forKey: fetchItems2.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<[TodoItem]>
     }
 
-    enum fetchItems1: String, _StringRawRepresentable {
-        case name = "fetchItems1"
+    enum fetchItems2: String, _StringRawRepresentable {
+        case name = "fetchItems2"
         enum params: String, _StringRawRepresentable {
             case item = "fetchItems(foritem:TodoItem).item"
         }
@@ -1102,34 +1023,17 @@ class MockItemDetailRepository: NSObject, ItemDetailRepositoring {
     // MARK: - fetchProjects
 
     func fetchProjects(for item: TodoItem) -> Async<[Project]> {
-        let functionName = fetchProjects2.name
+        let functionName = fetchProjects3.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: fetchProjects2.params.item)
+        invocation.set(parameter: item, forKey: fetchProjects3.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<[Project]>
     }
 
-    enum fetchProjects2: String, _StringRawRepresentable {
-        case name = "fetchProjects2"
+    enum fetchProjects3: String, _StringRawRepresentable {
+        case name = "fetchProjects3"
         enum params: String, _StringRawRepresentable {
             case item = "fetchProjects(foritem:TodoItem).item"
-        }
-    }
-
-    // MARK: - copy
-
-    func copy(item: TodoItem) -> Async<TodoItem> {
-        let functionName = copy3.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: copy3.params.item)
-        invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<TodoItem>
-    }
-
-    enum copy3: String, _StringRawRepresentable {
-        case name = "copy3"
-        enum params: String, _StringRawRepresentable {
-            case item = "copy(item:TodoItem).item"
         }
     }
 
@@ -1169,12 +1073,12 @@ class MockItemDetailRepository: NSObject, ItemDetailRepositoring {
 }
 
 class MockItemDetailViewControlling: NSObject, ItemDetailViewControlling {
-    var viewState: ItemDetailViewState? {
+    var viewState: ItemDetailViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
     }
-    var _viewState: ItemDetailViewState?
-    var _viewStateHistory: [_Variable<ItemDetailViewState?>] = []
+    var _viewState: ItemDetailViewStating?
+    var _viewStateHistory: [_Variable<ItemDetailViewStating?>] = []
     var responders: [UIResponder]! {
         get { return _responders }
         set(value) { _responders = value; _respondersHistory.append(_Variable(value)) }
@@ -1352,17 +1256,17 @@ class MockPlanRepository: NSObject, PlanRepositoring {
     static let invocations = _Invocations()
     static let actions = _Actions()
 
-    // MARK: - newItem
+    // MARK: - newItemContext
 
-    func newItem() -> Result<TodoItem> {
-        let functionName = newItem1.name
+    func newItemContext() -> PlanItemContext {
+        let functionName = newItemContext1.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Result<TodoItem>
+        return actions.returnValue(for: functionName) as! PlanItemContext
     }
 
-    enum newItem1: String, _StringRawRepresentable {
-        case name = "newItem1"
+    enum newItemContext1: String, _StringRawRepresentable {
+        case name = "newItemContext1"
     }
 
     // MARK: - fetchMissedItems

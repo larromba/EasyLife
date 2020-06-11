@@ -95,12 +95,12 @@
                         <leftBarButtonItems>
                             <barButtonItem systemItem="organize" id="fzJ-bl-55B">
                                 <connections>
-                                    <segue destination="a9r-nq-awZ" kind="show" id="4VG-ah-fB9"/>
+                                    <segue destination="a9r-nq-awZ" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="4VG-ah-fB9"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="compose" id="m6I-wg-tY7">
                                 <connections>
-                                    <segue destination="g7F-Ih-x2N" kind="show" id="6Sj-2I-fER"/>
+                                    <segue destination="g7F-Ih-x2N" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="6Sj-2I-fER"/>
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>

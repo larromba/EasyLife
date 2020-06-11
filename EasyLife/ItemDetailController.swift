@@ -43,7 +43,7 @@ final class ItemDetailController: ItemDetailControlling {
             viewController?.viewState = ItemDetailViewState(item: item, isNew: false, items: [], projects: [])
             editContext = ObjectContext(object: item)
             reload()
-        case .new(let item, let context):
+        case let .new(item, context):
             viewController?.viewState = ItemDetailViewState(item: item, isNew: true, items: [], projects: [])
             editContext = ObjectContext(object: item)
             repository.setChildContext(context)
