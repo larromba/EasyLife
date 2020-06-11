@@ -1,6 +1,6 @@
 import Foundation
 
-enum CoreDataContext {
+enum ThreadType {
     case main
     case background
 }

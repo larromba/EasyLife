@@ -9,7 +9,7 @@ protocol PlanControlling: Mockable {
 }
 
 protocol PlanControllerDelegate: AnyObject {
-    func controller(_ controller: PlanControlling, didSelectItem item: TodoItem, sender: Segueable)
+    func controller(_ controller: PlanControlling, handleContext context: PlanItemContext, sender: Segueable)
 }
 
 final class PlanController: PlanControlling {
@@ -79,13 +79,6 @@ final class PlanController: PlanControlling {
             onMain { self.alertController.showAlert(Alert(error: error)) }
         })
     }
-
-    private func addNewItem() {
-        switch repository.newItem() {
-        case .success(let item): delegate?.controller(self, didSelectItem: item, sender: viewController)
-        case .failure(let error): alertController.showAlert(Alert(error: error))
-        }
-    }
 }
 
 // MARK: - PlanViewControllerDelegate
@@ -103,7 +96,7 @@ extension PlanController: PlanViewControllerDelegate {
 
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction) {
         switch action {
-        case .add: addNewItem()
+        case .add: delegate?.controller(self, handleContext: repository.newItemContext(), sender: viewController)
         }
     }
 
@@ -112,7 +105,7 @@ extension PlanController: PlanViewControllerDelegate {
     }
 
     func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem) {
-        delegate?.controller(self, didSelectItem: item, sender: viewController)
+        delegate?.controller(self, handleContext: .existing(item: item), sender: viewController)
     }
 
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,

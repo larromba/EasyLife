@@ -2,15 +2,16 @@ import CoreGraphics
 import Foundation
 
 protocol ItemDetailViewStating {
-    var name: String? { get }
-    var notes: String? { get }
+    var isNew: Bool { get }
+    var name: String? { get set }
+    var notes: String? { get set }
     var minimumDate: Date? { get }
     var simpleDatePickerViewState: SimpleDatePickerViewStating { get }
-    var date: Date? { get }
+    var date: Date? { get set }
     var dateString: String? { get }
     var datePickerType: ItemDetailDatePickerType { get }
-    var repeatState: RepeatState? { get }
-    var project: Project? { get }
+    var repeatState: RepeatState? { get set }
+    var project: Project? { get set }
     var leftButton: ItemDetailLeftButton { get }
     var rightButton: ItemDetailRightButton { get }
     var numOfPickerComponents: Int { get }
@@ -23,6 +24,8 @@ protocol ItemDetailViewStating {
 
     func repeatStatePickerComponent(at row: Int) -> RepeatStateComponentItem
     func projectPickerComponent(at row: Int) -> ProjectComponentItem
+
+    func copy(item: TodoItem, items: [TodoItem], projects: [Project]) -> ItemDetailViewStating
 }
 
 enum ItemDetailDatePickerType {
@@ -37,6 +40,7 @@ struct ItemDetailViewState: ItemDetailViewStating {
         return dateFormatter
     }()
 
+    var isNew: Bool
     var name: String?
     var notes: String?
     var minimumDate: Date?
@@ -74,7 +78,8 @@ struct ItemDetailViewState: ItemDetailViewStating {
     private var repeatStatePickerComponents: [RepeatStateComponentItem]
     private var projectPickerComponents: [ProjectComponentItem]
 
-    init(item: TodoItem, items: [TodoItem], projects: [Project]) {
+    init(item: TodoItem, isNew: Bool, items: [TodoItem], projects: [Project]) {
+        self.isNew = isNew
         name = item.name
         notes = item.notes
         date = item.date
@@ -83,8 +88,8 @@ struct ItemDetailViewState: ItemDetailViewStating {
         project = item.project
         isBlockedButtonEnabled = !items.isEmpty
         blockedCount = items.filter { $0.blocking?.contains(item) ?? false }.count
-        rightButton = (item.managedObjectContext == nil) ? .save : .delete
-        leftButton = (item.managedObjectContext == nil) ? .cancel : .back
+        rightButton = isNew ? .save : .delete
+        leftButton = isNew ? .cancel : .back
         repeatStatePickerComponents = RepeatState.display.map { RepeatStateComponentItem(object: $0) }
         projectPickerComponents = projects.map { ProjectComponentItem(object: $0) }
     }
@@ -95,5 +100,11 @@ struct ItemDetailViewState: ItemDetailViewStating {
 
     func projectPickerComponent(at row: Int) -> ProjectComponentItem {
         return projectPickerComponents[row]
+    }
+}
+
+extension ItemDetailViewState {
+    func copy(item: TodoItem, items: [TodoItem], projects: [Project]) -> ItemDetailViewStating {
+        return ItemDetailViewState(item: item, isNew: isNew, items: items, projects: projects)
     }
 }

@@ -11,7 +11,7 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
     private let itemDetailController: ItemDetailControlling
     private let blockedByController: BlockedByControlling
     private let navigationController: UINavigationController
-    private var context: ObjectContext<TodoItem>?
+    private var context: PlanItemContext?
     private var lastNavigationStack = [UIViewController]()
 
     init(navigationController: UINavigationController, planController: PlanControlling,
@@ -40,8 +40,8 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
 // MARK: - PlanControllerDelegate
 
 extension PlanCoordinator: PlanControllerDelegate {
-    func controller(_ controller: PlanControlling, didSelectItem item: TodoItem, sender: Segueable) {
-        context = ObjectContext(object: item)
+    func controller(_ controller: PlanControlling, handleContext context: PlanItemContext, sender: Segueable) {
+        self.context = context
         sender.performSegue(withIdentifier: "openItemDetailViewController", sender: self)
     }
 }
@@ -74,14 +74,14 @@ extension PlanCoordinator: UINavigationControllerDelegate {
         if let viewController = viewController as? ItemDetailViewControlling {
             itemDetailController.setViewController(viewController)
             itemDetailController.setAlertController(AlertController(presenter: viewController))
-            if let item = context?.object {
-                itemDetailController.setItem(item)
+            if let context = context {
+                itemDetailController.setContext(context)
             }
         } else if let viewController = viewController as? BlockedByViewControlling {
             blockedByController.setViewController(viewController)
             blockedByController.setAlertController(AlertController(presenter: viewController))
-            if let item = context?.object {
-                blockedByController.setItem(item)
+            if let context = context {
+                blockedByController.setContext(context)
             }
         } else {
             assertionFailureIgnoreTests("unhandled viewController: \(viewController.classForCoder)")

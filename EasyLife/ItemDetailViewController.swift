@@ -2,7 +2,7 @@ import PPBadgeView
 import UIKit
 
 protocol ItemDetailViewControlling: ResponderSelection, Presentable, Mockable {
-    var viewState: ItemDetailViewState? { get set }
+    var viewState: ItemDetailViewStating? { get set }
 
     func setDelegate(_ delegate: ItemDetailViewControllerDelegate)
 }
@@ -10,7 +10,7 @@ protocol ItemDetailViewControlling: ResponderSelection, Presentable, Mockable {
 protocol ItemDetailViewControllerDelegate: AnyObject {
     func viewControllerWillAppear(_ viewController: ItemDetailViewControlling)
     func viewController(_ viewController: ItemDetailViewControlling, performAction action: ItemDetailAction)
-    func viewController(_ viewController: ItemDetailViewControlling, updatedState state: ItemDetailViewState)
+    func viewController(_ viewController: ItemDetailViewControlling, updatedState state: ItemDetailViewStating)
     func viewControllerWillDismiss(_ viewController: ItemDetailViewControlling)
 }
 
@@ -65,7 +65,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
     private let keyboardNotification = KeyboardNotification()
     private weak var delegate: ItemDetailViewControllerDelegate?
     var responders: [UIResponder]!
-    var viewState: ItemDetailViewState? {
+    var viewState: ItemDetailViewStating? {
         didSet { _ = viewState.map(bind) }
     }
 
@@ -121,7 +121,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
 
     // MARK: - private
 
-    private func bind(_ viewState: ItemDetailViewState) {
+    private func bind(_ viewState: ItemDetailViewStating) {
         guard isViewLoaded else { return }
 
         datePicker.minimumDate = viewState.minimumDate

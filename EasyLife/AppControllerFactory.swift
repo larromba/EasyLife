@@ -8,7 +8,7 @@ enum AppControllerFactory {
         return Async { completion in
             async({
                 let persistentContainer = NSPersistentContainer(name: "EasyLife")
-                let dataManager = CoreDataManager(persistentContainer: persistentContainer)
+                let dataManager = DataManager(persistentContainer: persistentContainer)
                 #if DEBUG
                 if __isSnapshot {
                     try setSnapshotData(dataManager: dataManager)
@@ -58,60 +58,61 @@ enum AppControllerFactory {
     // MARK: - private
 
     #if DEBUG
-    private static func setSnapshotData(dataManager: CoreDataManaging) throws {
-        try await(dataManager.reset())
+    private static func setSnapshotData(dataManager: DataManaging) throws {
+        let context = dataManager.mainContext()
+        try await(context.deleteAll([TodoItem.self, Project.self]))
 
         // plan section
 
-        let missed1 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        let missed1 = context.insert(entityClass: TodoItem.self)
         missed1.date = Date().addingTimeInterval(-24 * 60 * 60)
         missed1.name = "send letter"
 
-        let now1 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        let now1 = context.insert(entityClass: TodoItem.self)
         now1.date = Date()
         now1.name = "fix bike"
 
-        let now2 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        let now2 = context.insert(entityClass: TodoItem.self)
         now2.date = Date()
         now2.name = "get party food!"
 
-        let later1 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        let later1 = context.insert(entityClass: TodoItem.self)
         later1.date = Date().addingTimeInterval(24 * 60 * 60)
         later1.name = "phone mum"
 
-        let later2 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        let later2 = context.insert(entityClass: TodoItem.self)
         later2.date = Date().addingTimeInterval(24 * 60 * 60)
         later2.name = "clean flat"
 
-        let later3 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        let later3 = context.insert(entityClass: TodoItem.self)
         later3.date = Date().addingTimeInterval(24 * 60 * 60)
         later3.name = "call landlord"
 
         // projects section
 
-        let project1 = dataManager.insert(entityClass: Project.self, context: .main)
+        let project1 = context.insert(entityClass: Project.self)
         project1.name = "Fitness"
         project1.priority = 0
 
-        let project2 = dataManager.insert(entityClass: Project.self, context: .main)
+        let project2 = context.insert(entityClass: Project.self)
         project2.name = "Social"
         project2.priority = 1
 
-        let project3 = dataManager.insert(entityClass: Project.self, context: .main)
+        let project3 = context.insert(entityClass: Project.self)
         project3.name = "Learn German"
         project3.priority = Project.defaultPriority
 
         // archive section
 
-        let archive1 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        let archive1 = context.insert(entityClass: TodoItem.self)
         archive1.name = "pay rent"
         archive1.done = true
 
-        let archive2 = dataManager.insert(entityClass: TodoItem.self, context: .main)
+        let archive2 = context.insert(entityClass: TodoItem.self)
         archive2.name = "buy newspaper"
         archive2.done = true
 
-        try await(dataManager.save(context: .main))
+        try await(context.save())
     }
     #endif
 }

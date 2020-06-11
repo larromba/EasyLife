@@ -15,20 +15,21 @@ protocol ProjectsRepositoring: Mockable {
 }
 
 final class ProjectsRepository: ProjectsRepositoring {
-    private let dataManager: CoreDataManaging
+    private let dataManager: DataManaging
     private let priorityPredicate = NSPredicate(format: "%K != %d",
                                                 argumentArray: ["priority", Project.defaultPriority])
     private let otherPredicate = NSPredicate(format: "%K = %d", argumentArray: ["priority", Project.defaultPriority])
 
-    init(dataManager: CoreDataManaging) {
+    init(dataManager: DataManaging) {
         self.dataManager = dataManager
     }
 
     func delete(project: Project) -> Async<Void> {
         return Async { completion in
             async({
-                self.dataManager.delete(project, context: .main)
-                _ = try await(self.dataManager.save(context: .main))
+                let context = self.dataManager.mainContext()
+                context.delete(project)
+                _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -39,9 +40,10 @@ final class ProjectsRepository: ProjectsRepositoring {
     func addProject(name: String) -> Async<Project> {
         return Async { completion in
             async({
-                let project = self.dataManager.insert(entityClass: Project.self, context: .main)
+                let context = self.dataManager.mainContext()
+                let project = context.insert(entityClass: Project.self)
                 project.name = name
-                _ = try await(self.dataManager.save(context: .main))
+                _ = try await(context.save())
                 completion(.success(project))
             }, onError: { error in
                 completion(.failure(error))
@@ -53,7 +55,7 @@ final class ProjectsRepository: ProjectsRepositoring {
         return Async { completion in
             async({
                 project.name = name
-                _ = try await(self.dataManager.save(context: .main))
+                _ = try await(self.dataManager.mainContext().save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -65,14 +67,18 @@ final class ProjectsRepository: ProjectsRepositoring {
         assert(max > 0)
         return Async { completion in
             async({
-                let projects = try await(self.dataManager.fetch(entityClass: Project.self, sortBy: nil, context: .main,
-                                                                predicate: self.priorityPredicate))
+                let context = self.dataManager.mainContext()
+                let projects = try await(context.fetch(
+                    entityClass: Project.self,
+                    sortBy: nil,
+                    predicate: self.priorityPredicate)
+                )
                 var available = Set(Array(0..<max))
                 available.subtract(projects.map { Int($0.priority) })
                 let availableSorted = available.sorted(by: <)
                 let nextAvailablePriority = availableSorted.first!
                 project.priority = Int16(nextAvailablePriority)
-                _ = try await(self.dataManager.save(context: .main))
+                _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -83,13 +89,17 @@ final class ProjectsRepository: ProjectsRepositoring {
     func deprioritize(project: Project) -> Async<Void> {
         return Async { completion in
             async({
+                let context = self.dataManager.mainContext()
                 let predicate = NSPredicate(format: "%K > %d",
                                             argumentArray: ["priority", project.priority])
-                let projects = try await(self.dataManager.fetch(entityClass: Project.self, sortBy: nil, context: .main,
-                                                                predicate: predicate))
+                let projects = try await(context.fetch(
+                    entityClass: Project.self,
+                    sortBy: nil,
+                    predicate: predicate)
+                )
                 projects.forEach { $0.priority -= 1 }
                 project.priority = Int16(Project.defaultPriority)
-                _ = try await(self.dataManager.save(context: .main))
+                _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -100,16 +110,20 @@ final class ProjectsRepository: ProjectsRepositoring {
     func prioritise(_ projectA: Project, above projectB: Project) -> Async<Void> {
         return Async { completion in
             async({
+                let context = self.dataManager.mainContext()
                 let projectADestinationPriority = projectB.priority
                 let predicate = NSPredicate(
                     format: "%K >= %d AND %K < %d",
                     argumentArray: ["priority", projectB.priority, "priority", projectA.priority]
                 )
-                let projects = try await(self.dataManager.fetch(entityClass: Project.self, sortBy: nil, context: .main,
-                                                                predicate: predicate))
+                let projects = try await(context.fetch(
+                    entityClass: Project.self,
+                    sortBy: nil,
+                    predicate: predicate)
+                )
                 projects.forEach { $0.priority += 1 }
                 projectA.priority = projectADestinationPriority
-                _ = try await(self.dataManager.save(context: .main))
+                _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -120,16 +134,20 @@ final class ProjectsRepository: ProjectsRepositoring {
     func prioritise(_ projectA: Project, below projectB: Project) -> Async<Void> {
         return Async { completion in
             async({
+                let context = self.dataManager.mainContext()
                 let projectADestinationPriority = projectB.priority
                 let predicate = NSPredicate(
                     format: "%K <= %d AND %K != %d",
                     argumentArray: ["priority", projectB.priority, "priority", Project.defaultPriority]
                 )
-                let projects = try await(self.dataManager.fetch(entityClass: Project.self, sortBy: nil, context: .main,
-                                                                predicate: predicate))
+                let projects = try await(context.fetch(
+                    entityClass: Project.self,
+                    sortBy: nil,
+                    predicate: predicate)
+                )
                 projects.forEach { $0.priority -= 1 }
                 projectA.priority = projectADestinationPriority
-                _ = try await(self.dataManager.save(context: .main))
+                _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -140,10 +158,10 @@ final class ProjectsRepository: ProjectsRepositoring {
     func fetchPrioritizedProjects() -> Async<[Project]> {
         return Async { completion in
             async({
-                let projects = try await(self.dataManager.fetch(
+                let context = self.dataManager.mainContext()
+                let projects = try await(context.fetch(
                     entityClass: Project.self,
-                    sortBy: [NSSortDescriptor(key: "priority", ascending: true)],
-                    context: .main,
+                    sortBy: DataSort(sortDescriptor: [NSSortDescriptor(key: "priority", ascending: true)]),
                     predicate: self.priorityPredicate)
                 )
                 completion(.success(projects))
@@ -156,10 +174,10 @@ final class ProjectsRepository: ProjectsRepositoring {
     func fetchOtherProjects() -> Async<[Project]> {
         return Async { completion in
             async({
-                let projects = try await(self.dataManager.fetch(
+                let context = self.dataManager.mainContext()
+                let projects = try await(context.fetch(
                     entityClass: Project.self,
-                    sortBy: [NSSortDescriptor(key: "name", ascending: true)],
-                    context: .main,
+                    sortBy: DataSort(sortDescriptor: [NSSortDescriptor(key: "name", ascending: true)]),
                     predicate: self.otherPredicate)
                 )
                 completion(.success(projects))

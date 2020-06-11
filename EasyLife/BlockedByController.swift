@@ -5,7 +5,7 @@ import Foundation
 protocol BlockedByControlling: Mockable {
     func setViewController(_ viewController: BlockedByViewControlling)
     func setAlertController(_ alertController: AlertControlling)
-    func setItem(_ item: TodoItem)
+    func setContext(_ context: PlanItemContext)
 }
 
 final class BlockedByController: BlockedByControlling {
@@ -27,8 +27,14 @@ final class BlockedByController: BlockedByControlling {
         self.alertController = alertController
     }
 
-    func setItem(_ item: TodoItem) {
-        editContext = ObjectContext(object: item)
+    func setContext(_ context: PlanItemContext) {
+        switch context {
+        case .existing(let item):
+            editContext = ObjectContext(object: item)
+        case .new(let item, _):
+            editContext = ObjectContext(object: item)
+        }
+        guard let item = editContext?.object else { return }
         async({
             let items = try await(self.repository.fetchItems(for: item))
             onMain {

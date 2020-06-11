@@ -45,10 +45,9 @@ final class ArchiveController: ArchiveControlling {
         guard let viewState = viewController?.viewState else { return }
         async({
             let items = try await(self.repository.fetchItems())
-            let sections = self.sections(for: items)
             onMain {
-                self.sections = sections
-                self.viewController?.viewState = viewState.copy(sections: sections)
+                self.sections = self.sections(for: items)
+                self.viewController?.viewState = viewState.copy(sections: self.sections)
             }
         }, onError: { error in
             onMain { self.alertController?.showAlert(Alert(error: error)) }

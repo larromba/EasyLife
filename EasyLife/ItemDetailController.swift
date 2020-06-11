@@ -6,7 +6,7 @@ protocol ItemDetailControlling: Mockable {
     func setViewController(_ viewController: ItemDetailViewControlling)
     func setAlertController(_ alertController: AlertControlling)
     func setDelegate(_ delegate: ItemDetailControllerDelegate)
-    func setItem(_ item: TodoItem)
+    func setContext(_ context: PlanItemContext)
 }
 
 protocol ItemDetailControllerDelegate: AnyObject {
@@ -18,7 +18,6 @@ final class ItemDetailController: ItemDetailControlling {
     private let repository: ItemDetailRepositoring
     private var alertController: AlertControlling?
     private var editContext: ObjectContext<TodoItem>?
-    private var project: Project?
     private weak var delegate: ItemDetailControllerDelegate?
 
     init(repository: ItemDetailRepositoring) {
@@ -38,10 +37,17 @@ final class ItemDetailController: ItemDetailControlling {
         self.delegate = delegate
     }
 
-    func setItem(_ item: TodoItem) {
-        viewController?.viewState = ItemDetailViewState(item: item, items: [], projects: [])
-        editContext = ObjectContext(object: item)
-        reload()
+    func setContext(_ context: PlanItemContext) {
+        switch context {
+        case .existing(let item):
+            viewController?.viewState = ItemDetailViewState(item: item, isNew: false, items: [], projects: [])
+            editContext = ObjectContext(object: item)
+            reload()
+        case .new(let item, let context):
+            viewController?.viewState = ItemDetailViewState(item: item, isNew: true, items: [], projects: [])
+            editContext = ObjectContext(object: item)
+            repository.setChildContext(context)
+        }
     }
 
     // MARK: - private
@@ -67,7 +73,8 @@ final class ItemDetailController: ItemDetailControlling {
             let items = try await(self.repository.fetchItems(for: item))
             let projects = try await(self.repository.fetchProjects(for: item))
             onMain {
-                self.viewController?.viewState = ItemDetailViewState(item: item, items: items, projects: projects)
+                let viewState = self.viewController?.viewState?.copy(item: item, items: items, projects: projects)
+                self.viewController?.viewState = viewState
             }
         }, onError: { error in
             onMain { self.alertController?.showAlert(Alert(error: error)) }
@@ -78,12 +85,13 @@ final class ItemDetailController: ItemDetailControlling {
         if hasUnsavedChanges() {
             showCancelAlert()
         } else {
+            editContext = nil
             delegate?.controllerFinished(self)
         }
     }
 
     private func hasUnsavedChanges() -> Bool {
-        if let item = editContext?.object, !item.isEmpty || project != nil {
+        if let item = editContext?.object, !item.isEmpty {
             return true
         } else {
             return false
@@ -93,13 +101,7 @@ final class ItemDetailController: ItemDetailControlling {
     private func save() {
         guard let item = editContext?.object else { return }
         async({
-            if item.managedObjectContext == nil {
-                let itemCopy = try await(self.repository.copy(item: item))
-                itemCopy.project = self.project
-                _ = try await(self.repository.save(item: itemCopy))
-            } else {
-                _ = try await(self.repository.save(item: item))
-            }
+            _ = try await(self.repository.save(item: item))
             onMain {
                 self.delegate?.controllerFinished(self)
             }
@@ -120,17 +122,13 @@ final class ItemDetailController: ItemDetailControlling {
         })
     }
 
-    private  func updateItem(from state: ItemDetailViewState) {
+    private  func updateItem(from state: ItemDetailViewStating) {
         guard let item = editContext?.object else { return }
         item.name = state.name
         item.notes = state.notes
         item.date = state.date
         item.repeatState = state.repeatState
-        if item.managedObjectContext != nil {
-            item.project = state.project
-        } else {
-            project = state.project
-        }
+        item.project = state.project
     }
 }
 
@@ -154,7 +152,7 @@ extension ItemDetailController: ItemDetailViewControllerDelegate {
         }
     }
 
-    func viewController(_ viewController: ItemDetailViewControlling, updatedState state: ItemDetailViewState) {
+    func viewController(_ viewController: ItemDetailViewControlling, updatedState state: ItemDetailViewStating) {
         updateItem(from: state)
     }
 }

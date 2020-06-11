@@ -5,7 +5,7 @@ import Result
 
 // sourcery: name = PlanRepository
 protocol PlanRepositoring: Mockable {
-    func newItem() -> Result<TodoItem>
+    func newItemContext() -> PlanItemContext
     func fetchMissedItems() -> Async<[TodoItem]>
     func fetchLaterItems() -> Async<[TodoItem]>
     func fetchTodayItems() -> Async<[TodoItem]>
@@ -15,8 +15,14 @@ protocol PlanRepositoring: Mockable {
     func split(item: TodoItem) -> Async<Void>
 }
 
+// TODO: move
+enum PlanItemContext {
+    case existing(item: TodoItem)
+    case new(item: TodoItem, context: DataContexting)
+}
+
 final class PlanRepository: PlanRepositoring {
-    private let dataManager: CoreDataManaging
+    private let dataManager: DataManaging
     // not lazy as 'today' changes
     private var missedPredicate: NSPredicate {
         let date = today
@@ -37,22 +43,24 @@ final class PlanRepository: PlanRepositoring {
         return Date()
     }
 
-    init(dataManager: CoreDataManaging) {
+    init(dataManager: DataManaging) {
         self.dataManager = dataManager
     }
 
-    func newItem() -> Result<TodoItem> {
-        return dataManager.insertTransient(entityClass: TodoItem.self, context: .main)
+    func newItemContext() -> PlanItemContext {
+        let context = dataManager.childContext(thread: .main)
+        let item = context.insert(entityClass: TodoItem.self)
+        return .new(item: item, context: context)
     }
 
     func fetchMissedItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let items = try await(self.dataManager.fetch(
+                let context = self.dataManager.mainContext()
+                let items = try await(context.fetch(
                     entityClass: TodoItem.self,
-                    sortBy: nil, context: .main,
-                    predicate: self.missedPredicate) // use "self.todayPredicate" to check test ui without waiting
-                ).sorted(by: self.sortByPriority)
+                    sortBy: DataSort(sortFunction: self.sortByPriority),
+                    predicate: self.missedPredicate)) // use "self.todayPredicate" to check test ui without waiting
                 completion(.success(items))
             }, onError: { error in
                 completion(.failure(error))
@@ -63,11 +71,11 @@ final class PlanRepository: PlanRepositoring {
     func fetchLaterItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let items = try await(self.dataManager.fetch(
+                let context = self.dataManager.mainContext()
+                let items = try await(context.fetch(
                     entityClass: TodoItem.self,
-                    sortBy: nil, context: .main,
-                    predicate: self.laterPredicate)
-                ).sorted(by: self.sortByDate)
+                    sortBy: DataSort(sortFunction: self.sortByDate),
+                    predicate: self.laterPredicate))
                 completion(.success(items))
             }, onError: { error in
                 completion(.failure(error))
@@ -78,11 +86,11 @@ final class PlanRepository: PlanRepositoring {
     func fetchTodayItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let items = try await(self.dataManager.fetch(
+                let context = self.dataManager.mainContext()
+                let items = try await(context.fetch(
                     entityClass: TodoItem.self,
-                    sortBy: nil, context: .main,
-                    predicate: self.todayPredicate)
-                    ).sorted(by: self.sortByPriority)
+                    sortBy: DataSort(sortFunction: self.sortByPriority),
+                    predicate: self.todayPredicate))
                 completion(.success(items))
             }, onError: { error in
                 completion(.failure(error))
@@ -93,8 +101,9 @@ final class PlanRepository: PlanRepositoring {
     func delete(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                self.dataManager.delete(item, context: .main)
-                _ = try await(self.dataManager.save(context: .main))
+                let context = self.dataManager.mainContext()
+                context.delete(item)
+                _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -111,7 +120,7 @@ final class PlanRepository: PlanRepositoring {
                 default:
                     item.incrementDate()
                 }
-                _ = try await(self.dataManager.save(context: .main))
+                _ = try await(self.dataManager.mainContext().save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -129,7 +138,7 @@ final class PlanRepository: PlanRepositoring {
                     item.incrementDate()
                 }
                 item.blocking = nil
-                _ = try await(self.dataManager.save(context: .main))
+                _ = try await(self.dataManager.mainContext().save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -140,14 +149,15 @@ final class PlanRepository: PlanRepositoring {
     func split(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
+                let context = self.dataManager.mainContext()
                 guard item.repeatState != RepeatState.none else { return }
-                let result = self.dataManager.copy(item, context: .main)
+                let result = context.copy(item)
                 switch result {
                 case .success(let copy):
                     item.incrementDate()
                     item.blockedBy = nil
                     copy.repeatState = RepeatState.none
-                    _ = try await(self.dataManager.save(context: .main))
+                    _ = try await(context.save())
                     completion(.success(()))
                 case .failure(let error):
                     completion(.failure(error))
@@ -188,27 +198,12 @@ final class PlanRepository: PlanRepositoring {
     private func sortByBlocking(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
         if item1.blockingState == .none && item2.blockingState != .none { return true }
         if item1.blockingState != .none && item2.blockingState == .none { return false }
-
         if item1.blockingState == .blocking && item2.blockingState != .blocking { return true }
         if item1.blockingState != .blocking && item2.blockingState == .blocking { return false }
-
         if item1.blockingState == .both && item2.blockingState != .both { return true }
         if item1.blockingState != .both && item2.blockingState == .both { return false }
-
         if item1.blockingState == .blockedBy && item2.blockingState != .blockedBy { return true }
         if item1.blockingState != .blockedBy && item2.blockingState == .blockedBy { return false }
-
-////        if item1.isNotAllBlocking && !item2.isNotAllBlocking { return true }
-////        if !item1.isNotAllBlocking && item2.isNotAllBlocking { return false }
-////
-////        if item1.isBlocking && !item1.isBlockedBy && !item2.isBlocking && !item2.isBlockedBy { return true }
-////        if !item1.isBlocking && !item1.isBlockedBy && item2.isBlocking && !item2.isBlockedBy { return false }
-////
-////        if item1.isBlocking && !item1.isBlockedBy && !item2.isBlocking && !item2.isBlockedBy { return true }
-////        if !item1.isBlocking && !item1.isBlockedBy && item2.isBlocking && !item2.isBlockedBy { return false }
-////
-////        if !item1.isBlocking && item2.isBlocking { return false }
-
         return sortByName(item1, item2)
     }
 

@@ -88,5 +88,8 @@ add none selection to project picker
 revisit action rules for sections
 add: clear button to blocked list
 BUG: app becomes active not always updating
-update libs
+update libs (
 bug: archive undo not updating ios13
+done things should add copy to archive
+new item should be done somewhere else so can use child context?
+remove: ObjectContext ValueContext

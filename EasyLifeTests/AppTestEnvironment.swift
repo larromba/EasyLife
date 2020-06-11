@@ -25,7 +25,7 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var appRouter: AppRouting!
     private(set) var fatalErrorHandler: FatalErrorHandler!
     private(set) var appController: AppControlling!
-    private(set) var dataManager: CoreDataManaging!
+    private(set) var dataManager: DataManaging!
     private(set) var alertController: AlertControlling!
     private(set) var planRepository: PlanRepositoring!
     private(set) var planController: PlanControlling!
@@ -60,7 +60,7 @@ final class AppTestEnvironment: TestEnvironment {
     }
 
     func inject() {
-        dataManager = CoreDataManager(persistentContainer: persistentContainer, isLoaded: isLoaded)
+        dataManager = DataManager(persistentContainer: persistentContainer, isLoaded: isLoaded)
         planRepository = PlanRepository(dataManager: dataManager)
         alertController = AlertController(presenter: viewController)
         planController = PlanController(viewController: viewController,

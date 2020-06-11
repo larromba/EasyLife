@@ -4,30 +4,36 @@ import Logging
 
 // sourcery: name = ItemDetailRepository
 protocol ItemDetailRepositoring: Mockable {
+    func setChildContext(_ childContext: DataContexting)
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]>
     func fetchProjects(for item: TodoItem) -> Async<[Project]>
-    func copy(item: TodoItem) -> Async<TodoItem>
     func save(item: TodoItem) -> Async<Void>
     func delete(item: TodoItem) -> Async<Void>
 }
 
 final class ItemDetailRepository: ItemDetailRepositoring {
-    private let dataManager: CoreDataManaging
+    private let dataManager: DataManaging
     private let now: Date
+    private var childContext: DataContexting?
 
-    init(dataManager: CoreDataManaging, now: Date) {
+    init(dataManager: DataManaging, now: Date) {
         self.dataManager = dataManager
         self.now = now
+    }
+
+    func setChildContext(_ childContext: DataContexting) {
+        self.childContext = childContext
     }
 
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let items = try await(self.dataManager.fetch(
+                let context = self.dataManager.mainContext()
+                let descriptor = NSSortDescriptor(key: "name", ascending: true,
+                                                  selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
+                let items = try await(context.fetch(
                     entityClass: TodoItem.self,
-                    sortBy: [NSSortDescriptor(key: "name", ascending: true,
-                                              selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))],
-                    context: .main,
+                    sortBy: DataSort(sortDescriptor: [descriptor]),
                     predicate: self.predicate(for: item)
                 ))
                 completion(.success(items))
@@ -40,10 +46,11 @@ final class ItemDetailRepository: ItemDetailRepositoring {
     func fetchProjects(for item: TodoItem) -> Async<[Project]> {
         return Async { completion in
             async({
-                let projects = try await(self.dataManager.fetch(
+                let context = self.dataManager.mainContext()
+                let descriptor = NSSortDescriptor(key: "name", ascending: true)
+                let projects = try await(context.fetch(
                     entityClass: Project.self,
-                    sortBy: [NSSortDescriptor(key: "name", ascending: true)],
-                    context: .main,
+                    sortBy: DataSort(sortDescriptor: [descriptor]),
                     predicate: nil
                 ))
                 completion(.success(projects))
@@ -53,20 +60,14 @@ final class ItemDetailRepository: ItemDetailRepositoring {
         }
     }
 
-    func copy(item: TodoItem) -> Async<TodoItem> {
-        return Async { completion in
-            async({
-                completion(self.dataManager.copy(item, context: .main))
-            }, onError: { error in
-                completion(.failure(error))
-            })
-        }
-    }
-
     func save(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                _ = try await(self.dataManager.save(context: .main))
+                if let childContext = self.childContext {
+                    _ = try await(childContext.save())
+                }
+                let mainContext = self.dataManager.mainContext()
+                _ = try await(mainContext.save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -77,16 +78,15 @@ final class ItemDetailRepository: ItemDetailRepositoring {
     func delete(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                self.dataManager.delete(item, context: .main)
-                _ = try await(self.dataManager.save(context: .main))
+                let context = self.dataManager.mainContext()
+                context.delete(item)
+                _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
             })
         }
     }
-
-    // MARK: - private
 
     // swiftlint:disable line_length
     private func predicate(for item: TodoItem) -> NSPredicate {

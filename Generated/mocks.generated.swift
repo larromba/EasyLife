@@ -677,7 +677,7 @@ class MockBlockedIndicatorView: NSObject, BlockedIndicatorViewing {
     var _viewStateHistory: [_Variable<BlockedIndicatorViewStating?>] = []
 }
 
-class MockCoreDataManaging: NSObject, CoreDataManaging {
+class MockCoreDataManaging: NSObject, DataManaging {
     var isLoaded: Bool {
         get { return _isLoaded }
         set(value) { _isLoaded = value; _isLoadedHistory.append(_Variable(value)) }
@@ -691,7 +691,7 @@ class MockCoreDataManaging: NSObject, CoreDataManaging {
 
     // MARK: - insert<T: NSManagedObject>
 
-    func insert<T: NSManagedObject>(entityClass: T.Type, context: CoreDataContext) -> T {
+    func insert<T: NSManagedObject>(entityClass: T.Type, context: DataContext) -> T {
         let functionName = insert1.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: entityClass, forKey: insert1.params.entityClass)
@@ -710,7 +710,7 @@ class MockCoreDataManaging: NSObject, CoreDataManaging {
 
     // MARK: - insertTransient<T: NSManagedObject>
 
-    func insertTransient<T: NSManagedObject>(entityClass: T.Type, context: CoreDataContext) -> Result<T> {
+    func insertTransient<T: NSManagedObject>(entityClass: T.Type, context: DataContext) -> Result<T> {
         let functionName = insertTransient2.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: entityClass, forKey: insertTransient2.params.entityClass)
@@ -729,7 +729,7 @@ class MockCoreDataManaging: NSObject, CoreDataManaging {
 
     // MARK: - copy<T: NSManagedObject>
 
-    func copy<T: NSManagedObject>(_ entity: T, context: CoreDataContext) -> Result<T> {
+    func copy<T: NSManagedObject>(_ entity: T, context: DataContext) -> Result<T> {
         let functionName = copy3.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: entity, forKey: copy3.params.entity)
@@ -748,7 +748,7 @@ class MockCoreDataManaging: NSObject, CoreDataManaging {
 
     // MARK: - delete<T: NSManagedObject>
 
-    func delete<T: NSManagedObject>(_ entity: T, context: CoreDataContext) {
+    func delete<T: NSManagedObject>(_ entity: T, context: DataContext) {
         let functionName = delete4.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: entity, forKey: delete4.params.entity)
@@ -766,7 +766,7 @@ class MockCoreDataManaging: NSObject, CoreDataManaging {
 
     // MARK: - fetch<T: NSManagedObject>
 
-    func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: [NSSortDescriptor]?, context: CoreDataContext, predicate: NSPredicate?) -> Async<[T]> {
+    func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: [NSSortDescriptor]?, context: DataContext, predicate: NSPredicate?) -> Async<[T]> {
         let functionName = fetch5.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: entityClass, forKey: fetch5.params.entityClass)
@@ -806,7 +806,7 @@ class MockCoreDataManaging: NSObject, CoreDataManaging {
 
     // MARK: - save
 
-    func save(context: CoreDataContext) -> Async<Void> {
+    func save(context: DataContext) -> Async<Void> {
         let functionName = save7.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: context, forKey: save7.params.context)
