@@ -3,12 +3,12 @@ import CoreData
 import XCTest
 
 final class RepeatStateTests: XCTestCase {
-    func testDisplay() {
+    func test_displayValues_whenCounted_expectContainsEveryRepeatState() {
         XCTAssertEqual(RepeatState.display.count, 10)
     }
 
     // swiftlint:disable cyclomatic_complexity
-    func testIncrement() {
+    func test_repeatState_whenIncremented_expectIncrementedDate() {
         // mocks
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(identifier: "GMT")

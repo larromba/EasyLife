@@ -34,7 +34,7 @@ final class ItemDetailTests: XCTestCase {
 
     // MARK: - io
 
-    func testSaveButtonInWarningAlertSavesNewItem() {
+    func test_saveButtonOnAlert_whenPressed_expectNewItemSaved() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today, isTransient: true)
@@ -64,7 +64,7 @@ final class ItemDetailTests: XCTestCase {
         }
     }
 
-    func testSaveButtonOnNewItemSavesItem() {
+    func test_saveButton_whenPressed_expectNewItemSaved() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty, isTransient: true)
@@ -88,7 +88,7 @@ final class ItemDetailTests: XCTestCase {
     }
 
     // #bug 09 Apr 19 - "Illegal attempt to establish a relationship 'xyz' between objects in different contexts"
-    func testSaveButtonOnNewItemInChildContextSavesProjectFromMainContext() {
+    func test_saveButton_whenPressed_expectNewItemSavedWithProjectFromDifferentContext() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty, isTransient: true) // child context
@@ -115,7 +115,7 @@ final class ItemDetailTests: XCTestCase {
         }
     }
 
-    func testBackButtonOnExistingItemSavesDataInput() {
+    func test_backButton_whenPressedOnExistingItem_expectSavesChanges() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -136,7 +136,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertFalse(item.hasChanges)
     }
 
-    func testDeleteButtonDeletesItem() {
+    func test_backButton_whenPressed_expectDeletesItem() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -161,7 +161,7 @@ final class ItemDetailTests: XCTestCase {
 
     // MARK: - picker
 
-    func testDateFieldUsesSimplePickerWhenNoDateSet() {
+    func test_dateField_whenPressedWithNoDate_expectSimplePicker() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty)
@@ -172,7 +172,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertEqual(viewController.dateTextField.inputView, viewController.simpleDatePicker)
     }
 
-    func testDateFieldUsesDatePickerWhenDateSet() {
+    func test_dateField_whenPressedWithDate_expectDatePicker() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -188,7 +188,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertEqual(viewController.dateTextField.inputView, viewController.datePicker)
     }
 
-    func testRepeatFieldUsesRepeatPicker() {
+    func test_repeatField_whenPressed_expectRepeatPicker() {
         // mocks
         env.inject()
         env.itemDetailController.setViewController(viewController)
@@ -197,7 +197,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertEqual(viewController.repeatsTextField.inputView, viewController.repeatPicker)
     }
 
-    func testProjectShowsProjectPicker() {
+    func test_projectField_whenPressed_expectProjectPicker() {
         // mocks
         env.inject()
         env.itemDetailController.setViewController(viewController)
@@ -208,7 +208,7 @@ final class ItemDetailTests: XCTestCase {
 
     // MARK: - keyboard toolbar
 
-    func testPrevGoesThroughResponders() {
+    func test_previousButton_whenPressed_expectPreviousResponder() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -250,7 +250,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertTrue(viewController.titleTextField.isFirstResponder)
     }
 
-    func testPrevMissesProjectWhenNoProjectsExist() {
+    func test_previousButton_whenPressedAndHasNoProject_expectMissesProjectField() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty)
@@ -267,7 +267,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertTrue(viewController.repeatsTextField.isFirstResponder)
     }
 
-    func testNextGoesThroughResponders() {
+    func test_nextButton_whenPressed_expectNextResponder() {
         // mocks
         env.inject()
         _ = env.project(priority: 0, name: "test")
@@ -309,7 +309,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertTrue(viewController.titleTextField.isFirstResponder)
     }
 
-    func testNextMissesProjectWhenNoProjectsExist() {
+    func test_nextButton_whenPressedAndHasNoProject_expectMissesProjectField() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty)
@@ -327,7 +327,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertTrue(viewController.textView.isFirstResponder)
     }
 
-    func testDoneButtonEndsEditing() {
+    func test_doneButton_whenPressed_expectEditingEnds() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty)
@@ -344,7 +344,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertFalse(viewController.titleTextField.isFirstResponder)
     }
 
-    func testDateButtonTogglesDatePickers() {
+    func test_dateButton_whenPressed_expectDatePickersToggled() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty)
@@ -365,7 +365,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertEqual(viewController.dateTextField.inputView, viewController.simpleDatePicker)
     }
 
-    func testDateButtonChangesWhenToggled() {
+    func test_dateButton_whenPressed_expectDateButtonChanges() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty)
@@ -388,7 +388,7 @@ final class ItemDetailTests: XCTestCase {
 
     // MARK: - blocked
 
-    func testBlockedBadgeValue() {
+    func test_badge_whenBlocked_expectValue() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty)
@@ -403,7 +403,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertEqual(viewController.blockedBadgeLabel?.text, "1")
     }
 
-    func testBlockedBadgeValueReloads() {
+    func test_badge_whenReloaded_expectValueChanges() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty)
@@ -426,7 +426,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertEqual(viewController.blockedBadgeLabel?.text, "1")
     }
 
-    func testBlockedButtonOpensBlockedByViewController() {
+    func test_blockedButton_whenPressed_expectOpensBlockedView() {
         // mocks
         env.inject()
         env.itemDetailController.setViewController(viewController)
@@ -439,7 +439,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertTrue(navigationController.viewControllers.last is BlockedByViewController)
     }
 
-    func testBlockedButtonDisabledWhenOnly1Item() {
+    func test_blockedButton_whenOnlyOneItem_expectDisabled() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty)
@@ -451,7 +451,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertFalse(viewController.blockedButton.isEnabled)
     }
 
-    func testBlockedButtonEnabled() {
+    func test_blockedButton_whenMoreThanOneItem_expectEnabled() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty)
@@ -466,7 +466,7 @@ final class ItemDetailTests: XCTestCase {
 
     // MARK: - other
 
-    func testErrorAlertShows() {
+    func test_alert_whenDataError_expectThrown() {
         // mocks
         env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()
@@ -481,7 +481,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertTrue(viewController.presentedViewController is UIAlertController)
     }
 
-    func testItemRendersInUI() {
+    func test_item_whenAppears_expectUIConfiguration() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -503,7 +503,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertEqual(viewController.textView.text, "bar")
     }
 
-    func testExistingItemDisplaysBackButton() {
+    func test_item_whenExisting_expectBackButton() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -514,7 +514,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertNil(viewController.navigationItem.leftBarButtonItem)
     }
 
-    func testNewItemDisplaysCancelButton() {
+    func test_item_whenNew_expectCancelButton() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today, isTransient: true)
@@ -525,7 +525,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertTrue(viewController.navigationItem.leftBarButtonItem?.isCancel ?? false)
     }
 
-    func testNewItemDisplaysSaveButton() {
+    func test_item_whenNew_expectSaveButton() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today, isTransient: true)
@@ -536,7 +536,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertTrue(viewController.navigationItem.rightBarButtonItem?.isSave ?? false)
     }
 
-    func testDataUpdatesOnInput() {
+    func test_item_whenUIChanges_expectUpdated() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -560,7 +560,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertEqual(item.notes, "bar")
     }
 
-    func testCancelOnNewItemAfterDataInputShowsWarningAlert() {
+    func test_cancel_whenNewAndHasUpdates_expectAlertDisplays() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty, isTransient: true)

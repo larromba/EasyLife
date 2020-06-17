@@ -42,7 +42,9 @@ final class ProjectsRepository: ProjectsRepositoring {
             async({
                 let context = self.dataProvider.mainContext()
                 let project = context.insert(entityClass: Project.self)
-                project.name = name
+                context.performAndWait {
+                    project.name = name
+                }
                 _ = try await(context.save())
                 completion(.success(project))
             }, onError: { error in
@@ -54,8 +56,11 @@ final class ProjectsRepository: ProjectsRepositoring {
     func updateName(_ name: String, for project: Project) -> Async<Void> {
         return Async { completion in
             async({
-                project.name = name
-                _ = try await(self.dataProvider.mainContext().save())
+                let context = self.dataProvider.mainContext()
+                context.performAndWait {
+                    project.name = name
+                }
+                _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -73,11 +78,13 @@ final class ProjectsRepository: ProjectsRepositoring {
                     sortBy: nil,
                     predicate: self.priorityPredicate)
                 )
-                var available = Set(Array(0..<max))
-                available.subtract(projects.map { Int($0.priority) })
-                let availableSorted = available.sorted(by: <)
-                let nextAvailablePriority = availableSorted.first!
-                project.priority = Int16(nextAvailablePriority)
+                context.performAndWait {
+                    var available = Set(Array(0..<max))
+                    available.subtract(projects.map { Int($0.priority) })
+                    let availableSorted = available.sorted(by: <)
+                    let nextAvailablePriority = availableSorted.first!
+                    project.priority = Int16(nextAvailablePriority)
+                }
                 _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
@@ -97,8 +104,10 @@ final class ProjectsRepository: ProjectsRepositoring {
                     sortBy: nil,
                     predicate: predicate)
                 )
-                projects.forEach { $0.priority -= 1 }
-                project.priority = Int16(Project.defaultPriority)
+                context.performAndWait {
+                    projects.forEach { $0.priority -= 1 }
+                    project.priority = Int16(Project.defaultPriority)
+                }
                 _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
@@ -121,8 +130,10 @@ final class ProjectsRepository: ProjectsRepositoring {
                     sortBy: nil,
                     predicate: predicate)
                 )
-                projects.forEach { $0.priority += 1 }
-                projectA.priority = projectADestinationPriority
+                context.performAndWait {
+                    projects.forEach { $0.priority += 1 }
+                    projectA.priority = projectADestinationPriority
+                }
                 _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in
@@ -145,8 +156,10 @@ final class ProjectsRepository: ProjectsRepositoring {
                     sortBy: nil,
                     predicate: predicate)
                 )
-                projects.forEach { $0.priority -= 1 }
-                projectA.priority = projectADestinationPriority
+                context.performAndWait {
+                    projects.forEach { $0.priority -= 1 }
+                    projectA.priority = projectADestinationPriority
+                }
                 _ = try await(context.save())
                 completion(.success(()))
             }, onError: { error in

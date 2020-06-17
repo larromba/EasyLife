@@ -18,6 +18,8 @@ final class PlanTests: XCTestCase {
         UIView.setAnimationsEnabled(false)
     }
 
+    // MARK: - action
+
     override func tearDown() {
         navigationController = nil
         viewController = nil
@@ -28,7 +30,7 @@ final class PlanTests: XCTestCase {
 
     // MARK: - other
 
-    func testNoDataHidesTableView() {
+    func test_tableView_whenNoData_expectIsHidden() {
         // mocks
         env.inject()
         env.start()
@@ -37,7 +39,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(viewController.tableView.isHidden)
     }
 
-    func testDataShowsTableView() {
+    func test_tableView_whenHasData_expectIsShowing() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty)
@@ -48,7 +50,7 @@ final class PlanTests: XCTestCase {
         XCTAssertFalse(viewController.tableView.isHidden)
     }
 
-    func testReloadOnAppWillEnterForeground() {
+    func test_notification_whenWillEnterForeground_expectReload() {
         // mocks
         env.inject()
         env.start()
@@ -63,7 +65,7 @@ final class PlanTests: XCTestCase {
         XCTAssertNotEqual(isHidden, viewController.tableView.isHidden)
     }
 
-    func testErrorAlertShows() {
+    func test_alert_whenDataError_expectThrown() {
         // mocks
         env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()
@@ -75,7 +77,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(viewController.presentedViewController is UIAlertController)
     }
 
-    func testFatalErrorReplacesRootView() {
+    func test_notification_whenDidReceieveFatalError_expectRootViewReplaced() {
         // mocks
         env.inject()
         env.addToWindow()
@@ -88,7 +90,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(UIApplication.shared.keyWindow?.rootViewController is FatalViewController)
     }
 
-    func testBadgeValue() {
+    func test_badge_whenNewItemsAdded_expectNewValue() {
         // mocks
         let badge = MockBadge()
         env.badge = badge
@@ -105,7 +107,7 @@ final class PlanTests: XCTestCase {
 
     // MARK: - missed
 
-    func testMissedItemAppearsInSection() {
+    func test_missedItem_whenAppears_expectAppearsInMissedSection() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .missed)
@@ -116,7 +118,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(viewController.rows(for: .missed), 1)
     }
 
-    func testMissedItemCellUI() {
+    func test_missedItem_whenAppears_expectUIConfiguration() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .missed, name: "test")
@@ -130,7 +132,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(cell.infoLabel.isHidden)
     }
 
-    func testMissedActions() {
+    func test_missedItem_whenOpened_expectActions() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .missed)
@@ -144,7 +146,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(actions[safe: 1]?.isDelete ?? false)
     }
 
-    func testMissedActionsWithRepeatState() {
+    func test_missedItemWithRepeatState_whenOpened_expectActions() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .missed, repeatState: .daily)
@@ -161,7 +163,7 @@ final class PlanTests: XCTestCase {
 
     // MARK: - today
 
-    func testTodayItemAppearsInSection() {
+    func test_todayItem_whenAppears_expectAppearsInTodaySection() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
@@ -172,7 +174,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(viewController.rows(for: .today), 1)
     }
 
-    func testTodayItemCellUI() {
+    func test_todayItem_whenAppears_expectUIConfiguration() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today, name: "test")
@@ -186,7 +188,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(cell.infoLabel.isHidden)
     }
 
-    func testTodayItemNoNameIsGrey() {
+    func test_todayItemWithNoName_whenAppears_expectNameIsGrey() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
@@ -198,7 +200,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(cell.titleLabel?.textColor, Asset.Colors.grey.color)
     }
 
-    func testTodayActions() {
+    func test_todayItem_whenOpened_expectActions() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
@@ -213,7 +215,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(actions[safe: 2]?.isLater ?? false)
     }
 
-    func testTodayActionsWithRepeatState() {
+    func test_todayItemWithRepeatState_whenOpened_expectActions() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today, repeatState: .daily)
@@ -231,7 +233,7 @@ final class PlanTests: XCTestCase {
 
     // MARK: - later
 
-    func testLaterItemAppearsInSection() {
+    func test_laterItem_whenAppears_expectAppearsInLaterSection() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .later)
@@ -242,7 +244,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(viewController.rows(for: .later), 1)
     }
 
-    func testLaterItemNoDateAppearsInSection() {
+    func test_itemWithNoDate_whenAppears_expectAppearsInLaterSection() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty)
@@ -253,7 +255,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(viewController.rows(for: .later), 1)
     }
 
-    func testLaterItemCellUI() {
+    func test_laterItem_whenAppears_expectUIConfiguration() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .later, name: "test")
@@ -267,7 +269,7 @@ final class PlanTests: XCTestCase {
         XCTAssertFalse(cell.infoLabel.isHidden)
     }
 
-    func testLaterActions() {
+    func test_laterItem_whenOpened_expectActions() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .later)
@@ -281,9 +283,9 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(actions[safe: 1]?.isDelete ?? false)
     }
 
-    // MARK: - blocking
+    // MARK: - blocked / blocking
 
-    func testBlockedItemHidesDoneAction() {
+    func test_blockedItem_whenAppears_expectNoDoneAction() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -297,7 +299,21 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(actions.filter { $0.isDone }.count, 0)
     }
 
-    func testBlockedViewNotBlocked() {
+    func test_blockingItem_whenAppears_expectDoneAction() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .today)
+        let item2 = env.todoItem(type: .later)
+        item.addToBlockedBy(item2)
+        env.start()
+
+        // test
+        waitSync()
+        guard let actions = viewController.actions(row: 0, section: .later) else { return XCTFail("expected actions") }
+        XCTAssertEqual(actions.filter { $0.isDone }.count, 1)
+    }
+
+    func test_item_whenNotBlocked_expectUIConfiguration() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
@@ -310,7 +326,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(cell.blockedView.backgroundColor, .clear)
     }
 
-    func testBlockedViewBlockedBy() {
+    func test_item_whenBlocked_expectUIConfiguration() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -325,7 +341,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(cell.blockedView.backgroundColor, Asset.Colors.red.color)
     }
 
-    func testBlockedViewBlocking() {
+    func test_item_whenBlocking_expectUIConfiguration() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -340,7 +356,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(cell.blockedView.backgroundColor, Asset.Colors.grey.color)
     }
 
-    func testBlockedViewBlockedByAndBlocking() {
+    func test_item_whenBlockedAndBlocking_expectUIConfiguration() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -360,7 +376,7 @@ final class PlanTests: XCTestCase {
 
     // MARK: - other cell ui
 
-    func testNotesIndicatorShows() {
+    func test_itemWithNotes_whenAppears_expectNotesIndicatorIsShowing() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today, notes: "test")
@@ -372,7 +388,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(cell.notesLabel.text, "...")
     }
 
-    func testNotesIndicatorHides() {
+    func test_itemWithNoNotes_whenAppears_expectNotesIndicatorIsHidden() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
@@ -384,7 +400,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(cell.notesLabel.text, "")
     }
 
-    func testRecurringIconShows() {
+    func test_recurringItem_whenAppears_expectRecurringIconIsShowing() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today, repeatState: .daily)
@@ -396,7 +412,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(cell.iconImageView.image, Asset.Assets.recurring.image)
     }
 
-    func testNoIcon() {
+    func test_basicItem_whenAppears_expectAllIconsAreHidden() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
@@ -408,7 +424,7 @@ final class PlanTests: XCTestCase {
         XCTAssertNil(cell.iconImageView.image)
     }
 
-    func testNoDateIcon() {
+    func test_noDateItem_whenAppears_expectNoDateIconIsShowing() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty)
@@ -422,7 +438,7 @@ final class PlanTests: XCTestCase {
 
     // MARK: - actions
 
-    func testDoneMakesItemDone() {
+    func test_doneAction_whenSelected_expectItemIsDone() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -439,7 +455,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(item.done)
     }
 
-    func testDoneMakesRecurringItemIncrementDate() {
+    func test_doneAction_whenSelectedOnRecurringItem_expectDateIncremented() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
@@ -457,7 +473,7 @@ final class PlanTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(item.date ?? date, date)
     }
 
-    func testDeleteMakesItemDeleted() {
+    func test_deleteAction_whenSelected_expectItemDeleted() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
@@ -478,7 +494,7 @@ final class PlanTests: XCTestCase {
         }
     }
 
-    func testSplitMakesItemSplit() {
+    func test_splitAction_whenSelected_expectItemSplitIntoTwoItems_oneInSameSection_anotherOnNextRecurringDate() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today, repeatState: .daily)
@@ -504,7 +520,24 @@ final class PlanTests: XCTestCase {
         }
     }
 
-    func testLaterMakesItemLater() {
+    func test_laterAction_whenSelected_expectItemHasNoDate() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .today)
+        env.start()
+
+        // sut
+        waitSync()
+        guard let action = viewController.actions(row: 0, section: .today)?
+            .first(where: { $0.title == "Later" }) else { return XCTFail("expected action") }
+        XCTAssertTrue(action.fire())
+
+        // test
+        waitSync()
+        XCTAssertNil(item.date)
+    }
+
+    func test_laterAction_whenSelectedOnRecurringItem_expectItemHasNextDate() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today, repeatState: .daily)
@@ -524,7 +557,7 @@ final class PlanTests: XCTestCase {
 
     // MARK: - navigation
 
-    func testOpenItemDetail() {
+    func test_addButton_whenTapped_expectItemDetailShown() {
         // mocks
         env.inject()
         env.start()
@@ -537,7 +570,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(navigationController.viewControllers.last is ItemDetailViewController)
     }
 
-    func testCellOpensItemDetail() {
+    func test_cell_whenTapped_expectItemDetailShown() {
         // mocks
         env.inject()
         env.addToWindow()
@@ -550,7 +583,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(navigationController.viewControllers.last is ItemDetailViewController)
     }
 
-    func testOpenArchive() {
+    func test_archiveButton_whenTapped_expectArchiveShown() {
         // mocks
         env.inject()
         env.addToWindow()
@@ -567,7 +600,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(navigationController.viewControllers.first is ArchiveViewController)
     }
 
-    func testOpenProjects() {
+    func test_projectsButton_whenTapped_expectProjectsShown() {
         // mocks
         env.inject()
         env.addToWindow()
@@ -584,7 +617,7 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(navigationController.viewControllers.first is ProjectsViewController)
     }
 
-    func testFocusViewOpensWhenPressingFocusButton() {
+    func test_focusButton_whenTapped_expectFocusViewShown() {
         // mocks
         env.inject()
         env.addToWindow()
@@ -623,16 +656,16 @@ final class PlanTests: XCTestCase {
 
     // MARK: - order
 
-    func testMissedOrder() {
+    func test_missedSection_whenLoaded_expectOrder() {
         testOrder(type: .missed, section: .missed)
     }
 
-    func testTodayOrder() {
+    func test_todaySection_whenLoaded_expectOrder() {
         testOrder(type: .today, section: .today)
     }
 
     // swiftlint:disable function_body_length
-    func testLaterOrder() {
+    func test_laterSection_whenLoaded_expectOrder() {
         func title(for row: Int) -> String? {
             guard let cell = viewController.cell(row: row, section: .later) else { return "not found" }
             return cell.titleLabel.text

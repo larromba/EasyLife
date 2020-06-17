@@ -31,7 +31,7 @@ final class ProjectsTests: XCTestCase {
 
     // MARK: - ui
 
-    func testNoDataHidesTableView() {
+    func test_tableView_whenNoData_expectIsHidden() {
         // mocks
         env.inject()
         env.projectsController.setViewController(viewController)
@@ -40,7 +40,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertTrue(viewController.tableView.isHidden)
     }
 
-    func testDataShowsTableView() {
+    func test_tableView_whenHasData_expectIsShowing() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -51,7 +51,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertFalse(viewController.tableView.isHidden)
     }
 
-    func testDataShowsInCorrectSections() {
+    func test_projects_whenAppear_expectShownInCorrectSections() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -64,7 +64,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertEqual(viewController.rows(.other), 1)
     }
 
-    func testBadgeShowsInPrioritySection() {
+    func test_prioritizedProject_whenAppears_expectBadgeIsShowing() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -75,7 +75,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertFalse(viewController.cell(row: 0, section: .prioritized)?.tagView.cornerLayerView.isHidden ?? true)
     }
 
-    func testTextColorInPrioritySection() {
+    func test_prioritizedProject_whenAppears_expectTextColor() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -86,7 +86,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertEqual(viewController.cell(row: 0, section: .prioritized)?.titleLabel.textColor, .black)
     }
 
-    func testBadgeHidesInOtherSection() {
+    func test_deprioritizedProject_whenAppears_expectBadgeIsHidden() {
         // mocks
         env.inject()
         _ = env.project(priority: Project.defaultPriority)
@@ -97,7 +97,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertTrue(viewController.cell(row: 0, section: .other)?.tagView.cornerLayerView.isHidden ?? false)
     }
 
-    func testTextColorInOtherSection() {
+    func test_deprioritizedProject_whenAppears_expecTextColor() {
         // mocks
         env.inject()
         _ = env.project(priority: Project.defaultPriority)
@@ -110,7 +110,7 @@ final class ProjectsTests: XCTestCase {
 
     // MARK: - add project
 
-    func testAddProjectShowsNewProjectAlert() {
+    func test_addButton_whenPressed_expectAlert() {
         // mocks
         env.inject()
         env.projectsController.setViewController(viewController)
@@ -125,7 +125,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertTrue(viewController.presentedViewController is UIAlertController)
     }
 
-    func testNewProjectAlertWhenNoTextEnteredThenCantPressOK() {
+    func test_newProjectAlert_whenNoTextEntered_expectOKButtonDisabled() {
         // mocks
         env.inject()
         env.projectsController.setViewController(viewController)
@@ -143,7 +143,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertFalse(alert.actions[safe: 1]?.isEnabled ?? true)
     }
 
-    func testNewProjectAlertWhenTextEnteredThenCanPressOK() {
+    func test_newProjectAlert_whenTextEntered_expectOKButtonEnabled() {
         // mocks
         env.inject()
         env.projectsController.setViewController(viewController)
@@ -162,7 +162,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertTrue(alert.actions[safe: 1]?.isEnabled ?? false)
     }
 
-    func testNewProjectWhenOkButtonPressedNewProjectIsCreated() {
+    func test_newProjectAlert_whenOkButtonPressed_expectNewProjectCreated() {
         // mocks
         env.inject()
         env.projectsController.setViewController(viewController)
@@ -193,7 +193,7 @@ final class ProjectsTests: XCTestCase {
 
     // MARK: - edit project
 
-    func testEditProjectShowsNewProjectAlert() {
+    func test_cell_whenTapped_expectShowsAlert() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -209,7 +209,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertTrue(viewController.presentedViewController is UIAlertController)
     }
 
-    func testEditProjectAlertWhenNoTextEnteredThenCantPressOK() {
+    func test_editNameAlert_whenNoText_expectOkButtonDisabled() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -229,7 +229,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertFalse(alert.actions[safe: 1]?.isEnabled ?? true)
     }
 
-    func testEditProjectAlertWhenTextEnteredThenCanPressOK() {
+    func test_editNameAlert_whenHasText_expectOkButtonEnabled() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -250,7 +250,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertTrue(alert.actions[safe: 1]?.isEnabled ?? false)
     }
 
-    func testEditProjectWhenOkButtonPressedProjectIsUpdated() {
+    func test_editNameAlert_whenOkButtonPressed_expectProjectIsUpdated() {
         // mocks
         env.inject()
         let project = env.project(priority: 0)
@@ -275,7 +275,7 @@ final class ProjectsTests: XCTestCase {
 
     // MARK: - actions
 
-    func testCellPrioritizedActions() {
+    func test_prioritizedItem_whenOpened_expectActions() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -292,7 +292,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertTrue(actions[safe: 1]?.isDeprioritize ?? false)
     }
 
-    func testCellOtherActions() {
+    func test_deprioritizedItem_whenOpened_expectActions() {
         // mocks
         env.inject()
         _ = env.project(priority: Project.defaultPriority)
@@ -309,7 +309,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertTrue(actions[safe: 1]?.isPrioritize ?? false)
     }
 
-    func testCellOtherActionsMaxPriority() {
+    func test_deprioritizedItem_whenMaxItemsPrioritized_expectActions() {
         // mocks
         env.inject()
         _ = env.project(priority: Project.defaultPriority)
@@ -330,7 +330,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertTrue(actions[safe: 0]?.isDelete ?? false)
     }
 
-    func testPrioritizeActionPrioritizesProject() {
+    func test_prioritizeAction_whenPressed_expectPrioritizesProject() {
         // mocks
         env.inject()
         let project = env.project(priority: Project.defaultPriority)
@@ -355,7 +355,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertEqual(project.priority, 0)
     }
 
-    func testDeprioritizeActionDeprioritizesProject() {
+    func test_deprioritizeAction_whenPressed_expectDeprioritizesProject() {
         // mocks
         env.inject()
         let project = env.project(priority: 0)
@@ -380,7 +380,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertEqual(project.priority, Project.defaultPriority)
     }
 
-    func testDeleteActionDeletesProject() {
+    func test_deleteAction_whenPressed_expectDeletesProject() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -409,7 +409,7 @@ final class ProjectsTests: XCTestCase {
 
     // MARK: - move cell
 
-    func testMoveCellToPrioritySectionPrioritizesProjectToNextAvailablePriority() {
+    func test_item_whenMovedToPrioritySection_expectPrioritizesProjectToNextAvailablePriority() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -431,7 +431,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertEqual(project.priority, 1)
     }
 
-    func testMoveCellToOtherSectionDeprioritizesProject() {
+    func test_item_whenMovedToOtherSection_expectDeprioritizesProject() {
         // mocks
         env.inject()
         let project = env.project(priority: 0)
@@ -453,7 +453,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertEqual(project.priority, Project.defaultPriority)
     }
 
-    func testMoveCellPrioritizesLesser() {
+    func test_item_whenMovedUpInsidePrioritySection_expectBetterPriority() {
         // mocks
         env.inject()
         let project0 = env.project(priority: 0)
@@ -473,7 +473,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertEqual(project2.priority, 2)
     }
 
-    func testMoveCellPrioritizesGreater() {
+    func test_item_whenMovedDownInsidePrioritySection_expectWorsePriority() {
         // mocks
         env.inject()
         let project0 = env.project(priority: 0)
@@ -493,7 +493,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertEqual(project2.priority, 2)
     }
 
-    func testCantMoveCellToPrioritySectionIfPriorityAtMax() {
+    func test_deprioritizedItem_whenMaxItemsPrioritixed_expectCantBePrioritized() {
         // mocks
         env.inject()
         _ = env.project(priority: 0)
@@ -511,7 +511,7 @@ final class ProjectsTests: XCTestCase {
 
     // MARK: - other
 
-    func testEditButtonTogglesEditingMode() {
+    func test_editButton_whenPressed_expectEditingModeToggled() {
         env.inject()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
@@ -531,7 +531,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertFalse(viewController.tableView.isEditing)
     }
 
-    func testDoneCloses() {
+    func test_doneButton_whenPressed_expectClosesView() {
         // mocks
         env.inject()
         env.projectsController.setViewController(viewController)
@@ -549,7 +549,7 @@ final class ProjectsTests: XCTestCase {
         XCTAssertNil(presenter.presentedViewController)
     }
 
-    func testErrorAlertShows() {
+    func test_alert_whenDataError_expectThrown() {
         // mocks
         env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()

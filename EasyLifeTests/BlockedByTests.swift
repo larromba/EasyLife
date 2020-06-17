@@ -29,7 +29,7 @@ final class BlockedByTests: XCTestCase {
         super.tearDown()
     }
 
-    func testDataCountWhenOtherItemsHaveName() {
+    func test_item_whenHasName_expectDisplayed() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty, name: "a")
@@ -40,9 +40,10 @@ final class BlockedByTests: XCTestCase {
         // test
         waitSync()
         XCTAssertEqual(viewController.rows(section: 0), 1)
+        XCTAssertEqual(viewController.title(row: 0), "b")
     }
 
-    func testDataCountWhenOtherItemsHaveNoName() {
+    func test_item_whenHasNoName_expectNotDisplayed() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty, name: "a")
@@ -55,7 +56,7 @@ final class BlockedByTests: XCTestCase {
         XCTAssertEqual(viewController.rows(section: 0), 0)
     }
 
-    func testTapTogglesIsBlocking() {
+    func test_item_whenTapped_expectTogglesTick() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty, name: "a")
@@ -78,7 +79,7 @@ final class BlockedByTests: XCTestCase {
         XCTAssertNil(viewController.cell(row: 0)?.iconImageView.image)
     }
 
-    func testBackWritesToItem() {
+    func test_back_whenTapped_expectItemUpdated() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty, name: "a")
@@ -97,7 +98,7 @@ final class BlockedByTests: XCTestCase {
         XCTAssertEqual(item.blockedBy?.count, 1)
     }
 
-    func testOrder() {
+    func test_rows_whenAppear_expectOrder() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty, name: "a")
@@ -114,7 +115,7 @@ final class BlockedByTests: XCTestCase {
         XCTAssertEqual(viewController.title(row: 2), "c")
     }
 
-    func testErrorAlertShows() {
+    func test_alert_whenDataError_expectThrown() {
         // mocks
         env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()

@@ -3,7 +3,7 @@ import CoreData
 import XCTest
 
 final class DataTests: XCTestCase {
-    func testMigrations() {
+    func test_coreData_whenMigrated_expectNoErrorThrown() {
         // mocks
         let bundle = Bundle(for: DataTests.self)
         do {

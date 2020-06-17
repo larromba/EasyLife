@@ -2,12 +2,12 @@
 import XCTest
 
 final class DateSegmentTests: XCTestCase {
-    func testDisplay() {
+    func test_displayValues_whenCounted_expectContainsEveryDateSegment() {
         XCTAssertEqual(DateSegment.display.count, 11)
     }
 
     // swiftlint:disable cyclomatic_complexity
-    func testIncrement() {
+    func test_dateSegment_whenIncremented_expectIncrementedDate() {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(identifier: "GMT")
         dateFormatter.dateFormat = "dd/MM/yyyy"

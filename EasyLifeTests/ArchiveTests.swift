@@ -30,7 +30,7 @@ final class ArchiveTests: XCTestCase {
 
     // MARK: - ui
 
-    func testNoDataHidesTableView() {
+    func test_tableView_whenNoData_expectIsHidden() {
         // mocks
         env.inject()
         env.archiveController.setViewController(viewController)
@@ -39,7 +39,7 @@ final class ArchiveTests: XCTestCase {
         XCTAssertTrue(viewController.tableView.isHidden)
     }
 
-    func testDataShowsTableView() {
+    func test_tableView_whenHasData_expectIsShowing() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty, isDone: true)
@@ -50,7 +50,7 @@ final class ArchiveTests: XCTestCase {
         XCTAssertFalse(viewController.tableView.isHidden)
     }
 
-    func testOrder() {
+    func test_rows_whenAppears_expectOrder() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty, name: "a1", isDone: true)
@@ -72,7 +72,7 @@ final class ArchiveTests: XCTestCase {
 
     // MARK: - search
 
-    func testSearchFiltersResults() {
+    func test_search_whenTextChanges_expectTableShowsFilteredResults() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty, name: "this should appear 1", isDone: true)
@@ -92,9 +92,10 @@ final class ArchiveTests: XCTestCase {
 
         // test
         XCTAssertEqual(viewController.sections(), 1)
+        XCTAssertFalse(viewController.tableView.isHidden)
     }
 
-    func testBadSearchShowsNoResults() {
+    func test_search_whenNoMatches_expectTableIsHidden() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty, name: "foos", isDone: true)
@@ -116,7 +117,7 @@ final class ArchiveTests: XCTestCase {
 
     // MARK: - cell actions
 
-    func testCellActions() {
+    func test_cell_whenOpened_expectUndoAction() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty, isDone: true)
@@ -128,7 +129,7 @@ final class ArchiveTests: XCTestCase {
         XCTAssertTrue(action.isUndo)
     }
 
-    func testUndo() {
+    func test_undo_whenPressed_expectItemNotDone() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty, isDone: true)
@@ -144,7 +145,7 @@ final class ArchiveTests: XCTestCase {
         XCTAssertFalse(item.done)
     }
 
-    func testClearAllShowsAlert() {
+    func test_clearButton_whenPressed_expectAlertShown() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty, isDone: true)
@@ -160,7 +161,7 @@ final class ArchiveTests: XCTestCase {
         XCTAssertTrue(viewController.presentedViewController is UIAlertController)
     }
 
-    func testClearAllClearsAllItems() {
+    func test_confirmButton_whenPressedInAlert_expectAllItemsDeleted() {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty, isDone: true)
@@ -192,7 +193,7 @@ final class ArchiveTests: XCTestCase {
 
     // MARK: - other
 
-    func testDoneCloses() {
+    func test_doneButton_whenPressed_expectClosesView() {
         // mocks
         env.inject()
         env.archiveController.setViewController(viewController)
@@ -210,7 +211,7 @@ final class ArchiveTests: XCTestCase {
         XCTAssertNil(presenter.presentedViewController)
     }
 
-    func testErrorAlertShows() {
+    func test_alert_whenDataError_expectThrown() {
         // mocks
         env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()
