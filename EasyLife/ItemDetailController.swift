@@ -2,11 +2,10 @@ import AsyncAwait
 import Foundation
 
 // sourcery: name = ItemDetailController
-protocol ItemDetailControlling: Mockable {
+protocol ItemDetailControlling: TodoItemContexting, Mockable {
     func setViewController(_ viewController: ItemDetailViewControlling)
     func setAlertController(_ alertController: AlertControlling)
     func setDelegate(_ delegate: ItemDetailControllerDelegate)
-    func setContext(_ context: PlanItemContext)
 }
 
 protocol ItemDetailControllerDelegate: AnyObject {
@@ -17,7 +16,7 @@ final class ItemDetailController: ItemDetailControlling {
     private weak var viewController: ItemDetailViewControlling?
     private let repository: ItemDetailRepositoring
     private var alertController: AlertControlling?
-    private var editContext: ObjectContext<TodoItem>?
+    private var context: EditContext<TodoItem>?
     private weak var delegate: ItemDetailControllerDelegate?
 
     init(repository: ItemDetailRepositoring) {
@@ -37,17 +36,17 @@ final class ItemDetailController: ItemDetailControlling {
         self.delegate = delegate
     }
 
-    func setContext(_ context: PlanItemContext) {
+    func setContext(_ context: TodoItemContext) {
         switch context {
         case .existing(let item):
+            self.context = EditContext(value: item)
             viewController?.viewState = ItemDetailViewState(item: item, isNew: false, items: [], projects: [])
-            editContext = ObjectContext(object: item)
-            reload()
         case let .new(item, context):
+            self.context = EditContext(value: item)
             viewController?.viewState = ItemDetailViewState(item: item, isNew: true, items: [], projects: [])
-            editContext = ObjectContext(object: item)
             repository.setChildContext(context)
         }
+        reload()
     }
 
     // MARK: - private
@@ -68,7 +67,7 @@ final class ItemDetailController: ItemDetailControlling {
     }
 
     private func reload() {
-        guard let item = editContext?.object else { return }
+        guard let item = context?.value else { return }
         async({
             let items = try await(self.repository.fetchItems(for: item))
             let projects = try await(self.repository.fetchProjects(for: item))
@@ -85,13 +84,13 @@ final class ItemDetailController: ItemDetailControlling {
         if hasUnsavedChanges() {
             showCancelAlert()
         } else {
-            editContext = nil
+            context = nil
             delegate?.controllerFinished(self)
         }
     }
 
     private func hasUnsavedChanges() -> Bool {
-        if let item = editContext?.object, !item.isEmpty {
+        if let item = context?.value, !item.isEmpty {
             return true
         } else {
             return false
@@ -99,19 +98,19 @@ final class ItemDetailController: ItemDetailControlling {
     }
 
     private func save() {
-        guard let item = editContext?.object else { return }
+        guard let item = context?.value else { return }
         async({
             _ = try await(self.repository.save(item: item))
             onMain {
                 self.delegate?.controllerFinished(self)
             }
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 
     private func delete() {
-        guard let item = editContext?.object else { return }
+        guard let item = context?.value else { return }
         async({
             _ = try await(self.repository.delete(item: item))
             onMain {
@@ -123,12 +122,14 @@ final class ItemDetailController: ItemDetailControlling {
     }
 
     private  func updateItem(from state: ItemDetailViewStating) {
-        guard let item = editContext?.object else { return }
-        item.name = state.name
-        item.notes = state.notes
-        item.date = state.date
-        item.repeatState = state.repeatState
-        item.project = state.project
+        guard let item = context?.value else { return }
+        repository.update(item, with: ItemDetailUpdate(
+            name: state.name,
+            notes: state.notes,
+            date: state.date,
+            repeatState: state.repeatState,
+            project: state.project
+        ))
     }
 }
 
@@ -140,7 +141,7 @@ extension ItemDetailController: ItemDetailViewControllerDelegate {
     }
 
     func viewControllerWillDismiss(_ viewController: ItemDetailViewControlling) {
-        guard let item = editContext?.object, item.hasChanges else { return }
+        guard let item = context?.value, item.hasChanges else { return }
         save()
     }
 

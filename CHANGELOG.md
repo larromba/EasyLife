@@ -63,10 +63,11 @@ Apple ID: 1229095589
 
 # Future Work
 
-- fix: tests
+- rename tests
 - focus mode 
     - add timer
     - focus button should show message when uncompletable option in today
+- reame data context provider ivars?
 
 - long press on app icon: new note
 - long press on cell: make tomorrow
@@ -96,3 +97,4 @@ done things should add copy to archive
 new item should be done somewhere else so can use child context?
 remove: ObjectContext ValueContext
 // TODO: search app & check protocols are being used (not direct references)
+plan table fade on reload

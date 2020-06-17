@@ -35,7 +35,7 @@ final class BlockedByTests: XCTestCase {
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty, name: "b")
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setItem(item)
+        env.blockedByController.setContext(.existing(item: item))
 
         // test
         waitSync()
@@ -48,7 +48,7 @@ final class BlockedByTests: XCTestCase {
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty)
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setItem(item)
+        env.blockedByController.setContext(.existing(item: item))
 
         // test
         waitSync()
@@ -61,7 +61,7 @@ final class BlockedByTests: XCTestCase {
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty, name: "b")
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setItem(item)
+        env.blockedByController.setContext(.existing(item: item))
 
         // precondition
         waitSync()
@@ -84,7 +84,7 @@ final class BlockedByTests: XCTestCase {
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty, name: "b")
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setItem(item)
+        env.blockedByController.setContext(.existing(item: item))
         env.addToWindow()
         waitSync()
         viewController.selectRow(0)
@@ -105,7 +105,7 @@ final class BlockedByTests: XCTestCase {
         _ = env.todoItem(type: .empty, name: "c")
         _ = env.todoItem(type: .empty, name: "1")
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setItem(item)
+        env.blockedByController.setContext(.existing(item: item))
 
         // test
         waitSync()
@@ -116,13 +116,13 @@ final class BlockedByTests: XCTestCase {
 
     func testErrorAlertShows() {
         // mocks
-        env.isLoaded = false
+        env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()
         env.addToWindow()
         let item = env.todoItem(type: .empty)
         env.blockedByController.setViewController(viewController)
         env.blockedByController.setAlertController(alertController)
-        env.blockedByController.setItem(item)
+        env.blockedByController.setContext(.existing(item: item))
 
         // test
         waitSync()

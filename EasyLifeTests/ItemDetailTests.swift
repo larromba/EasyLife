@@ -39,7 +39,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .today, isTransient: true)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         env.itemDetailController.setAlertController(alertController)
         env.addToWindow()
 
@@ -54,8 +54,8 @@ final class ItemDetailTests: XCTestCase {
         // test
         waitAsync { completion in
             async({
-                let items = try await(self.env.dataProvider.fetch(entityClass: TodoItem.self, sortBy: nil,
-                                                                  context: .main, predicate: nil))
+                let context = self.env.dataProvider.mainContext()
+                let items = try await(context.fetch(entityClass: TodoItem.self, sortBy: nil, predicate: nil))
                 XCTAssertEqual(items.count, 1)
                 completion()
             }, onError: { error in
@@ -69,7 +69,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty, isTransient: true)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
 
         // sut
         viewController.navigationItem.rightBarButtonItem?.fire()
@@ -77,8 +77,8 @@ final class ItemDetailTests: XCTestCase {
         // test
         waitAsync(delay: 0.5) { completion in
             async({
-                let items = try await(self.env.dataProvider.fetch(entityClass: TodoItem.self, sortBy: nil,
-                                                                  context: .main, predicate: nil))
+                let context = self.env.dataProvider.mainContext()
+                let items = try await(context.fetch(entityClass: TodoItem.self, sortBy: nil, predicate: nil))
                 XCTAssertEqual(items.count, 1)
                 completion()
             }, onError: { error in
@@ -88,13 +88,13 @@ final class ItemDetailTests: XCTestCase {
     }
 
     // #bug 09 Apr 19 - "Illegal attempt to establish a relationship 'xyz' between objects in different contexts"
-    func testSaveButtonOnNewItemSavesProjectFromMainContext() {
+    func testSaveButtonOnNewItemInChildContextSavesProjectFromMainContext() {
         // mocks
         env.inject()
-        let item = env.todoItem(type: .empty, isTransient: true) // nil context
+        let item = env.todoItem(type: .empty, isTransient: true) // child context
         let project = env.project(priority: 1) // main context
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         waitSync()
 
         // sut
@@ -104,8 +104,8 @@ final class ItemDetailTests: XCTestCase {
         // test
         waitAsync(delay: 0.5) { completion in
             async({
-                let items = try await(self.env.dataProvider.fetch(entityClass: TodoItem.self, sortBy: nil,
-                                                                  context: .main, predicate: nil))
+                let context = self.env.dataProvider.mainContext()
+                let items = try await(context.fetch(entityClass: TodoItem.self, sortBy: nil, predicate: nil))
                 XCTAssertEqual(items.first?.project, project)
                 XCTAssertEqual(items.count, 1)
                 completion()
@@ -120,12 +120,12 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .today)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
         env.addToWindow()
 
         // precondition
         waitSync()
-        item.date = Date.distantPast
+        item.date = Date()
         XCTAssertTrue(item.hasChanges)
 
         // sut
@@ -141,7 +141,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .today)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
 
         // sut
         viewController.navigationItem.rightBarButtonItem?.fire()
@@ -149,8 +149,8 @@ final class ItemDetailTests: XCTestCase {
         // test
         waitAsync(delay: 0.5) { completion in
             async({
-                let items = try await(self.env.dataProvider.fetch(entityClass: TodoItem.self, sortBy: nil,
-                                                                  context: .main, predicate: nil))
+                let context = self.env.dataProvider.mainContext()
+                let items = try await(context.fetch(entityClass: TodoItem.self, sortBy: nil, predicate: nil))
                 XCTAssertEqual(items.count, 0)
                 completion()
             }, onError: { error in
@@ -166,7 +166,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
 
         // test
         XCTAssertEqual(viewController.dateTextField.inputView, viewController.simpleDatePicker)
@@ -177,7 +177,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .today)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
         env.addToWindow()
 
         // sut
@@ -214,7 +214,7 @@ final class ItemDetailTests: XCTestCase {
         _ = env.project(priority: 0)
         let item = env.todoItem(type: .empty)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
         env.addToWindow()
         let prev = viewController.toolbar.items?[safe: 0]
         viewController.titleTextField.becomeFirstResponder()
@@ -255,7 +255,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
         env.addToWindow()
         let prev = viewController.toolbar.items?[safe: 0]
         viewController.textView.becomeFirstResponder()
@@ -273,7 +273,7 @@ final class ItemDetailTests: XCTestCase {
         _ = env.project(priority: 0, name: "test")
         let item = env.todoItem(type: .empty)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
         env.addToWindow()
         let next = viewController.toolbar.items?[safe: 2]
         viewController.titleTextField.becomeFirstResponder()
@@ -314,7 +314,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
         env.addToWindow()
         let next = viewController.toolbar.items?[safe: 2]
         viewController.repeatsTextField.becomeFirstResponder()
@@ -332,7 +332,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
         env.addToWindow()
         viewController.titleTextField.becomeFirstResponder()
 
@@ -349,7 +349,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
         env.addToWindow()
         viewController.dateTextField.becomeFirstResponder()
         waitSync()
@@ -370,7 +370,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
         env.addToWindow()
         viewController.dateTextField.becomeFirstResponder()
         waitSync()
@@ -395,7 +395,7 @@ final class ItemDetailTests: XCTestCase {
         let item2 = env.todoItem(type: .empty, name: "test")
         item.addToBlockedBy(item2)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
         env.addToWindow()
 
         // test
@@ -409,7 +409,7 @@ final class ItemDetailTests: XCTestCase {
         let item = env.todoItem(type: .empty)
         let item2 = env.todoItem(type: .empty, name: "test")
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
         env.addToWindow()
 
         // precondition
@@ -444,7 +444,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
 
         // test
         waitSync()
@@ -457,7 +457,7 @@ final class ItemDetailTests: XCTestCase {
         let item = env.todoItem(type: .empty)
         _ = env.todoItem(type: .empty, name: "test")
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
 
         // test
         waitSync()
@@ -468,13 +468,13 @@ final class ItemDetailTests: XCTestCase {
 
     func testErrorAlertShows() {
         // mocks
-        env.isLoaded = false
+        env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()
         env.addToWindow()
         let item = env.todoItem(type: .empty)
         env.itemDetailController.setViewController(viewController)
         env.itemDetailController.setAlertController(alertController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
 
         // test
         waitSync()
@@ -488,16 +488,16 @@ final class ItemDetailTests: XCTestCase {
         let project = env.project(priority: 0, name: "proj")
         item.name = "foo"
         item.notes = "bar"
-        item.date = Date.distantPast
+        item.date = Date(timeIntervalSince1970: 0)
         item.repeatState = .daily
         item.done = true
         item.project = project
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
 
         // test
         XCTAssertEqual(viewController.titleTextField.text, "foo")
-        XCTAssertEqual(viewController.dateTextField.text, "Saturday 01/01/0001")
+        XCTAssertEqual(viewController.dateTextField.text, "Thursday 01/01/1970")
         XCTAssertEqual(viewController.repeatsTextField.text, "daily")
         XCTAssertEqual(viewController.projectTextField.text, "proj")
         XCTAssertEqual(viewController.textView.text, "bar")
@@ -508,7 +508,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .today)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
 
         // test
         XCTAssertNil(viewController.navigationItem.leftBarButtonItem)
@@ -519,10 +519,21 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .today, isTransient: true)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
 
         // test
         XCTAssertTrue(viewController.navigationItem.leftBarButtonItem?.isCancel ?? false)
+    }
+
+    func testNewItemDisplaysSaveButton() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .today, isTransient: true)
+        env.itemDetailController.setViewController(viewController)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
+
+        // test
+        XCTAssertTrue(viewController.navigationItem.rightBarButtonItem?.isSave ?? false)
     }
 
     func testDataUpdatesOnInput() {
@@ -531,19 +542,19 @@ final class ItemDetailTests: XCTestCase {
         let item = env.todoItem(type: .today)
         let project = env.project(priority: 0)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.existing(item: item))
 
         // sut
         waitSync()
         viewController.titleTextField?.setText("foo")
-        viewController.datePicker(viewController.simpleDatePicker, didSelectDate: Date.distantPast)
+        viewController.datePicker(viewController.simpleDatePicker, didSelectDate: .distantFuture)
         viewController.pickerView(viewController.repeatPicker, didSelectRow: 1, inComponent: 0)
         viewController.pickerView(viewController.projectPicker, didSelectRow: 0, inComponent: 0)
         viewController.textView.setText("bar")
 
         // test
         XCTAssertEqual(item.name, "foo")
-        XCTAssertEqual(item.date, Date.distantPast)
+        XCTAssertEqual(item.date, .distantFuture)
         XCTAssertEqual(item.repeatState, .daily)
         XCTAssertEqual(item.project, project)
         XCTAssertEqual(item.notes, "bar")
@@ -554,7 +565,7 @@ final class ItemDetailTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty, isTransient: true)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setItem(item)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         env.itemDetailController.setAlertController(alertController)
         env.addToWindow()
         viewController.titleTextField.setText("foo")
@@ -572,5 +583,8 @@ final class ItemDetailTests: XCTestCase {
 private extension UIBarButtonItem {
     var isCancel: Bool {
         return String(describing: self).components(separatedBy: "systemItem=").last == "Cancel"
+    }
+    var isSave: Bool {
+        return String(describing: self).components(separatedBy: "systemItem=").last == "Save"
     }
 }

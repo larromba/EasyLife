@@ -18,7 +18,6 @@ final class AppTestEnvironment: TestEnvironment {
     var navigationController: UINavigationController
     var viewController: PlanViewControlling
     var persistentContainer: NSPersistentContainer
-    var isLoaded: Bool
     var badge: Badge
     var now: Date
 
@@ -26,6 +25,7 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var fatalErrorHandler: FatalErrorHandler!
     private(set) var appController: AppControlling!
     private(set) var dataProvider: DataContextProviding!
+    private(set) var childContext: DataContexting!
     private(set) var alertController: AlertControlling!
     private(set) var planRepository: PlanRepositoring!
     private(set) var planController: PlanControlling!
@@ -47,20 +47,19 @@ final class AppTestEnvironment: TestEnvironment {
          navigationController: UINavigationController = UINavigationController(),
          window: UIWindow = UIWindow(),
          persistentContainer: NSPersistentContainer = .mock(),
-         isLoaded: Bool = true,
          badge: Badge = MockBadge(),
          now: Date = Date()) {
         self.viewController = viewController
         self.navigationController = navigationController
         self.window = window
         self.persistentContainer = persistentContainer
-        self.isLoaded = isLoaded
         self.badge = badge
         self.now = now
     }
 
     func inject() {
-        dataProvider = DataContextProvider(persistentContainer: persistentContainer, isLoaded: isLoaded)
+        dataProvider = DataContextProvider(persistentContainer: persistentContainer)
+        childContext = dataProvider.childContext(thread: .main)
         planRepository = PlanRepository(dataProvider: dataProvider)
         alertController = AlertController(presenter: viewController)
         planController = PlanController(viewController: viewController,
@@ -91,7 +90,7 @@ final class AppTestEnvironment: TestEnvironment {
             archiveCoordinator: archiveCoordinator,
             projectsCoordinator: projectsCoordinator
         )
-        planController.setStoryboardRouter(appRouter)
+        planController.setRouter(appRouter)
         fatalErrorHandler = FatalErrorHandler(window: window)
         appController = AppController(
             dataProvider: dataProvider,
@@ -113,7 +112,7 @@ final class AppTestEnvironment: TestEnvironment {
     func todoItem(type: TodoItemType, name: String? = nil, repeatState: RepeatState? = nil,
                   notes: String? = nil, project: Project? = nil, isTransient: Bool = false,
                   isDone: Bool = false, blockedBy: [TodoItem]? = nil) -> TodoItem {
-        let context = isTransient ? dataProvider.mainContext() : dataProvider.childContext(thread: .main)
+        let context = isTransient ? childContext! : dataProvider.mainContext()
         let item = context.insert(entityClass: TodoItem.self)
         item.name = name
         item.repeatState = repeatState

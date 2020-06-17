@@ -65,9 +65,10 @@ final class PlanTests: XCTestCase {
 
     func testErrorAlertShows() {
         // mocks
-        env.isLoaded = false
+        env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()
         env.addToWindow()
+        env.start()
 
         // test
         waitSync()
@@ -470,8 +471,8 @@ final class PlanTests: XCTestCase {
 
         // test
         waitAsync(delay: 0.5, queue: .asyncAwait) { completion in
-            let items = try? await(self.env.dataProvider.fetch(entityClass: TodoItem.self, sortBy: nil, context: .main,
-                                                               predicate: nil))
+            let context = self.env.dataProvider.mainContext()
+            let items = try? await(context.fetch(entityClass: TodoItem.self, sortBy: nil, predicate: nil))
             XCTAssertEqual(items?.count, 0)
             completion()
         }
@@ -494,8 +495,8 @@ final class PlanTests: XCTestCase {
 
         // test
         waitAsync(delay: 0.5, queue: .asyncAwait) { completion in
-            let items = try? await(self.env.dataProvider.fetch(entityClass: TodoItem.self, sortBy: nil, context: .main,
-                                                               predicate: nil))
+            let context = self.env.dataProvider.mainContext()
+            let items = try? await(context.fetch(entityClass: TodoItem.self, sortBy: nil, predicate: nil))
             XCTAssertNotNil(items?.first(where: { $0.date == date && $0.repeatState == RepeatState.none }))
             XCTAssertNotNil(items?.first(where: { ($0.date ?? date) > date
                 && $0.repeatState == .daily && ($0.blockedBy?.count ?? 0) == 0 }))

@@ -46,7 +46,7 @@ final class FocusController: FocusControlling {
                 self.viewController?.viewState = FocusViewState(items: items)
             }
         }, onError: { error in
-            self.alertController?.showAlert(Alert(error: error))
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
 }

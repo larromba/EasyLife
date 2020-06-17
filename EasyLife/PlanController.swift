@@ -5,11 +5,11 @@ import UIKit
 protocol PlanControlling: Mockable {
     func start()
     func setDelegate(_ delegate: PlanControllerDelegate)
-    func setStoryboardRouter(_ router: StoryboardRouting)
+    func setRouter(_ router: StoryboardRouting)
 }
 
 protocol PlanControllerDelegate: AnyObject {
-    func controller(_ controller: PlanControlling, handleContext context: PlanItemContext, sender: Segueable)
+    func controller(_ controller: PlanControlling, handleContext context: TodoItemContext, sender: Segueable)
 }
 
 final class PlanController: PlanControlling {
@@ -40,7 +40,7 @@ final class PlanController: PlanControlling {
         self.delegate = delegate
     }
 
-    func setStoryboardRouter(_ router: StoryboardRouting) {
+    func setRouter(_ router: StoryboardRouting) {
         self.router = router
     }
 

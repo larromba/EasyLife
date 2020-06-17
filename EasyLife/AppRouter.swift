@@ -36,6 +36,8 @@ final class AppRouter: AppRouting {
             focusCoordinator.setViewController(viewController)
             focusCoordinator.setNavigationController(navigationController)
             focusCoordinator.setAlertController(AlertController(presenter: viewController))
+        } else {
+            assertionFailure("unhandled route for view controller")
         }
     }
 }

@@ -44,7 +44,7 @@ enum AppControllerFactory {
                     archiveCoordinator: ArchiveCoordinator(archiveController: archiveController),
                     projectsCoordinator: ProjectsCoordinator(projectsController: projectsController)
                 )
-                planController.setStoryboardRouter(appRouter)
+                planController.setRouter(appRouter)
 
                 let appController = AppController(dataProvider: dataProvider, appRouter: appRouter,
                                                   fatalErrorHandler: FatalErrorHandler(window: window))

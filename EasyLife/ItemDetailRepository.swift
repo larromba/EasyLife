@@ -5,6 +5,7 @@ import Logging
 // sourcery: name = ItemDetailRepository
 protocol ItemDetailRepositoring: Mockable {
     func setChildContext(_ childContext: DataContexting)
+    func update(_ item: TodoItem, with update: ItemDetailUpdate)
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]>
     func fetchProjects(for item: TodoItem) -> Async<[Project]>
     func save(item: TodoItem) -> Async<Void>
@@ -23,6 +24,23 @@ final class ItemDetailRepository: ItemDetailRepositoring {
 
     func setChildContext(_ childContext: DataContexting) {
         self.childContext = childContext
+    }
+
+    func update(_ item: TodoItem, with update: ItemDetailUpdate) {
+        item.name = update.name
+        item.notes = update.notes
+        item.date = update.date
+        item.repeatState = update.repeatState
+
+        if let childContext = self.childContext {
+            if let object = update.project {
+                item.project = childContext.object(for: object)
+            } else {
+                item.project = nil
+            }
+        } else {
+            item.project = update.project
+        }
     }
 
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {

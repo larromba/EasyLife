@@ -18,7 +18,7 @@ final class ProjectsController: ProjectsControlling {
     private weak var viewController: ProjectsViewControlling?
     private var alertController: AlertControlling?
     private weak var delegate: ProjectsControllerDelegate?
-    private var editContext: ValueContext<String?>?
+    private var context: EditContext<String?>?
 
     init(repository: ProjectsRepositoring) {
         self.repository = repository
@@ -78,17 +78,17 @@ final class ProjectsController: ProjectsControlling {
 
     private func editProject(_ project: Project?) {
         let action = Alert.Action(title: L10n.editProjectAlertOk, handler: {
-            guard let name = self.editContext?.value else { return }
+            guard let name = self.context?.value else { return }
             if let project = project {
                 self.updateName(name, forProject: project)
             } else {
                 self.addProject(name: name)
             }
-            self.editContext = nil
+            self.context = nil
         })
         let textField = Alert.TextField(placeholder: L10n.editProjectAlertPlaceholder, text: project?.name,
                                         handler: { text in
-            self.editContext?.value = text
+            self.context?.value = text
             if let isEmpty = text?.isEmpty {
                 self.alertController?.setIsButtonEnabled(!isEmpty, at: 1)
             }
@@ -99,7 +99,7 @@ final class ProjectsController: ProjectsControlling {
                           cancel: Alert.Action(title: L10n.editProjectAlertCancel, handler: nil),
                           actions: [action],
                           textField: textField)
-        editContext = ValueContext(value: project?.name)
+        context = EditContext(value: project?.name)
         alertController?.showAlert(alert)
         alertController?.setIsButtonEnabled(false, at: 1)
     }

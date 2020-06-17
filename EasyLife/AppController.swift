@@ -25,8 +25,7 @@ final class AppController: AppControlling {
 
     func applicationWillTerminate() {
         async({
-            let context = self.dataProvider.mainContext()
-            _ = try await(context.save())
+            _ = try await(self.dataProvider.mainContext().save())
         }, onError: { error in
             logError(error.localizedDescription)
         })

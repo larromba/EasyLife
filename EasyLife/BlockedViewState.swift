@@ -7,7 +7,6 @@ protocol BlockedByViewStating {
     var rowCount: Int { get }
     var rowHeight: CGFloat { get }
 
-    //func isBlocking(_ item: TodoItem) -> Bool
     func cellViewState(at indexPath: IndexPath) -> BlockedCellViewState?
 
     func copy(data: [BlockingContext<TodoItem>]) -> BlockedByViewState
@@ -28,10 +27,6 @@ struct BlockedByViewState: BlockedByViewStating {
     init(data: [BlockingContext<TodoItem>]) {
         self.data = data
     }
-
-//    func isBlocking(_ item: TodoItem) -> Bool {
-//        return data.first(where: { $0.object === item })?.isBlocking ?? false
-//    }
 
     func cellViewState(at indexPath: IndexPath) -> BlockedCellViewState? {
         let context = data[indexPath.row]

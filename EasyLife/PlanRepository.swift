@@ -5,7 +5,7 @@ import Result
 
 // sourcery: name = PlanRepository
 protocol PlanRepositoring: Mockable {
-    func newItemContext() -> PlanItemContext
+    func newItemContext() -> TodoItemContext
     func fetchMissedItems() -> Async<[TodoItem]>
     func fetchLaterItems() -> Async<[TodoItem]>
     func fetchTodayItems() -> Async<[TodoItem]>
@@ -41,7 +41,7 @@ final class PlanRepository: PlanRepositoring {
         self.dataProvider = dataProvider
     }
 
-    func newItemContext() -> PlanItemContext {
+    func newItemContext() -> TodoItemContext {
         let context = dataProvider.childContext(thread: .main)
         let item = context.insert(entityClass: TodoItem.self)
         return .new(item: item, context: context)
@@ -198,7 +198,6 @@ final class PlanRepository: PlanRepositoring {
         return item1.project!.priority < item2.project!.priority
     }
 
-    // TODO: test
     private func sortByBlocking(_ item1: TodoItem, _ item2: TodoItem) -> Bool {
         if item1.blockingState == .none && item2.blockingState != .none { return true }
         if item1.blockingState != .none && item2.blockingState == .none { return false }

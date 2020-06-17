@@ -11,7 +11,7 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
     private let itemDetailController: ItemDetailControlling
     private let blockedByController: BlockedByControlling
     private let navigationController: UINavigationController
-    private var context: PlanItemContext?
+    private var context: TodoItemContext?
     private var lastNavigationStack = [UIViewController]()
 
     init(navigationController: UINavigationController, planController: PlanControlling,
@@ -40,7 +40,7 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
 // MARK: - PlanControllerDelegate
 
 extension PlanCoordinator: PlanControllerDelegate {
-    func controller(_ controller: PlanControlling, handleContext context: PlanItemContext, sender: Segueable) {
+    func controller(_ controller: PlanControlling, handleContext context: TodoItemContext, sender: Segueable) {
         self.context = context
         sender.performSegue(withIdentifier: "openItemDetailViewController", sender: self)
     }
@@ -50,6 +50,7 @@ extension PlanCoordinator: PlanControllerDelegate {
 
 extension PlanCoordinator: ItemDetailControllerDelegate {
     func controllerFinished(_ controller: ItemDetailControlling) {
+        context = nil
         navigationController.popViewController(animated: true)
     }
 }

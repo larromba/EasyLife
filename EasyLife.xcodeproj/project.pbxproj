@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7F0D9248204619DF00D9AE6B /* BlockedIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F0D9247204619DF00D9AE6B /* BlockedIndicatorView.xib */; };
 		7F0D924A20461A1F00D9AE6B /* BlockedIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0D924920461A1F00D9AE6B /* BlockedIndicatorView.swift */; };
+		7F0E1497249A670D000B15CE /* MockError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0E1496249A670D000B15CE /* MockError.swift */; };
+		7F0E149B249A80A7000B15CE /* ItemDetailUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0E149A249A80A7000B15CE /* ItemDetailUpdate.swift */; };
 		7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */; };
 		7F102DE01F5ABF8F00E262B1 /* ProjectsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E791F59B52800C55AD2 /* ProjectsRepository.swift */; };
 		7F102DE11F5ABF9300E262B1 /* ProjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */; };
@@ -91,7 +93,8 @@
 		7F7514062492833C00FF6446 /* DataContextType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7514052492833C00FF6446 /* DataContextType.swift */; };
 		7F751408249291D300FF6446 /* DataSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F751407249291D300FF6446 /* DataSort.swift */; };
 		7F75140C2492C80100FF6446 /* DataContextProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F75140B2492C80100FF6446 /* DataContextProvider.swift */; };
-		7F75140E2492CB3500FF6446 /* PlanItemContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F75140D2492CB3500FF6446 /* PlanItemContext.swift */; };
+		7F7514102492DF0600FF6446 /* TodoItemContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F75140F2492DF0600FF6446 /* TodoItemContext.swift */; };
+		7F7514122492DF8900FF6446 /* TodoItemContexting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7514112492DF8900FF6446 /* TodoItemContexting.swift */; };
 		7F7540111F5AD1A900A0F06C /* Project.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F75400F1F5AD1A900A0F06C /* Project.storyboard */; };
 		7F7770C71EE827F000A58494 /* Archive.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F7770C91EE827F000A58494 /* Archive.storyboard */; };
 		7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */; };
@@ -134,7 +137,6 @@
 		7FC488D42041A3DD003F6F19 /* BlockedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D32041A3DD003F6F19 /* BlockedCell.swift */; };
 		7FC488D72041A763003F6F19 /* BlockedByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D62041A763003F6F19 /* BlockedByViewController.swift */; };
 		7FC73E7D1F5ABE6700A55703 /* EasyLife.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E7B1F5ABE6700A55703 /* EasyLife.xcdatamodeld */; };
-		7FCC1B8721F61FDE00DDD446 /* AssertionFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC1B8621F61FDE00DDD446 /* AssertionFailure.swift */; };
 		7FCC1B8F21F6237000DDD446 /* Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC1B8E21F6237000DDD446 /* Snapshots.swift */; };
 		7FCC1B9721F6238A00DDD446 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC1B9621F6238A00DDD446 /* SnapshotHelper.swift */; };
 		7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */; };
@@ -189,6 +191,8 @@
 /* Begin PBXFileReference section */
 		7F0D9247204619DF00D9AE6B /* BlockedIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockedIndicatorView.xib; sourceTree = "<group>"; };
 		7F0D924920461A1F00D9AE6B /* BlockedIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedIndicatorView.swift; sourceTree = "<group>"; };
+		7F0E1496249A670D000B15CE /* MockError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockError.swift; sourceTree = "<group>"; };
+		7F0E149A249A80A7000B15CE /* ItemDetailUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailUpdate.swift; sourceTree = "<group>"; };
 		7F102DE21F5AC11600E262B1 /* EasyLife.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = EasyLife.sqlite; sourceTree = "<group>"; };
 		7F102DE41F5AC22200E262B1 /* DataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTests.swift; sourceTree = "<group>"; };
 		7F102DE61F5AD08300E262B1 /* EasyLife 1.3.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EasyLife 1.3.0.sqlite"; sourceTree = "<group>"; };
@@ -275,7 +279,8 @@
 		7F7514052492833C00FF6446 /* DataContextType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataContextType.swift; sourceTree = "<group>"; };
 		7F751407249291D300FF6446 /* DataSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSort.swift; sourceTree = "<group>"; };
 		7F75140B2492C80100FF6446 /* DataContextProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataContextProvider.swift; sourceTree = "<group>"; };
-		7F75140D2492CB3500FF6446 /* PlanItemContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanItemContext.swift; sourceTree = "<group>"; };
+		7F75140F2492DF0600FF6446 /* TodoItemContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoItemContext.swift; sourceTree = "<group>"; };
+		7F7514112492DF8900FF6446 /* TodoItemContexting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemContexting.swift; sourceTree = "<group>"; };
 		7F7540101F5AD1A900A0F06C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Project.storyboard; sourceTree = "<group>"; };
 		7F7540131F5AD29C00A0F06C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Project.strings; sourceTree = "<group>"; };
 		7F7770C81EE827F000A58494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Archive.storyboard; sourceTree = "<group>"; };
@@ -328,7 +333,6 @@
 		7FC488D62041A763003F6F19 /* BlockedByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedByViewController.swift; sourceTree = "<group>"; };
 		7FC73E7C1F5ABE6700A55703 /* EasyLife.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyLife.xcdatamodel; sourceTree = "<group>"; };
 		7FC73E7E1F5ABE7A00A55703 /* EasyLife 1.3.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EasyLife 1.3.0.xcdatamodel"; sourceTree = "<group>"; };
-		7FCC1B8621F61FDE00DDD446 /* AssertionFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertionFailure.swift; sourceTree = "<group>"; };
 		7FCC1B8C21F6237000DDD446 /* EasyLifeSnapshot.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyLifeSnapshot.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FCC1B8E21F6237000DDD446 /* Snapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshots.swift; sourceTree = "<group>"; };
 		7FCC1B9021F6237000DDD446 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -626,10 +630,11 @@
 				7F429C9A21C55E4400195E32 /* Alert.swift */,
 				7F429CA021C6578D00195E32 /* Error.swift */,
 				7F3BD2D721D3BB670035F540 /* Context.swift */,
+				7F75140F2492DF0600FF6446 /* TodoItemContext.swift */,
 				7F429CA221C65EA700195E32 /* ThreadContext.swift */,
 				7F7514052492833C00FF6446 /* DataContextType.swift */,
 				7F751407249291D300FF6446 /* DataSort.swift */,
-				7F75140D2492CB3500FF6446 /* PlanItemContext.swift */,
+				7F0E149A249A80A7000B15CE /* ItemDetailUpdate.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -693,7 +698,6 @@
 				7F3BD2DF21D65E970035F540 /* RainbowAnimation.swift */,
 				7F3BD2EE21D6D6440035F540 /* Utility.swift */,
 				7FA1696521DE642300D8BA3F /* KeyboardNotification.swift */,
-				7FCC1B8621F61FDE00DDD446 /* AssertionFailure.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -709,6 +713,7 @@
 				7F3BD2EA21D6BF640035F540 /* Routing.swift */,
 				7F17F41E248F9D4400541282 /* CellIdentifiable.swift */,
 				7F17F420248F9F6800541282 /* NibNamable.swift */,
+				7F7514112492DF8900FF6446 /* TodoItemContexting.swift */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -741,6 +746,7 @@
 			isa = PBXGroup;
 			children = (
 				7FA1696721DE68DB00D8BA3F /* AppTestEnvironment.swift */,
+				7F0E1496249A670D000B15CE /* MockError.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -1012,6 +1018,7 @@
 				7FAC2C921E9E7EEA00F14ECB /* PlanCell.swift in Sources */,
 				7F3BD2CB21D2BA010035F540 /* ProjectCellViewState.swift in Sources */,
 				7FAC2C961E9EBF6400F14ECB /* ResponderSelection.swift in Sources */,
+				7F7514122492DF8900FF6446 /* TodoItemContexting.swift in Sources */,
 				7FAC2CB81E9FA8AE00F14ECB /* UITextFieldReadOnly.swift in Sources */,
 				7FAC2C5F1E9E673400F14ECB /* PlanViewController.swift in Sources */,
 				7FD2E4E41F8EB2EB00A57FB5 /* UIViewExtensions.swift in Sources */,
@@ -1024,16 +1031,15 @@
 				7F429C8921C41BFD00195E32 /* AppControllerFactory.swift in Sources */,
 				7F3BD2B921CFEC970035F540 /* ItemDetailAction.swift in Sources */,
 				7FAC2C821E9E692E00F14ECB /* ItemDetailViewController.swift in Sources */,
-				7F75140E2492CB3500FF6446 /* PlanItemContext.swift in Sources */,
 				7F163D311EDEE98D00DC52B6 /* BundleExtensions.swift in Sources */,
 				7F3BD2D821D3BB670035F540 /* Context.swift in Sources */,
 				7F429C7D21C3F8E700195E32 /* Mockable.swift in Sources */,
 				7F429C9121C539CD00195E32 /* ArchiveController.swift in Sources */,
+				7F7514102492DF0600FF6446 /* TodoItemContext.swift in Sources */,
 				7F3BD2DA21D3F27F0035F540 /* SimpleDatePickerViewState.swift in Sources */,
 				7F429C9321C53B7800195E32 /* LayoutConstraintCache.swift in Sources */,
 				7FC488D72041A763003F6F19 /* BlockedByViewController.swift in Sources */,
 				7F3BD2BF21D13D030035F540 /* BlockedByController.swift in Sources */,
-				7FCC1B8721F61FDE00DDD446 /* AssertionFailure.swift in Sources */,
 				7FE4488F2041F49900F2DE77 /* ItemDetailRepository.swift in Sources */,
 				7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */,
 				7F3BD2D121D2D82D0035F540 /* BlockedState.swift in Sources */,
@@ -1054,6 +1060,7 @@
 				7F429C8721C41B3500195E32 /* AppController.swift in Sources */,
 				7FAC2CA41E9ED1C800F14ECB /* FatalViewController.swift in Sources */,
 				7F3BD2C321D13D350035F540 /* BlockedRepository.swift in Sources */,
+				7F0E149B249A80A7000B15CE /* ItemDetailUpdate.swift in Sources */,
 				7F429C9F21C5B7D500195E32 /* ProjectsViewState.swift in Sources */,
 				7FAC2C9F1E9ECACB00F14ECB /* DateExtensions.swift in Sources */,
 				7F429C9921C55E0300195E32 /* AlertController.swift in Sources */,
@@ -1141,6 +1148,7 @@
 				7FA169B021E3D79700D8BA3F /* DateExtensions.swift in Sources */,
 				7FA1696821DE68DB00D8BA3F /* AppTestEnvironment.swift in Sources */,
 				7FCEC9281EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift in Sources */,
+				7F0E1497249A670D000B15CE /* MockError.swift in Sources */,
 				7F48FEE121F7D63200EACC03 /* UITextViewExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

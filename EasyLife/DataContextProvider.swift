@@ -31,8 +31,7 @@ final class DataContextProvider: DataContextProviding {
     private let persistentContainer: NSPersistentContainer
     private let notificationCenter: NotificationCenter
 
-    init(persistentContainer: NSPersistentContainer, isLoaded: Bool = false,
-         notificationCenter: NotificationCenter = .default) {
+    init(persistentContainer: NSPersistentContainer, notificationCenter: NotificationCenter = .default) {
         self.persistentContainer = persistentContainer
         self.notificationCenter = notificationCenter
     }

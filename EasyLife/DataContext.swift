@@ -5,6 +5,7 @@ import Logging
 import Result
 
 protocol DataContexting {
+    func object<T: NSManagedObject>(for object: T) -> T?
     func perform(_ block: @escaping () -> Void)
     func performAndWait(_ block: () -> Void)
     func insert<T: NSManagedObject>(entityClass: T.Type) -> T
@@ -25,6 +26,10 @@ final class DataContext: DataContexting {
     init(managedObjectContext: NSManagedObjectContext, notificationCenter: NotificationCenter) {
         self.managedObjectContext = managedObjectContext
         self.notificationCenter = notificationCenter
+    }
+
+    func object<T: NSManagedObject>(for object: T) -> T? {
+        return managedObjectContext.object(with: object.objectID) as? T
     }
 
     func perform(_ block: @escaping () -> Void) {

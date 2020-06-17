@@ -181,8 +181,8 @@ final class ProjectsTests: XCTestCase {
         // test
         waitAsync(delay: 0.5) { completion in
             async({
-                let items = try await(self.env.dataProvider.fetch(entityClass: Project.self, sortBy: nil,
-                                                                  context: .main, predicate: nil))
+                let context = self.env.dataProvider.mainContext()
+                let items = try await(context.fetch(entityClass: Project.self, sortBy: nil, predicate: nil))
                 XCTAssertEqual(items.count, 1)
                 completion()
             }, onError: { error in
@@ -397,8 +397,8 @@ final class ProjectsTests: XCTestCase {
         // test
         waitAsync(delay: 0.5) { completion in
             async({
-                let items = try await(self.env.dataProvider.fetch(entityClass: Project.self, sortBy: nil,
-                                                                  context: .main, predicate: nil))
+                let context = self.env.dataProvider.mainContext()
+                let items = try await(context.fetch(entityClass: Project.self, sortBy: nil, predicate: nil))
                 XCTAssertEqual(items.count, 0)
                 completion()
             }, onError: { error in
@@ -551,7 +551,7 @@ final class ProjectsTests: XCTestCase {
 
     func testErrorAlertShows() {
         // mocks
-        env.isLoaded = false
+        env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()
         env.addToWindow()
         env.projectsController.setViewController(viewController)

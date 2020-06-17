@@ -2,17 +2,16 @@ import AsyncAwait
 import Foundation
 
 // sourcery: name = BlockedByController
-protocol BlockedByControlling: Mockable {
+protocol BlockedByControlling: TodoItemContexting, Mockable {
     func setViewController(_ viewController: BlockedByViewControlling)
     func setAlertController(_ alertController: AlertControlling)
-    func setContext(_ context: PlanItemContext)
 }
 
 final class BlockedByController: BlockedByControlling {
     private weak var viewController: BlockedByViewControlling?
     private var alertController: AlertControlling?
     private let repository: BlockedByRepositoring
-    private var editContext: ObjectContext<TodoItem>?
+    private var context: EditContext<TodoItem>?
 
     init(repository: BlockedByRepositoring) {
         self.repository = repository
@@ -27,14 +26,16 @@ final class BlockedByController: BlockedByControlling {
         self.alertController = alertController
     }
 
-    func setContext(_ context: PlanItemContext) {
+    func setContext(_ context: TodoItemContext) {
+        let item: TodoItem
         switch context {
-        case .existing(let item):
-            editContext = ObjectContext(object: item)
-        case .new(let item, _):
-            editContext = ObjectContext(object: item)
+        case .existing(let value):
+            item = value
+        case let .new(value, context):
+            item = value
+            repository.setChildContext(context)
         }
-        guard let item = editContext?.object else { return }
+        self.context = EditContext(value: item)
         async({
             let items = try await(self.repository.fetchItems(for: item))
             onMain {
@@ -51,14 +52,8 @@ final class BlockedByController: BlockedByControlling {
 
 extension BlockedByController: BlockedByViewControllerDelegate {
     func viewControllerWillDismiss(_ viewController: BlockedByViewControlling) {
-        guard let item = editContext?.object, let viewState = viewController.viewState else { return }
-        viewState.data.forEach {
-            if $0.isBlocking {
-                item.addToBlockedBy($0.object)
-            } else {
-                item.removeFromBlockedBy($0.object)
-            }
-        }
+        guard let item = context?.value, let data = viewController.viewState?.data else { return }
+        repository.update(item, with: data)
     }
 
     func viewController(_ viewController: BlockedByViewControlling, didSelectRowAtIndexPath indexPath: IndexPath) {
