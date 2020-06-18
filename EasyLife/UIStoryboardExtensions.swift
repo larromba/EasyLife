@@ -5,6 +5,10 @@ extension UIStoryboard {
         return UIStoryboard(name: "Plan", bundle: nil)
     }
 
+    static var focus: UIStoryboard {
+        return UIStoryboard(name: "Focus", bundle: nil)
+    }
+
     static var archive: UIStoryboard {
         return UIStoryboard(name: "Archive", bundle: nil)
     }

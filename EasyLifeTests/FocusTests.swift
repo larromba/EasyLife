@@ -12,7 +12,7 @@ final class FocusTests: XCTestCase {
     override func setUp() {
         super.setUp()
         navigationController = UIStoryboard.plan.instantiateInitialViewController() as? UINavigationController
-        viewController = UIStoryboard.plan
+        viewController = UIStoryboard.focus
           .instantiateViewController(withIdentifier: "FocusViewController") as? FocusViewController
         viewController.prepareView()
         navigationController.pushViewController(viewController, animated: false)

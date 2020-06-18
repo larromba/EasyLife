@@ -10,7 +10,7 @@ protocol ItemDetailViewStating {
     var date: Date? { get set }
     var dateString: String? { get }
     var datePickerType: ItemDetailDatePickerType { get }
-    var repeatState: RepeatState? { get set }
+    var repeatState: RepeatState { get set }
     var project: Project? { get set }
     var leftButton: ItemDetailLeftButton { get }
     var rightButton: ItemDetailRightButton { get }
@@ -55,7 +55,7 @@ struct ItemDetailViewState: ItemDetailViewStating {
     var datePickerType: ItemDetailDatePickerType {
         return date == nil ? .simple : .normal
     }
-    var repeatState: RepeatState?
+    var repeatState: RepeatState
     var project: Project?
     let leftButton: ItemDetailLeftButton
     let rightButton: ItemDetailRightButton

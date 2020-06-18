@@ -43,6 +43,10 @@ final class FocusController: FocusControlling {
         async({
             let items = try await(self.repository.fetchTodayItems())
             onMain {
+                guard !items.isEmpty else {
+                    self.delegate?.controllerFinished(self)
+                    return
+                }
                 self.viewController?.viewState = FocusViewState(items: items)
             }
         }, onError: { error in
@@ -60,12 +64,11 @@ extension FocusController: FocusViewControllerDelegate {
         }
     }
 
-    func viewController(_ viewController: FocusViewControlling, performAction action: PlanItemAction,
+    func viewController(_ viewController: FocusViewControlling, performAction action: FocusItemAction,
                         onItem item: TodoItem, at indexPath: IndexPath) {
         async({
             switch action {
             case .done: _ = try await(self.repository.done(item: item))
-            default: assertionFailure("unexpected switch state")
             }
             self.reload()
         }, onError: { error in

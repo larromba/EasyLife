@@ -12,10 +12,10 @@ protocol FocusViewStating {
     func item(at indexPath: IndexPath) -> TodoItem?
     func cellViewState(at indexPath: IndexPath) -> PlanCellViewStating?
     func name(at indexPath: IndexPath) -> String?
-    func availableActions(at indexPath: IndexPath) -> [PlanItemAction]
-    func color(for action: PlanItemAction) -> UIColor
-    func text(for action: PlanItemAction) -> String
-    func style(for action: PlanItemAction) -> UITableViewRowAction.Style
+    func availableActions(at indexPath: IndexPath) -> [FocusItemAction]
+    func color(for action: FocusItemAction) -> UIColor
+    func text(for action: FocusItemAction) -> String
+    func style(for action: FocusItemAction) -> UITableViewRowAction.Style
 }
 
 struct FocusViewState: FocusViewStating {
@@ -55,39 +55,30 @@ struct FocusViewState: FocusViewStating {
         return nil
     }
 
-    func availableActions(at indexPath: IndexPath) -> [PlanItemAction] {
+    func availableActions(at indexPath: IndexPath) -> [FocusItemAction] {
         guard let item = items.first else { return [] }
-        var actions = [PlanItemAction]()
+        var actions = [FocusItemAction]()
         if (item.blockedBy?.count ?? 0) == 0 {
             actions += [.done]
         }
         return actions
     }
 
-    func color(for action: PlanItemAction) -> UIColor {
+    func color(for action: FocusItemAction) -> UIColor {
         switch action {
-        case .delete: return Asset.Colors.red.color
         case .done: return Asset.Colors.green.color
-        case .later: return Asset.Colors.grey.color
-        case .split: return Asset.Colors.grey.color
         }
     }
 
-    func text(for action: PlanItemAction) -> String {
+    func text(for action: FocusItemAction) -> String {
         switch action {
-        case .delete: return  L10n.todoItemOptionDelete
         case .done: return L10n.todoItemOptionDone
-        case .later: return L10n.todoItemOptionLater
-        case .split: return L10n.todoItemOptionSplit
         }
     }
 
-    func style(for action: PlanItemAction) -> UITableViewRowAction.Style {
+    func style(for action: FocusItemAction) -> UITableViewRowAction.Style {
         switch action {
-        case .delete: return  .destructive
         case .done: return .normal
-        case .later: return .normal
-        case .split: return .normal
         }
     }
 }

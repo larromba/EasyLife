@@ -144,7 +144,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         titleTextField.text = viewState.name
         textView.text = viewState.notes
         dateTextField.text = viewState.dateString
-        repeatsTextField.text = viewState.repeatState?.stringValue()
+        repeatsTextField.text = viewState.repeatState.stringValue()
         projectTextField.text = viewState.project?.name
         projectTextField.isUserInteractionEnabled = viewState.isProjectTextFieldEnabled
         projectTextField.alpha = viewState.projectTextFieldAlpha
@@ -289,7 +289,7 @@ extension ItemDetailViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case repeatPicker:
-            viewState?.repeatState = viewState?.repeatStatePickerComponent(at: row).object
+            viewState?.repeatState = viewState?.repeatStatePickerComponent(at: row).object ?? .default
         case projectPicker:
             viewState?.project = viewState?.projectPickerComponent(at: row).object
         default:
@@ -355,7 +355,8 @@ extension ItemDetailViewController: UITextFieldDelegate {
                 assertionFailure("unhandled date picker")
             }
         case repeatsTextField:
-            repeatPicker.selectRow(viewState?.repeatState?.rawValue ?? 0, inComponent: 0, animated: true)
+            guard let row = viewState?.repeatState.rawValue else { return }
+            repeatPicker.selectRow(row, inComponent: 0, animated: true)
         default:
             break
         }
@@ -364,7 +365,7 @@ extension ItemDetailViewController: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         switch textField {
         case dateTextField: viewState?.date = nil
-        case repeatsTextField: viewState?.repeatState = nil
+        case repeatsTextField: viewState?.repeatState = .default
         case projectTextField: viewState?.project = nil
         default: break
         }

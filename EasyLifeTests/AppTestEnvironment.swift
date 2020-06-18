@@ -109,7 +109,7 @@ final class AppTestEnvironment: TestEnvironment {
         window.makeKeyAndVisible()
     }
 
-    func todoItem(type: TodoItemType, name: String? = nil, repeatState: RepeatState? = nil,
+    func todoItem(type: TodoItemType, name: String? = nil, repeatState: RepeatState = .default,
                   notes: String? = nil, project: Project? = nil, isTransient: Bool = false,
                   isDone: Bool = false, blockedBy: [TodoItem]? = nil) -> TodoItem {
         let context = isTransient ? childContext! : dataProvider.mainContext()

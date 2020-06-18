@@ -110,7 +110,7 @@ final class PlanRepository: PlanRepositoring {
             async({
                 let context = self.dataProvider.mainContext()
                 context.performAndWait {
-                    switch item.repeatState! {
+                    switch item.repeatState {
                     case .none:
                         item.date = nil
                     default:
@@ -130,7 +130,7 @@ final class PlanRepository: PlanRepositoring {
             async({
                 let context = self.dataProvider.mainContext()
                 context.performAndWait {
-                    switch item.repeatState! {
+                    switch item.repeatState {
                     case .none:
                         item.done = true
                     default:

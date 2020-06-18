@@ -144,7 +144,7 @@ struct PlanCellViewState: PlanCellViewStating {
     private static func iconType(for item: TodoItem) -> IconType {
         if item.date == nil {
             return .noDate
-        } else if let repeatState = item.repeatState, repeatState != .none {
+        } else if item.repeatState != .none {
             return .recurring
         } else {
             return .none

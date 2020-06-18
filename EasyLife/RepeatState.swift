@@ -13,6 +13,10 @@ enum RepeatState: Int, DisplayEnum {
     case bimonthly
     // WARNING: please add new elements here (bottom of list). edit 'display' for ordering
 
+    static var `default`: RepeatState {
+        return .none
+    }
+
     static var display: [RepeatState] {
         return [
             .none,

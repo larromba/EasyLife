@@ -16,7 +16,6 @@ protocol ProjectsViewStating {
     func project(at indexPath: IndexPath) -> Project?
     func cellViewState(at indexPath: IndexPath) -> ProjectCellViewStating?
     func items(for section: ProjectSection) -> [Project]?
-    func name(at indexPath: IndexPath) -> String?
     func canMoveRow(at indexPath: IndexPath) -> Bool
     func availableActions(at indexPath: IndexPath) -> [ProjectItemAction]
     func color(for action: ProjectItemAction) -> UIColor
@@ -89,13 +88,6 @@ struct ProjectsViewState: ProjectsViewStating {
     func items(for section: ProjectSection) -> [Project]? {
         let section = sections[section]
         return section
-    }
-
-    func name(at indexPath: IndexPath) -> String? {
-        guard let project = project(at: indexPath) else {
-            return nil
-        }
-        return project.name
     }
 
     func canMoveRow(at indexPath: IndexPath) -> Bool {

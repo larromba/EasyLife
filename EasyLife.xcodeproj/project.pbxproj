@@ -134,6 +134,7 @@
 		7FBA02891EE1E50800C3103A /* ArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA02881EE1E50800C3103A /* ArchiveViewController.swift */; };
 		7FBA028B1EE1E60D00C3103A /* ArchiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA028A1EE1E60D00C3103A /* ArchiveCell.swift */; };
 		7FBA028D1EE1E85800C3103A /* ArchiveRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA028C1EE1E85800C3103A /* ArchiveRepository.swift */; };
+		7FBB17CC249B64F700E350E1 /* FocusItemAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBB17CB249B64F700E350E1 /* FocusItemAction.swift */; };
 		7FC488D42041A3DD003F6F19 /* BlockedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D32041A3DD003F6F19 /* BlockedCell.swift */; };
 		7FC488D72041A763003F6F19 /* BlockedByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D62041A763003F6F19 /* BlockedByViewController.swift */; };
 		7FC73E7D1F5ABE6700A55703 /* EasyLife.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E7B1F5ABE6700A55703 /* EasyLife.xcdatamodeld */; };
@@ -328,6 +329,7 @@
 		7FBA02881EE1E50800C3103A /* ArchiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchiveViewController.swift; sourceTree = "<group>"; };
 		7FBA028A1EE1E60D00C3103A /* ArchiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchiveCell.swift; sourceTree = "<group>"; };
 		7FBA028C1EE1E85800C3103A /* ArchiveRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchiveRepository.swift; sourceTree = "<group>"; };
+		7FBB17CB249B64F700E350E1 /* FocusItemAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusItemAction.swift; sourceTree = "<group>"; };
 		7FC488D32041A3DD003F6F19 /* BlockedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedCell.swift; sourceTree = "<group>"; };
 		7FC488D52041A50C003F6F19 /* EasyLife 1.5.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EasyLife 1.5.0.xcdatamodel"; sourceTree = "<group>"; };
 		7FC488D62041A763003F6F19 /* BlockedByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedByViewController.swift; sourceTree = "<group>"; };
@@ -617,6 +619,7 @@
 				7F429C8021C4041B00195E32 /* PlanItemAction.swift */,
 				7F3B8B70246EE9EF00B45038 /* FocusSection.swift */,
 				7F3B8B72246EEB2B00B45038 /* FocusAction.swift */,
+				7FBB17CB249B64F700E350E1 /* FocusItemAction.swift */,
 				7F3BD2BA21D016FA0035F540 /* ItemDetailComponent.swift */,
 				7F3BD2B821CFEC970035F540 /* ItemDetailAction.swift */,
 				7F3BD2D021D2D82D0035F540 /* BlockedState.swift */,
@@ -1071,6 +1074,7 @@
 				7F3BD2C521D14A010035F540 /* PlanAction.swift in Sources */,
 				7F3BD2D521D389330035F540 /* Segueable.swift in Sources */,
 				7F429CA121C6578D00195E32 /* Error.swift in Sources */,
+				7FBB17CC249B64F700E350E1 /* FocusItemAction.swift in Sources */,
 				7F3B8B75246EEB5000B45038 /* FocusController.swift in Sources */,
 				7F429C7721C3D99E00195E32 /* strings.swift in Sources */,
 				7F3BD2B521CFE9BE0035F540 /* ItemDetailController.swift in Sources */,

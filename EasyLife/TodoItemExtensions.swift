@@ -2,19 +2,18 @@ import CoreData
 import Foundation
 
 extension TodoItem {
-    var repeatState: RepeatState? {
+    var repeatState: RepeatState {
         get {
-            return RepeatState(rawValue: Int(repeats))
+            return RepeatState(rawValue: Int(repeats)) ?? .default
         }
         set {
-            repeats = Int16(newValue?.rawValue ?? 0)
+            repeats = Int16(newValue.rawValue)
         }
     }
 
     func incrementDate() {
         guard
             let oldDate = date,
-            let repeatState = repeatState,
             let incrementedDate = repeatState.increment(date: oldDate) else {
                 return
         }

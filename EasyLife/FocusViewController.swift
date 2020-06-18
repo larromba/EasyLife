@@ -9,7 +9,7 @@ protocol FocusViewControlling: Presentable, Mockable {
 
 protocol FocusViewControllerDelegate: AnyObject {
     func viewController(_ viewController: FocusViewControlling, performAction action: FocusAction)
-    func viewController(_ viewController: FocusViewControlling, performAction action: PlanItemAction,
+    func viewController(_ viewController: FocusViewControlling, performAction action: FocusItemAction,
                         onItem item: TodoItem, at indexPath: IndexPath)
 }
 
