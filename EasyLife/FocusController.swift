@@ -41,14 +41,42 @@ final class FocusController: FocusControlling {
 
     private func reload() {
         async({
-            let items = try await(self.repository.fetchTodayItems())
-            onMain {
-                guard !items.isEmpty else {
-                    self.delegate?.controllerFinished(self)
-                    return
-                }
-                self.viewController?.viewState = FocusViewState(items: items)
+            let missingItems = try await(self.repository.fetchMissingFocusItems())
+            guard missingItems.isEmpty else {
+                onMain { self.showUnfocusableAlert() }
+                return
             }
+            let items = try await(self.repository.fetchTodayItems())
+            guard !items.isEmpty else {
+                onMain { self.delegate?.controllerFinished(self) }
+                return
+            }
+            onMain { self.viewController?.viewState = FocusViewState(items: items) }
+        }, onError: { error in
+            onMain { self.alertController?.showAlert(Alert(error: error)) }
+        })
+    }
+
+    private func showUnfocusableAlert() {
+        let noAction = Alert.Action(title: L10n.unfocusableAlertNo, handler: {
+            self.delegate?.controllerFinished(self)
+        })
+        let yesAction = Alert.Action(title: L10n.unfocusableAlertYes, handler: {
+            self.moveMissingItems()
+        })
+        let alert = Alert(title: L10n.unfocusableAlertTitle,
+                          message: L10n.unfocusableAlertMessage,
+                          cancel: noAction,
+                          actions: [yesAction],
+                          textField: nil)
+        alertController?.showAlert(alert)
+    }
+
+    private func moveMissingItems() {
+        async({
+            let missingItems = try await(self.repository.fetchMissingFocusItems())
+            try missingItems.forEach { try await(self.repository.today(item: $0)) }
+            self.reload()
         }, onError: { error in
             onMain { self.alertController?.showAlert(Alert(error: error)) }
         })

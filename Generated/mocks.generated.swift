@@ -1360,18 +1360,48 @@ class MockPlanRepository: NSObject, PlanRepositoring {
         case name = "fetchTodayItems4"
     }
 
-    // MARK: - delete
+    // MARK: - fetchMissingFocusItems
 
-    func delete(item: TodoItem) -> Async<Void> {
-        let functionName = delete5.name
+    func fetchMissingFocusItems() -> Async<[TodoItem]> {
+        let functionName = fetchMissingFocusItems5.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: delete5.params.item)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<[TodoItem]>
+    }
+
+    enum fetchMissingFocusItems5: String, _StringRawRepresentable {
+        case name = "fetchMissingFocusItems5"
+    }
+
+    // MARK: - today
+
+    func today(item: TodoItem) -> Async<Void> {
+        let functionName = today6.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: item, forKey: today6.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
-    enum delete5: String, _StringRawRepresentable {
-        case name = "delete5"
+    enum today6: String, _StringRawRepresentable {
+        case name = "today6"
+        enum params: String, _StringRawRepresentable {
+            case item = "today(item:TodoItem).item"
+        }
+    }
+
+    // MARK: - delete
+
+    func delete(item: TodoItem) -> Async<Void> {
+        let functionName = delete7.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: item, forKey: delete7.params.item)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Void>
+    }
+
+    enum delete7: String, _StringRawRepresentable {
+        case name = "delete7"
         enum params: String, _StringRawRepresentable {
             case item = "delete(item:TodoItem).item"
         }
@@ -1380,15 +1410,15 @@ class MockPlanRepository: NSObject, PlanRepositoring {
     // MARK: - later
 
     func later(item: TodoItem) -> Async<Void> {
-        let functionName = later6.name
+        let functionName = later8.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: later6.params.item)
+        invocation.set(parameter: item, forKey: later8.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
-    enum later6: String, _StringRawRepresentable {
-        case name = "later6"
+    enum later8: String, _StringRawRepresentable {
+        case name = "later8"
         enum params: String, _StringRawRepresentable {
             case item = "later(item:TodoItem).item"
         }
@@ -1397,15 +1427,15 @@ class MockPlanRepository: NSObject, PlanRepositoring {
     // MARK: - done
 
     func done(item: TodoItem) -> Async<Void> {
-        let functionName = done7.name
+        let functionName = done9.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: done7.params.item)
+        invocation.set(parameter: item, forKey: done9.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
-    enum done7: String, _StringRawRepresentable {
-        case name = "done7"
+    enum done9: String, _StringRawRepresentable {
+        case name = "done9"
         enum params: String, _StringRawRepresentable {
             case item = "done(item:TodoItem).item"
         }
@@ -1414,15 +1444,15 @@ class MockPlanRepository: NSObject, PlanRepositoring {
     // MARK: - split
 
     func split(item: TodoItem) -> Async<Void> {
-        let functionName = split8.name
+        let functionName = split10.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: split8.params.item)
+        invocation.set(parameter: item, forKey: split10.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
-    enum split8: String, _StringRawRepresentable {
-        case name = "split8"
+    enum split10: String, _StringRawRepresentable {
+        case name = "split10"
         enum params: String, _StringRawRepresentable {
             case item = "split(item:TodoItem).item"
         }

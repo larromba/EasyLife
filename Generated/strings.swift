@@ -63,8 +63,6 @@ internal enum L10n {
   internal static func errorLoadingDataMessage(_ p1: String) -> String {
     return L10n.tr("Localizable", "error loading data message", p1)
   }
-  /// Focus
-  internal static let focus = L10n.tr("Localizable", "Focus")
   /// Later...
   internal static let laterSection = L10n.tr("Localizable", "later section")
   /// Missed...
@@ -73,8 +71,6 @@ internal enum L10n {
   internal static let newProjectAlertTitle = L10n.tr("Localizable", "new project alert title")
   /// no date
   internal static let noDate = L10n.tr("Localizable", "no date")
-  /// Other
-  internal static let other = L10n.tr("Localizable", "Other")
   /// Deprioritize
   internal static let projectOptionDeprioritize = L10n.tr("Localizable", "project option deprioritize")
   /// Prioritize
@@ -113,6 +109,14 @@ internal enum L10n {
   internal static let todoItemOptionLater = L10n.tr("Localizable", "todo item option later")
   /// Split
   internal static let todoItemOptionSplit = L10n.tr("Localizable", "todo item option split")
+  /// There are items in the today section blocked by items in other sections. To use focus mode, you'll need to consolidate these items into the today section. Would you like to do this now?
+  internal static let unfocusableAlertMessage = L10n.tr("Localizable", "unfocusable alert message")
+  /// No
+  internal static let unfocusableAlertNo = L10n.tr("Localizable", "unfocusable alert no")
+  /// Missing Items
+  internal static let unfocusableAlertTitle = L10n.tr("Localizable", "unfocusable alert title")
+  /// Yes
+  internal static let unfocusableAlertYes = L10n.tr("Localizable", "unfocusable alert yes")
   /// Do you want to save your changes?
   internal static let unsavedChangesMessage = L10n.tr("Localizable", "unsaved changes message")
   /// No
