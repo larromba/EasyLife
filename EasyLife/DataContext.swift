@@ -172,3 +172,12 @@ final class DataContext: DataContexting {
         return name
     }
 }
+
+// MARK: - Equatable
+
+extension DataContext: Equatable {
+    static func == (lhs: DataContext, rhs: DataContext) -> Bool {
+        return (lhs.managedObjectContext == rhs.managedObjectContext
+             && lhs.notificationCenter == rhs.notificationCenter)
+    }
+}

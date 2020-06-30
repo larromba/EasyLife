@@ -513,7 +513,7 @@ final class PlanTests: XCTestCase {
         waitAsync(delay: 0.5, queue: .asyncAwait) { completion in
             let context = self.env.dataProvider.mainContext()
             let items = try? await(context.fetch(entityClass: TodoItem.self, sortBy: nil, predicate: nil))
-            XCTAssertNotNil(items?.first(where: { $0.date == date && $0.repeatState == RepeatState.none }))
+            XCTAssertNotNil(items?.first(where: { $0.date == date && $0.repeatState == .default }))
             XCTAssertNotNil(items?.first(where: { ($0.date ?? date) > date
                 && $0.repeatState == .daily && ($0.blockedBy?.count ?? 0) == 0 }))
             completion()
@@ -805,7 +805,7 @@ private extension PlanViewController {
     }
 
     func actions(row: Int, section: PlanSection) -> [UITableViewRowAction]? {
-        let indexPath = IndexPath(row: 0, section: section.rawValue)
+        let indexPath = IndexPath(row: row, section: section.rawValue)
         return tableView(tableView, editActionsForRowAt: indexPath)
     }
 }

@@ -105,7 +105,7 @@ extension PlanController: PlanViewControllerDelegate {
     }
 
     func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem) {
-        delegate?.controller(self, handleContext: .existing(item: item), sender: viewController)
+        delegate?.controller(self, handleContext: repository.existingItemContext(item: item), sender: viewController)
     }
 
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,

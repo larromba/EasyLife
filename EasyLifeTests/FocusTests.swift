@@ -28,27 +28,60 @@ final class FocusTests: XCTestCase {
         super.tearDown()
     }
 
-    func test_item_whenAppears_expectUIConfiguration() {
-        XCTFail("todo")
-    }
-
     func test_item_whenOpened_expectDoneAction() {
-        XCTFail("todo")
+        // mocks
+        env.inject()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+
+        // test
+        waitSync()
+        guard let actions = viewController.actions(row: 0) else { return XCTFail("expected actions") }
+        XCTAssertEqual(actions.count, 1)
+        XCTAssertEqual(actions.filter { $0.isDone }.count, 1)
     }
 
-    func test_item_whenDone_expectNextItem() {
-        XCTFail("todo")
+    func test_item_whenDone_expectIsDoneAndShownNextItem() {
+        // mocks
+        env.inject()
+        let firstItem = env.todoItem(type: .today, name: "a")
+        _ = env.todoItem(type: .today, name: "b")
+        env.focusController.setViewController(viewController)
+
+        // sut
+        waitSync()
+        guard let action = viewController.actions(row: 0)?.first else { return XCTFail("expected actions") }
+        XCTAssertTrue(action.fire())
+
+        // test
+        waitSync()
+        XCTAssertEqual(viewController.rows(), 1)
+        XCTAssertTrue(firstItem.done)
     }
 
-    func test_lastItem_whenDone_expectHidesView() {
-        XCTFail("todo")
+    func test_lastItem_whenDone_expectIsDoneAndHidesView() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .today, name: "a")
+        let presenter = addToPresenter()
+        env.focusController.setViewController(viewController)
+
+        // sut
+        waitSync()
+        guard let action = viewController.actions(row: 0)?.first else { return XCTFail("expected actions") }
+        XCTAssertTrue(action.fire())
+
+        // test
+        waitSync()
+        XCTAssertTrue(item.done)
+        XCTAssertNil(presenter.presentingViewController)
     }
 
     func test_focusButton_whenTodayItemsCantBeCompleted_expectAlertDisplayed() {
         // mocks
         env.inject()
         env.addToWindow()
-        setupMissedState()
+        setupMissingItems()
         env.focusController.setAlertController(alertController)
         env.focusController.setViewController(viewController)
 
@@ -60,7 +93,7 @@ final class FocusTests: XCTestCase {
     func test_missingItemsAlert_whenNoPressed_expectViewDismissed() {
         // mocks
         env.inject()
-        setupMissedState()
+        setupMissingItems()
         let presenter = addToPresenter()
         env.focusController.setAlertController(alertController)
         env.focusController.setViewController(viewController)
@@ -81,7 +114,7 @@ final class FocusTests: XCTestCase {
     func test_missingItemsAlert_whenYesPressed_expectMovesMissingItems() {
         // mocks
         env.inject()
-        setupMissedState()
+        setupMissingItems()
         _ = addToPresenter()
         env.focusController.setAlertController(alertController)
         env.focusController.setViewController(viewController)
@@ -102,13 +135,14 @@ final class FocusTests: XCTestCase {
                 completion()
             }, onError: { error in
                 XCTFail(error.localizedDescription)
+                completion()
             })
         }
     }
 
     // MARK: - private
 
-    private func setupMissedState() {
+    private func setupMissingItems() {
         let laterItem = env.todoItem(type: .later)
         _ = env.todoItem(type: .today, blockedBy: [laterItem])
         _ = env.todoItem(type: .today)
@@ -120,5 +154,29 @@ final class FocusTests: XCTestCase {
         env.window.makeKeyAndVisible()
         presenter.present(navigationController, animated: false, completion: nil)
         return presenter
+    }
+}
+
+// MARK: - UITableViewRowAction
+
+private extension UITableViewRowAction {
+    var isDone: Bool { return title == "Done" && backgroundColor == Asset.Colors.green.color }
+}
+
+// MARK: - FocusViewController
+
+private extension FocusViewController {
+    func rows() -> Int {
+        return tableView(tableView, numberOfRowsInSection: 0)
+    }
+
+    func cell(row: Int) -> PlanCell? {
+        let indexPath = IndexPath(row: row, section: 0)
+        return tableView.cellForRow(at: indexPath) as? PlanCell
+    }
+
+    func actions(row: Int) -> [UITableViewRowAction]? {
+        let indexPath = IndexPath(row: row, section: 0)
+        return tableView(tableView, editActionsForRowAt: indexPath)
     }
 }

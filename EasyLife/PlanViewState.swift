@@ -146,11 +146,11 @@ struct PlanViewState: PlanViewStating {
 
         switch section {
         case .missed:
-            if item.repeatState != RepeatState.none {
+            if item.repeatState != .default {
                 actions += [.split]
             }
         case .today:
-            if item.repeatState == RepeatState.none {
+            if item.repeatState == .default {
                 actions += [.later]
             } else {
                 actions += [.later, .split]

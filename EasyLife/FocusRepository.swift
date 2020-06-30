@@ -1,0 +1,77 @@
+import AsyncAwait
+import Foundation
+
+// sourcery: name = FocusRepository
+protocol FocusRepositoring: Mockable {
+    func fetchItems() -> Async<[TodoItem]>
+    func fetchMissingItems() -> Async<[TodoItem]>
+    func isDoable() -> Async<Bool>
+    func today(item: TodoItem) -> Async<Void>
+    func done(item: TodoItem) -> Async<Void>
+}
+
+final class FocusRepository: FocusRepositoring {
+    private let dataProvider: DataContextProviding
+    private let planRepository: PlanRepositoring
+
+    init(dataProvider: DataContextProviding, planRepository: PlanRepositoring) {
+        self.dataProvider = dataProvider
+        self.planRepository = planRepository
+    }
+
+    func fetchItems() -> Async<[TodoItem]> {
+        return planRepository.fetchTodayItems()
+    }
+
+    func fetchMissingItems() -> Async<[TodoItem]> {
+        return Async { completion in
+            async({
+                let context = self.dataProvider.mainContext()
+                let items = try await(self.planRepository.fetchTodayItems())
+                var missingItems: [TodoItem]!
+                context.performAndWait {
+                    let blockedByItems = Set(items.compactMap { $0.blockedBy as? Set<TodoItem> }.reduce([], +))
+                    missingItems = Array(blockedByItems.subtracting(items))
+                }
+                completion(.success(missingItems))
+            }, onError: { error in
+                completion(.failure(error))
+            })
+        }
+    }
+
+    func isDoable() -> Async<Bool> {
+        return Async { completion in
+            async({
+                let context = self.dataProvider.mainContext()
+                let items = try await(self.planRepository.fetchTodayItems())
+                var isDoable: Bool!
+                context.performAndWait {
+                    isDoable = (items.first?.blockedBy?.count ?? 0 == 0)
+                }
+                completion(.success(isDoable))
+            }, onError: { error in
+                completion(.failure(error))
+            })
+        }
+    }
+
+    func today(item: TodoItem) -> Async<Void> {
+        return Async { completion in
+            async({
+                let context = self.dataProvider.mainContext()
+                context.performAndWait {
+                    item.date = Date()
+                }
+                _ = try await(context.save())
+                completion(.success(()))
+            }, onError: { error in
+                completion(.failure(error))
+            })
+        }
+    }
+
+    func done(item: TodoItem) -> Async<Void> {
+        return planRepository.done(item: item)
+    }
+}

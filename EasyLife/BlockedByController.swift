@@ -29,11 +29,12 @@ final class BlockedByController: BlockedByControlling {
     func setContext(_ context: TodoItemContext) {
         let item: TodoItem
         switch context {
-        case .existing(let value):
-            item = value
         case let .new(value, context):
             item = value
-            repository.setChildContext(context)
+            repository.setContext(context)
+        case let .existing(value, context):
+            item = value
+            repository.setContext(context)
         }
         self.context = EditContext(value: item)
         async({

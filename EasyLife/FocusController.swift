@@ -14,12 +14,12 @@ protocol FocusControllerDelegate: AnyObject {
 }
 
 final class FocusController: FocusControlling {
-    private let repository: PlanRepositoring
+    private let repository: FocusRepositoring
     private weak var viewController: FocusViewControlling?
     private var alertController: AlertControlling?
     private weak var delegate: FocusControllerDelegate?
 
-    init(repository: PlanRepositoring) {
+    init(repository: FocusRepositoring) {
         self.repository = repository
     }
 
@@ -41,12 +41,25 @@ final class FocusController: FocusControlling {
 
     private func reload() {
         async({
-            let missingItems = try await(self.repository.fetchMissingFocusItems())
+            // focuses items in the today section only
+            // these items must not be blocked by items in other sections
+            // if so, show an alert
+            let missingItems = try await(self.repository.fetchMissingItems())
             guard missingItems.isEmpty else {
                 onMain { self.showUnfocusableAlert() }
                 return
             }
-            let items = try await(self.repository.fetchTodayItems())
+            // ensure first item can be done, else it's recursively blocked.
+            // blocking items are prioritized, so nothing can be done if:
+            // a blocks b
+            // b blocks c
+            // c blocks a
+            guard try await(self.repository.isDoable()) else {
+                onMain { self.showRecursivelyBlockedAlert() }
+                return
+            }
+            // items are presented one at a time, so if no more items, finish
+            let items = try await(self.repository.fetchItems())
             guard !items.isEmpty else {
                 onMain { self.delegate?.controllerFinished(self) }
                 return
@@ -58,23 +71,35 @@ final class FocusController: FocusControlling {
     }
 
     private func showUnfocusableAlert() {
-        let noAction = Alert.Action(title: L10n.unfocusableAlertNo, handler: {
+        let cancelAction = Alert.Action(title: L10n.unfocusableAlertNo, handler: {
             self.delegate?.controllerFinished(self)
         })
-        let yesAction = Alert.Action(title: L10n.unfocusableAlertYes, handler: {
+        let confirmAction = Alert.Action(title: L10n.unfocusableAlertYes, handler: {
             self.moveMissingItems()
         })
         let alert = Alert(title: L10n.unfocusableAlertTitle,
                           message: L10n.unfocusableAlertMessage,
-                          cancel: noAction,
-                          actions: [yesAction],
+                          cancel: cancelAction,
+                          actions: [confirmAction],
+                          textField: nil)
+        alertController?.showAlert(alert)
+    }
+
+    private func showRecursivelyBlockedAlert() {
+        let cancelAction = Alert.Action(title: L10n.recursivelyBlockedAlertOk, handler: {
+            self.delegate?.controllerFinished(self)
+        })
+        let alert = Alert(title: L10n.recursivelyBlockedAlertTitle,
+                          message: L10n.recursivelyBlockedAlertMessage,
+                          cancel: cancelAction,
+                          actions: [],
                           textField: nil)
         alertController?.showAlert(alert)
     }
 
     private func moveMissingItems() {
         async({
-            let missingItems = try await(self.repository.fetchMissingFocusItems())
+            let missingItems = try await(self.repository.fetchMissingItems())
             try missingItems.forEach { try await(self.repository.today(item: $0)) }
             self.reload()
         }, onError: { error in

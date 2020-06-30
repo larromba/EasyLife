@@ -6,11 +6,10 @@ import Result
 // sourcery: name = PlanRepository
 protocol PlanRepositoring: Mockable {
     func newItemContext() -> TodoItemContext
+    func existingItemContext(item: TodoItem) -> TodoItemContext
     func fetchMissedItems() -> Async<[TodoItem]>
     func fetchLaterItems() -> Async<[TodoItem]>
     func fetchTodayItems() -> Async<[TodoItem]>
-    func fetchMissingFocusItems() -> Async<[TodoItem]>
-    func today(item: TodoItem) -> Async<Void>
     func delete(item: TodoItem) -> Async<Void>
     func later(item: TodoItem) -> Async<Void>
     func done(item: TodoItem) -> Async<Void>
@@ -47,6 +46,11 @@ final class PlanRepository: PlanRepositoring {
         let context = dataProvider.childContext(thread: .main)
         let item = context.insert(entityClass: TodoItem.self)
         return .new(item: item, context: context)
+    }
+
+    func existingItemContext(item: TodoItem) -> TodoItemContext {
+        let context = dataProvider.mainContext()
+        return .existing(item: item, context: context)
     }
 
     func fetchMissedItems() -> Async<[TodoItem]> {
@@ -88,38 +92,6 @@ final class PlanRepository: PlanRepositoring {
                     sortBy: DataSort(sortFunction: self.sortByPriority),
                     predicate: self.todayPredicate))
                 completion(.success(items))
-            }, onError: { error in
-                completion(.failure(error))
-            })
-        }
-    }
-
-    func fetchMissingFocusItems() -> Async<[TodoItem]> {
-        return Async { completion in
-            async({
-                let context = self.dataProvider.mainContext()
-                let items = try await(self.fetchTodayItems())
-                var missingItems: [TodoItem]!
-                context.performAndWait {
-                    let blockedByItems = Set(items.compactMap { $0.blockedBy as? Set<TodoItem> }.reduce([], +))
-                    missingItems = Array(blockedByItems.subtracting(items))
-                }
-                completion(.success(missingItems))
-            }, onError: { error in
-                completion(.failure(error))
-            })
-        }
-    }
-
-    func today(item: TodoItem) -> Async<Void> {
-        return Async { completion in
-            async({
-                let context = self.dataProvider.mainContext()
-                context.performAndWait {
-                    item.date = self.today
-                }
-                _ = try await(context.save())
-                completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
             })
@@ -185,7 +157,9 @@ final class PlanRepository: PlanRepositoring {
             async({
                 let context = self.dataProvider.mainContext()
                 var isValid: Bool!
-                context.performAndWait { isValid = (item.repeatState != RepeatState.none) }
+                context.performAndWait {
+                    isValid = (item.repeatState != .default)
+                }
                 guard isValid else { return }
                 let result = context.copy(item)
                 switch result {
@@ -193,7 +167,7 @@ final class PlanRepository: PlanRepositoring {
                     context.performAndWait {
                         item.incrementDate()
                         item.blockedBy = nil
-                        copy.repeatState = RepeatState.none
+                        copy.repeatState = .default
                     }
                     _ = try await(context.save())
                     completion(.success(()))

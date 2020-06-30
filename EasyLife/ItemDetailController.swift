@@ -38,13 +38,14 @@ final class ItemDetailController: ItemDetailControlling {
 
     func setContext(_ context: TodoItemContext) {
         switch context {
-        case .existing(let item):
-            self.context = EditContext(value: item)
-            viewController?.viewState = ItemDetailViewState(item: item, isNew: false, items: [], projects: [])
-        case let .new(item, context):
+        case let .new(item, dataContext):
             self.context = EditContext(value: item)
             viewController?.viewState = ItemDetailViewState(item: item, isNew: true, items: [], projects: [])
-            repository.setChildContext(context)
+            repository.setContext(dataContext)
+        case let .existing(item, dataContext):
+            self.context = EditContext(value: item)
+            viewController?.viewState = ItemDetailViewState(item: item, isNew: false, items: [], projects: [])
+            repository.setContext(dataContext)
         }
         reload()
     }
@@ -56,7 +57,7 @@ final class ItemDetailController: ItemDetailControlling {
             title: L10n.unsavedChangesTitle,
             message: L10n.unsavedChangesMessage,
             cancel: Alert.Action(title: L10n.unsavedChangesNo, handler: {
-                self.delegate?.controllerFinished(self)
+                self.dontSave()
             }),
             actions: [Alert.Action(title: L10n.unsavedChangesYes, handler: {
                 self.save()
@@ -84,8 +85,7 @@ final class ItemDetailController: ItemDetailControlling {
         if hasUnsavedChanges() {
             showCancelAlert()
         } else {
-            context = nil
-            delegate?.controllerFinished(self)
+            dontSave()
         }
     }
 
@@ -97,13 +97,16 @@ final class ItemDetailController: ItemDetailControlling {
         }
     }
 
+    private func dontSave() {
+        context = nil
+        delegate?.controllerFinished(self)
+    }
+
     private func save() {
         guard let item = context?.value else { return }
         async({
             _ = try await(self.repository.save(item: item))
-            onMain {
-                self.delegate?.controllerFinished(self)
-            }
+            onMain { self.delegate?.controllerFinished(self) }
         }, onError: { error in
             onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
@@ -113,9 +116,7 @@ final class ItemDetailController: ItemDetailControlling {
         guard let item = context?.value else { return }
         async({
             _ = try await(self.repository.delete(item: item))
-            onMain {
-                self.delegate?.controllerFinished(self)
-            }
+            onMain { self.delegate?.controllerFinished(self) }
         }, onError: { error in
             onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
@@ -165,7 +166,7 @@ private extension TodoItem {
         return (name == nil
                 && notes == nil
                 && date == nil
-                && repeatState == RepeatState.none
+                && repeatState == .default
                 && project == nil
                 && blocking?.count ?? 0 == 0
                 && blockedBy?.count ?? 0 == 0)

@@ -187,6 +187,7 @@ final class ProjectsTests: XCTestCase {
                 completion()
             }, onError: { error in
                 XCTFail(error.localizedDescription)
+                completion()
             })
         }
     }
@@ -403,6 +404,7 @@ final class ProjectsTests: XCTestCase {
                 completion()
             }, onError: { error in
                 XCTFail(error.localizedDescription)
+                completion()
             })
         }
     }

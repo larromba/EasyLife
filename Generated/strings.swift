@@ -79,6 +79,12 @@ internal enum L10n {
   internal static let projectSectionDeprioritized = L10n.tr("Localizable", "project section deprioritized")
   /// Prioritized
   internal static let projectSectionPrioritized = L10n.tr("Localizable", "project section prioritized")
+  /// Your items are all blocking one another, which means nothing can be completed! Please unblock something and try again
+  internal static let recursivelyBlockedAlertMessage = L10n.tr("Localizable", "recursively blocked alert message")
+  /// Ok
+  internal static let recursivelyBlockedAlertOk = L10n.tr("Localizable", "recursively blocked alert ok")
+  /// All Blocked
+  internal static let recursivelyBlockedAlertTitle = L10n.tr("Localizable", "recursively blocked alert title")
   /// bi-monthly
   internal static let repeatOptionBiMonthly = L10n.tr("Localizable", "repeat option biMonthly")
   /// bi-weekly

@@ -137,6 +137,7 @@
 		7FBB17CC249B64F700E350E1 /* FocusItemAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBB17CB249B64F700E350E1 /* FocusItemAction.swift */; };
 		7FC488D42041A3DD003F6F19 /* BlockedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D32041A3DD003F6F19 /* BlockedCell.swift */; };
 		7FC488D72041A763003F6F19 /* BlockedByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC488D62041A763003F6F19 /* BlockedByViewController.swift */; };
+		7FC6D52E24ABA1A0009440CA /* FocusRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC6D52D24ABA1A0009440CA /* FocusRepository.swift */; };
 		7FC73E7D1F5ABE6700A55703 /* EasyLife.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7FC73E7B1F5ABE6700A55703 /* EasyLife.xcdatamodeld */; };
 		7FCC1B8F21F6237000DDD446 /* Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC1B8E21F6237000DDD446 /* Snapshots.swift */; };
 		7FCC1B9721F6238A00DDD446 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC1B9621F6238A00DDD446 /* SnapshotHelper.swift */; };
@@ -333,6 +334,7 @@
 		7FC488D32041A3DD003F6F19 /* BlockedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedCell.swift; sourceTree = "<group>"; };
 		7FC488D52041A50C003F6F19 /* EasyLife 1.5.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EasyLife 1.5.0.xcdatamodel"; sourceTree = "<group>"; };
 		7FC488D62041A763003F6F19 /* BlockedByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedByViewController.swift; sourceTree = "<group>"; };
+		7FC6D52D24ABA1A0009440CA /* FocusRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusRepository.swift; sourceTree = "<group>"; };
 		7FC73E7C1F5ABE6700A55703 /* EasyLife.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyLife.xcdatamodel; sourceTree = "<group>"; };
 		7FC73E7E1F5ABE7A00A55703 /* EasyLife 1.3.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EasyLife 1.3.0.xcdatamodel"; sourceTree = "<group>"; };
 		7FCC1B8C21F6237000DDD446 /* EasyLifeSnapshot.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyLifeSnapshot.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -421,6 +423,7 @@
 			isa = PBXGroup;
 			children = (
 				7FAC2C831E9E71BA00F14ECB /* PlanRepository.swift */,
+				7FC6D52D24ABA1A0009440CA /* FocusRepository.swift */,
 				7FE4488E2041F49900F2DE77 /* ItemDetailRepository.swift */,
 				7F3BD2C221D13D350035F540 /* BlockedRepository.swift */,
 				7F426E791F59B52800C55AD2 /* ProjectsRepository.swift */,
@@ -1046,6 +1049,7 @@
 				7FE4488F2041F49900F2DE77 /* ItemDetailRepository.swift in Sources */,
 				7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */,
 				7F3BD2D121D2D82D0035F540 /* BlockedState.swift in Sources */,
+				7FC6D52E24ABA1A0009440CA /* FocusRepository.swift in Sources */,
 				7FEEF2CE2042FB3500616041 /* ProjectExtensions.swift in Sources */,
 				7F75140424927E4700FF6446 /* DataContext.swift in Sources */,
 				7F102DE11F5ABF9300E262B1 /* ProjectsViewController.swift in Sources */,

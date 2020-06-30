@@ -23,8 +23,8 @@ enum AppControllerFactory {
                     repository: planRepository,
                     badge: AppBadge()
                 )
-                let itemDetailRepository = ItemDetailRepository(dataProvider: dataProvider, now: Date())
-                let blockedByRepository = BlockedByRepository(dataProvider: dataProvider)
+                let itemDetailRepository = ItemDetailRepository(dataProvider: dataProvider)
+                let blockedByRepository = BlockedByRepository()
                 let planCoordinator = PlanCoordinator(
                     navigationController: navigationController,
                     planController: planController,
@@ -32,7 +32,8 @@ enum AppControllerFactory {
                     blockedByController: BlockedByController(repository: blockedByRepository)
                 )
 
-                let focusController = FocusController(repository: planRepository)
+                let focusRepository = FocusRepository(dataProvider: dataProvider, planRepository: planRepository)
+                let focusController = FocusController(repository: focusRepository)
                 let archiveRepository = ArchiveRepository(dataProvider: dataProvider)
                 let archiveController = ArchiveController(repository: archiveRepository)
                 let projectsRepository = ProjectsRepository(dataProvider: dataProvider)

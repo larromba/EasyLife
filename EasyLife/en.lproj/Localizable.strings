@@ -53,3 +53,6 @@
 "unfocusable alert message" = "There are items in the today section blocked by items in other sections. To use focus mode, you'll need to consolidate these items into the today section. Would you like to do this now?";
 "unfocusable alert no" = "No";
 "unfocusable alert yes" = "Yes";
+"recursively blocked alert title" = "All Blocked";
+"recursively blocked alert message" = "Your items are all blocking one another, which means nothing can be completed! Please unblock something and try again";
+"recursively blocked alert ok" = "Ok";

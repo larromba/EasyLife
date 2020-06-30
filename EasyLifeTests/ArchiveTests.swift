@@ -187,6 +187,7 @@ final class ArchiveTests: XCTestCase {
                 completion()
             }, onError: { error in
                 XCTFail(error.localizedDescription)
+                completion()
             })
         }
     }

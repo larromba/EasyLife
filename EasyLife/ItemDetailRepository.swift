@@ -4,7 +4,7 @@ import Logging
 
 // sourcery: name = ItemDetailRepository
 protocol ItemDetailRepositoring: Mockable {
-    func setChildContext(_ childContext: DataContexting)
+    func setContext(_ context: DataContexting)
     func update(_ item: TodoItem, with update: ItemDetailUpdate)
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]>
     func fetchProjects(for item: TodoItem) -> Async<[Project]>
@@ -14,16 +14,14 @@ protocol ItemDetailRepositoring: Mockable {
 
 final class ItemDetailRepository: ItemDetailRepositoring {
     private let dataProvider: DataContextProviding
-    private let now: Date
-    private var childContext: DataContexting?
+    private var context: DataContexting!
 
-    init(dataProvider: DataContextProviding, now: Date) {
+    init(dataProvider: DataContextProviding) {
         self.dataProvider = dataProvider
-        self.now = now
     }
 
-    func setChildContext(_ childContext: DataContexting) {
-        self.childContext = childContext
+    func setContext(_ context: DataContexting) {
+        self.context = context
     }
 
     func update(_ item: TodoItem, with update: ItemDetailUpdate) {
@@ -31,25 +29,15 @@ final class ItemDetailRepository: ItemDetailRepositoring {
         item.notes = update.notes
         item.date = update.date
         item.repeatState = update.repeatState
-
-        if let childContext = self.childContext {
-            if let object = update.project {
-                item.project = childContext.object(for: object)
-            } else {
-                item.project = nil
-            }
-        } else {
-            item.project = update.project
-        }
+        item.project = update.project
     }
 
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
                 let descriptor = NSSortDescriptor(key: "name", ascending: true,
                                                   selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
-                let items = try await(context.fetch(
+                let items = try await(self.context.fetch(
                     entityClass: TodoItem.self,
                     sortBy: DataSort(sortDescriptor: [descriptor]),
                     predicate: self.predicate(for: item)
@@ -64,9 +52,8 @@ final class ItemDetailRepository: ItemDetailRepositoring {
     func fetchProjects(for item: TodoItem) -> Async<[Project]> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
                 let descriptor = NSSortDescriptor(key: "name", ascending: true)
-                let projects = try await(context.fetch(
+                let projects = try await(self.context.fetch(
                     entityClass: Project.self,
                     sortBy: DataSort(sortDescriptor: [descriptor]),
                     predicate: nil
@@ -81,11 +68,8 @@ final class ItemDetailRepository: ItemDetailRepositoring {
     func save(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                if let childContext = self.childContext {
-                    _ = try await(childContext.save())
-                }
-                let mainContext = self.dataProvider.mainContext()
-                _ = try await(mainContext.save())
+                _ = try await(self.context.save()) // might be child context, so save first
+                _ = try await(self.dataProvider.mainContext().save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))
@@ -96,9 +80,8 @@ final class ItemDetailRepository: ItemDetailRepositoring {
     func delete(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
-                context.delete(item)
-                _ = try await(context.save())
+                self.context.delete(item)
+                _ = try await(self.save(item: item))
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))

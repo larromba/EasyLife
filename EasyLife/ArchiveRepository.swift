@@ -24,7 +24,7 @@ final class ArchiveRepository: ArchiveRepositoring {
                 context.performAndWait {
                     item.done = false
                     item.date = nil
-                    item.repeatState = RepeatState.none
+                    item.repeatState = .default
                 }
                 _ = try await(context.save())
                 completion(.success(()))

@@ -98,3 +98,6 @@ new item should be done somewhere else so can use child context?
 remove: ObjectContext ValueContext
 // TODO: search app & check protocols are being used (not direct references)
 plan table fade on reload
+plan cell ui tests rather than ui tests in each test class
+use plan cell everywhere?
+// TODO: refactor out uitableviewaction from tests?

@@ -32,6 +32,9 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var planCoordinator: PlanCoordinating!
     private(set) var itemDetailRepository: ItemDetailRepositoring!
     private(set) var itemDetailController: ItemDetailControlling!
+    private(set) var focusRepository: FocusRepository!
+    private(set) var focusController: FocusControlling!
+    private(set) var focusCoordinator: FocusCoordinating!
     private(set) var blockedByRepository: BlockedByRepositoring!
     private(set) var blockedByController: BlockedByControlling!
     private(set) var archiveRepository: ArchiveRepositoring!
@@ -40,8 +43,6 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var projectsRepository: ProjectsRepositoring!
     private(set) var projectsController: ProjectsControlling!
     private(set) var projectsCoordinator: ProjectsCoordinating!
-    private(set) var focusController: FocusControlling!
-    private(set) var focusCoordinator: FocusCoordinating!
 
     init(viewController: PlanViewControlling = MockPlanViewController(),
          navigationController: UINavigationController = UINavigationController(),
@@ -66,8 +67,8 @@ final class AppTestEnvironment: TestEnvironment {
                                         alertController: alertController,
                                         repository: planRepository,
                                         badge: badge)
-        blockedByRepository = BlockedByRepository(dataProvider: dataProvider)
-        itemDetailRepository = ItemDetailRepository(dataProvider: dataProvider, now: now)
+        blockedByRepository = BlockedByRepository()
+        itemDetailRepository = ItemDetailRepository(dataProvider: dataProvider)
         itemDetailController = ItemDetailController(repository: itemDetailRepository)
         blockedByController = BlockedByController(repository: blockedByRepository)
         planCoordinator = PlanCoordinator(
@@ -76,7 +77,8 @@ final class AppTestEnvironment: TestEnvironment {
             itemDetailController: itemDetailController,
             blockedByController: blockedByController
         )
-        focusController = FocusController(repository: planRepository)
+        focusRepository = FocusRepository(dataProvider: dataProvider, planRepository: planRepository)
+        focusController = FocusController(repository: focusRepository)
         focusCoordinator = FocusCoordinator(focusController: focusController)
         archiveRepository = ArchiveRepository(dataProvider: dataProvider)
         archiveController = ArchiveController(repository: archiveRepository)

@@ -3,37 +3,30 @@ import Foundation
 
 // sourcery: name = BlockedByRepository
 protocol BlockedByRepositoring: Mockable {
-    func setChildContext(_ childContext: DataContexting)
+    func setContext(_ context: DataContexting)
     func update(_ item: TodoItem, with update: [BlockingContext<TodoItem>])
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]>
 }
 
 final class BlockedByRepository: BlockedByRepositoring {
-    private let dataProvider: DataContextProviding
-    private var childContext: DataContexting?
+    private var context: DataContexting!
 
-    init(dataProvider: DataContextProviding) {
-        self.dataProvider = dataProvider
-    }
-
-    func setChildContext(_ childContext: DataContexting) {
-        self.childContext = childContext
+    func setContext(_ context: DataContexting) {
+        self.context = context
     }
 
     func update(_ item: TodoItem, with update: [BlockingContext<TodoItem>]) {
         update.forEach {
-            let object = childContext?.object(for: $0.object) ?? $0.object
-            $0.isBlocking ? item.addToBlockedBy(object) :  item.removeFromBlockedBy(object)
+            $0.isBlocking ? item.addToBlockedBy($0.object) :  item.removeFromBlockedBy($0.object)
         }
     }
 
     func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
                 let descriptor = NSSortDescriptor(key: "name", ascending: true,
                                                   selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
-                let items = try await(context.fetch(
+                let items = try await(self.context.fetch(
                     entityClass: TodoItem.self,
                     sortBy: DataSort(sortDescriptor: [descriptor]),
                     predicate: self.predicate(for: item)
