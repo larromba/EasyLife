@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.0.0 (TBC)
+    minor bug fixes and improvements
+    fix: coredata threading issues
+    added focus mode
+
 ## v2.0.3 (30/07/2019)
     fixed ordering bug in later section
     added 'bi-monthly' option
