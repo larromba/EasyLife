@@ -1,5 +1,6 @@
 import UIKit
 
+// sourcery: name = TimerButton
 protocol TimerButtoning: Mockable {
     var viewState: TimerButtonViewStating? { get set }
 }

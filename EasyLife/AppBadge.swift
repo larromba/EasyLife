@@ -1,5 +1,4 @@
 import AsyncAwait
-import Logging
 import UIKit
 import UserNotifications
 
@@ -30,11 +29,11 @@ final class AppBadge: Badging {
             #endif
             self.notificationCenter.requestAuthorization(options: [.badge]) { granted, error in
                 if let error = error {
-                    completion(.failure(BadgeError.frameworkError(error)))
+                    completion(.failure(NotificationAuthorizationError.frameworkError(error)))
                     return
                 }
                 guard granted else {
-                    completion(.failure(BadgeError.unauthorized))
+                    completion(.failure(NotificationAuthorizationError.unauthorized))
                     return
                 }
                 onMain { self.application.applicationIconBadgeNumber = number }

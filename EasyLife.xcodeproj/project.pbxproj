@@ -162,6 +162,9 @@
 		7FE9D89E24ADF5D400C564D9 /* alarm.aif in Resources */ = {isa = PBXBuildFile; fileRef = 7FE9D89D24ADF5D400C564D9 /* alarm.aif */; };
 		7FE9D8A124ADF6F500C564D9 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D8A024ADF6F500C564D9 /* Alarm.swift */; };
 		7FE9D8A324AE172B00C564D9 /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D8A224AE172B00C564D9 /* UIButtonExtensions.swift */; };
+		7FE9D8A524AE4B3500C564D9 /* ViewAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D8A424AE4B3500C564D9 /* ViewAction.swift */; };
+		7FE9D8A724AE4D7B00C564D9 /* AppClosedTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D8A624AE4D7B00C564D9 /* AppClosedTimer.swift */; };
+		7FE9D8A924AE5B4F00C564D9 /* AlarmNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D8A824AE5B4F00C564D9 /* AlarmNotificationHandler.swift */; };
 		7FEEF2CE2042FB3500616041 /* ProjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEEF2CD2042FB3500616041 /* ProjectExtensions.swift */; };
 		7FEEF2D22043522900616041 /* EasyLife 1.5.0.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7FEEF2D12043522900616041 /* EasyLife 1.5.0.sqlite */; };
 		7FFB4A6A21F4C13A0011DA66 /* BlockedByTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFB4A6921F4C13A0011DA66 /* BlockedByTests.swift */; };
@@ -373,6 +376,9 @@
 		7FE9D89D24ADF5D400C564D9 /* alarm.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.aif; sourceTree = "<group>"; };
 		7FE9D8A024ADF6F500C564D9 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		7FE9D8A224AE172B00C564D9 /* UIButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtensions.swift; sourceTree = "<group>"; };
+		7FE9D8A424AE4B3500C564D9 /* ViewAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAction.swift; sourceTree = "<group>"; };
+		7FE9D8A624AE4D7B00C564D9 /* AppClosedTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppClosedTimer.swift; sourceTree = "<group>"; };
+		7FE9D8A824AE5B4F00C564D9 /* AlarmNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmNotificationHandler.swift; sourceTree = "<group>"; };
 		7FEEF2CD2042FB3500616041 /* ProjectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectExtensions.swift; sourceTree = "<group>"; };
 		7FEEF2D02043094200616041 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Plan.strings; sourceTree = "<group>"; };
 		7FEEF2D12043522900616041 /* EasyLife 1.5.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EasyLife 1.5.0.sqlite"; sourceTree = "<group>"; };
@@ -670,6 +676,7 @@
 				7FE9D88D24ACECE600C564D9 /* FocusTime.swift */,
 				7FE9D89524ACF02700C564D9 /* FocusPickerItem.swift */,
 				7FE9D89924AD24B400C564D9 /* TimerButtonAction.swift */,
+				7FE9D8A424AE4B3500C564D9 /* ViewAction.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -735,6 +742,8 @@
 				7F3BD2DF21D65E970035F540 /* RainbowAnimation.swift */,
 				7F3BD2EE21D6D6440035F540 /* Utility.swift */,
 				7FA1696521DE642300D8BA3F /* KeyboardNotification.swift */,
+				7FE9D8A624AE4D7B00C564D9 /* AppClosedTimer.swift */,
+				7FE9D8A824AE5B4F00C564D9 /* AlarmNotificationHandler.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -1065,6 +1074,7 @@
 			files = (
 				7FAC2C921E9E7EEA00F14ECB /* PlanCell.swift in Sources */,
 				7F3BD2CB21D2BA010035F540 /* ProjectCellViewState.swift in Sources */,
+				7FE9D8A724AE4D7B00C564D9 /* AppClosedTimer.swift in Sources */,
 				7FAC2C961E9EBF6400F14ECB /* ResponderSelection.swift in Sources */,
 				7F7514122492DF8900FF6446 /* TodoItemContexting.swift in Sources */,
 				7FAC2CB81E9FA8AE00F14ECB /* UITextFieldReadOnly.swift in Sources */,
@@ -1103,6 +1113,7 @@
 				7FA1696621DE642300D8BA3F /* KeyboardNotification.swift in Sources */,
 				7F3BD2E021D65E970035F540 /* RainbowAnimation.swift in Sources */,
 				7FE9D89C24AD253A00C564D9 /* TimerButton.swift in Sources */,
+				7FE9D8A524AE4B3500C564D9 /* ViewAction.swift in Sources */,
 				7F429CA721C66B5000195E32 /* ProjectsAction.swift in Sources */,
 				7F3BD2EB21D6BF640035F540 /* Routing.swift in Sources */,
 				7FE9D89224ACEEDB00C564D9 /* ProjectPickerItem.swift in Sources */,
@@ -1146,6 +1157,7 @@
 				7FC73E7D1F5ABE6700A55703 /* EasyLife.xcdatamodeld in Sources */,
 				7F3BD2C121D13D2C0035F540 /* BlockedViewState.swift in Sources */,
 				7F102DE01F5ABF8F00E262B1 /* ProjectsRepository.swift in Sources */,
+				7FE9D8A924AE5B4F00C564D9 /* AlarmNotificationHandler.swift in Sources */,
 				7F3B8B71246EE9EF00B45038 /* FocusSection.swift in Sources */,
 				7FAC2C841E9E71BA00F14ECB /* PlanRepository.swift in Sources */,
 				7FA9C21F1EAA216A0089A87C /* DisplayEnum.swift in Sources */,

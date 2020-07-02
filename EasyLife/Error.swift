@@ -11,7 +11,7 @@ enum CoreDataError: LocalizedError {
     }
 }
 
-enum BadgeError: Error {
+enum NotificationAuthorizationError: Error {
     case unauthorized
     case frameworkError(Error)
 }

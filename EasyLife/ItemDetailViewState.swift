@@ -1,17 +1,20 @@
 import CoreGraphics
 import Foundation
 
-protocol ItemDetailViewStating {
-    var isNew: Bool { get }
+protocol ItemDetailUIUpdatable {
     var name: String? { get set }
     var notes: String? { get set }
-    var minimumDate: Date? { get }
-    var simpleDatePickerViewState: SimpleDatePickerViewStating { get }
     var date: Date? { get set }
-    var dateString: String? { get }
-    var datePickerType: ItemDetailDatePickerType { get }
     var repeatState: RepeatState { get set }
     var project: Project? { get set }
+}
+
+protocol ItemDetailViewStating: ItemDetailUIUpdatable {
+    var isNew: Bool { get }
+    var minimumDate: Date? { get }
+    var simpleDatePickerViewState: SimpleDatePickerViewStating { get }
+    var dateString: String? { get }
+    var datePickerType: ItemDetailDatePickerType { get }
     var leftButton: ItemDetailLeftButton { get }
     var rightButton: ItemDetailRightButton { get }
     var numOfPickerComponents: Int { get }
@@ -40,14 +43,11 @@ struct ItemDetailViewState: ItemDetailViewStating {
         return dateFormatter
     }()
 
-    var isNew: Bool
-    var name: String?
-    var notes: String?
-    var minimumDate: Date?
+    let isNew: Bool
+    let minimumDate: Date?
     let simpleDatePickerViewState: SimpleDatePickerViewStating = {
         return SimpleDatePickerViewState(date: Date(), rows: DateSegment.display)
     }()
-    var date: Date?
     var dateString: String? {
         guard let date = date else { return nil }
         return dateFormatter.string(from: date)
@@ -55,11 +55,9 @@ struct ItemDetailViewState: ItemDetailViewStating {
     var datePickerType: ItemDetailDatePickerType {
         return date == nil ? .simple : .normal
     }
-    var repeatState: RepeatState
-    var project: Project?
     let leftButton: ItemDetailLeftButton
     let rightButton: ItemDetailRightButton
-    var numOfPickerComponents: Int = 1
+    let numOfPickerComponents: Int = 1
     var repeatStateCount: Int {
         return repeatStatePickerItems.count
     }
@@ -74,6 +72,12 @@ struct ItemDetailViewState: ItemDetailViewStating {
     }
     let isBlockedButtonEnabled: Bool
     let blockedCount: Int
+
+    var name: String?
+    var notes: String?
+    var date: Date?
+    var repeatState: RepeatState
+    var project: Project?
 
     private let repeatStatePickerItems: [RepeatStatePickerItem]
     private let projectPickerItems: [ProjectPickerItem]

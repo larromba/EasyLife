@@ -11,6 +11,10 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name
 internal enum L10n {
+  /// Time's up!
+  internal static let alarmNotificationBody = L10n.tr("Localizable", "alarm notification body")
+  /// Alarm
+  internal static let alarmNotificationTitle = L10n.tr("Localizable", "alarm notification title")
   /// Are you sure?
   internal static let archiveDeleteAllMessage = L10n.tr("Localizable", "archive delete all message")
   /// No

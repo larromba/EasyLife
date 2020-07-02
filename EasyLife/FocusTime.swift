@@ -87,3 +87,19 @@ extension FocusTime: Equatable {
         }
     }
 }
+
+// MARK: - operator
+
+extension FocusTime {
+    static func -= (lhs: inout FocusTime, rhs: TimeInterval) {
+        lhs = .custom(max(0, (lhs.timeValue() - rhs)))
+    }
+
+    static func > (lhs: FocusTime, rhs: TimeInterval) -> Bool {
+        return lhs.timeValue() > rhs
+    }
+
+    static func < (lhs: TimeInterval, rhs: FocusTime) -> Bool {
+        return lhs < rhs.timeValue()
+    }
+}

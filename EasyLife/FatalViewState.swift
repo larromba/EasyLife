@@ -5,7 +5,7 @@ protocol FatalViewStating {
 }
 
 struct FatalViewState: FatalViewStating {
-    var text: String
+    let text: String
 
     init(error: Error) {
         text = L10n.errorLoadingDataMessage(error.localizedDescription)

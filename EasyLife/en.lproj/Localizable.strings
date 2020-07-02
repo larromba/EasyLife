@@ -65,3 +65,5 @@
 "focus time 1h" = "1 Hour";
 "focus mode start" = "Focus";
 "focus mode stop" = "Stop";
+"alarm notification title" = "Alarm";
+"alarm notification body" = "Time's up!";

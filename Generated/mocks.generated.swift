@@ -127,6 +127,41 @@ final class _Invocations {
 
 // MARK: - Sourcery Mocks
 
+class MockAlarmNotificationHandler: NSObject, AlarmNotificationHandling {
+    let invocations = _Invocations()
+    let actions = _Actions()
+    static let invocations = _Invocations()
+    static let actions = _Actions()
+
+    // MARK: - start
+
+    func start(in timeInterval: TimeInterval) {
+        let functionName = start1.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: timeInterval, forKey: start1.params.timeInterval)
+        invocations.record(invocation)
+    }
+
+    enum start1: String, _StringRawRepresentable {
+        case name = "start1"
+        enum params: String, _StringRawRepresentable {
+            case timeInterval = "start(intimeInterval:TimeInterval).timeInterval"
+        }
+    }
+
+    // MARK: - stop
+
+    func stop() {
+        let functionName = stop2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum stop2: String, _StringRawRepresentable {
+        case name = "stop2"
+    }
+}
+
 class MockAlarm: NSObject, Alarming {
     let invocations = _Invocations()
     let actions = _Actions()
@@ -2056,7 +2091,7 @@ class MockTagView: NSObject, TagViewable {
     var _viewStateHistory: [_Variable<TagViewStating?>] = []
 }
 
-class MockTimerButtoning: NSObject, TimerButtoning {
+class MockTimerButton: NSObject, TimerButtoning {
     var viewState: TimerButtonViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }

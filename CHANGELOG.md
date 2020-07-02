@@ -63,11 +63,7 @@ Apple ID: 1229095589
 
 # Future Work
 
-- focus mode 
-    - add timer
-    - focus button should show message when uncompletable option in today
 - reame data context provider ivars?
-
 - change edit project -> edit name
 - long press on app icon: new note
 - long press on cell: make tomorrow

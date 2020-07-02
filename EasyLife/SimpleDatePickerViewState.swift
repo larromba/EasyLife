@@ -15,6 +15,7 @@ struct SimpleDatePickerViewState: SimpleDatePickerViewStating {
         return rows.count
     }
     let numOfComponents: Int = 1
+
     private let rows: [DateSegment]
 
     init(date: Date?, rows: [DateSegment]) {

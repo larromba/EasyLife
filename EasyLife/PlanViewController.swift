@@ -12,8 +12,7 @@ protocol PlanViewControlling: Presentable, Segueable, Mockable {
 }
 
 protocol PlanViewControllerDelegate: AnyObject {
-    func viewControllerWillAppear(_ viewController: PlanViewControlling)
-    func viewControllerWillDisappear(_ viewController: PlanViewControlling)
+    func viewController(_ viewController: PlanViewControlling, handleViewAction viewAction: ViewAction)
     func viewController(_ viewController: PlanViewControlling, prepareForSegue segue: UIStoryboardSegue)
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction)
     func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem)
@@ -46,12 +45,12 @@ final class PlanViewController: UIViewController, PlanViewControlling {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        delegate?.viewControllerWillAppear(self)
+        delegate?.viewController(self, handleViewAction: .willAppear)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        delegate?.viewControllerWillDisappear(self)
+        delegate?.viewController(self, handleViewAction: .willDisappear)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

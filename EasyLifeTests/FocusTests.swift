@@ -2,9 +2,10 @@ import AsyncAwait
 @testable import EasyLife
 import Foundation
 import TestExtensions
+import UserNotifications
 import XCTest
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 final class FocusTests: XCTestCase {
     private var navigationController: UINavigationController!
     private var viewController: FocusViewController!
@@ -15,6 +16,7 @@ final class FocusTests: XCTestCase {
     override func setUp() {
         super.setUp()
         navigationController = UIStoryboard.focus.instantiateInitialViewController() as? UINavigationController
+//        navigationController.modalPresentationStyle = .fullScreen
         viewController = navigationController.viewControllers.first as? FocusViewController
         viewController.prepareView()
         alertController = AlertController(presenter: viewController)
@@ -81,7 +83,7 @@ final class FocusTests: XCTestCase {
         // test
         waitSync()
         XCTAssertTrue(item.done)
-        XCTAssertNil(presenter.presentingViewController)
+        XCTAssertNil(presenter.presentedViewController)
     }
 
     // MARK: - missing item alert
@@ -117,7 +119,7 @@ final class FocusTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertNil(presenter.presentingViewController)
+        XCTAssertNil(presenter.presentedViewController)
     }
 
     func test_missingItemsAlert_whenYesPressed_expectMovesMissingItems() {
@@ -167,6 +169,7 @@ final class FocusTests: XCTestCase {
     func test_blockedItemsAlert_whenOkPressed_expectViewDismissed() {
         // mocks
         env.inject()
+        env.focusCoordinator.setNavigationController(navigationController)
         setupBlockedItems()
         let presenter = addToPresenter()
         env.focusController.setAlertController(alertController)
@@ -182,7 +185,7 @@ final class FocusTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertNil(presenter.presentingViewController)
+        XCTAssertNil(presenter.presentedViewController)
     }
 
     // MARK: - ui
@@ -236,6 +239,29 @@ final class FocusTests: XCTestCase {
         XCTAssertEqual(viewController.timeLabel.text, "00:00:00")
         XCTAssertEqual(viewController.view.backgroundColor, .black)
         XCTAssertEqual(viewController.timerButton.titleLabel?.text, "Focus")
+    }
+
+    func test_timerButton_whenStopPressed_expectAllLocalNotificationsRemoved() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+        waitSync()
+        XCTAssertTrue(viewController.timerButton.fire())
+        XCTAssertTrue(viewController.toolbar.items?[safe: 2]?.fire() ?? false)
+
+        // sut
+        waitSync()
+        XCTAssertTrue(viewController.timerButton.fire())
+
+        // test
+        waitAsync { completion in
+            UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+                XCTAssertEqual(requests.count, 0)
+                completion()
+            }
+        }
     }
 
     // MARK: - toolbar
@@ -293,6 +319,27 @@ final class FocusTests: XCTestCase {
         XCTAssertEqual(viewController.timerButton.titleLabel?.text, "Stop")
     }
 
+    func test_toolbarStartButton_whenPressed_expectLocalNotificationTriggered() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+        waitSync()
+        XCTAssertTrue(viewController.timerButton.fire())
+
+        // sut
+        XCTAssertTrue(viewController.toolbar.items?[safe: 2]?.fire() ?? false)
+
+        // test
+        waitAsync { completion in
+            UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+                XCTAssertEqual(requests.count, 1)
+                completion()
+            }
+        }
+    }
+
     // MARK: - timer
 
     func test_timer_whenCountDownFinished_expectAlarmTriggeredAndScreenFlashes() {
@@ -322,12 +369,48 @@ final class FocusTests: XCTestCase {
         XCTAssertEqual(colors, [.darkGray, .red, .darkGray, .red])
     }
 
-    func test_timerOutsideApp_whenFinished_expectLocalNotificationFired() {
-        XCTFail()
+    func test_leaveApp_whenReturn_expectTimerCaughtUp() {
+        // mocks
+        let alarm = MockAlarm()
+        env.alarm = alarm
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+        waitSync()
+        var viewState = viewController.viewState
+        viewState?.focusTime = .custom(2.0)
+        viewController.viewState = viewState?.copy(timerButtonViewState: TimerButtonViewState(action: .stop))
+
+        // sut
+        NotificationCenter.default.post(name: UIApplication.willResignActiveNotification, object: nil, userInfo: nil)
+        waitSync(for: 0.5)
+        NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil, userInfo: nil)
+
+        // test
+        XCTAssertEqual(viewController?.timeLabel.text, "00:00:01")
     }
 
-    func test_leaveApp_whenReturn_expectTimerCaughtUp() {
-        XCTFail()
+    func test_leaveApp_whenReturnAfterTimesUp_expectTimerFired() {
+        // mocks
+        let alarm = MockAlarm()
+        env.alarm = alarm
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+        waitSync()
+        var viewState = viewController.viewState
+        viewState?.focusTime = .custom(0.5)
+        viewController.viewState = viewState?.copy(timerButtonViewState: TimerButtonViewState(action: .stop))
+
+        // sut
+        NotificationCenter.default.post(name: UIApplication.willResignActiveNotification, object: nil, userInfo: nil)
+        waitSync(for: 1.0)
+        NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil, userInfo: nil)
+
+        // test
+        XCTAssertTrue(alarm.invocations.isInvoked(MockAlarm.start1.name))
     }
 
     // MARK: - private
@@ -347,10 +430,11 @@ final class FocusTests: XCTestCase {
         itemC.addToBlockedBy(itemA)
     }
 
-    private func addToPresenter() -> UIViewController {
-        let presenter = UIViewController()
+    private func addToPresenter() -> UINavigationController {
+        let presenter = UINavigationController()
         env.window.rootViewController = presenter
         env.window.makeKeyAndVisible()
+        env.focusCoordinator.setNavigationController(presenter)
         presenter.present(navigationController, animated: false, completion: nil)
         return presenter
     }

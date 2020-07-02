@@ -26,7 +26,6 @@ protocol ArchiveViewStating {
 }
 
 struct ArchiveViewState: ArchiveViewStating {
-    private let unknownSection = Character("-")
     let sections: [Character: [TodoItem]]
     var numOfSections: Int {
         return sections.keys.count
@@ -53,6 +52,8 @@ struct ArchiveViewState: ArchiveViewStating {
     let undoBackgroundColor = Asset.Colors.grey.color
     let text: String?
     let searchBarAutocapitalizationType: UITextAutocapitalizationType = .none
+
+    private let unknownSection = Character("-")
 
     init(sections: [Character: [TodoItem]], text: String?, isSearching: Bool) {
         self.sections = sections

@@ -1,6 +1,11 @@
 import UIKit
 
-protocol FocusViewStating {
+protocol FocusViewUIUpdatable {
+    var date: Date? { get set }
+    var focusTime: FocusTime { get set }
+}
+
+protocol FocusViewStating: FocusViewUIUpdatable {
     var item: TodoItem? { get }
     var rowHeight: CGFloat { get }
     var totalItems: Int { get }
@@ -11,8 +16,6 @@ protocol FocusViewStating {
     var backgroundColor: UIColor { get }
     var tableFadeAnimationDuation: TimeInterval { get }
     var timerButtonViewState: TimerButtonViewStating { get }
-    var date: Date? { get set }
-    var focusTime: FocusTime { get set }
 
     func item(at indexPath: IndexPath) -> TodoItem?
     func cellViewState(at indexPath: IndexPath) -> PlanCellViewStating?
@@ -38,19 +41,20 @@ struct FocusViewState: FocusViewStating {
     var isEmpty: Bool {
         return totalItems == 0
     }
-    var numOfSections: Int = 1
-    var numOfPickerComponents: Int = 1
+    let numOfSections: Int = 1
+    let numOfPickerComponents: Int = 1
     var numOfPickerRows: Int {
         return pickerItems.count
     }
     let backgroundColor: UIColor
-    var tableFadeAnimationDuation: TimeInterval = 0.5
+    let tableFadeAnimationDuation: TimeInterval = 0.5
     let timerButtonViewState: TimerButtonViewStating
+
     var date: Date?
     var focusTime: FocusTime
 
     private let items: [TodoItem]
-    private var pickerItems: [FocusPickerItem] = FocusTime.display.map { FocusPickerItem(object: $0) }
+    private let pickerItems: [FocusPickerItem] = FocusTime.display.map { FocusPickerItem(object: $0) }
 
     init(items: [TodoItem], backgroundColor: UIColor, timerButtonViewState: TimerButtonViewStating,
          focusTime: FocusTime) {

@@ -84,14 +84,15 @@ final class PlanController: PlanControlling {
 // MARK: - PlanViewControllerDelegate
 
 extension PlanController: PlanViewControllerDelegate {
-    func viewControllerWillAppear(_ viewController: PlanViewControlling) {
-        setupNotifications()
-        reload()
-    }
-
-    func viewControllerWillDisappear(_ viewController: PlanViewControlling) {
-        tearDownNotifications()
-        viewController.setIsTableHeaderAnimating(false)
+    func viewController(_ viewController: PlanViewControlling, handleViewAction viewAction: ViewAction) {
+        switch viewAction {
+        case .willAppear:
+            setupNotifications()
+            reload()
+        case .willDisappear:
+            tearDownNotifications()
+            viewController.setIsTableHeaderAnimating(false)
+        }
     }
 
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction) {

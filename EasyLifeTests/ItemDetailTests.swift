@@ -206,6 +206,31 @@ final class ItemDetailTests: XCTestCase {
         }
     }
 
+    func test_cancelAlert_whenSaveButtonPressed_expectHidesView() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .empty, isTransient: true)
+        env.itemDetailController.setViewController(viewController)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
+        env.itemDetailController.setAlertController(alertController)
+        env.addToWindow()
+        viewController.titleTextField.setText("foo")
+
+        // sut
+        XCTAssertTrue(viewController.navigationItem.leftBarButtonItem?.fire() ?? false)
+        guard let alertController = viewController.presentedViewController as? UIAlertController else {
+            XCTFail("expected UIAlertController")
+            return
+        }
+        waitSync()
+        XCTAssertTrue(alertController.actions[safe: 1]?.fire() ?? false)
+
+        // test
+        waitSync()
+        XCTAssertTrue(navigationController.viewControllers.first is PlanViewController)
+        XCTAssertEqual(navigationController.viewControllers.count, 1)
+    }
+
     func test_cancelAlert_whenNoPressed_expectNotSaved() {
         // mocks
         env.inject()
@@ -239,7 +264,28 @@ final class ItemDetailTests: XCTestCase {
     }
 
     func test_cancelAlert_whenNoPressed_expectHidesView() {
-        XCTFail()
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .empty, isTransient: true)
+        env.itemDetailController.setViewController(viewController)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
+        env.itemDetailController.setAlertController(alertController)
+        env.addToWindow()
+        viewController.titleTextField.setText("foo")
+
+        // sut
+        XCTAssertTrue(viewController.navigationItem.leftBarButtonItem?.fire() ?? false)
+        guard let alertController = viewController.presentedViewController as? UIAlertController else {
+            XCTFail("expected UIAlertController")
+            return
+        }
+        waitSync()
+        XCTAssertTrue(alertController.actions[safe: 0]?.fire() ?? false)
+
+        // test
+        waitSync()
+        XCTAssertTrue(navigationController.viewControllers.first is PlanViewController)
+        XCTAssertEqual(navigationController.viewControllers.count, 1)
     }
 
     // MARK: - picker

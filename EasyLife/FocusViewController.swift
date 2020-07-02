@@ -12,6 +12,7 @@ protocol FocusViewControlling: Presentable, Mockable {
 }
 
 protocol FocusViewControllerDelegate: AnyObject {
+    func viewController(_ viewController: FocusViewControlling, handleViewAction viewAction: ViewAction)
     func viewController(_ viewController: FocusViewControlling, performAction action: FocusAction)
     func viewController(_ viewController: FocusViewControlling, performAction action: FocusItemAction,
                         onItem item: TodoItem, at indexPath: IndexPath)
@@ -57,6 +58,16 @@ final class FocusViewController: UIViewController, FocusViewControlling {
                            forCellReuseIdentifier: PlanCell.reuseIdentifier)
         _ = viewState.map(bind)
         tableView.applyDefaultStyleFix()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        delegate?.viewController(self, handleViewAction: .willAppear)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.viewController(self, handleViewAction: .willDisappear)
     }
 
     func setDelegate(_ delegate: FocusViewControllerDelegate) {

@@ -17,14 +17,20 @@ protocol FocusControllerDelegate: AnyObject {
 final class FocusController: FocusControlling {
     private let repository: FocusRepositoring
     private let alarm: Alarming
-    private weak var viewController: FocusViewControlling?
-    private var alertController: AlertControlling?
-    private weak var delegate: FocusControllerDelegate?
+    private let appClosedTimer: AppClosedTiming
+    private let alarmNotificationHandler: AlarmNotificationHandling
     private var timer: Timer?
+    private var alertController: AlertControlling?
+    private weak var viewController: FocusViewControlling?
+    private weak var delegate: FocusControllerDelegate?
 
-    init(repository: FocusRepositoring, alarm: Alarming) {
+    init(repository: FocusRepositoring, alarm: Alarming, appClosedTimer: AppClosedTiming = AppClosedTimer(),
+         alarmNotificationHandler: AlarmNotificationHandling = AlarmNotificationHandler()) {
         self.repository = repository
         self.alarm = alarm
+        self.appClosedTimer = appClosedTimer
+        self.alarmNotificationHandler = alarmNotificationHandler
+        appClosedTimer.setDelegate(self)
     }
 
     func setViewController(_ viewController: FocusViewControlling) {
@@ -84,7 +90,7 @@ final class FocusController: FocusControlling {
 
     private func showUnfocusableAlert() {
         let cancelAction = Alert.Action(title: L10n.unfocusableAlertNo, handler: {
-            self.delegate?.controllerFinished(self)
+            self.close()
         })
         let confirmAction = Alert.Action(title: L10n.unfocusableAlertYes, handler: {
             self.moveMissingItems()
@@ -99,11 +105,20 @@ final class FocusController: FocusControlling {
 
     private func showRecursivelyBlockedAlert() {
         let cancelAction = Alert.Action(title: L10n.recursivelyBlockedAlertOk, handler: {
-            self.delegate?.controllerFinished(self)
+            self.close()
         })
         let alert = Alert(title: L10n.recursivelyBlockedAlertTitle,
                           message: L10n.recursivelyBlockedAlertMessage,
                           cancel: cancelAction,
+                          actions: [],
+                          textField: nil)
+        alertController?.showAlert(alert)
+    }
+
+    private func showTimesUpAlert() {
+        let alert = Alert(title: L10n.recursivelyBlockedAlertTitle,
+                          message: L10n.recursivelyBlockedAlertMessage,
+                          cancel: Alert.Action(title: L10n.recursivelyBlockedAlertOk, handler: nil),
                           actions: [],
                           textField: nil)
         alertController?.showAlert(alert)
@@ -137,11 +152,11 @@ final class FocusController: FocusControlling {
         viewController?.closeDatePicker()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timerTick), userInfo: nil,
                                      repeats: true)
+        alarmNotificationHandler.start(in: viewController?.viewState?.focusTime.timeValue() ?? 0)
     }
 
     private func stopTimer() {
-        timer?.invalidate()
-        alarm.stop()
+        stopAllProcesses()
         viewController?.viewState = viewController?.viewState?.copy(
             backgroundColor: .black,
             timerButtonViewState: TimerButtonViewState(action: .start)
@@ -150,9 +165,9 @@ final class FocusController: FocusControlling {
     }
 
     private func fireAlarm() {
-        timer?.invalidate()
+        stopAllProcesses()
         alarm.start()
-        timer = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(backgroundChangeTick),
+        timer = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(backgroundChange),
                                      userInfo: nil, repeats: true)
     }
 
@@ -164,23 +179,24 @@ final class FocusController: FocusControlling {
     private func stopAllProcesses() {
         timer?.invalidate()
         alarm.stop()
+        alarmNotificationHandler.stop()
     }
 
-    // MARK: - ticks
+    // MARK: - timer action
 
     @objc
     private func timerTick() {
-        guard let viewState = viewController?.viewState else { return }
-        let newValue = viewState.focusTime.timeValue() - 1.0
-        viewController?.viewState?.focusTime = .custom(newValue)
-        guard newValue > 0 else {
+        guard var viewState = viewController?.viewState else { return }
+        viewState.focusTime -= 1.0
+        viewController?.viewState = viewState
+        guard viewState.focusTime > 0 else {
             fireAlarm()
             return
         }
     }
 
     @objc
-    private func backgroundChangeTick() {
+    private func backgroundChange() {
         guard let viewState = viewController?.viewState else { return }
         let color: UIColor = (viewState.backgroundColor == .darkGray) ? .red : .darkGray
         viewController?.viewState = viewState.copy(backgroundColor: color)
@@ -190,6 +206,13 @@ final class FocusController: FocusControlling {
 // MARK: - FocusViewControllerDelegate
 
 extension FocusController: FocusViewControllerDelegate {
+    func viewController(_ viewController: FocusViewControlling, handleViewAction viewAction: ViewAction) {
+        switch viewAction {
+        case .willAppear: appClosedTimer.start()
+        case .willDisappear: appClosedTimer.stop()
+        }
+    }
+
     func viewController(_ viewController: FocusViewControlling, performAction action: FocusAction) {
         switch action {
         case .close: close()
@@ -210,5 +233,21 @@ extension FocusController: FocusViewControllerDelegate {
         }, onError: { error in
             onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
+    }
+}
+
+// MARK: - AppClosedTimerDelegate
+
+extension FocusController: AppClosedTimerDelegate {
+    func timer(_ timer: AppClosedTimer, isReopenedAfterTime time: TimeInterval) {
+        guard var viewState = viewController?.viewState,
+            viewState.timerButtonViewState.action == .stop else { return }
+        guard time < viewState.focusTime else {
+            viewController?.viewState?.focusTime = .none
+            self.fireAlarm()
+            return
+        }
+        viewState.focusTime -= time
+        viewController?.viewState = viewState
     }
 }
