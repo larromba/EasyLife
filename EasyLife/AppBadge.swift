@@ -3,14 +3,15 @@ import Logging
 import UIKit
 import UserNotifications
 
-protocol Badge: AnyObject, Mockable {
+// sourcery: name = Badge
+protocol Badging: AnyObject, Mockable {
     var number: Int { get }
 
     // sourcery: returnValue = Async.success(())
     func setNumber(_ number: Int) -> Async<Void>
 }
 
-final class AppBadge: Badge {
+final class AppBadge: Badging {
     private let notificationCenter: UNUserNotificationCenter
     private let application: UIApplication
     var number: Int {

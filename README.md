@@ -55,15 +55,20 @@ There are 3 sections in the todo list:
 * Today - all items for today
 * Later - all items for a date after today. no stress
 
-Todo items can recur, meaning they re-appear every x days. 
+There are 4 toolbar buttons (from left to right):
+* Archive - a list of all done items. They can be undone from this view
+* Projects - a list of all projects. Todo items can be assigned a project. Based on the project's priority, it appears higher or lower in its section.
+* Focus Mode - displays all 'Today' items one at a time, based on their order. There is a timer to help focus in bursts of time.
+* New Item - creates a new todo item.
 
-Todo items can be given a project. If a todo item is attached to a project, it appears higher in the list for the day it's scheduled, depending on the priority of the project
-
-Marking recurring items as done moves them to a later date. Marking normal items as done moves them to the archive. Items can be undone in the archive view.
-
-Todo items can block the progress of other todo items. Any blocking items must first be marked as done before the topmost item can be marked as done.
-
-If a recurring item has been missed, rather than changing the recurring date, the item can be split, which creates a copy to be rescheduled, and automatically reschedules the original item at the next available recurring date.
+Todo Items:
+* Items can recur, meaning they re-appear every x days. 
+* Marking recurring items as done reschedules them to the next date. 
+* Items can block the progress of other items. Blocking items must be done before blocked items. Their blocking status is represented by:
+    - a red indicator: the item is blocked by something
+    - a grey indicator: the item is blocking something else
+    - a red + grey indicator: the item is both blocked by something and blocking something else
+* Recurring items can be split in two. The original original item is rescheduled to a later date, and an independant copy is kept in the current section. This allows you to reschedule a recurring item without affecting the original recurring date.
 
 ## Licence
 [![licensebuttons by-nc-sa](https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0) 

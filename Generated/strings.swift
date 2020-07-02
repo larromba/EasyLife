@@ -63,6 +63,24 @@ internal enum L10n {
   internal static func errorLoadingDataMessage(_ p1: String) -> String {
     return L10n.tr("Localizable", "error loading data message", p1)
   }
+  /// Focus
+  internal static let focusModeStart = L10n.tr("Localizable", "focus mode start")
+  /// Stop
+  internal static let focusModeStop = L10n.tr("Localizable", "focus mode stop")
+  /// 10 Minutes
+  internal static let focusTime10m = L10n.tr("Localizable", "focus time 10m")
+  /// 15 Minutes
+  internal static let focusTime15m = L10n.tr("Localizable", "focus time 15m")
+  /// 1 Hour
+  internal static let focusTime1h = L10n.tr("Localizable", "focus time 1h")
+  /// 20 Minutes
+  internal static let focusTime20m = L10n.tr("Localizable", "focus time 20m")
+  /// 30 Minutes
+  internal static let focusTime30m = L10n.tr("Localizable", "focus time 30m")
+  /// 45 Minutes
+  internal static let focusTime45m = L10n.tr("Localizable", "focus time 45m")
+  /// 5 Minutes
+  internal static let focusTime5m = L10n.tr("Localizable", "focus time 5m")
   /// Later...
   internal static let laterSection = L10n.tr("Localizable", "later section")
   /// Missed...

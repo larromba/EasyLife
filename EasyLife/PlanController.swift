@@ -16,12 +16,12 @@ final class PlanController: PlanControlling {
     private let viewController: PlanViewControlling
     private let alertController: AlertControlling
     private let repository: PlanRepositoring
-    private let badge: Badge
+    private let badge: Badging
     private weak var delegate: PlanControllerDelegate?
     private var router: StoryboardRouting?
 
     init(viewController: PlanViewControlling, alertController: AlertControlling, repository: PlanRepositoring,
-         badge: Badge) {
+         badge: Badging) {
         self.viewController = viewController
         self.alertController = alertController
         self.repository = repository

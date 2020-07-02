@@ -151,6 +151,17 @@
 		7FD585FA21DE2B67002E9B85 /* TestEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD585F921DE2B67002E9B85 /* TestEnvironment.swift */; };
 		7FE4488F2041F49900F2DE77 /* ItemDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE4488E2041F49900F2DE77 /* ItemDetailRepository.swift */; };
 		7FE4489120420B2C00F2DE77 /* BlockingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE4489020420B2C00F2DE77 /* BlockingContext.swift */; };
+		7FE9D88E24ACECE600C564D9 /* FocusTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D88D24ACECE600C564D9 /* FocusTime.swift */; };
+		7FE9D89024ACEE7E00C564D9 /* PickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D88F24ACEE7E00C564D9 /* PickerItem.swift */; };
+		7FE9D89224ACEEDB00C564D9 /* ProjectPickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D89124ACEEDB00C564D9 /* ProjectPickerItem.swift */; };
+		7FE9D89424ACEEE800C564D9 /* RepeatStatePickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D89324ACEEE800C564D9 /* RepeatStatePickerItem.swift */; };
+		7FE9D89624ACF02700C564D9 /* FocusPickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D89524ACF02700C564D9 /* FocusPickerItem.swift */; };
+		7FE9D89824AD246B00C564D9 /* TimerButtonViewStating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D89724AD246B00C564D9 /* TimerButtonViewStating.swift */; };
+		7FE9D89A24AD24B400C564D9 /* TimerButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D89924AD24B400C564D9 /* TimerButtonAction.swift */; };
+		7FE9D89C24AD253A00C564D9 /* TimerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D89B24AD253A00C564D9 /* TimerButton.swift */; };
+		7FE9D89E24ADF5D400C564D9 /* alarm.aif in Resources */ = {isa = PBXBuildFile; fileRef = 7FE9D89D24ADF5D400C564D9 /* alarm.aif */; };
+		7FE9D8A124ADF6F500C564D9 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D8A024ADF6F500C564D9 /* Alarm.swift */; };
+		7FE9D8A324AE172B00C564D9 /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9D8A224AE172B00C564D9 /* UIButtonExtensions.swift */; };
 		7FEEF2CE2042FB3500616041 /* ProjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEEF2CD2042FB3500616041 /* ProjectExtensions.swift */; };
 		7FEEF2D22043522900616041 /* EasyLife 1.5.0.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7FEEF2D12043522900616041 /* EasyLife 1.5.0.sqlite */; };
 		7FFB4A6A21F4C13A0011DA66 /* BlockedByTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFB4A6921F4C13A0011DA66 /* BlockedByTests.swift */; };
@@ -351,6 +362,17 @@
 		7FD585F921DE2B67002E9B85 /* TestEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEnvironment.swift; sourceTree = "<group>"; };
 		7FE4488E2041F49900F2DE77 /* ItemDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailRepository.swift; sourceTree = "<group>"; };
 		7FE4489020420B2C00F2DE77 /* BlockingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingContext.swift; sourceTree = "<group>"; };
+		7FE9D88D24ACECE600C564D9 /* FocusTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusTime.swift; sourceTree = "<group>"; };
+		7FE9D88F24ACEE7E00C564D9 /* PickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerItem.swift; sourceTree = "<group>"; };
+		7FE9D89124ACEEDB00C564D9 /* ProjectPickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPickerItem.swift; sourceTree = "<group>"; };
+		7FE9D89324ACEEE800C564D9 /* RepeatStatePickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatStatePickerItem.swift; sourceTree = "<group>"; };
+		7FE9D89524ACF02700C564D9 /* FocusPickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusPickerItem.swift; sourceTree = "<group>"; };
+		7FE9D89724AD246B00C564D9 /* TimerButtonViewStating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerButtonViewStating.swift; sourceTree = "<group>"; };
+		7FE9D89924AD24B400C564D9 /* TimerButtonAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerButtonAction.swift; sourceTree = "<group>"; };
+		7FE9D89B24AD253A00C564D9 /* TimerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerButton.swift; sourceTree = "<group>"; };
+		7FE9D89D24ADF5D400C564D9 /* alarm.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.aif; sourceTree = "<group>"; };
+		7FE9D8A024ADF6F500C564D9 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
+		7FE9D8A224AE172B00C564D9 /* UIButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtensions.swift; sourceTree = "<group>"; };
 		7FEEF2CD2042FB3500616041 /* ProjectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectExtensions.swift; sourceTree = "<group>"; };
 		7FEEF2D02043094200616041 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Plan.strings; sourceTree = "<group>"; };
 		7FEEF2D12043522900616041 /* EasyLife 1.5.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EasyLife 1.5.0.sqlite"; sourceTree = "<group>"; };
@@ -479,6 +501,7 @@
 				7F3BD2CE21D2D5FF0035F540 /* TagViewState.swift */,
 				7F3BD2D921D3F27F0035F540 /* SimpleDatePickerViewState.swift */,
 				7F3BD2EC21D6D3590035F540 /* FatalViewState.swift */,
+				7FE9D89724AD246B00C564D9 /* TimerButtonViewStating.swift */,
 			);
 			name = ViewState;
 			sourceTree = "<group>";
@@ -531,6 +554,7 @@
 				7F61898921E7F0CB0047832C /* UITableViewExtensions.swift */,
 				7F48FEDE21F7D52600EACC03 /* UITextFieldExtensions.swift */,
 				7F48FEE021F7D63200EACC03 /* UITextViewExtensions.swift */,
+				7FE9D8A224AE172B00C564D9 /* UIButtonExtensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -624,6 +648,8 @@
 				7F3B8B72246EEB2B00B45038 /* FocusAction.swift */,
 				7FBB17CB249B64F700E350E1 /* FocusItemAction.swift */,
 				7F3BD2BA21D016FA0035F540 /* ItemDetailComponent.swift */,
+				7FE9D89124ACEEDB00C564D9 /* ProjectPickerItem.swift */,
+				7FE9D89324ACEEE800C564D9 /* RepeatStatePickerItem.swift */,
 				7F3BD2B821CFEC970035F540 /* ItemDetailAction.swift */,
 				7F3BD2D021D2D82D0035F540 /* BlockedState.swift */,
 				7FE4489020420B2C00F2DE77 /* BlockingContext.swift */,
@@ -641,6 +667,9 @@
 				7F7514052492833C00FF6446 /* DataContextType.swift */,
 				7F751407249291D300FF6446 /* DataSort.swift */,
 				7F0E149A249A80A7000B15CE /* ItemDetailUpdate.swift */,
+				7FE9D88D24ACECE600C564D9 /* FocusTime.swift */,
+				7FE9D89524ACF02700C564D9 /* FocusPickerItem.swift */,
+				7FE9D89924AD24B400C564D9 /* TimerButtonAction.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -675,6 +704,7 @@
 				7F426E7B1F59FD3900C55AD2 /* ProjectCell.swift */,
 				7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */,
 				7FD1EE251F8E8D750042C317 /* TagView.swift */,
+				7FE9D89B24AD253A00C564D9 /* TimerButton.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -696,6 +726,7 @@
 		7FAC2C9D1E9ECAA900F14ECB /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				7FE9D8A024ADF6F500C564D9 /* Alarm.swift */,
 				7F75140B2492C80100FF6446 /* DataContextProvider.swift */,
 				7F75140324927E4700FF6446 /* DataContext.swift */,
 				7F163D2B1EDD746B00DC52B6 /* AppBadge.swift */,
@@ -720,6 +751,7 @@
 				7F17F41E248F9D4400541282 /* CellIdentifiable.swift */,
 				7F17F420248F9F6800541282 /* NibNamable.swift */,
 				7F7514112492DF8900FF6446 /* TodoItemContexting.swift */,
+				7FE9D88F24ACEE7E00C564D9 /* PickerItem.swift */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -729,6 +761,7 @@
 			children = (
 				7F2A3D6D21C01F6400941347 /* Colors.xcassets */,
 				7FAC2C661E9E673400F14ECB /* Assets.xcassets */,
+				7FE9D89F24ADF5D700C564D9 /* Sounds */,
 				7F429C6E21C3D8F100195E32 /* Storyboard */,
 				7F3BD2D621D38E0E0035F540 /* Xib */,
 				7FC73E7B1F5ABE6700A55703 /* EasyLife.xcdatamodeld */,
@@ -771,6 +804,14 @@
 				7FD585F921DE2B67002E9B85 /* TestEnvironment.swift */,
 			);
 			name = Protocols;
+			sourceTree = "<group>";
+		};
+		7FE9D89F24ADF5D700C564D9 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				7FE9D89D24ADF5D400C564D9 /* alarm.aif */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -904,6 +945,7 @@
 				7F0D9248204619DF00D9AE6B /* BlockedIndicatorView.xib in Resources */,
 				7F163D251EDD716D00DC52B6 /* Components.storyboard in Resources */,
 				7FAC2C621E9E673400F14ECB /* Plan.storyboard in Resources */,
+				7FE9D89E24ADF5D400C564D9 /* alarm.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1041,6 +1083,8 @@
 				7F3BD2D821D3BB670035F540 /* Context.swift in Sources */,
 				7F429C7D21C3F8E700195E32 /* Mockable.swift in Sources */,
 				7F429C9121C539CD00195E32 /* ArchiveController.swift in Sources */,
+				7FE9D89A24AD24B400C564D9 /* TimerButtonAction.swift in Sources */,
+				7FE9D89624ACF02700C564D9 /* FocusPickerItem.swift in Sources */,
 				7F7514102492DF0600FF6446 /* TodoItemContext.swift in Sources */,
 				7F3BD2DA21D3F27F0035F540 /* SimpleDatePickerViewState.swift in Sources */,
 				7F429C9321C53B7800195E32 /* LayoutConstraintCache.swift in Sources */,
@@ -1051,14 +1095,17 @@
 				7F3BD2D121D2D82D0035F540 /* BlockedState.swift in Sources */,
 				7FC6D52E24ABA1A0009440CA /* FocusRepository.swift in Sources */,
 				7FEEF2CE2042FB3500616041 /* ProjectExtensions.swift in Sources */,
+				7FE9D89824AD246B00C564D9 /* TimerButtonViewStating.swift in Sources */,
 				7F75140424927E4700FF6446 /* DataContext.swift in Sources */,
 				7F102DE11F5ABF9300E262B1 /* ProjectsViewController.swift in Sources */,
 				7F75140C2492C80100FF6446 /* DataContextProvider.swift in Sources */,
 				7F429C8E21C42FF600195E32 /* PlanCoordinator.swift in Sources */,
 				7FA1696621DE642300D8BA3F /* KeyboardNotification.swift in Sources */,
 				7F3BD2E021D65E970035F540 /* RainbowAnimation.swift in Sources */,
+				7FE9D89C24AD253A00C564D9 /* TimerButton.swift in Sources */,
 				7F429CA721C66B5000195E32 /* ProjectsAction.swift in Sources */,
 				7F3BD2EB21D6BF640035F540 /* Routing.swift in Sources */,
+				7FE9D89224ACEEDB00C564D9 /* ProjectPickerItem.swift in Sources */,
 				7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */,
 				7F3BD2E821D68E240035F540 /* ProjectsCoordinator.swift in Sources */,
 				7F163D2C1EDD746B00DC52B6 /* AppBadge.swift in Sources */,
@@ -1069,9 +1116,11 @@
 				7F3BD2C321D13D350035F540 /* BlockedRepository.swift in Sources */,
 				7F0E149B249A80A7000B15CE /* ItemDetailUpdate.swift in Sources */,
 				7F429C9F21C5B7D500195E32 /* ProjectsViewState.swift in Sources */,
+				7FE9D89424ACEEE800C564D9 /* RepeatStatePickerItem.swift in Sources */,
 				7FAC2C9F1E9ECACB00F14ECB /* DateExtensions.swift in Sources */,
 				7F429C9921C55E0300195E32 /* AlertController.swift in Sources */,
 				7F3B8B6F246EE9A600B45038 /* FocusViewState.swift in Sources */,
+				7FE9D8A124ADF6F500C564D9 /* Alarm.swift in Sources */,
 				7F3BD2E621D68E1C0035F540 /* ArchiveCoordinator.swift in Sources */,
 				7FAC2C981E9EC91400F14ECB /* RepeatState.swift in Sources */,
 				7F429C7621C3D99E00195E32 /* assets.swift in Sources */,
@@ -1081,6 +1130,7 @@
 				7FBB17CC249B64F700E350E1 /* FocusItemAction.swift in Sources */,
 				7F3B8B75246EEB5000B45038 /* FocusController.swift in Sources */,
 				7F429C7721C3D99E00195E32 /* strings.swift in Sources */,
+				7FE9D88E24ACECE600C564D9 /* FocusTime.swift in Sources */,
 				7F3BD2B521CFE9BE0035F540 /* ItemDetailController.swift in Sources */,
 				7FD1EE261F8E8D750042C317 /* TagView.swift in Sources */,
 				7F3BD2C921D2ACCE0035F540 /* ArchiveCellViewState.swift in Sources */,
@@ -1100,6 +1150,7 @@
 				7FAC2C841E9E71BA00F14ECB /* PlanRepository.swift in Sources */,
 				7FA9C21F1EAA216A0089A87C /* DisplayEnum.swift in Sources */,
 				7FBA02891EE1E50800C3103A /* ArchiveViewController.swift in Sources */,
+				7FE9D89024ACEE7E00C564D9 /* PickerItem.swift in Sources */,
 				7FBA028D1EE1E85800C3103A /* ArchiveRepository.swift in Sources */,
 				7FAC2C941E9EBC9A00F14ECB /* TodoItemExtensions.swift in Sources */,
 				7F3BD2CD21D2D4E40035F540 /* BlockedCellViewState.swift in Sources */,
@@ -1154,6 +1205,7 @@
 				7FFB4A6A21F4C13A0011DA66 /* BlockedByTests.swift in Sources */,
 				7F102DE51F5AC22200E262B1 /* DataTests.swift in Sources */,
 				7FA169B021E3D79700D8BA3F /* DateExtensions.swift in Sources */,
+				7FE9D8A324AE172B00C564D9 /* UIButtonExtensions.swift in Sources */,
 				7FA1696821DE68DB00D8BA3F /* AppTestEnvironment.swift in Sources */,
 				7FCEC9281EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift in Sources */,
 				7F0E1497249A670D000B15CE /* MockError.swift in Sources */,

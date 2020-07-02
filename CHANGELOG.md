@@ -101,3 +101,7 @@ plan table fade on reload
 plan cell ui tests rather than ui tests in each test class
 use plan cell everywhere?
 // TODO: refactor out uitableviewaction from tests?
+//notifyStateUpdated in itemdetailview - maybe this should be done in controller
+//notifyStateUpdated in focusview - maybe this should be done in controller
+//simple date picker not clearing date
+//project needs empty selection

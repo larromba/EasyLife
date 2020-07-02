@@ -33,7 +33,7 @@ enum AppControllerFactory {
                 )
 
                 let focusRepository = FocusRepository(dataProvider: dataProvider, planRepository: planRepository)
-                let focusController = FocusController(repository: focusRepository)
+                let focusController = FocusController(repository: focusRepository, alarm: Alarm())
                 let archiveRepository = ArchiveRepository(dataProvider: dataProvider)
                 let archiveController = ArchiveController(repository: archiveRepository)
                 let projectsRepository = ProjectsRepository(dataProvider: dataProvider)

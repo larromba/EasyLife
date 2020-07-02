@@ -16,21 +16,66 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ncU-Uf-EX6">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ncU-Uf-EX6">
+                                <rect key="frame" x="0.0" y="244" width="375" height="289.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Dtl-ny-DzU" id="Zs7-Ev-rtq"/>
                                     <outlet property="delegate" destination="Dtl-ny-DzU" id="Tga-5u-3w1"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GY1-yV-axU">
+                                <rect key="frame" x="0.0" y="44" width="375" height="200"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D2p-kD-LiY">
+                                        <rect key="frame" x="88.5" y="72" width="198" height="56.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="47"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="D2p-kD-LiY" firstAttribute="centerX" secondItem="GY1-yV-axU" secondAttribute="centerX" id="1Ol-xD-Qqs"/>
+                                    <constraint firstItem="D2p-kD-LiY" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-yV-axU" secondAttribute="leading" constant="20" id="VmO-m6-6e0"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="D2p-kD-LiY" secondAttribute="trailing" constant="20" id="rMb-ZE-TXm"/>
+                                    <constraint firstItem="D2p-kD-LiY" firstAttribute="centerY" secondItem="GY1-yV-axU" secondAttribute="centerY" id="znF-EE-gBF"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsd-df-qBV">
+                                <rect key="frame" x="0.0" y="533.5" width="375" height="133.5"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnW-P0-WdD" customClass="TimerButton" customModule="EasyLife" customModuleProvider="target">
+                                        <rect key="frame" x="166.5" y="52" width="42" height="30"/>
+                                        <state key="normal" title="Focus">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="actionButtonPressed:" destination="Dtl-ny-DzU" eventType="touchUpInside" id="EoX-Wb-2T8"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="gnW-P0-WdD" firstAttribute="centerX" secondItem="bsd-df-qBV" secondAttribute="centerX" id="PBM-kl-tSY"/>
+                                    <constraint firstItem="gnW-P0-WdD" firstAttribute="centerY" secondItem="bsd-df-qBV" secondAttribute="centerY" id="ZRz-0U-UCC"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="ncU-Uf-EX6" firstAttribute="bottom" secondItem="aZw-4q-cCO" secondAttribute="bottom" id="7GN-yz-p5v"/>
+                            <constraint firstItem="GY1-yV-axU" firstAttribute="top" secondItem="aZw-4q-cCO" secondAttribute="top" id="4Lf-SS-801"/>
                             <constraint firstItem="ncU-Uf-EX6" firstAttribute="trailing" secondItem="aZw-4q-cCO" secondAttribute="trailing" id="FSi-WA-txL"/>
+                            <constraint firstItem="bsd-df-qBV" firstAttribute="leading" secondItem="aZw-4q-cCO" secondAttribute="leading" id="SSJ-nC-tBR"/>
+                            <constraint firstItem="bsd-df-qBV" firstAttribute="height" secondItem="Wex-XW-M9M" secondAttribute="height" multiplier="0.2" id="Xiq-jd-rEz"/>
                             <constraint firstItem="ncU-Uf-EX6" firstAttribute="leading" secondItem="aZw-4q-cCO" secondAttribute="leading" id="bDS-0T-gJm"/>
-                            <constraint firstItem="ncU-Uf-EX6" firstAttribute="top" secondItem="aZw-4q-cCO" secondAttribute="top" id="lwP-p5-Ffi"/>
+                            <constraint firstItem="GY1-yV-axU" firstAttribute="trailing" secondItem="aZw-4q-cCO" secondAttribute="trailing" id="cPk-Va-qDq"/>
+                            <constraint firstItem="bsd-df-qBV" firstAttribute="trailing" secondItem="aZw-4q-cCO" secondAttribute="trailing" id="eFA-uy-kel"/>
+                            <constraint firstItem="bsd-df-qBV" firstAttribute="bottom" secondItem="aZw-4q-cCO" secondAttribute="bottom" id="ftL-yd-lqv"/>
+                            <constraint firstItem="bsd-df-qBV" firstAttribute="top" secondItem="ncU-Uf-EX6" secondAttribute="bottom" id="jBj-Ck-FGq"/>
+                            <constraint firstItem="GY1-yV-axU" firstAttribute="height" secondItem="Wex-XW-M9M" secondAttribute="height" multiplier="0.3" id="sEf-ll-tVh"/>
+                            <constraint firstItem="GY1-yV-axU" firstAttribute="leading" secondItem="aZw-4q-cCO" secondAttribute="leading" id="sVz-JN-7hV"/>
+                            <constraint firstItem="ncU-Uf-EX6" firstAttribute="top" secondItem="GY1-yV-axU" secondAttribute="bottom" id="tEs-pj-wbS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="aZw-4q-cCO"/>
                     </view>
@@ -44,6 +89,8 @@
                     <connections>
                         <outlet property="closeButton" destination="gLx-Fa-GEC" id="IRl-sL-NqF"/>
                         <outlet property="tableView" destination="ncU-Uf-EX6" id="q5U-8Q-PO1"/>
+                        <outlet property="timeLabel" destination="D2p-kD-LiY" id="s4t-KQ-Dkd"/>
+                        <outlet property="timerButton" destination="gnW-P0-WdD" id="WyB-v8-0gN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nA7-ur-P5k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

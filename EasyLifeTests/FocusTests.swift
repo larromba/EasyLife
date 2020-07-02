@@ -4,11 +4,13 @@ import Foundation
 import TestExtensions
 import XCTest
 
+// swiftlint:disable type_body_length
 final class FocusTests: XCTestCase {
     private var navigationController: UINavigationController!
     private var viewController: FocusViewController!
     private var alertController: AlertController!
     private var env: AppTestEnvironment!
+    private var kvo: NSKeyValueObservation!
 
     override func setUp() {
         super.setUp()
@@ -24,9 +26,12 @@ final class FocusTests: XCTestCase {
         env = nil
         viewController = nil
         navigationController = nil
+        kvo = nil
         UIView.setAnimationsEnabled(true)
         super.tearDown()
     }
+
+    // MARK: - cell actions
 
     func test_item_whenOpened_expectDoneAction() {
         // mocks
@@ -40,6 +45,8 @@ final class FocusTests: XCTestCase {
         XCTAssertEqual(actions.count, 1)
         XCTAssertEqual(actions.filter { $0.isDone }.count, 1)
     }
+
+    // MARK: - display logic
 
     func test_item_whenDone_expectIsDoneAndShownNextItem() {
         // mocks
@@ -77,7 +84,9 @@ final class FocusTests: XCTestCase {
         XCTAssertNil(presenter.presentingViewController)
     }
 
-    func test_focusButton_whenTodayItemsCantBeCompleted_expectAlertDisplayed() {
+    // MARK: - missing item alert
+
+    func test_onAppear_whenMissingItems_expectAlertDisplayed() {
         // mocks
         env.inject()
         env.addToWindow()
@@ -87,7 +96,7 @@ final class FocusTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+        XCTAssertEqual((viewController.presentedViewController as? UIAlertController)?.title, "Missing Items")
     }
 
     func test_missingItemsAlert_whenNoPressed_expectViewDismissed() {
@@ -140,12 +149,202 @@ final class FocusTests: XCTestCase {
         }
     }
 
+    // MARK: - blocked items alert
+
+    func test_onAppear_whenAllItemsBlocked_expectAlertDisplayed() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        setupBlockedItems()
+        env.focusController.setAlertController(alertController)
+        env.focusController.setViewController(viewController)
+
+        // test
+        waitSync()
+        XCTAssertEqual((viewController.presentedViewController as? UIAlertController)?.title, "All Blocked")
+    }
+
+    func test_blockedItemsAlert_whenOkPressed_expectViewDismissed() {
+        // mocks
+        env.inject()
+        setupBlockedItems()
+        let presenter = addToPresenter()
+        env.focusController.setAlertController(alertController)
+        env.focusController.setViewController(viewController)
+
+        // sut
+        waitSync()
+        guard let alertController = navigationController.presentedViewController as? UIAlertController else {
+            XCTFail("expected UIAlertController")
+            return
+        }
+        XCTAssertTrue(alertController.actions[safe: 0]?.fire() ?? false)
+
+        // test
+        waitSync()
+        XCTAssertNil(presenter.presentingViewController)
+    }
+
+    // MARK: - ui
+
+    func test_view_whenAppears_expectUIConfiguration() {
+        // mocks
+        env.inject()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+
+        // test
+        waitSync()
+        XCTAssertEqual(viewController.timeLabel.text, "00:00:00")
+        XCTAssertEqual(viewController.view.backgroundColor, .black)
+        XCTAssertEqual(viewController.timerButton.titleLabel?.text, "Focus")
+    }
+
+    // MARK: - timer button
+
+    func test_timerButton_whenFocusPressed_expectShowsPickerWithDefaultValue() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+
+        // sut
+        waitSync()
+        XCTAssertTrue(viewController.timerButton.fire())
+
+        // test
+        XCTAssertTrue(viewController.datePickerTextField.isFirstResponder)
+        XCTAssertEqual(viewController.timeLabel.text, "00:15:00")
+    }
+
+    func test_timerButton_whenStopPressed_expectUIConfiguration() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+        waitSync()
+        XCTAssertTrue(viewController.timerButton.fire())
+        XCTAssertTrue(viewController.toolbar.items?[safe: 2]?.fire() ?? false)
+
+        // sut
+        XCTAssertTrue(viewController.timerButton.fire())
+
+        // test
+        waitSync(for: 2.0) // if timer not stopped, would expect -00:00:02
+        XCTAssertEqual(viewController.timeLabel.text, "00:00:00")
+        XCTAssertEqual(viewController.view.backgroundColor, .black)
+        XCTAssertEqual(viewController.timerButton.titleLabel?.text, "Focus")
+    }
+
+    // MARK: - toolbar
+
+    func test_toolbarCancelButton_whenPressed_expectClosesPicker() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+        waitSync()
+        XCTAssertTrue(viewController.timerButton.fire())
+
+        // sut
+        XCTAssertTrue(viewController.toolbar.items?[safe: 0]?.fire() ?? false)
+
+        // test
+        XCTAssertFalse(viewController.datePickerTextField.isFirstResponder)
+    }
+
+    func test_toolbarCancelButton_whenPressed_expectUIConfiguration() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+        waitSync()
+        XCTAssertTrue(viewController.timerButton.fire())
+
+        // sut
+        XCTAssertTrue(viewController.toolbar.items?[safe: 0]?.fire() ?? false)
+
+        // test
+        XCTAssertEqual(viewController.timeLabel.text, "00:00:00")
+        XCTAssertEqual(viewController.view.backgroundColor, .black)
+        XCTAssertEqual(viewController.timerButton.titleLabel?.text, "Focus")
+    }
+
+    func test_toolbarStartButton_whenPressed_expectUIConfiguration() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+        waitSync()
+        XCTAssertTrue(viewController.timerButton.fire())
+
+        // sut
+        XCTAssertTrue(viewController.toolbar.items?[safe: 2]?.fire() ?? false)
+
+        // test
+        waitSync(for: 2.5)
+        XCTAssertEqual(viewController.timeLabel.text, "00:14:58")
+        XCTAssertEqual(viewController.view.backgroundColor, .darkGray)
+        XCTAssertEqual(viewController.timerButton.titleLabel?.text, "Stop")
+    }
+
+    // MARK: - timer
+
+    func test_timer_whenCountDownFinished_expectAlarmTriggeredAndScreenFlashes() {
+        // mocks
+        let alarm = MockAlarm()
+        env.alarm = alarm
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        env.focusController.setViewController(viewController)
+        waitSync()
+        XCTAssertTrue(viewController.timerButton.fire())
+        XCTAssertTrue(viewController.toolbar.items?[safe: 2]?.fire() ?? false)
+
+        // sut
+        viewController.viewState?.focusTime = .custom(1.0)
+
+        // test
+        waitSync(for: 1.5)
+        XCTAssertTrue(alarm.invocations.isInvoked(MockAlarm.start1.name))
+
+        var colors = [UIColor?]()
+        kvo = viewController.view.observe(\.backgroundColor, options: .new) { value, _ in
+            colors.append(value.backgroundColor)
+        }
+        waitSync(for: 1.5)
+        XCTAssertEqual(colors, [.darkGray, .red, .darkGray, .red])
+    }
+
+    func test_timerOutsideApp_whenFinished_expectLocalNotificationFired() {
+        XCTFail()
+    }
+
+    func test_leaveApp_whenReturn_expectTimerCaughtUp() {
+        XCTFail()
+    }
+
     // MARK: - private
 
     private func setupMissingItems() {
         let laterItem = env.todoItem(type: .later)
         _ = env.todoItem(type: .today, blockedBy: [laterItem])
         _ = env.todoItem(type: .today)
+    }
+
+    private func setupBlockedItems() {
+        let itemA = env.todoItem(type: .today)
+        let itemB = env.todoItem(type: .today)
+        let itemC = env.todoItem(type: .today)
+        itemA.addToBlockedBy(itemB)
+        itemB.addToBlockedBy(itemC)
+        itemC.addToBlockedBy(itemA)
     }
 
     private func addToPresenter() -> UIViewController {

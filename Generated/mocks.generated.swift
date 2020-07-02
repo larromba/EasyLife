@@ -127,6 +127,37 @@ final class _Invocations {
 
 // MARK: - Sourcery Mocks
 
+class MockAlarm: NSObject, Alarming {
+    let invocations = _Invocations()
+    let actions = _Actions()
+    static let invocations = _Invocations()
+    static let actions = _Actions()
+
+    // MARK: - start
+
+    func start() {
+        let functionName = start1.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum start1: String, _StringRawRepresentable {
+        case name = "start1"
+    }
+
+    // MARK: - stop
+
+    func stop() {
+        let functionName = stop2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum stop2: String, _StringRawRepresentable {
+        case name = "stop2"
+    }
+}
+
 class MockAlertController: NSObject, AlertControlling {
     let invocations = _Invocations()
     let actions = _Actions()
@@ -470,7 +501,7 @@ class MockArchiveViewControlling: NSObject, ArchiveViewControlling {
     }
 }
 
-class MockBadge: NSObject, Badge {
+class MockBadge: NSObject, Badging {
     var number: Int {
         get { return _number }
         set(value) { _number = value; _numberHistory.append(_Variable(value)) }
@@ -1001,21 +1032,69 @@ class MockFocusViewController: NSObject, FocusViewControlling {
         }
     }
 
+    // MARK: - openDatePicker
+
+    func openDatePicker() {
+        let functionName = openDatePicker2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum openDatePicker2: String, _StringRawRepresentable {
+        case name = "openDatePicker2"
+    }
+
+    // MARK: - closeDatePicker
+
+    func closeDatePicker() {
+        let functionName = closeDatePicker3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum closeDatePicker3: String, _StringRawRepresentable {
+        case name = "closeDatePicker3"
+    }
+
+    // MARK: - flashTableView
+
+    func flashTableView() {
+        let functionName = flashTableView4.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum flashTableView4: String, _StringRawRepresentable {
+        case name = "flashTableView4"
+    }
+
+    // MARK: - reloadTableViewData
+
+    func reloadTableViewData() {
+        let functionName = reloadTableViewData5.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum reloadTableViewData5: String, _StringRawRepresentable {
+        case name = "reloadTableViewData5"
+    }
+
     // MARK: - present
 
     func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
-        let functionName = present2.name
+        let functionName = present6.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: viewControllerToPresent, forKey: present2.params.viewControllerToPresent)
-        invocation.set(parameter: flag, forKey: present2.params.flag)
+        invocation.set(parameter: viewControllerToPresent, forKey: present6.params.viewControllerToPresent)
+        invocation.set(parameter: flag, forKey: present6.params.flag)
         if let completion = completion {
-            invocation.set(parameter: completion, forKey: present2.params.completion)
+            invocation.set(parameter: completion, forKey: present6.params.completion)
         }
         invocations.record(invocation)
     }
 
-    enum present2: String, _StringRawRepresentable {
-        case name = "present2"
+    enum present6: String, _StringRawRepresentable {
+        case name = "present6"
         enum params: String, _StringRawRepresentable {
             case viewControllerToPresent = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
             case flag = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).flag"
@@ -1975,4 +2054,13 @@ class MockTagView: NSObject, TagViewable {
     }
     var _viewState: TagViewStating?
     var _viewStateHistory: [_Variable<TagViewStating?>] = []
+}
+
+class MockTimerButtoning: NSObject, TimerButtoning {
+    var viewState: TimerButtonViewStating? {
+        get { return _viewState }
+        set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
+    }
+    var _viewState: TimerButtonViewStating?
+    var _viewStateHistory: [_Variable<TimerButtonViewStating?>] = []
 }

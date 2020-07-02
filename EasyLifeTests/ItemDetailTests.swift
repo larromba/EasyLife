@@ -238,6 +238,10 @@ final class ItemDetailTests: XCTestCase {
         }
     }
 
+    func test_cancelAlert_whenNoPressed_expectHidesView() {
+        XCTFail()
+    }
+
     // MARK: - picker
 
     func test_dateField_whenPressedWithNoDate_expectSimplePicker() {

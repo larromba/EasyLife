@@ -56,3 +56,12 @@
 "recursively blocked alert title" = "All Blocked";
 "recursively blocked alert message" = "Your items are all blocking one another, which means nothing can be completed! Please unblock something and try again";
 "recursively blocked alert ok" = "Ok";
+"focus time 5m" = "5 Minutes";
+"focus time 10m" = "10 Minutes";
+"focus time 15m" = "15 Minutes";
+"focus time 20m" = "20 Minutes";
+"focus time 30m" = "30 Minutes";
+"focus time 45m" = "45 Minutes";
+"focus time 1h" = "1 Hour";
+"focus mode start" = "Focus";
+"focus mode stop" = "Stop";

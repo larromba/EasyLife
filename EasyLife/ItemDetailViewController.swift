@@ -277,9 +277,9 @@ extension ItemDetailViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch pickerView {
         case repeatPicker:
-            return viewState?.repeatStatePickerComponent(at: row).title
+            return viewState?.repeatStatePickerItem(at: row).title
         case projectPicker:
-            return viewState?.projectPickerComponent(at: row).title
+            return viewState?.projectPickerItem(at: row).title
         default:
             assertionFailure("unhandled picker")
             return nil
@@ -289,9 +289,9 @@ extension ItemDetailViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case repeatPicker:
-            viewState?.repeatState = viewState?.repeatStatePickerComponent(at: row).object ?? .default
+            viewState?.repeatState = viewState?.repeatStatePickerItem(at: row).object ?? .default
         case projectPicker:
-            viewState?.project = viewState?.projectPickerComponent(at: row).object
+            viewState?.project = viewState?.projectPickerItem(at: row).object
         default:
             assertionFailure("unhandled picker")
         }

@@ -5,6 +5,10 @@ protocol FocusViewControlling: Presentable, Mockable {
     var viewState: FocusViewStating? { get set }
 
     func setDelegate(_ delegate: FocusViewControllerDelegate)
+    func openDatePicker()
+    func closeDatePicker()
+    func flashTableView()
+    func reloadTableViewData()
 }
 
 protocol FocusViewControllerDelegate: AnyObject {
@@ -16,6 +20,32 @@ protocol FocusViewControllerDelegate: AnyObject {
 final class FocusViewController: UIViewController, FocusViewControlling {
     @IBOutlet private(set) weak var tableView: UITableView!
     @IBOutlet private(set) weak var closeButton: UIBarButtonItem!
+    @IBOutlet private(set) weak var timerButton: TimerButton!
+    @IBOutlet private(set) weak var timeLabel: UILabel!
+    private(set) lazy var toolbar: UIToolbar = {
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
+        toolbar.barStyle = .default
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(donePressed(_:)))
+        let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelPressed(_:)))
+        toolbar.setItems([cancel, flexSpace, done], animated: false)
+        return toolbar
+    }()
+    private(set) lazy var pickerView: UIPickerView = {
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        return pickerView
+    }()
+    private(set) lazy var datePickerTextField: UITextField = {
+        // using dummy text field for date picker's default open / close animations
+        let textField = UITextField(frame: .zero)
+        textField.inputView = pickerView
+        textField.inputAccessoryView = toolbar
+        view.addSubview(textField)
+        return textField
+    }()
+
     private weak var delegate: FocusViewControllerDelegate?
     var viewState: FocusViewStating? {
         didSet { _ = viewState.map(bind) }
@@ -33,32 +63,66 @@ final class FocusViewController: UIViewController, FocusViewControlling {
         self.delegate = delegate
     }
 
+    func openDatePicker() {
+        pickerView.selectRow(viewState?.focusTime.row() ?? 0, inComponent: 0, animated: false)
+        datePickerTextField.becomeFirstResponder()
+    }
+
+    func closeDatePicker() {
+        view.endEditing(true)
+    }
+
+    func flashTableView() {
+        tableView.alpha = 0.0
+        UIView.animate(withDuration: viewState?.tableFadeAnimationDuation ?? 0) {
+            self.tableView.alpha = 1.0
+        }
+    }
+
+    func reloadTableViewData() {
+        tableView.reloadData()
+    }
+
     // MARK: - private
 
     private func bind(_ viewState: FocusViewStating) {
         guard isViewLoaded else { return }
-        tableView.reloadData()
 
+        let halfRowHeight = (viewState.rowHeight / 2.0)
+        let absMidPoint = (view.bounds.height / 2) - halfRowHeight
         var inset = tableView.contentInset
-        inset.top = (tableView.bounds.height / 2) - (viewState.rowHeight / 2.0)
+        inset.top = absMidPoint - tableView.frame.origin.y + halfRowHeight
         tableView.contentInset = inset
 
         view.backgroundColor = viewState.backgroundColor
-
-        animateTableView(forDuration: viewState.tableFadeAnimationDuation)
-    }
-
-    private func animateTableView(forDuration duration: TimeInterval) {
-        tableView.alpha = 0.0
-        UIView.animate(withDuration: duration) {
-            self.tableView.alpha = 1.0
-        }
+        timeLabel.text = viewState.focusTime.timeStringValue()
+        timerButton.viewState = viewState.timerButtonViewState
     }
 
     // MARK: - actions
 
     @IBAction private func closeButtonPressed(_ sender: UIBarButtonItem) {
         delegate?.viewController(self, performAction: .close)
+    }
+
+    @IBAction private func actionButtonPressed(_ sender: UIButton) {
+        guard let viewState = timerButton.viewState else { return }
+        switch viewState.action {
+        case .start:
+            delegate?.viewController(self, performAction: .openPicker)
+        case .stop:
+            delegate?.viewController(self, performAction: .stopTimer)
+        }
+    }
+
+    @objc
+    private func cancelPressed(_ sender: UIBarButtonItem) {
+        delegate?.viewController(self, performAction: .closePicker)
+    }
+
+    @objc
+    private func donePressed(_ sender: UIBarButtonItem) {
+        delegate?.viewController(self, performAction: .startTimer)
     }
 }
 
@@ -109,5 +173,29 @@ extension FocusViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewState?.numOfSections ?? 0
+    }
+}
+
+// MARK: - UIPickerViewDelegate
+
+extension FocusViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return viewState?.pickerItem(at: row).title
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        viewState?.focusTime = viewState?.pickerItem(at: row).object ?? .default
+    }
+}
+
+// MARK: - UIPickerViewDataSource
+
+extension FocusViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return viewState?.numOfPickerComponents ?? 0
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        viewState?.numOfPickerRows ?? 0
     }
 }

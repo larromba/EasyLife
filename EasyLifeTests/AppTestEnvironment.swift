@@ -18,7 +18,8 @@ final class AppTestEnvironment: TestEnvironment {
     var navigationController: UINavigationController
     var viewController: PlanViewControlling
     var persistentContainer: NSPersistentContainer
-    var badge: Badge
+    var badge: Badging
+    var alarm: Alarming
     var now: Date
 
     private(set) var appRouter: AppRouting!
@@ -48,13 +49,15 @@ final class AppTestEnvironment: TestEnvironment {
          navigationController: UINavigationController = UINavigationController(),
          window: UIWindow = UIWindow(),
          persistentContainer: NSPersistentContainer = .mock(),
-         badge: Badge = MockBadge(),
+         badge: Badging = MockBadge(),
+         alarm: Alarming = MockAlarm(),
          now: Date = Date()) {
         self.viewController = viewController
         self.navigationController = navigationController
         self.window = window
         self.persistentContainer = persistentContainer
         self.badge = badge
+        self.alarm = alarm
         self.now = now
     }
 
@@ -78,7 +81,7 @@ final class AppTestEnvironment: TestEnvironment {
             blockedByController: blockedByController
         )
         focusRepository = FocusRepository(dataProvider: dataProvider, planRepository: planRepository)
-        focusController = FocusController(repository: focusRepository)
+        focusController = FocusController(repository: focusRepository, alarm: alarm)
         focusCoordinator = FocusCoordinator(focusController: focusController)
         archiveRepository = ArchiveRepository(dataProvider: dataProvider)
         archiveController = ArchiveController(repository: archiveRepository)

@@ -1,4 +1,5 @@
 import AsyncAwait
+import AVFoundation
 import Foundation
 import UIKit
 
@@ -15,12 +16,15 @@ protocol FocusControllerDelegate: AnyObject {
 
 final class FocusController: FocusControlling {
     private let repository: FocusRepositoring
+    private let alarm: Alarming
     private weak var viewController: FocusViewControlling?
     private var alertController: AlertControlling?
     private weak var delegate: FocusControllerDelegate?
+    private var timer: Timer?
 
-    init(repository: FocusRepositoring) {
+    init(repository: FocusRepositoring, alarm: Alarming) {
         self.repository = repository
+        self.alarm = alarm
     }
 
     func setViewController(_ viewController: FocusViewControlling) {
@@ -41,8 +45,7 @@ final class FocusController: FocusControlling {
 
     private func reload() {
         async({
-            // focuses items in the today section only
-            // these items must not be blocked by items in other sections
+            // items must not be blocked by items in other sections
             // if so, show an alert
             let missingItems = try await(self.repository.fetchMissingItems())
             guard missingItems.isEmpty else {
@@ -50,7 +53,7 @@ final class FocusController: FocusControlling {
                 return
             }
             // ensure first item can be done, else it's recursively blocked.
-            // blocking items are prioritized, so nothing can be done if:
+            // nothing can be done if:
             // a blocks b
             // b blocks c
             // c blocks a
@@ -61,10 +64,19 @@ final class FocusController: FocusControlling {
             // items are presented one at a time, so if no more items, finish
             let items = try await(self.repository.fetchItems())
             guard !items.isEmpty else {
-                onMain { self.delegate?.controllerFinished(self) }
+                onMain { self.close() }
                 return
             }
-            onMain { self.viewController?.viewState = FocusViewState(items: items) }
+            onMain {
+                self.viewController?.viewState = FocusViewState(
+                    items: items,
+                    backgroundColor: .black,
+                    timerButtonViewState: TimerButtonViewState(action: .start),
+                    focusTime: .none
+                )
+                self.viewController?.flashTableView()
+                self.viewController?.reloadTableViewData()
+            }
         }, onError: { error in
             onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
@@ -106,6 +118,73 @@ final class FocusController: FocusControlling {
             onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
     }
+
+    private func openPicker() {
+        viewController?.viewState?.focusTime = .default
+        viewController?.openDatePicker()
+    }
+
+    private func closePicker() {
+        viewController?.viewState?.focusTime = .none
+        viewController?.closeDatePicker()
+    }
+
+    private func startTimer() {
+        viewController?.viewState = viewController?.viewState?.copy(
+            backgroundColor: .darkGray,
+            timerButtonViewState: TimerButtonViewState(action: .stop)
+        )
+        viewController?.closeDatePicker()
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timerTick), userInfo: nil,
+                                     repeats: true)
+    }
+
+    private func stopTimer() {
+        timer?.invalidate()
+        alarm.stop()
+        viewController?.viewState = viewController?.viewState?.copy(
+            backgroundColor: .black,
+            timerButtonViewState: TimerButtonViewState(action: .start)
+        )
+        viewController?.viewState?.focusTime = .none
+    }
+
+    private func fireAlarm() {
+        timer?.invalidate()
+        alarm.start()
+        timer = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(backgroundChangeTick),
+                                     userInfo: nil, repeats: true)
+    }
+
+    private func close() {
+        stopAllProcesses()
+        delegate?.controllerFinished(self)
+    }
+
+    private func stopAllProcesses() {
+        timer?.invalidate()
+        alarm.stop()
+    }
+
+    // MARK: - ticks
+
+    @objc
+    private func timerTick() {
+        guard let viewState = viewController?.viewState else { return }
+        let newValue = viewState.focusTime.timeValue() - 1.0
+        viewController?.viewState?.focusTime = .custom(newValue)
+        guard newValue > 0 else {
+            fireAlarm()
+            return
+        }
+    }
+
+    @objc
+    private func backgroundChangeTick() {
+        guard let viewState = viewController?.viewState else { return }
+        let color: UIColor = (viewState.backgroundColor == .darkGray) ? .red : .darkGray
+        viewController?.viewState = viewState.copy(backgroundColor: color)
+    }
 }
 
 // MARK: - FocusViewControllerDelegate
@@ -113,7 +192,11 @@ final class FocusController: FocusControlling {
 extension FocusController: FocusViewControllerDelegate {
     func viewController(_ viewController: FocusViewControlling, performAction action: FocusAction) {
         switch action {
-        case .close: delegate?.controllerFinished(self)
+        case .close: close()
+        case .openPicker: openPicker()
+        case .closePicker: closePicker()
+        case .startTimer: startTimer()
+        case .stopTimer: stopTimer()
         }
     }
 

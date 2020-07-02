@@ -6,21 +6,28 @@ protocol FocusViewStating {
     var totalItems: Int { get }
     var isEmpty: Bool { get }
     var numOfSections: Int { get }
+    var numOfPickerRows: Int { get }
+    var numOfPickerComponents: Int { get }
     var backgroundColor: UIColor { get }
     var tableFadeAnimationDuation: TimeInterval { get }
+    var timerButtonViewState: TimerButtonViewStating { get }
+    var date: Date? { get set }
+    var focusTime: FocusTime { get set }
 
     func item(at indexPath: IndexPath) -> TodoItem?
     func cellViewState(at indexPath: IndexPath) -> PlanCellViewStating?
-    func name(at indexPath: IndexPath) -> String?
     func availableActions(at indexPath: IndexPath) -> [FocusItemAction]
     func color(for action: FocusItemAction) -> UIColor
     func text(for action: FocusItemAction) -> String
     func style(for action: FocusItemAction) -> UITableViewRowAction.Style
+    func pickerItem(at row: Int) -> FocusPickerItem
+
+    func copy(backgroundColor: UIColor, timerButtonViewState: TimerButtonViewStating) -> FocusViewStating
+    func copy(backgroundColor: UIColor) -> FocusViewStating
+    func copy(timerButtonViewState: TimerButtonViewStating) -> FocusViewStating
 }
 
 struct FocusViewState: FocusViewStating {
-    private let items: [TodoItem]
-
     var item: TodoItem? {
         return items.first
     }
@@ -31,16 +38,26 @@ struct FocusViewState: FocusViewStating {
     var isEmpty: Bool {
         return totalItems == 0
     }
-    var numOfSections: Int {
-        return 1
+    var numOfSections: Int = 1
+    var numOfPickerComponents: Int = 1
+    var numOfPickerRows: Int {
+        return pickerItems.count
     }
-    var backgroundColor: UIColor {
-        return .black
-    }
+    let backgroundColor: UIColor
     var tableFadeAnimationDuation: TimeInterval = 0.5
+    let timerButtonViewState: TimerButtonViewStating
+    var date: Date?
+    var focusTime: FocusTime
 
-    init(items: [TodoItem]) {
+    private let items: [TodoItem]
+    private var pickerItems: [FocusPickerItem] = FocusTime.display.map { FocusPickerItem(object: $0) }
+
+    init(items: [TodoItem], backgroundColor: UIColor, timerButtonViewState: TimerButtonViewStating,
+         focusTime: FocusTime) {
         self.items = items
+        self.backgroundColor = backgroundColor
+        self.timerButtonViewState = timerButtonViewState
+        self.focusTime = focusTime
     }
 
     func item(at indexPath: IndexPath) -> TodoItem? {
@@ -51,17 +68,9 @@ struct FocusViewState: FocusViewStating {
         return item(at: indexPath).map { PlanCellViewState(item: $0, section: .today) }
     }
 
-    func name(at indexPath: IndexPath) -> String? {
-        return nil
-    }
-
     func availableActions(at indexPath: IndexPath) -> [FocusItemAction] {
-        guard let item = items.first else { return [] }
-        var actions = [FocusItemAction]()
-        if (item.blockedBy?.count ?? 0) == 0 {
-            actions += [.done]
-        }
-        return actions
+        guard let item = item, (item.blockedBy?.count ?? 0) == 0 else { return [] }
+        return [.done]
     }
 
     func color(for action: FocusItemAction) -> UIColor {
@@ -80,5 +89,26 @@ struct FocusViewState: FocusViewStating {
         switch action {
         case .done: return .normal
         }
+    }
+
+    func pickerItem(at row: Int) -> FocusPickerItem {
+        return pickerItems[row]
+    }
+}
+
+extension FocusViewState {
+    func copy(backgroundColor: UIColor, timerButtonViewState: TimerButtonViewStating) -> FocusViewStating {
+        return FocusViewState(items: items, backgroundColor: backgroundColor,
+                              timerButtonViewState: timerButtonViewState, focusTime: focusTime)
+    }
+
+    func copy(timerButtonViewState: TimerButtonViewStating) -> FocusViewStating {
+        return FocusViewState(items: items, backgroundColor: backgroundColor,
+                              timerButtonViewState: timerButtonViewState, focusTime: focusTime)
+    }
+
+    func copy(backgroundColor: UIColor) -> FocusViewStating {
+        return FocusViewState(items: items, backgroundColor: backgroundColor,
+                              timerButtonViewState: timerButtonViewState, focusTime: focusTime)
     }
 }

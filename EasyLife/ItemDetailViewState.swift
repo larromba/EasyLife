@@ -22,8 +22,8 @@ protocol ItemDetailViewStating {
     var isBlockedButtonEnabled: Bool { get }
     var blockedCount: Int { get }
 
-    func repeatStatePickerComponent(at row: Int) -> RepeatStateComponentItem
-    func projectPickerComponent(at row: Int) -> ProjectComponentItem
+    func repeatStatePickerItem(at row: Int) -> RepeatStatePickerItem
+    func projectPickerItem(at row: Int) -> ProjectPickerItem
 
     func copy(item: TodoItem, items: [TodoItem], projects: [Project]) -> ItemDetailViewStating
 }
@@ -61,10 +61,10 @@ struct ItemDetailViewState: ItemDetailViewStating {
     let rightButton: ItemDetailRightButton
     var numOfPickerComponents: Int = 1
     var repeatStateCount: Int {
-        return repeatStatePickerComponents.count
+        return repeatStatePickerItems.count
     }
     var projectCount: Int {
-        return projectPickerComponents.count
+        return projectPickerItems.count
     }
     var isProjectTextFieldEnabled: Bool {
         return projectCount > 0
@@ -75,8 +75,8 @@ struct ItemDetailViewState: ItemDetailViewStating {
     let isBlockedButtonEnabled: Bool
     let blockedCount: Int
 
-    private var repeatStatePickerComponents: [RepeatStateComponentItem]
-    private var projectPickerComponents: [ProjectComponentItem]
+    private let repeatStatePickerItems: [RepeatStatePickerItem]
+    private let projectPickerItems: [ProjectPickerItem]
 
     init(item: TodoItem, isNew: Bool, items: [TodoItem], projects: [Project]) {
         self.isNew = isNew
@@ -90,16 +90,16 @@ struct ItemDetailViewState: ItemDetailViewStating {
         blockedCount = items.filter { $0.blocking?.contains(item) ?? false }.count
         rightButton = isNew ? .save : .delete
         leftButton = isNew ? .cancel : .back
-        repeatStatePickerComponents = RepeatState.display.map { RepeatStateComponentItem(object: $0) }
-        projectPickerComponents = projects.map { ProjectComponentItem(object: $0) }
+        repeatStatePickerItems = RepeatState.display.map { RepeatStatePickerItem(object: $0) }
+        projectPickerItems = projects.map { ProjectPickerItem(object: $0) }
     }
 
-    func repeatStatePickerComponent(at row: Int) -> RepeatStateComponentItem {
-        return repeatStatePickerComponents[row]
+    func repeatStatePickerItem(at row: Int) -> RepeatStatePickerItem {
+        return repeatStatePickerItems[row]
     }
 
-    func projectPickerComponent(at row: Int) -> ProjectComponentItem {
-        return projectPickerComponents[row]
+    func projectPickerItem(at row: Int) -> ProjectPickerItem {
+        return projectPickerItems[row]
     }
 }
 
