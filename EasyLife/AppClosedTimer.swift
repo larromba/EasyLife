@@ -7,8 +7,8 @@ protocol AppClosedTimerDelegate: AnyObject {
 // sourcery: name = AppClosedTimer
 protocol AppClosedTiming {
     func setDelegate(_ delegate: AppClosedTimerDelegate)
-    func start()
-    func stop()
+    func startListening()
+    func stopListening()
 }
 
 final class AppClosedTimer: AppClosedTiming {
@@ -19,11 +19,11 @@ final class AppClosedTimer: AppClosedTiming {
         self.delegate = delegate
     }
 
-    func start() {
+    func startListening() {
         setupNotifications()
     }
 
-    func stop() {
+    func stopListening() {
         tearDownNotifications()
     }
 

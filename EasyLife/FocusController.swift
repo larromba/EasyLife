@@ -208,8 +208,8 @@ final class FocusController: FocusControlling {
 extension FocusController: FocusViewControllerDelegate {
     func viewController(_ viewController: FocusViewControlling, handleViewAction viewAction: ViewAction) {
         switch viewAction {
-        case .willAppear: appClosedTimer.start()
-        case .willDisappear: appClosedTimer.stop()
+        case .willAppear: appClosedTimer.startListening()
+        case .willDisappear: appClosedTimer.stopListening()
         }
     }
 
