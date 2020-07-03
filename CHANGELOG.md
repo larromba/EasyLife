@@ -68,38 +68,34 @@ Apple ID: 1229095589
 
 # Future Work
 
-- long press on cell: make tomorrow
-- instructional video
-- noise when done 
-- siri integration
-- holiday mode
-- later in missed?
-- local notification to update badge?
-* fix space bug
-* fix initial load flickers
-BUG: missed doesnt change. Split then done doesnt work.
-BUG: typing in notes wierd for lists
-BUG: didn't update list on reentering app 
-project buttons in weird order
-move coredata to new repo
-BUG: later done if recurring doesnt work
-prioritisation is weird
+3.0.0:
+long press on cell: make tomorrow
+holiday mode
 add none selection to project picker
-revisit action rules for sections
-add: clear button to blocked list
+add clear button to blocked list
+search app & check protocols are being used (not direct references)
+fix initial load flickers: plan table fade on reload
+simple date picker not clearing date
+project needs empty selection
+move coredata to new repo
+update libs
+
+3.1.0:
+BUG: missed doesnt change. Split then done doesnt work.
+BUG: typing in notes is wierd
+BUG: later done if recurring doesnt work
 BUG: app becomes active not always updating
-BUG: priority order
-update libs (
-bug: archive undo not updating ios13
-done things should add copy to archive
-new item should be done somewhere else so can use child context?
-remove: ObjectContext ValueContext
-// TODO: search app & check protocols are being used (not direct references)
-plan table fade on reload
-plan cell ui tests rather than ui tests in each test class
+
+Minor:
+plancell ui tests rather than ui tests in each test class?
 use plan cell everywhere?
-// TODO: refactor out uitableviewaction from tests?
-//notifyStateUpdated in itemdetailview - maybe this should be done in controller
-//notifyStateUpdated in focusview - maybe this should be done in controller
-//simple date picker not clearing date
-//project needs empty selection
+refactor out uitableviewaction from tests?
+
+Future:
+short instructional video
+how to update badge at midnight?
+add noise when items done 
+siri integration
+are project buttons in weird order?
+revisit action rules for sections
+should done recurring items add copy to archive?
