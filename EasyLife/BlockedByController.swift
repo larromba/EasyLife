@@ -5,6 +5,7 @@ import Foundation
 protocol BlockedByControlling: TodoItemContexting, Mockable {
     func setViewController(_ viewController: BlockedByViewControlling)
     func setAlertController(_ alertController: AlertControlling)
+    func invalidate()
 }
 
 final class BlockedByController: BlockedByControlling {
@@ -46,6 +47,10 @@ final class BlockedByController: BlockedByControlling {
         }, onError: { error in
             onMain { self.alertController?.showAlert(Alert(error: error)) }
         })
+    }
+
+    func invalidate() {
+        context = nil
     }
 }
 

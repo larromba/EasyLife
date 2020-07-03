@@ -18,8 +18,6 @@ final class PlanTests: XCTestCase {
         UIView.setAnimationsEnabled(false)
     }
 
-    // MARK: - action
-
     override func tearDown() {
         navigationController = nil
         viewController = nil

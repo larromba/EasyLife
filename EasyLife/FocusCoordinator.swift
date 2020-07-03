@@ -5,6 +5,7 @@ protocol FocusCoordinating: Mockable {
     func setNavigationController(_ navigationController: UINavigationController)
     func setViewController(_ viewController: FocusViewControlling)
     func setAlertController(_ alertController: AlertControlling)
+    func resetNavigation()
 }
 
 final class FocusCoordinator: NSObject, FocusCoordinating {
@@ -28,6 +29,10 @@ final class FocusCoordinator: NSObject, FocusCoordinating {
 
     func setAlertController(_ alertController: AlertControlling) {
         focusController.setAlertController(alertController)
+    }
+
+    func resetNavigation() {
+        navigationController?.dismiss(animated: false, completion: nil)
     }
 }
 

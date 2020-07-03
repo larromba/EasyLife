@@ -6,6 +6,7 @@ protocol ItemDetailControlling: TodoItemContexting, Mockable {
     func setViewController(_ viewController: ItemDetailViewControlling)
     func setAlertController(_ alertController: AlertControlling)
     func setDelegate(_ delegate: ItemDetailControllerDelegate)
+    func invalidate()
 }
 
 protocol ItemDetailControllerDelegate: AnyObject {
@@ -48,6 +49,10 @@ final class ItemDetailController: ItemDetailControlling {
             repository.setContext(dataContext)
         }
         reload()
+    }
+
+    func invalidate() {
+        context = nil
     }
 
     // MARK: - private

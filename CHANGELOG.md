@@ -68,7 +68,6 @@ Apple ID: 1229095589
 
 # Future Work
 
-- long press on app icon: new note
 - long press on cell: make tomorrow
 - instructional video
 - noise when done 

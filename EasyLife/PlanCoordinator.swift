@@ -4,6 +4,8 @@ import UIKit
 // sourcery: name = PlanCoordinator
 protocol PlanCoordinating: Mockable {
     func start()
+    func resetNavigation()
+    func openNewTodoItem()
 }
 
 final class PlanCoordinator: NSObject, PlanCoordinating {
@@ -28,6 +30,17 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
 
     func start() {
         planController.start()
+    }
+
+    func openNewTodoItem() {
+        planController.openNewTodoItem()
+    }
+
+    func resetNavigation() {
+        blockedByController.invalidate()
+        itemDetailController.invalidate()
+        context = nil
+        navigationController.popToRootViewController(animated: false)
     }
 
     // MARK: - private

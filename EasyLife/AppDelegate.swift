@@ -9,6 +9,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        application.shortcutItems = ShortcutItem.display.map { $0.item }
+
         #if DEBUG
         guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else {
             log("app is in test mode")
@@ -39,5 +41,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         appController?.applicationWillTerminate()
+    }
+
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem,
+                     completionHandler: @escaping (Bool) -> Void) {
+        appController?.processShortcutItem(shortcutItem)
     }
 }

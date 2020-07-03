@@ -2,6 +2,7 @@ import UIKit
 
 protocol AppRouting: StoryboardRouting, Mockable {
     func start()
+    func routeToNewTodoItem()
 }
 
 final class AppRouter: AppRouting {
@@ -22,6 +23,13 @@ final class AppRouter: AppRouting {
         planCoordinator.start()
     }
 
+    func routeToNewTodoItem() {
+        resetAllNavigation()
+        planCoordinator.openNewTodoItem()
+    }
+
+    // MARK: - StoryboardRouting
+
     func handleSegue(_ segue: UIStoryboardSegue) {
         guard let navigationController = segue.destination as? UINavigationController else { return }
         if let viewController = navigationController.viewControllers.first as? ProjectsViewControlling {
@@ -39,5 +47,14 @@ final class AppRouter: AppRouting {
         } else {
             assertionFailure("unhandled route for view controller")
         }
+    }
+
+    // MARK: - private
+
+    private func resetAllNavigation() {
+        planCoordinator.resetNavigation()
+        focusCoordinator.resetNavigation()
+        archiveCoordinator.resetNavigation()
+        projectsCoordinator.resetNavigation()
     }
 }

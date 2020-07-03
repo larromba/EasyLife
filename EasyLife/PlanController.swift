@@ -6,6 +6,7 @@ protocol PlanControlling: Mockable {
     func start()
     func setDelegate(_ delegate: PlanControllerDelegate)
     func setRouter(_ router: StoryboardRouting)
+    func openNewTodoItem()
 }
 
 protocol PlanControllerDelegate: AnyObject {
@@ -42,6 +43,10 @@ final class PlanController: PlanControlling {
 
     func setRouter(_ router: StoryboardRouting) {
         self.router = router
+    }
+
+    func openNewTodoItem() {
+        viewController(viewController, performAction: .add)
     }
 
     // MARK: - private

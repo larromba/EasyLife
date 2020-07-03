@@ -263,6 +263,22 @@ class MockAppController: NSObject, AppControlling {
     enum applicationWillTerminate2: String, _StringRawRepresentable {
         case name = "applicationWillTerminate2"
     }
+
+    // MARK: - processShortcutItem
+
+    func processShortcutItem(_ item: UIApplicationShortcutItem) {
+        let functionName = processShortcutItem3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: item, forKey: processShortcutItem3.params.item)
+        invocations.record(invocation)
+    }
+
+    enum processShortcutItem3: String, _StringRawRepresentable {
+        case name = "processShortcutItem3"
+        enum params: String, _StringRawRepresentable {
+            case item = "processShortcutItem(_item:UIApplicationShortcutItem).item"
+        }
+    }
 }
 
 class MockAppRouting: NSObject, AppRouting {
@@ -283,17 +299,29 @@ class MockAppRouting: NSObject, AppRouting {
         case name = "start1"
     }
 
-    // MARK: - handleSegue
+    // MARK: - routeToNewTodoItem
 
-    func handleSegue(_ segue: UIStoryboardSegue) {
-        let functionName = handleSegue2.name
+    func routeToNewTodoItem() {
+        let functionName = routeToNewTodoItem2.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: segue, forKey: handleSegue2.params.segue)
         invocations.record(invocation)
     }
 
-    enum handleSegue2: String, _StringRawRepresentable {
-        case name = "handleSegue2"
+    enum routeToNewTodoItem2: String, _StringRawRepresentable {
+        case name = "routeToNewTodoItem2"
+    }
+
+    // MARK: - handleSegue
+
+    func handleSegue(_ segue: UIStoryboardSegue) {
+        let functionName = handleSegue3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: segue, forKey: handleSegue3.params.segue)
+        invocations.record(invocation)
+    }
+
+    enum handleSegue3: String, _StringRawRepresentable {
+        case name = "handleSegue3"
         enum params: String, _StringRawRepresentable {
             case segue = "handleSegue(_segue:UIStoryboardSegue).segue"
         }
@@ -416,6 +444,18 @@ class MockArchiveCoordinator: NSObject, ArchiveCoordinating {
         enum params: String, _StringRawRepresentable {
             case alertController = "setAlertController(_alertController:AlertControlling).alertController"
         }
+    }
+
+    // MARK: - resetNavigation
+
+    func resetNavigation() {
+        let functionName = resetNavigation4.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum resetNavigation4: String, _StringRawRepresentable {
+        case name = "resetNavigation4"
     }
 }
 
@@ -605,17 +645,29 @@ class MockBlockedByController: NSObject, BlockedByControlling {
         }
     }
 
-    // MARK: - setContext
+    // MARK: - invalidate
 
-    func setContext(_ context: TodoItemContext) {
-        let functionName = setContext3.name
+    func invalidate() {
+        let functionName = invalidate3.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: context, forKey: setContext3.params.context)
         invocations.record(invocation)
     }
 
-    enum setContext3: String, _StringRawRepresentable {
-        case name = "setContext3"
+    enum invalidate3: String, _StringRawRepresentable {
+        case name = "invalidate3"
+    }
+
+    // MARK: - setContext
+
+    func setContext(_ context: TodoItemContext) {
+        let functionName = setContext4.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: context, forKey: setContext4.params.context)
+        invocations.record(invocation)
+    }
+
+    enum setContext4: String, _StringRawRepresentable {
+        case name = "setContext4"
         enum params: String, _StringRawRepresentable {
             case context = "setContext(_context:TodoItemContext).context"
         }
@@ -957,6 +1009,18 @@ class MockFocusCoordinator: NSObject, FocusCoordinating {
             case alertController = "setAlertController(_alertController:AlertControlling).alertController"
         }
     }
+
+    // MARK: - resetNavigation
+
+    func resetNavigation() {
+        let functionName = resetNavigation4.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum resetNavigation4: String, _StringRawRepresentable {
+        case name = "resetNavigation4"
+    }
 }
 
 class MockFocusRepository: NSObject, FocusRepositoring {
@@ -1192,17 +1256,29 @@ class MockItemDetailController: NSObject, ItemDetailControlling {
         }
     }
 
-    // MARK: - setContext
+    // MARK: - invalidate
 
-    func setContext(_ context: TodoItemContext) {
-        let functionName = setContext4.name
+    func invalidate() {
+        let functionName = invalidate4.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: context, forKey: setContext4.params.context)
         invocations.record(invocation)
     }
 
-    enum setContext4: String, _StringRawRepresentable {
-        case name = "setContext4"
+    enum invalidate4: String, _StringRawRepresentable {
+        case name = "invalidate4"
+    }
+
+    // MARK: - setContext
+
+    func setContext(_ context: TodoItemContext) {
+        let functionName = setContext5.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: context, forKey: setContext5.params.context)
+        invocations.record(invocation)
+    }
+
+    enum setContext5: String, _StringRawRepresentable {
+        case name = "setContext5"
         enum params: String, _StringRawRepresentable {
             case context = "setContext(_context:TodoItemContext).context"
         }
@@ -1475,6 +1551,18 @@ class MockPlanController: NSObject, PlanControlling {
             case router = "setRouter(_router:StoryboardRouting).router"
         }
     }
+
+    // MARK: - openNewTodoItem
+
+    func openNewTodoItem() {
+        let functionName = openNewTodoItem4.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum openNewTodoItem4: String, _StringRawRepresentable {
+        case name = "openNewTodoItem4"
+    }
 }
 
 class MockPlanCoordinator: NSObject, PlanCoordinating {
@@ -1493,6 +1581,30 @@ class MockPlanCoordinator: NSObject, PlanCoordinating {
 
     enum start1: String, _StringRawRepresentable {
         case name = "start1"
+    }
+
+    // MARK: - resetNavigation
+
+    func resetNavigation() {
+        let functionName = resetNavigation2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum resetNavigation2: String, _StringRawRepresentable {
+        case name = "resetNavigation2"
+    }
+
+    // MARK: - openNewTodoItem
+
+    func openNewTodoItem() {
+        let functionName = openNewTodoItem3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum openNewTodoItem3: String, _StringRawRepresentable {
+        case name = "openNewTodoItem3"
     }
 }
 
@@ -1859,6 +1971,18 @@ class MockProjectsCoordinator: NSObject, ProjectsCoordinating {
         enum params: String, _StringRawRepresentable {
             case alertController = "setAlertController(_alertController:AlertControlling).alertController"
         }
+    }
+
+    // MARK: - resetNavigation
+
+    func resetNavigation() {
+        let functionName = resetNavigation4.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum resetNavigation4: String, _StringRawRepresentable {
+        case name = "resetNavigation4"
     }
 }
 

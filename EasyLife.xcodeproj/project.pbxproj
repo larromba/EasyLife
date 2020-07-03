@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F0821C024AF4E320099E589 /* ShortcutItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0821BF24AF4E320099E589 /* ShortcutItem.swift */; };
+		7F0821C224AF59320099E589 /* RoutingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0821C124AF59320099E589 /* RoutingTests.swift */; };
 		7F0D9248204619DF00D9AE6B /* BlockedIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F0D9247204619DF00D9AE6B /* BlockedIndicatorView.xib */; };
 		7F0D924A20461A1F00D9AE6B /* BlockedIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0D924920461A1F00D9AE6B /* BlockedIndicatorView.swift */; };
 		7F0E1497249A670D000B15CE /* MockError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0E1496249A670D000B15CE /* MockError.swift */; };
@@ -205,6 +207,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7F0821BF24AF4E320099E589 /* ShortcutItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutItem.swift; sourceTree = "<group>"; };
+		7F0821C124AF59320099E589 /* RoutingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingTests.swift; sourceTree = "<group>"; };
 		7F0D9247204619DF00D9AE6B /* BlockedIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockedIndicatorView.xib; sourceTree = "<group>"; };
 		7F0D924920461A1F00D9AE6B /* BlockedIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedIndicatorView.swift; sourceTree = "<group>"; };
 		7F0E1496249A670D000B15CE /* MockError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockError.swift; sourceTree = "<group>"; };
@@ -625,6 +629,7 @@
 		7FAC2C731E9E673400F14ECB /* EasyLifeTests */ = {
 			isa = PBXGroup;
 			children = (
+				7F0821C124AF59320099E589 /* RoutingTests.swift */,
 				7FA1696A21DE795E00D8BA3F /* PlanTests.swift */,
 				7F3B8B78246F26AC00B45038 /* FocusTests.swift */,
 				7F61898B21E8DCC40047832C /* ItemDetailTests.swift */,
@@ -677,6 +682,7 @@
 				7FE9D89524ACF02700C564D9 /* FocusPickerItem.swift */,
 				7FE9D89924AD24B400C564D9 /* TimerButtonAction.swift */,
 				7FE9D8A424AE4B3500C564D9 /* ViewAction.swift */,
+				7F0821BF24AF4E320099E589 /* ShortcutItem.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1091,6 +1097,7 @@
 				7FAC2C821E9E692E00F14ECB /* ItemDetailViewController.swift in Sources */,
 				7F163D311EDEE98D00DC52B6 /* BundleExtensions.swift in Sources */,
 				7F3BD2D821D3BB670035F540 /* Context.swift in Sources */,
+				7F0821C024AF4E320099E589 /* ShortcutItem.swift in Sources */,
 				7F429C7D21C3F8E700195E32 /* Mockable.swift in Sources */,
 				7F429C9121C539CD00195E32 /* ArchiveController.swift in Sources */,
 				7FE9D89A24AD24B400C564D9 /* TimerButtonAction.swift in Sources */,
@@ -1221,6 +1228,7 @@
 				7FA1696821DE68DB00D8BA3F /* AppTestEnvironment.swift in Sources */,
 				7FCEC9281EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift in Sources */,
 				7F0E1497249A670D000B15CE /* MockError.swift in Sources */,
+				7F0821C224AF59320099E589 /* RoutingTests.swift in Sources */,
 				7F48FEE121F7D63200EACC03 /* UITextViewExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1439,7 +1447,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = EasyLife/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pinkchicken.easylife;
@@ -1464,7 +1472,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = EasyLife/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pinkchicken.easylife;
@@ -1485,7 +1493,7 @@
 				DEVELOPMENT_TEAM = PFC77GK3D7;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = EasyLifeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pinkchicken.EasyLifeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1504,7 +1512,7 @@
 				DEVELOPMENT_TEAM = PFC77GK3D7;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = EasyLifeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pinkchicken.EasyLifeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

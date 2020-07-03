@@ -1,3 +1,4 @@
+import AsyncAwait
 import UIKit
 
 // sourcery: name = ProjectsCoordinator
@@ -5,6 +6,7 @@ protocol ProjectsCoordinating: Mockable {
     func setNavigationController(_ navigationController: UINavigationController)
     func setViewController(_ viewController: ProjectsViewControlling)
     func setAlertController(_ alertController: AlertControlling)
+    func resetNavigation()
 }
 
 final class ProjectsCoordinator: NSObject, ProjectsCoordinating {
@@ -28,6 +30,10 @@ final class ProjectsCoordinator: NSObject, ProjectsCoordinating {
 
     func setAlertController(_ alertController: AlertControlling) {
         projectsController.setAlertController(alertController)
+    }
+
+    func resetNavigation() {
+        navigationController?.dismiss(animated: false, completion: nil)
     }
 }
 

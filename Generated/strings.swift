@@ -125,6 +125,8 @@ internal enum L10n {
   internal static let repeatOptionWeekly = L10n.tr("Localizable", "repeat option weekly")
   /// yearly
   internal static let repeatOptionYearly = L10n.tr("Localizable", "repeat option yearly")
+  /// New Todo Item
+  internal static let shortcutItemNewTodoItemTitle = L10n.tr("Localizable", "shortcut item new todo item title")
   /// Today
   internal static let todaySection = L10n.tr("Localizable", "today section")
   /// [no name]

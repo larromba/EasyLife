@@ -1,11 +1,12 @@
 import AsyncAwait
-import Foundation
 import Logging
+import UIKit
 
 // sourcery: name = AppController
 protocol AppControlling: Mockable {
     func start()
     func applicationWillTerminate()
+    func processShortcutItem(_ item: UIApplicationShortcutItem)
 }
 
 final class AppController: AppControlling {
@@ -29,5 +30,15 @@ final class AppController: AppControlling {
         }, onError: { error in
             logError(error.localizedDescription)
         })
+    }
+
+    func processShortcutItem(_ item: UIApplicationShortcutItem) {
+        guard let item = ShortcutItem(rawValue: item.type) else {
+            assertionFailure("unknown shortcut item")
+            return
+        }
+        switch item {
+        case .newTodoItem: appRouter.routeToNewTodoItem()
+        }
     }
 }
