@@ -10,17 +10,17 @@ protocol ArchiveRepositoring: Mockable {
 }
 
 final class ArchiveRepository: ArchiveRepositoring {
-    private let dataProvider: DataContextProviding
+    private let dataContextProvider: DataContextProviding
     private let donePredicate = NSPredicate(format: "%K = true", argumentArray: ["done"])
 
-    init(dataProvider: DataContextProviding) {
-        self.dataProvider = dataProvider
+    init(dataContextProvider: DataContextProviding) {
+        self.dataContextProvider = dataContextProvider
     }
 
     func undo(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 context.performAndWait {
                     item.done = false
                     item.date = nil
@@ -37,7 +37,7 @@ final class ArchiveRepository: ArchiveRepositoring {
     func clearAll(items: [TodoItem]) -> Async<Void> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 items.forEach { item in
                     context.delete(item)
                 }
@@ -52,7 +52,7 @@ final class ArchiveRepository: ArchiveRepositoring {
     func fetchItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 let items = try await(context.fetch(
                     entityClass: TodoItem.self,
                     sortBy: nil,

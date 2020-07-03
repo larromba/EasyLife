@@ -17,7 +17,7 @@ protocol PlanRepositoring: Mockable {
 }
 
 final class PlanRepository: PlanRepositoring {
-    private let dataProvider: DataContextProviding
+    private let dataContextProvider: DataContextProviding
     // predicates not lazy as 'today' changes
     private var missedPredicate: NSPredicate {
         let date = today
@@ -38,25 +38,25 @@ final class PlanRepository: PlanRepositoring {
         return Date()
     }
 
-    init(dataProvider: DataContextProviding) {
-        self.dataProvider = dataProvider
+    init(dataContextProvider: DataContextProviding) {
+        self.dataContextProvider = dataContextProvider
     }
 
     func newItemContext() -> TodoItemContext {
-        let context = dataProvider.childContext(thread: .main)
+        let context = dataContextProvider.childContext(thread: .main)
         let item = context.insert(entityClass: TodoItem.self)
         return .new(item: item, context: context)
     }
 
     func existingItemContext(item: TodoItem) -> TodoItemContext {
-        let context = dataProvider.mainContext()
+        let context = dataContextProvider.mainContext()
         return .existing(item: item, context: context)
     }
 
     func fetchMissedItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 let items = try await(context.fetch(
                     entityClass: TodoItem.self,
                     sortBy: DataSort(sortFunction: self.sortByPriority),
@@ -71,7 +71,7 @@ final class PlanRepository: PlanRepositoring {
     func fetchLaterItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 let items = try await(context.fetch(
                     entityClass: TodoItem.self,
                     sortBy: DataSort(sortFunction: self.sortByDate),
@@ -86,7 +86,7 @@ final class PlanRepository: PlanRepositoring {
     func fetchTodayItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 let items = try await(context.fetch(
                     entityClass: TodoItem.self,
                     sortBy: DataSort(sortFunction: self.sortByPriority),
@@ -101,7 +101,7 @@ final class PlanRepository: PlanRepositoring {
     func delete(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 context.delete(item)
                 _ = try await(context.save())
                 completion(.success(()))
@@ -114,7 +114,7 @@ final class PlanRepository: PlanRepositoring {
     func later(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 context.performAndWait {
                     switch item.repeatState {
                     case .none:
@@ -134,7 +134,7 @@ final class PlanRepository: PlanRepositoring {
     func done(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 context.performAndWait {
                     switch item.repeatState {
                     case .none:
@@ -155,7 +155,7 @@ final class PlanRepository: PlanRepositoring {
     func split(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 var isValid: Bool!
                 context.performAndWait {
                     isValid = (item.repeatState != .default)

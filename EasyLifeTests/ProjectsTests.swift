@@ -181,7 +181,7 @@ final class ProjectsTests: XCTestCase {
         // test
         waitAsync(delay: 0.5) { completion in
             async({
-                let context = self.env.dataProvider.mainContext()
+                let context = self.env.dataContextProvider.mainContext()
                 let items = try await(context.fetch(entityClass: Project.self, sortBy: nil, predicate: nil))
                 XCTAssertEqual(items.count, 1)
                 completion()
@@ -398,7 +398,7 @@ final class ProjectsTests: XCTestCase {
         // test
         waitAsync(delay: 0.5) { completion in
             async({
-                let context = self.env.dataProvider.mainContext()
+                let context = self.env.dataContextProvider.mainContext()
                 let items = try await(context.fetch(entityClass: Project.self, sortBy: nil, predicate: nil))
                 XCTAssertEqual(items.count, 0)
                 completion()

@@ -13,11 +13,11 @@ protocol ItemDetailRepositoring: Mockable {
 }
 
 final class ItemDetailRepository: ItemDetailRepositoring {
-    private let dataProvider: DataContextProviding
+    private let dataContextProvider: DataContextProviding
     private var context: DataContexting!
 
-    init(dataProvider: DataContextProviding) {
-        self.dataProvider = dataProvider
+    init(dataContextProvider: DataContextProviding) {
+        self.dataContextProvider = dataContextProvider
     }
 
     func setContext(_ context: DataContexting) {
@@ -69,7 +69,7 @@ final class ItemDetailRepository: ItemDetailRepositoring {
         return Async { completion in
             async({
                 _ = try await(self.context.save()) // might be child context, so save first
-                _ = try await(self.dataProvider.mainContext().save())
+                _ = try await(self.dataContextProvider.mainContext().save())
                 completion(.success(()))
             }, onError: { error in
                 completion(.failure(error))

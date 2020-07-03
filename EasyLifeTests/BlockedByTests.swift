@@ -35,7 +35,7 @@ final class BlockedByTests: XCTestCase {
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty, name: "b")
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setContext(.existing(item: item, context: env.dataProvider.mainContext()))
+        env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
 
         // test
         waitSync()
@@ -49,7 +49,7 @@ final class BlockedByTests: XCTestCase {
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty)
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setContext(.existing(item: item, context: env.dataProvider.mainContext()))
+        env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
 
         // test
         waitSync()
@@ -62,7 +62,7 @@ final class BlockedByTests: XCTestCase {
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty, name: "b")
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setContext(.existing(item: item, context: env.dataProvider.mainContext()))
+        env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
 
         // precondition
         waitSync()
@@ -85,7 +85,7 @@ final class BlockedByTests: XCTestCase {
         let item = env.todoItem(type: .empty, name: "a")
         _ = env.todoItem(type: .empty, name: "b")
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setContext(.existing(item: item, context: env.dataProvider.mainContext()))
+        env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
         env.addToWindow()
         waitSync()
         viewController.selectRow(0)
@@ -106,7 +106,7 @@ final class BlockedByTests: XCTestCase {
         _ = env.todoItem(type: .empty, name: "c")
         _ = env.todoItem(type: .empty, name: "1")
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setContext(.existing(item: item, context: env.dataProvider.mainContext()))
+        env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
 
         // test
         waitSync()
@@ -123,7 +123,7 @@ final class BlockedByTests: XCTestCase {
         let item = env.todoItem(type: .empty)
         env.blockedByController.setViewController(viewController)
         env.blockedByController.setAlertController(alertController)
-        env.blockedByController.setContext(.existing(item: item, context: env.dataProvider.mainContext()))
+        env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
 
         // test
         waitSync()

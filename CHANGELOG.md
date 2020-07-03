@@ -68,7 +68,6 @@ Apple ID: 1229095589
 
 # Future Work
 
-- reame data context provider ivars?
 - change edit project -> edit name
 - long press on app icon: new note
 - long press on cell: make tomorrow

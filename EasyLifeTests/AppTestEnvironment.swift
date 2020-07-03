@@ -25,7 +25,7 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var appRouter: AppRouting!
     private(set) var fatalErrorHandler: FatalErrorHandler!
     private(set) var appController: AppControlling!
-    private(set) var dataProvider: DataContextProviding!
+    private(set) var dataContextProvider: DataContextProviding!
     private(set) var childContext: DataContexting!
     private(set) var alertController: AlertControlling!
     private(set) var planRepository: PlanRepositoring!
@@ -62,16 +62,16 @@ final class AppTestEnvironment: TestEnvironment {
     }
 
     func inject() {
-        dataProvider = DataContextProvider(persistentContainer: persistentContainer)
-        childContext = dataProvider.childContext(thread: .main)
-        planRepository = PlanRepository(dataProvider: dataProvider)
+        dataContextProvider = DataContextProvider(persistentContainer: persistentContainer)
+        childContext = dataContextProvider.childContext(thread: .main)
+        planRepository = PlanRepository(dataContextProvider: dataContextProvider)
         alertController = AlertController(presenter: viewController)
         planController = PlanController(viewController: viewController,
                                         alertController: alertController,
                                         repository: planRepository,
                                         badge: badge)
         blockedByRepository = BlockedByRepository()
-        itemDetailRepository = ItemDetailRepository(dataProvider: dataProvider)
+        itemDetailRepository = ItemDetailRepository(dataContextProvider: dataContextProvider)
         itemDetailController = ItemDetailController(repository: itemDetailRepository)
         blockedByController = BlockedByController(repository: blockedByRepository)
         planCoordinator = PlanCoordinator(
@@ -80,12 +80,12 @@ final class AppTestEnvironment: TestEnvironment {
             itemDetailController: itemDetailController,
             blockedByController: blockedByController
         )
-        focusRepository = FocusRepository(dataProvider: dataProvider, planRepository: planRepository)
+        focusRepository = FocusRepository(dataContextProvider: dataContextProvider, planRepository: planRepository)
         focusController = FocusController(repository: focusRepository, alarm: alarm)
         focusCoordinator = FocusCoordinator(focusController: focusController)
-        archiveRepository = ArchiveRepository(dataProvider: dataProvider)
+        archiveRepository = ArchiveRepository(dataContextProvider: dataContextProvider)
         archiveController = ArchiveController(repository: archiveRepository)
-        projectsRepository = ProjectsRepository(dataProvider: dataProvider)
+        projectsRepository = ProjectsRepository(dataContextProvider: dataContextProvider)
         projectsController = ProjectsController(repository: projectsRepository)
         archiveCoordinator = ArchiveCoordinator(archiveController: archiveController)
         projectsCoordinator = ProjectsCoordinator(projectsController: projectsController)
@@ -98,7 +98,7 @@ final class AppTestEnvironment: TestEnvironment {
         planController.setRouter(appRouter)
         fatalErrorHandler = FatalErrorHandler(window: window)
         appController = AppController(
-            dataProvider: dataProvider,
+            dataContextProvider: dataContextProvider,
             appRouter: appRouter,
             fatalErrorHandler: fatalErrorHandler
         )
@@ -117,7 +117,7 @@ final class AppTestEnvironment: TestEnvironment {
     func todoItem(type: TodoItemType, name: String? = nil, repeatState: RepeatState = .default,
                   notes: String? = nil, project: Project? = nil, isTransient: Bool = false,
                   isDone: Bool = false, blockedBy: [TodoItem]? = nil) -> TodoItem {
-        let context = isTransient ? childContext! : dataProvider.mainContext()
+        let context = isTransient ? childContext! : dataContextProvider.mainContext()
         let item = context.insert(entityClass: TodoItem.self)
         item.name = name
         item.repeatState = repeatState
@@ -137,7 +137,7 @@ final class AppTestEnvironment: TestEnvironment {
     }
 
     func project(priority: Int16, name: String? = nil) -> Project {
-        let project = dataProvider.mainContext().insert(entityClass: Project.self)
+        let project = dataContextProvider.mainContext().insert(entityClass: Project.self)
         project.priority = priority
         project.name = name
         return project

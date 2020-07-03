@@ -8,22 +8,22 @@ enum AppControllerFactory {
         return Async { completion in
             async({
                 let persistentContainer = NSPersistentContainer(name: "EasyLife")
-                let dataProvider = DataContextProvider(persistentContainer: persistentContainer)
+                let dataContextProvider = DataContextProvider(persistentContainer: persistentContainer)
                 #if DEBUG
                 if __isSnapshot {
-                    try setSnapshotData(dataProvider: dataProvider)
+                    try setSnapshotData(dataContextProvider: dataContextProvider)
                 }
                 #endif
-                try await(dataProvider.load())
+                try await(dataContextProvider.load())
 
-                let planRepository = PlanRepository(dataProvider: dataProvider)
+                let planRepository = PlanRepository(dataContextProvider: dataContextProvider)
                 let planController = PlanController(
                     viewController: planViewController,
                     alertController: AlertController(presenter: planViewController),
                     repository: planRepository,
                     badge: AppBadge()
                 )
-                let itemDetailRepository = ItemDetailRepository(dataProvider: dataProvider)
+                let itemDetailRepository = ItemDetailRepository(dataContextProvider: dataContextProvider)
                 let blockedByRepository = BlockedByRepository()
                 let planCoordinator = PlanCoordinator(
                     navigationController: navigationController,
@@ -32,11 +32,12 @@ enum AppControllerFactory {
                     blockedByController: BlockedByController(repository: blockedByRepository)
                 )
 
-                let focusRepository = FocusRepository(dataProvider: dataProvider, planRepository: planRepository)
+                let focusRepository = FocusRepository(dataContextProvider: dataContextProvider,
+                                                      planRepository: planRepository)
                 let focusController = FocusController(repository: focusRepository, alarm: Alarm())
-                let archiveRepository = ArchiveRepository(dataProvider: dataProvider)
+                let archiveRepository = ArchiveRepository(dataContextProvider: dataContextProvider)
                 let archiveController = ArchiveController(repository: archiveRepository)
-                let projectsRepository = ProjectsRepository(dataProvider: dataProvider)
+                let projectsRepository = ProjectsRepository(dataContextProvider: dataContextProvider)
                 let projectsController = ProjectsController(repository: projectsRepository)
 
                 let appRouter = AppRouter(
@@ -47,7 +48,7 @@ enum AppControllerFactory {
                 )
                 planController.setRouter(appRouter)
 
-                let appController = AppController(dataProvider: dataProvider, appRouter: appRouter,
+                let appController = AppController(dataContextProvider: dataContextProvider, appRouter: appRouter,
                                                   fatalErrorHandler: FatalErrorHandler(window: window))
                 completion(.success(appController))
             }, onError: { error in
@@ -59,8 +60,8 @@ enum AppControllerFactory {
     // MARK: - private
 
     #if DEBUG
-    private static func setSnapshotData(dataProvider: DataContextProviding) throws {
-        let context = dataProvider.mainContext()
+    private static func setSnapshotData(dataContextProvider: DataContextProviding) throws {
+        let context = dataContextProvider.mainContext()
         try await(context.deleteAll([TodoItem.self, Project.self]))
 
         // plan section

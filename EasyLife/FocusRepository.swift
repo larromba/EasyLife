@@ -11,11 +11,11 @@ protocol FocusRepositoring: Mockable {
 }
 
 final class FocusRepository: FocusRepositoring {
-    private let dataProvider: DataContextProviding
+    private let dataContextProvider: DataContextProviding
     private let planRepository: PlanRepositoring
 
-    init(dataProvider: DataContextProviding, planRepository: PlanRepositoring) {
-        self.dataProvider = dataProvider
+    init(dataContextProvider: DataContextProviding, planRepository: PlanRepositoring) {
+        self.dataContextProvider = dataContextProvider
         self.planRepository = planRepository
     }
 
@@ -26,7 +26,7 @@ final class FocusRepository: FocusRepositoring {
     func fetchMissingItems() -> Async<[TodoItem]> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 let items = try await(self.planRepository.fetchTodayItems())
                 var missingItems: [TodoItem]!
                 context.performAndWait {
@@ -43,7 +43,7 @@ final class FocusRepository: FocusRepositoring {
     func isDoable() -> Async<Bool> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 let items = try await(self.planRepository.fetchTodayItems())
                 var isDoable: Bool!
                 context.performAndWait {
@@ -59,7 +59,7 @@ final class FocusRepository: FocusRepositoring {
     func today(item: TodoItem) -> Async<Void> {
         return Async { completion in
             async({
-                let context = self.dataProvider.mainContext()
+                let context = self.dataContextProvider.mainContext()
                 context.performAndWait {
                     item.date = Date()
                 }
