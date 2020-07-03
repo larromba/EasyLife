@@ -59,7 +59,7 @@ internal enum L10n {
   internal static let editProjectAlertOk = L10n.tr("Localizable", "edit project alert ok")
   /// name
   internal static let editProjectAlertPlaceholder = L10n.tr("Localizable", "edit project alert placeholder")
-  /// Edit Project
+  /// Project Name
   internal static let editProjectAlertTitle = L10n.tr("Localizable", "edit project alert title")
   /// Empty
   internal static let emptyTableText = L10n.tr("Localizable", "empty table text")

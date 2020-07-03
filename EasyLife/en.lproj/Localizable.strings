@@ -30,7 +30,7 @@
 "archive item total message" = "%i done";
 "no date" = "no date";
 "new project alert title" = "New Project";
-"edit project alert title" = "Edit Project";
+"edit project alert title" = "Project Name";
 "edit project alert placeholder" = "name";
 "edit project alert cancel" = "Cancel";
 "edit project alert ok" = "OK";
