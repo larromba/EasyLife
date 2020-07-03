@@ -1500,6 +1500,18 @@ class MockPlanCell: NSObject, PlanCellable {
     }
     var _viewState: PlanCellViewStating?
     var _viewStateHistory: [_Variable<PlanCellViewStating?>] = []
+    var delegate: PlanCellDelgate? {
+        get { return _delegate }
+        set(value) { _delegate = value; _delegateHistory.append(_Variable(value)) }
+    }
+    var _delegate: PlanCellDelgate?
+    var _delegateHistory: [_Variable<PlanCellDelgate?>] = []
+    var indexPath: IndexPath {
+        get { return _indexPath }
+        set(value) { _indexPath = value; _indexPathHistory.append(_Variable(value)) }
+    }
+    var _indexPath: IndexPath!
+    var _indexPathHistory: [_Variable<IndexPath?>] = []
 }
 
 class MockPlanController: NSObject, PlanControlling {
@@ -1644,57 +1656,125 @@ class MockPlanRepository: NSObject, PlanRepositoring {
         }
     }
 
+    // MARK: - makeToday
+
+    func makeToday(item: TodoItem) -> Async<Void> {
+        let functionName = makeToday3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: item, forKey: makeToday3.params.item)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Void>
+    }
+
+    enum makeToday3: String, _StringRawRepresentable {
+        case name = "makeToday3"
+        enum params: String, _StringRawRepresentable {
+            case item = "makeToday(item:TodoItem).item"
+        }
+    }
+
+    // MARK: - makeTomorrow
+
+    func makeTomorrow(item: TodoItem) -> Async<Void> {
+        let functionName = makeTomorrow4.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: item, forKey: makeTomorrow4.params.item)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Void>
+    }
+
+    enum makeTomorrow4: String, _StringRawRepresentable {
+        case name = "makeTomorrow4"
+        enum params: String, _StringRawRepresentable {
+            case item = "makeTomorrow(item:TodoItem).item"
+        }
+    }
+
+    // MARK: - makeAllToday
+
+    func makeAllToday(items: [TodoItem]) -> Async<Void> {
+        let functionName = makeAllToday5.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: items, forKey: makeAllToday5.params.items)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Void>
+    }
+
+    enum makeAllToday5: String, _StringRawRepresentable {
+        case name = "makeAllToday5"
+        enum params: String, _StringRawRepresentable {
+            case items = "makeAllToday(items:[TodoItem]).items"
+        }
+    }
+
+    // MARK: - makeAllTomorrow
+
+    func makeAllTomorrow(items: [TodoItem]) -> Async<Void> {
+        let functionName = makeAllTomorrow6.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: items, forKey: makeAllTomorrow6.params.items)
+        invocations.record(invocation)
+        return actions.returnValue(for: functionName) as! Async<Void>
+    }
+
+    enum makeAllTomorrow6: String, _StringRawRepresentable {
+        case name = "makeAllTomorrow6"
+        enum params: String, _StringRawRepresentable {
+            case items = "makeAllTomorrow(items:[TodoItem]).items"
+        }
+    }
+
     // MARK: - fetchMissedItems
 
     func fetchMissedItems() -> Async<[TodoItem]> {
-        let functionName = fetchMissedItems3.name
+        let functionName = fetchMissedItems7.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<[TodoItem]>
     }
 
-    enum fetchMissedItems3: String, _StringRawRepresentable {
-        case name = "fetchMissedItems3"
+    enum fetchMissedItems7: String, _StringRawRepresentable {
+        case name = "fetchMissedItems7"
     }
 
     // MARK: - fetchLaterItems
 
     func fetchLaterItems() -> Async<[TodoItem]> {
-        let functionName = fetchLaterItems4.name
+        let functionName = fetchLaterItems8.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<[TodoItem]>
     }
 
-    enum fetchLaterItems4: String, _StringRawRepresentable {
-        case name = "fetchLaterItems4"
+    enum fetchLaterItems8: String, _StringRawRepresentable {
+        case name = "fetchLaterItems8"
     }
 
     // MARK: - fetchTodayItems
 
     func fetchTodayItems() -> Async<[TodoItem]> {
-        let functionName = fetchTodayItems5.name
+        let functionName = fetchTodayItems9.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<[TodoItem]>
     }
 
-    enum fetchTodayItems5: String, _StringRawRepresentable {
-        case name = "fetchTodayItems5"
+    enum fetchTodayItems9: String, _StringRawRepresentable {
+        case name = "fetchTodayItems9"
     }
 
     // MARK: - delete
 
     func delete(item: TodoItem) -> Async<Void> {
-        let functionName = delete6.name
+        let functionName = delete10.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: delete6.params.item)
+        invocation.set(parameter: item, forKey: delete10.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
-    enum delete6: String, _StringRawRepresentable {
-        case name = "delete6"
+    enum delete10: String, _StringRawRepresentable {
+        case name = "delete10"
         enum params: String, _StringRawRepresentable {
             case item = "delete(item:TodoItem).item"
         }
@@ -1703,15 +1783,15 @@ class MockPlanRepository: NSObject, PlanRepositoring {
     // MARK: - later
 
     func later(item: TodoItem) -> Async<Void> {
-        let functionName = later7.name
+        let functionName = later11.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: later7.params.item)
+        invocation.set(parameter: item, forKey: later11.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
-    enum later7: String, _StringRawRepresentable {
-        case name = "later7"
+    enum later11: String, _StringRawRepresentable {
+        case name = "later11"
         enum params: String, _StringRawRepresentable {
             case item = "later(item:TodoItem).item"
         }
@@ -1720,15 +1800,15 @@ class MockPlanRepository: NSObject, PlanRepositoring {
     // MARK: - done
 
     func done(item: TodoItem) -> Async<Void> {
-        let functionName = done8.name
+        let functionName = done12.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: done8.params.item)
+        invocation.set(parameter: item, forKey: done12.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
-    enum done8: String, _StringRawRepresentable {
-        case name = "done8"
+    enum done12: String, _StringRawRepresentable {
+        case name = "done12"
         enum params: String, _StringRawRepresentable {
             case item = "done(item:TodoItem).item"
         }
@@ -1737,15 +1817,15 @@ class MockPlanRepository: NSObject, PlanRepositoring {
     // MARK: - split
 
     func split(item: TodoItem) -> Async<Void> {
-        let functionName = split9.name
+        let functionName = split13.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: item, forKey: split9.params.item)
+        invocation.set(parameter: item, forKey: split13.params.item)
         invocations.record(invocation)
         return actions.returnValue(for: functionName) as! Async<Void>
     }
 
-    enum split9: String, _StringRawRepresentable {
-        case name = "split9"
+    enum split13: String, _StringRawRepresentable {
+        case name = "split13"
         enum params: String, _StringRawRepresentable {
             case item = "split(item:TodoItem).item"
         }

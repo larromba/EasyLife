@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7F0821C024AF4E320099E589 /* ShortcutItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0821BF24AF4E320099E589 /* ShortcutItem.swift */; };
 		7F0821C224AF59320099E589 /* RoutingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0821C124AF59320099E589 /* RoutingTests.swift */; };
+		7F0821C624AF82C90099E589 /* PlanItemLongPressAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0821C524AF82C90099E589 /* PlanItemLongPressAction.swift */; };
 		7F0D9248204619DF00D9AE6B /* BlockedIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F0D9247204619DF00D9AE6B /* BlockedIndicatorView.xib */; };
 		7F0D924A20461A1F00D9AE6B /* BlockedIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0D924920461A1F00D9AE6B /* BlockedIndicatorView.swift */; };
 		7F0E1497249A670D000B15CE /* MockError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0E1496249A670D000B15CE /* MockError.swift */; };
@@ -209,6 +210,7 @@
 /* Begin PBXFileReference section */
 		7F0821BF24AF4E320099E589 /* ShortcutItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutItem.swift; sourceTree = "<group>"; };
 		7F0821C124AF59320099E589 /* RoutingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingTests.swift; sourceTree = "<group>"; };
+		7F0821C524AF82C90099E589 /* PlanItemLongPressAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanItemLongPressAction.swift; sourceTree = "<group>"; };
 		7F0D9247204619DF00D9AE6B /* BlockedIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockedIndicatorView.xib; sourceTree = "<group>"; };
 		7F0D924920461A1F00D9AE6B /* BlockedIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedIndicatorView.swift; sourceTree = "<group>"; };
 		7F0E1496249A670D000B15CE /* MockError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockError.swift; sourceTree = "<group>"; };
@@ -655,6 +657,7 @@
 				7F429C7E21C4040E00195E32 /* PlanSection.swift */,
 				7F3BD2C421D14A010035F540 /* PlanAction.swift */,
 				7F429C8021C4041B00195E32 /* PlanItemAction.swift */,
+				7F0821C524AF82C90099E589 /* PlanItemLongPressAction.swift */,
 				7F3B8B70246EE9EF00B45038 /* FocusSection.swift */,
 				7F3B8B72246EEB2B00B45038 /* FocusAction.swift */,
 				7FBB17CB249B64F700E350E1 /* FocusItemAction.swift */,
@@ -1115,6 +1118,7 @@
 				7FE9D89824AD246B00C564D9 /* TimerButtonViewStating.swift in Sources */,
 				7F75140424927E4700FF6446 /* DataContext.swift in Sources */,
 				7F102DE11F5ABF9300E262B1 /* ProjectsViewController.swift in Sources */,
+				7F0821C624AF82C90099E589 /* PlanItemLongPressAction.swift in Sources */,
 				7F75140C2492C80100FF6446 /* DataContextProvider.swift in Sources */,
 				7F429C8E21C42FF600195E32 /* PlanCoordinator.swift in Sources */,
 				7FA1696621DE642300D8BA3F /* KeyboardNotification.swift in Sources */,

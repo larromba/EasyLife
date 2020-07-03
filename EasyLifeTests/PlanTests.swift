@@ -553,6 +553,165 @@ final class PlanTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(item.date ?? date, date)
     }
 
+    // MARK: - long press actions
+
+    func test_longPressAction_whenMissedCellPressed_expectAlertShown() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .missed)
+        env.start()
+
+        // sut
+        waitSync()
+        viewController.longPressCell(row: 0, section: .missed)
+
+        // test
+        waitSync()
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Quick Edit")
+    }
+
+    func test_longPressAction_whenTodayCellPressed_expectNoAlertShown() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        env.start()
+
+        // sut
+        waitSync()
+        viewController.longPressCell(row: 0, section: .missed)
+
+        // test
+        waitSync()
+        XCTAssertNil(viewController.presentedViewController)
+    }
+
+    func test_longPressAction_whenLaterCellPressed_expectNoShown() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .later)
+        env.start()
+
+        // sut
+        waitSync()
+        viewController.longPressCell(row: 0, section: .missed)
+
+        // test
+        waitSync()
+        XCTAssertNil(viewController.presentedViewController)
+    }
+
+    func test_longPressAction_whenMissedSectionHasOneItem_expectAlertOptions() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .missed)
+        env.start()
+
+        // sut
+        waitSync()
+        viewController.longPressCell(row: 0, section: .missed)
+
+        // test
+        waitSync()
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.actions.count, 3)
+    }
+
+    func test_longPressAction_whenMissedSectionHasManyItems_expectAlertOptions() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .missed)
+        _ = env.todoItem(type: .missed)
+        env.start()
+
+        // sut
+        waitSync()
+        viewController.longPressCell(row: 0, section: .missed)
+
+        // test
+        waitSync()
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.actions.count, 5)
+    }
+
+    func test_longPressTodayAction_whenPressed_expectItemsIsMovedToToday() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        let item = env.todoItem(type: .missed)
+        env.start()
+        waitSync()
+        viewController.longPressCell(row: 0, section: .missed)
+
+        // sut
+        waitSync()
+        XCTAssertTrue(viewController.presentedViewController?.asAlertController?.actions[safe: 1]?.fire() ?? false)
+
+        // test
+        waitSync()
+        XCTAssertEqual(item.date?.earliest, Date().earliest)
+    }
+
+    func test_longPressTomorrowAction_whenPressed_expectItemsIsMovedToTomorrow() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        let item = env.todoItem(type: .missed)
+        env.start()
+        waitSync()
+        viewController.longPressCell(row: 0, section: .missed)
+
+        // sut
+        waitSync()
+        XCTAssertTrue(viewController.presentedViewController?.asAlertController?.actions[safe: 2]?.fire() ?? false)
+
+        // test
+        waitSync()
+        XCTAssertEqual(item.date?.earliest, Date().addingTimeInterval(24 * 60 * 60).earliest)
+    }
+
+    func test_longPressAllTodayAction_whenPressed_expectItemsAllMovedToToday() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        let item1 = env.todoItem(type: .missed)
+        let item2 = env.todoItem(type: .missed)
+        env.start()
+        waitSync()
+        viewController.longPressCell(row: 0, section: .missed)
+
+        // sut
+        waitSync()
+        XCTAssertTrue(viewController.presentedViewController?.asAlertController?.actions[safe: 3]?.fire() ?? false)
+
+        // test
+        waitSync()
+        XCTAssertEqual(item1.date?.earliest, Date().earliest)
+        XCTAssertEqual(item2.date?.earliest, Date().earliest)
+    }
+
+    func test_longPressAllTomorrowAction_whenPressed_expectItemsAllMovedToTomorrow() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        let item1 = env.todoItem(type: .missed)
+        let item2 = env.todoItem(type: .missed)
+        env.start()
+        waitSync()
+        viewController.longPressCell(row: 0, section: .missed)
+
+        // sut
+        waitSync()
+        XCTAssertTrue(viewController.presentedViewController?.asAlertController?.actions[safe: 4]?.fire() ?? false)
+
+        // test
+        waitSync()
+        XCTAssertEqual(item1.date?.earliest, Date().addingTimeInterval(24 * 60 * 60).earliest)
+        XCTAssertEqual(item2.date?.earliest, Date().addingTimeInterval(24 * 60 * 60).earliest)
+    }
+
     // MARK: - navigation
 
     func test_addButton_whenTapped_expectItemDetailShown() {
@@ -805,5 +964,9 @@ private extension PlanViewController {
     func actions(row: Int, section: PlanSection) -> [UITableViewRowAction]? {
         let indexPath = IndexPath(row: row, section: section.rawValue)
         return tableView(tableView, editActionsForRowAt: indexPath)
+    }
+
+    func longPressCell(row: Int, section: PlanSection) {
+        cell(row: row, section: section)?.gestureRecognizers?[safe: 0]?.state = .began
     }
 }

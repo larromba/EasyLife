@@ -93,6 +93,18 @@ internal enum L10n {
   internal static let newProjectAlertTitle = L10n.tr("Localizable", "new project alert title")
   /// no date
   internal static let noDate = L10n.tr("Localizable", "no date")
+  /// Cancel
+  internal static let planItemLongPressActionCancel = L10n.tr("Localizable", "plan item long press action cancel")
+  /// Move all to today
+  internal static let planItemLongPressActionShortcutAllToday = L10n.tr("Localizable", "plan item long press action shortcut all today")
+  /// Move all to tomorrow
+  internal static let planItemLongPressActionShortcutAllTomorrow = L10n.tr("Localizable", "plan item long press action shortcut all tomorrow")
+  /// Do today
+  internal static let planItemLongPressActionShortcutToday = L10n.tr("Localizable", "plan item long press action shortcut today")
+  /// Do tomorrow
+  internal static let planItemLongPressActionShortcutTomorrow = L10n.tr("Localizable", "plan item long press action shortcut tomorrow")
+  /// Quick Edit
+  internal static let planItemLongPressActionTitle = L10n.tr("Localizable", "plan item long press action title")
   /// Deprioritize
   internal static let projectOptionDeprioritize = L10n.tr("Localizable", "project option deprioritize")
   /// Prioritize

@@ -68,3 +68,9 @@
 "alarm notification title" = "Alarm";
 "alarm notification body" = "Time's up!";
 "shortcut item new todo item title" = "New Todo Item";
+"plan item long press action title" = "Quick Edit";
+"plan item long press action cancel" = "Cancel";
+"plan item long press action shortcut today" = "Do today";
+"plan item long press action shortcut tomorrow" = "Do tomorrow";
+"plan item long press action shortcut all today" = "Move all to today";
+"plan item long press action shortcut all tomorrow" = "Move all to tomorrow";

@@ -69,7 +69,6 @@ Apple ID: 1229095589
 # Future Work
 
 3.0.0:
-long press on cell: make tomorrow
 holiday mode
 add none selection to project picker
 add clear button to blocked list
@@ -79,6 +78,7 @@ simple date picker not clearing date
 project needs empty selection
 move coredata to new repo
 update libs
+tests alerts - check titles not jsut type
 
 3.1.0:
 BUG: missed doesnt change. Split then done doesnt work.

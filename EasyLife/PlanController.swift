@@ -84,6 +84,20 @@ final class PlanController: PlanControlling {
             onMain { self.alertController.showAlert(Alert(error: error)) }
         })
     }
+
+    private func handleLongPressAction(_ action: PlanItemLongPressAction, forItem item: TodoItem) {
+        async({
+            switch action {
+            case .doToday: try await(self.repository.makeToday(item: item))
+            case .doTomorrow: try await(self.repository.makeTomorrow(item: item))
+            case .moveAllToday(let items): try await(self.repository.makeAllToday(items: items))
+            case .moveAllTomorrow(let items): try await(self.repository.makeAllTomorrow(items: items))
+            }
+            self.reload()
+        }, onError: { error in
+            onMain { self.alertController.showAlert(Alert(error: error)) }
+        })
+    }
 }
 
 // MARK: - PlanViewControllerDelegate
@@ -115,7 +129,7 @@ extension PlanController: PlanViewControllerDelegate {
     }
 
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,
-                        onItem item: TodoItem, at indexPath: IndexPath) {
+                        onItem item: TodoItem) {
         async({
             switch action {
             case .delete: _ = try await(self.repository.delete(item: item))
@@ -127,5 +141,16 @@ extension PlanController: PlanViewControllerDelegate {
         }, onError: { error in
             onMain { self.alertController.showAlert(Alert(error: error)) }
         })
+    }
+
+    func viewController(_ viewController: PlanViewControlling, handleActions actions: [PlanItemLongPressAction],
+                        onItem item: TodoItem) {
+        let cancelAction = Alert.Action(title: L10n.planItemLongPressActionCancel, handler: nil)
+        let actions = actions.map { action in
+            Alert.Action(title: action.title, handler: { self.handleLongPressAction(action, forItem: item) })
+        }
+        let alert = Alert(title: L10n.planItemLongPressActionTitle, message: "", cancel: cancelAction, actions: actions,
+                          textField: nil)
+        alertController.showAlert(alert)
     }
 }

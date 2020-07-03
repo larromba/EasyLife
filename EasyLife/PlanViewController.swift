@@ -17,7 +17,9 @@ protocol PlanViewControllerDelegate: AnyObject {
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction)
     func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem)
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,
-                        onItem item: TodoItem, at indexPath: IndexPath)
+                        onItem item: TodoItem)
+    func viewController(_ viewController: PlanViewControlling, handleActions actions: [PlanItemLongPressAction],
+                        onItem item: TodoItem)
 }
 
 final class PlanViewController: UIViewController, PlanViewControlling {
@@ -119,7 +121,7 @@ extension PlanViewController: UITableViewDelegate {
                 style: viewState.style(for: itemAction),
                 title: viewState.text(for: itemAction),
                 handler: { _, _ in
-                    self.delegate?.viewController(self, performAction: itemAction, onItem: item, at: indexPath)
+                    self.delegate?.viewController(self, performAction: itemAction, onItem: item)
                 }
             )
             action.backgroundColor = viewState.color(for: itemAction)
@@ -143,6 +145,8 @@ extension PlanViewController: UITableViewDataSource {
                 return UITableViewCell()
         }
         cell.viewState = cellViewState
+        cell.delegate = self
+        cell.indexPath = indexPath
         return cell
     }
 
@@ -172,5 +176,16 @@ extension PlanViewController: UIScrollViewDelegate {
         guard let tableHeaderAnimation = tableHeaderAnimation, let viewState = viewState else { return }
         tableHeaderAnimation.alpha = viewState.tableHeaderAlpha(forHeight: tableHeaderView.bounds.height,
                                                                 scrollOffsetY: scrollView.contentOffset.y)
+    }
+}
+
+// MARK: - PlanCellDelgate
+
+extension PlanViewController: PlanCellDelgate {
+    func cell(_ cell: PlanCellable, didLongPressAtIndexPath indexPath: IndexPath) {
+        guard let viewState = viewState, let item = viewState.item(at: indexPath) else { return }
+        let actions = viewState.availableLongPressActions(at: indexPath)
+        guard !actions.isEmpty else { return }
+        delegate?.viewController(self, handleActions: actions, onItem: item)
     }
 }

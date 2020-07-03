@@ -3,6 +3,12 @@ import UIKit
 // sourcery: name = PlanCell
 protocol PlanCellable: Mockable {
     var viewState: PlanCellViewStating? { get set }
+    var delegate: PlanCellDelgate? { get set }
+    var indexPath: IndexPath { get set }
+}
+
+protocol PlanCellDelgate: AnyObject {
+    func cell(_ cell: PlanCellable, didLongPressAtIndexPath indexPath: IndexPath)
 }
 
 final class PlanCell: UITableViewCell, PlanCellable, CellIdentifiable, NibNameable {
@@ -12,9 +18,17 @@ final class PlanCell: UITableViewCell, PlanCellable, CellIdentifiable, NibNameab
     @IBOutlet private(set) weak var iconImageView: UIImageView!
     @IBOutlet private(set) weak var tagView: TagView!
     @IBOutlet private(set) weak var blockedView: BlockedIndicatorView!
+    weak var delegate: PlanCellDelgate?
+    var indexPath = IndexPath(row: 0, section: 0)
 
     var viewState: PlanCellViewStating? {
         didSet { _ = viewState.map(bind) }
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
+        addGestureRecognizer(gestureRecognizer)
     }
 
     // MARK: - private
@@ -34,5 +48,13 @@ final class PlanCell: UITableViewCell, PlanCellable, CellIdentifiable, NibNameab
         notesLabel.textColor = viewState.notesColor
         tagView.alpha = viewState.tagViewAlpha
         infoLabel.isHidden = viewState.isInfoLabelHidden
+    }
+
+    @objc
+    private func longPressAction(_ sender: UILongPressGestureRecognizer) {
+        switch sender.state {
+        case .began: delegate?.cell(self, didLongPressAtIndexPath: indexPath)
+        default: break
+        }
     }
 }

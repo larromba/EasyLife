@@ -34,6 +34,9 @@ final class RainbowAnimation: NSObject, ViewAnimation, RepeatAnimation, ColorAni
     // MARK: - private
 
     private func addAnimation() {
+        #if DEBUG // if testing, don't add animation
+        guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else { return }
+        #endif
         guard let view = view else { return }
         let animation = CABasicAnimation(keyPath: NSExpression(forKeyPath: \UIView.backgroundColor).keyPath)
         animation.duration = duration

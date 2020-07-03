@@ -28,6 +28,7 @@ protocol PlanViewStating {
     func items(for section: Int) -> [TodoItem]?
     func cellViewState(at indexPath: IndexPath) -> PlanCellViewStating?
     func availableActions(for item: TodoItem, at indexPath: IndexPath) -> [PlanItemAction]
+    func availableLongPressActions(at indexPath: IndexPath) -> [PlanItemLongPressAction]
     func tableHeaderAlpha(forHeight height: CGFloat, scrollOffsetY: CGFloat) -> CGFloat
 
     func copy(sections: [PlanSection: [TodoItem]], isDoneHidden: Bool) -> PlanViewStating
@@ -160,6 +161,21 @@ struct PlanViewState: PlanViewStating {
         }
 
         return actions
+    }
+
+    func availableLongPressActions(at indexPath: IndexPath) -> [PlanItemLongPressAction] {
+        guard let section = PlanSection(rawValue: indexPath.section),
+            let items = self.items(for: section.rawValue) else { return [] }
+        switch section {
+        case .missed:
+            if items.count > 1 {
+                return [.doToday, .doTomorrow, .moveAllToday(items: items), .moveAllTomorrow(items: items)]
+            } else {
+                return [.doToday, .doTomorrow]
+            }
+        case .today, .later:
+            return []
+        }
     }
 
     func tableHeaderAlpha(forHeight height: CGFloat, scrollOffsetY: CGFloat) -> CGFloat {

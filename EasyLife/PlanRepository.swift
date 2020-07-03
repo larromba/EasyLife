@@ -7,6 +7,10 @@ import Result
 protocol PlanRepositoring: Mockable {
     func newItemContext() -> TodoItemContext
     func existingItemContext(item: TodoItem) -> TodoItemContext
+    func makeToday(item: TodoItem) -> Async<Void>
+    func makeTomorrow(item: TodoItem) -> Async<Void>
+    func makeAllToday(items: [TodoItem]) -> Async<Void>
+    func makeAllTomorrow(items: [TodoItem]) -> Async<Void>
     func fetchMissedItems() -> Async<[TodoItem]>
     func fetchLaterItems() -> Async<[TodoItem]>
     func fetchTodayItems() -> Async<[TodoItem]>
@@ -51,6 +55,66 @@ final class PlanRepository: PlanRepositoring {
     func existingItemContext(item: TodoItem) -> TodoItemContext {
         let context = dataContextProvider.mainContext()
         return .existing(item: item, context: context)
+    }
+
+    func makeToday(item: TodoItem) -> Async<Void> {
+        return Async { completion in
+            async({
+                let context = self.dataContextProvider.mainContext()
+                context.performAndWait {
+                    item.date = Date()
+                }
+                _ = try await(context.save())
+                completion(.success(()))
+            }, onError: { error in
+                completion(.failure(error))
+            })
+        }
+    }
+
+    func makeTomorrow(item: TodoItem) -> Async<Void> {
+        return Async { completion in
+            async({
+                let context = self.dataContextProvider.mainContext()
+                context.performAndWait {
+                    item.date = Date().addingTimeInterval(24 * 60 * 60)
+                }
+                _ = try await(context.save())
+                completion(.success(()))
+            }, onError: { error in
+                completion(.failure(error))
+            })
+        }
+    }
+
+    func makeAllToday(items: [TodoItem]) -> Async<Void> {
+        return Async { completion in
+            async({
+                let context = self.dataContextProvider.mainContext()
+                context.performAndWait {
+                    items.forEach { $0.date = Date() }
+                }
+                _ = try await(context.save())
+                completion(.success(()))
+            }, onError: { error in
+                completion(.failure(error))
+            })
+        }
+    }
+
+    func makeAllTomorrow(items: [TodoItem]) -> Async<Void> {
+        return Async { completion in
+            async({
+                let context = self.dataContextProvider.mainContext()
+                context.performAndWait {
+                    items.forEach { $0.date = Date().addingTimeInterval(24 * 60 * 60) }
+                }
+                _ = try await(context.save())
+                completion(.success(()))
+            }, onError: { error in
+                completion(.failure(error))
+            })
+        }
     }
 
     func fetchMissedItems() -> Async<[TodoItem]> {
