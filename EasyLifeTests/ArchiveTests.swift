@@ -150,7 +150,7 @@ final class ArchiveTests: XCTestCase {
         env.inject()
         _ = env.todoItem(type: .empty, isDone: true)
         env.archiveController.setViewController(viewController)
-        env.archiveController.setAlertController(alertController)
+        env.archiveCoordinator.setAlertController(alertController)
         env.addToWindow()
 
         // sut
@@ -166,7 +166,7 @@ final class ArchiveTests: XCTestCase {
         env.inject()
         _ = env.todoItem(type: .empty, isDone: true)
         env.archiveController.setViewController(viewController)
-        env.archiveController.setAlertController(alertController)
+        env.archiveCoordinator.setAlertController(alertController)
         env.addToWindow()
         waitSync()
         viewController.clearButton.fire()
@@ -218,7 +218,7 @@ final class ArchiveTests: XCTestCase {
         env.inject()
         env.addToWindow()
         env.archiveController.setViewController(viewController)
-        env.archiveController.setAlertController(alertController)
+        env.archiveCoordinator.setAlertController(alertController)
 
         // test
         waitSync()

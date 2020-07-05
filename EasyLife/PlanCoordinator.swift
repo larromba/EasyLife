@@ -10,22 +10,31 @@ protocol PlanCoordinating: Mockable {
 
 final class PlanCoordinator: NSObject, PlanCoordinating {
     private let planController: PlanControlling
+    private let planAlertController: AlertControlling
     private let itemDetailController: ItemDetailControlling
+    private var itemDetailAlertController: AlertControlling?
     private let blockedByController: BlockedByControlling
+    private var blockedByAlertController: AlertControlling?
+    private let holidayModeController: HolidayModeControlling
     private let navigationController: UINavigationController
     private var context: TodoItemContext?
     private var lastNavigationStack = [UIViewController]()
 
     init(navigationController: UINavigationController, planController: PlanControlling,
-         itemDetailController: ItemDetailControlling, blockedByController: BlockedByControlling) {
+         planAlertController: AlertControlling, itemDetailController: ItemDetailControlling,
+         blockedByController: BlockedByControlling, holidayModeController: HolidayModeControlling) {
         self.navigationController = navigationController
         self.planController = planController
+        self.planAlertController = planAlertController
         self.itemDetailController = itemDetailController
         self.blockedByController = blockedByController
+        self.holidayModeController = holidayModeController
         super.init()
         onMain { navigationController.delegate = self } // warning thrown if set on bg thread
         planController.setDelegate(self)
         itemDetailController.setDelegate(self)
+        blockedByController.setDelegate(self)
+        holidayModeController.setDelegate(self)
     }
 
     func start() {
@@ -39,14 +48,20 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
     func resetNavigation() {
         blockedByController.invalidate()
         itemDetailController.invalidate()
-        context = nil
-        navigationController.popToRootViewController(animated: false)
+        invalidate()
+        navigationController.hardReset()
     }
 
     // MARK: - private
 
     private func isMovingBack(for viewController: UIViewController) -> Bool {
         return navigationController.viewControllers.contains(viewController)
+    }
+
+    private func invalidate() {
+        itemDetailAlertController = nil
+        blockedByAlertController = nil
+        context = nil
     }
 }
 
@@ -57,14 +72,40 @@ extension PlanCoordinator: PlanControllerDelegate {
         self.context = context
         sender.performSegue(withIdentifier: "openItemDetailViewController", sender: self)
     }
+
+    func controller(_ controller: PlanControlling, showAlert alert: Alert) {
+        planAlertController.showAlert(alert)
+    }
+
+    func controllerRequestsHolidayMode(_ controller: PlanControlling) {
+        print("TODO")
+    }
 }
 
 // MARK: - ItemDetailControllerDelegate
 
 extension PlanCoordinator: ItemDetailControllerDelegate {
     func controllerFinished(_ controller: ItemDetailControlling) {
-        context = nil
+        invalidate()
         navigationController.popViewController(animated: true)
+    }
+
+    func controller(_ controller: ItemDetailControlling, showAlert alert: Alert) {
+        itemDetailAlertController?.showAlert(alert)
+    }
+}
+
+extension PlanCoordinator: BlockedByControllerDelegate {
+    func controller(_ controller: BlockedByControlling, showAlert alert: Alert) {
+        blockedByAlertController?.showAlert(alert)
+    }
+}
+
+// MARK: - HolidayModeControllerDelegate
+
+extension PlanCoordinator: HolidayModeControllerDelegate {
+    func controllerFinished(_ controller: HolidayModeControlling) {
+        print("TODO")
     }
 }
 
@@ -75,30 +116,37 @@ extension PlanCoordinator: UINavigationControllerDelegate {
                               willShow viewController: UIViewController, animated: Bool) {
         defer { lastNavigationStack = navigationController.viewControllers }
 
-        // if going back, ignore
-        guard !lastNavigationStack.contains(viewController) else { return }
-
-        // if first vc, reset the editing context
-        guard !(viewController is PlanViewController) else {
-            context = nil
+        // if going back
+        if lastNavigationStack.contains(viewController) {
+            let currentViewController = navigationController.viewControllers.last
+            switch currentViewController {
+            case is ItemDetailViewControlling:
+                itemDetailAlertController = nil
+            case is BlockedByViewController:
+                blockedByAlertController = nil
+            case is PlanViewController:
+                context = nil
+            default:
+                assertionFailureIgnoreTests("unhandled vc: \(String(describing: currentViewController?.classForCoder))")
+            }
             return
         }
-
-        // if other vcs, pass through the context
-        if let viewController = viewController as? ItemDetailViewControlling {
+        // if going forwards to ItemDetailViewControlling
+        else if let viewController = viewController as? ItemDetailViewControlling {
+            itemDetailAlertController = AlertController(presenter: viewController)
             itemDetailController.setViewController(viewController)
-            itemDetailController.setAlertController(AlertController(presenter: viewController))
             if let context = context {
                 itemDetailController.setContext(context)
             }
+        // if going forwards to BlockedByViewControlling
         } else if let viewController = viewController as? BlockedByViewControlling {
+            blockedByAlertController = AlertController(presenter: viewController)
             blockedByController.setViewController(viewController)
-            blockedByController.setAlertController(AlertController(presenter: viewController))
             if let context = context {
                 blockedByController.setContext(context)
             }
         } else {
-            assertionFailureIgnoreTests("unhandled viewController: \(viewController.classForCoder)")
+            assertionFailureIgnoreTests("unhandled vc: \(viewController.classForCoder)")
         }
     }
 }

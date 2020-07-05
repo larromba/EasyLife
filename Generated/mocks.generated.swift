@@ -374,22 +374,6 @@ class MockArchiveController: NSObject, ArchiveControlling {
             case viewController = "setViewController(_viewController:ArchiveViewControlling).viewController"
         }
     }
-
-    // MARK: - setAlertController
-
-    func setAlertController(_ alertController: AlertControlling) {
-        let functionName = setAlertController3.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: alertController, forKey: setAlertController3.params.alertController)
-        invocations.record(invocation)
-    }
-
-    enum setAlertController3: String, _StringRawRepresentable {
-        case name = "setAlertController3"
-        enum params: String, _StringRawRepresentable {
-            case alertController = "setAlertController(_alertController:AlertControlling).alertController"
-        }
-    }
 }
 
 class MockArchiveCoordinator: NSObject, ArchiveCoordinating {
@@ -629,19 +613,19 @@ class MockBlockedByController: NSObject, BlockedByControlling {
         }
     }
 
-    // MARK: - setAlertController
+    // MARK: - setDelegate
 
-    func setAlertController(_ alertController: AlertControlling) {
-        let functionName = setAlertController2.name
+    func setDelegate(_ delegate: BlockedByControllerDelegate) {
+        let functionName = setDelegate2.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: alertController, forKey: setAlertController2.params.alertController)
+        invocation.set(parameter: delegate, forKey: setDelegate2.params.delegate)
         invocations.record(invocation)
     }
 
-    enum setAlertController2: String, _StringRawRepresentable {
-        case name = "setAlertController2"
+    enum setDelegate2: String, _StringRawRepresentable {
+        case name = "setDelegate2"
         enum params: String, _StringRawRepresentable {
-            case alertController = "setAlertController(_alertController:AlertControlling).alertController"
+            case delegate = "setDelegate(_delegate:BlockedByControllerDelegate).delegate"
         }
     }
 
@@ -923,33 +907,17 @@ class MockFocusController: NSObject, FocusControlling {
         }
     }
 
-    // MARK: - setAlertController
-
-    func setAlertController(_ alertController: AlertControlling) {
-        let functionName = setAlertController2.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: alertController, forKey: setAlertController2.params.alertController)
-        invocations.record(invocation)
-    }
-
-    enum setAlertController2: String, _StringRawRepresentable {
-        case name = "setAlertController2"
-        enum params: String, _StringRawRepresentable {
-            case alertController = "setAlertController(_alertController:AlertControlling).alertController"
-        }
-    }
-
     // MARK: - setDelegate
 
     func setDelegate(_ delegate: FocusControllerDelegate) {
-        let functionName = setDelegate3.name
+        let functionName = setDelegate2.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: delegate, forKey: setDelegate3.params.delegate)
+        invocation.set(parameter: delegate, forKey: setDelegate2.params.delegate)
         invocations.record(invocation)
     }
 
-    enum setDelegate3: String, _StringRawRepresentable {
-        case name = "setDelegate3"
+    enum setDelegate2: String, _StringRawRepresentable {
+        case name = "setDelegate2"
         enum params: String, _StringRawRepresentable {
             case delegate = "setDelegate(_delegate:FocusControllerDelegate).delegate"
         }
@@ -1202,6 +1170,41 @@ class MockFocusViewController: NSObject, FocusViewControlling {
     }
 }
 
+class MockHolidayModeController: NSObject, HolidayModeControlling {
+    let invocations = _Invocations()
+    let actions = _Actions()
+    static let invocations = _Invocations()
+    static let actions = _Actions()
+
+    // MARK: - start
+
+    func start() {
+        let functionName = start1.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum start1: String, _StringRawRepresentable {
+        case name = "start1"
+    }
+
+    // MARK: - setDelegate
+
+    func setDelegate(_ delegate: HolidayModeControllerDelegate) {
+        let functionName = setDelegate2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: delegate, forKey: setDelegate2.params.delegate)
+        invocations.record(invocation)
+    }
+
+    enum setDelegate2: String, _StringRawRepresentable {
+        case name = "setDelegate2"
+        enum params: String, _StringRawRepresentable {
+            case delegate = "setDelegate(_delegate:HolidayModeControllerDelegate).delegate"
+        }
+    }
+}
+
 class MockItemDetailController: NSObject, ItemDetailControlling {
     let invocations = _Invocations()
     let actions = _Actions()
@@ -1224,33 +1227,17 @@ class MockItemDetailController: NSObject, ItemDetailControlling {
         }
     }
 
-    // MARK: - setAlertController
-
-    func setAlertController(_ alertController: AlertControlling) {
-        let functionName = setAlertController2.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: alertController, forKey: setAlertController2.params.alertController)
-        invocations.record(invocation)
-    }
-
-    enum setAlertController2: String, _StringRawRepresentable {
-        case name = "setAlertController2"
-        enum params: String, _StringRawRepresentable {
-            case alertController = "setAlertController(_alertController:AlertControlling).alertController"
-        }
-    }
-
     // MARK: - setDelegate
 
     func setDelegate(_ delegate: ItemDetailControllerDelegate) {
-        let functionName = setDelegate3.name
+        let functionName = setDelegate2.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: delegate, forKey: setDelegate3.params.delegate)
+        invocation.set(parameter: delegate, forKey: setDelegate2.params.delegate)
         invocations.record(invocation)
     }
 
-    enum setDelegate3: String, _StringRawRepresentable {
-        case name = "setDelegate3"
+    enum setDelegate2: String, _StringRawRepresentable {
+        case name = "setDelegate2"
         enum params: String, _StringRawRepresentable {
             case delegate = "setDelegate(_delegate:ItemDetailControllerDelegate).delegate"
         }
@@ -1259,26 +1246,26 @@ class MockItemDetailController: NSObject, ItemDetailControlling {
     // MARK: - invalidate
 
     func invalidate() {
-        let functionName = invalidate4.name
+        let functionName = invalidate3.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
     }
 
-    enum invalidate4: String, _StringRawRepresentable {
-        case name = "invalidate4"
+    enum invalidate3: String, _StringRawRepresentable {
+        case name = "invalidate3"
     }
 
     // MARK: - setContext
 
     func setContext(_ context: TodoItemContext) {
-        let functionName = setContext5.name
+        let functionName = setContext4.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: context, forKey: setContext5.params.context)
+        invocation.set(parameter: context, forKey: setContext4.params.context)
         invocations.record(invocation)
     }
 
-    enum setContext5: String, _StringRawRepresentable {
-        case name = "setContext5"
+    enum setContext4: String, _StringRawRepresentable {
+        case name = "setContext4"
         enum params: String, _StringRawRepresentable {
             case context = "setContext(_context:TodoItemContext).context"
         }
@@ -1966,33 +1953,17 @@ class MockProjectsController: NSObject, ProjectsControlling {
         }
     }
 
-    // MARK: - setAlertController
-
-    func setAlertController(_ alertController: AlertControlling) {
-        let functionName = setAlertController2.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: alertController, forKey: setAlertController2.params.alertController)
-        invocations.record(invocation)
-    }
-
-    enum setAlertController2: String, _StringRawRepresentable {
-        case name = "setAlertController2"
-        enum params: String, _StringRawRepresentable {
-            case alertController = "setAlertController(_alertController:AlertControlling).alertController"
-        }
-    }
-
     // MARK: - setDelegate
 
     func setDelegate(_ delegate: ProjectsControllerDelegate) {
-        let functionName = setDelegate3.name
+        let functionName = setDelegate2.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: delegate, forKey: setDelegate3.params.delegate)
+        invocation.set(parameter: delegate, forKey: setDelegate2.params.delegate)
         invocations.record(invocation)
     }
 
-    enum setDelegate3: String, _StringRawRepresentable {
-        case name = "setDelegate3"
+    enum setDelegate2: String, _StringRawRepresentable {
+        case name = "setDelegate2"
         enum params: String, _StringRawRepresentable {
             case delegate = "setDelegate(_delegate:ProjectsControllerDelegate).delegate"
         }

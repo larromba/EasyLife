@@ -5,20 +5,20 @@ import UIKit
 // sourcery: name = ProjectsController
 protocol ProjectsControlling: AnyObject, Mockable {
     func setViewController(_ viewController: ProjectsViewControlling)
-    func setAlertController(_ alertController: AlertControlling)
     func setDelegate(_ delegate: ProjectsControllerDelegate)
 }
 
 protocol ProjectsControllerDelegate: AnyObject {
-    func controllerFinished(_ controller: ProjectsController)
+    func controllerFinished(_ controller: ProjectsControlling)
+    func controller(_ controller: ProjectsControlling, showAlert alert: Alert)
+    func controller(_ controller: ProjectsControlling, setIsAlertButtonEnabled isEnabled: Bool, at index: Int)
 }
 
 final class ProjectsController: ProjectsControlling {
     private let repository: ProjectsRepositoring
-    private weak var viewController: ProjectsViewControlling?
-    private var alertController: AlertControlling?
-    private weak var delegate: ProjectsControllerDelegate?
     private var context: EditContext<String?>?
+    private weak var delegate: ProjectsControllerDelegate?
+    private weak var viewController: ProjectsViewControlling?
 
     init(repository: ProjectsRepositoring) {
         self.repository = repository
@@ -29,10 +29,6 @@ final class ProjectsController: ProjectsControlling {
         viewController.setDelegate(self)
         viewController.viewState = ProjectsViewState(sections: [:], isEditing: false)
         reload()
-    }
-
-    func setAlertController(_ alertController: AlertControlling) {
-        self.alertController = alertController
     }
 
     func setDelegate(_ delegate: ProjectsControllerDelegate) {
@@ -54,7 +50,7 @@ final class ProjectsController: ProjectsControlling {
                 self.viewController?.viewState = viewState.copy(sections: sections)
             }
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -63,7 +59,7 @@ final class ProjectsController: ProjectsControlling {
             _ = try await(self.repository.addProject(name: name))
             self.reload()
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -72,7 +68,7 @@ final class ProjectsController: ProjectsControlling {
             _ = try await(self.repository.updateName(name, for: project))
             self.reload()
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -90,7 +86,7 @@ final class ProjectsController: ProjectsControlling {
                                         handler: { text in
             self.context?.value = text
             if let isEmpty = text?.isEmpty {
-                self.alertController?.setIsButtonEnabled(!isEmpty, at: 1)
+                self.delegate?.controller(self, setIsAlertButtonEnabled: !isEmpty, at: 1)
             }
         })
         let isNewProject = (project == nil)
@@ -100,8 +96,8 @@ final class ProjectsController: ProjectsControlling {
                           actions: [action],
                           textField: textField)
         context = EditContext(value: project?.name)
-        alertController?.showAlert(alert)
-        alertController?.setIsButtonEnabled(false, at: 1)
+        delegate?.controller(self, showAlert: alert)
+        delegate?.controller(self, setIsAlertButtonEnabled: false, at: 1)
     }
 
     private func toggleEditTable() {
@@ -134,7 +130,7 @@ extension ProjectsController: ProjectsViewControllerDelegate {
             }
             self.reload()
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -162,7 +158,7 @@ extension ProjectsController: ProjectsViewControllerDelegate {
             }
             self.reload()
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 }

@@ -10,6 +10,7 @@ protocol ArchiveCoordinating: Mockable {
 
 final class ArchiveCoordinator: NSObject, ArchiveCoordinating {
     private let archiveController: ArchiveControlling
+    private var alertController: AlertControlling?
     private var navigationController: UINavigationController?
 
     init(archiveController: ArchiveControlling) {
@@ -28,19 +29,25 @@ final class ArchiveCoordinator: NSObject, ArchiveCoordinating {
     }
 
     func setAlertController(_ alertController: AlertControlling) {
-        archiveController.setAlertController(alertController)
+        self.alertController = alertController
     }
 
     func resetNavigation() {
-        navigationController?.dismiss(animated: false, completion: nil)
+        alertController = nil
+        navigationController?.hardReset()
     }
 }
 
 // MARK: - ArchiveControllerDelegate
 
 extension ArchiveCoordinator: ArchiveControllerDelegate {
-    func controllerFinished(_ controller: ArchiveController) {
+    func controllerFinished(_ controller: ArchiveControlling) {
+        alertController = nil
         navigationController?.dismiss(animated: true, completion: nil)
+    }
+
+    func controller(_ controller: ArchiveControlling, showAlert alert: Alert) {
+        alertController?.showAlert(alert)
     }
 }
 

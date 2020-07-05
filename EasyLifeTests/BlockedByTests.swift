@@ -6,7 +6,6 @@ import XCTest
 final class BlockedByTests: XCTestCase {
     private var navigationController: UINavigationController!
     private var viewController: BlockedByViewController!
-    private var alertController: AlertController!
     private var env: AppTestEnvironment!
 
     override func setUp() {
@@ -15,7 +14,6 @@ final class BlockedByTests: XCTestCase {
         viewController = UIStoryboard.plan
             .instantiateViewController(withIdentifier: "BlockedByViewController") as? BlockedByViewController
         viewController.prepareView()
-        alertController = AlertController(presenter: viewController)
         navigationController.pushViewController(viewController, animated: false)
         env = AppTestEnvironment(navigationController: navigationController)
         UIView.setAnimationsEnabled(false)
@@ -122,7 +120,6 @@ final class BlockedByTests: XCTestCase {
         env.addToWindow()
         let item = env.todoItem(type: .empty)
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setAlertController(alertController)
         env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
 
         // test

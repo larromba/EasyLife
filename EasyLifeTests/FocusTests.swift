@@ -16,7 +16,6 @@ final class FocusTests: XCTestCase {
     override func setUp() {
         super.setUp()
         navigationController = UIStoryboard.focus.instantiateInitialViewController() as? UINavigationController
-//        navigationController.modalPresentationStyle = .fullScreen
         viewController = navigationController.viewControllers.first as? FocusViewController
         viewController.prepareView()
         alertController = AlertController(presenter: viewController)
@@ -93,7 +92,7 @@ final class FocusTests: XCTestCase {
         env.inject()
         env.addToWindow()
         setupMissingItems()
-        env.focusController.setAlertController(alertController)
+        env.focusCoordinator.setAlertController(alertController)
         env.focusController.setViewController(viewController)
 
         // test
@@ -106,7 +105,7 @@ final class FocusTests: XCTestCase {
         env.inject()
         setupMissingItems()
         let presenter = addToPresenter()
-        env.focusController.setAlertController(alertController)
+        env.focusCoordinator.setAlertController(alertController)
         env.focusController.setViewController(viewController)
 
         // sut
@@ -127,7 +126,7 @@ final class FocusTests: XCTestCase {
         env.inject()
         setupMissingItems()
         _ = addToPresenter()
-        env.focusController.setAlertController(alertController)
+        env.focusCoordinator.setAlertController(alertController)
         env.focusController.setViewController(viewController)
 
         // sut
@@ -158,7 +157,7 @@ final class FocusTests: XCTestCase {
         env.inject()
         env.addToWindow()
         setupBlockedItems()
-        env.focusController.setAlertController(alertController)
+        env.focusCoordinator.setAlertController(alertController)
         env.focusController.setViewController(viewController)
 
         // test
@@ -172,7 +171,7 @@ final class FocusTests: XCTestCase {
         env.focusCoordinator.setNavigationController(navigationController)
         setupBlockedItems()
         let presenter = addToPresenter()
-        env.focusController.setAlertController(alertController)
+        env.focusCoordinator.setAlertController(alertController)
         env.focusController.setViewController(viewController)
 
         // sut

@@ -6,19 +6,18 @@ import UIKit
 protocol ArchiveControlling: Mockable {
     func setDelegate(_ delegate: ArchiveControllerDelegate)
     func setViewController(_ viewController: ArchiveViewControlling)
-    func setAlertController(_ alertController: AlertControlling)
 }
 
 protocol ArchiveControllerDelegate: AnyObject {
-    func controllerFinished(_ controller: ArchiveController)
+    func controllerFinished(_ controller: ArchiveControlling)
+    func controller(_ controller: ArchiveControlling, showAlert alert: Alert)
 }
 
 final class ArchiveController: ArchiveControlling {
     private let repository: ArchiveRepositoring
-    private weak var viewController: ArchiveViewControlling?
-    private var alertController: AlertControlling?
-    private weak var delegate: ArchiveControllerDelegate?
     private var sections = [Character: [TodoItem]]()
+    private weak var delegate: ArchiveControllerDelegate?
+    private weak var viewController: ArchiveViewControlling?
 
     init(repository: ArchiveRepositoring) {
         self.repository = repository
@@ -35,10 +34,6 @@ final class ArchiveController: ArchiveControlling {
         reload()
     }
 
-    func setAlertController(_ alertController: AlertControlling) {
-        self.alertController = alertController
-    }
-
     // MARK: - private
 
     private func reload() {
@@ -50,7 +45,7 @@ final class ArchiveController: ArchiveControlling {
                 self.viewController?.viewState = viewState.copy(sections: self.sections)
             }
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -63,7 +58,7 @@ final class ArchiveController: ArchiveControlling {
                 self.clearAll()
             })],
             textField: nil)
-        alertController?.showAlert(alert)
+        delegate?.controller(self, showAlert: alert)
     }
 
     private func clearAll() {
@@ -72,7 +67,7 @@ final class ArchiveController: ArchiveControlling {
             _ = try await(self.repository.clearAll(items: viewState.sections.flatMap { $0.value }))
             self.reload()
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -81,7 +76,7 @@ final class ArchiveController: ArchiveControlling {
             _ = try await(self.repository.undo(item: item))
             self.reload()
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 

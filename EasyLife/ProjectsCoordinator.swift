@@ -11,6 +11,7 @@ protocol ProjectsCoordinating: Mockable {
 
 final class ProjectsCoordinator: NSObject, ProjectsCoordinating {
     private let projectsController: ProjectsControlling
+    private var alertController: AlertControlling?
     private var navigationController: UINavigationController?
 
     init(projectsController: ProjectsControlling) {
@@ -29,19 +30,29 @@ final class ProjectsCoordinator: NSObject, ProjectsCoordinating {
     }
 
     func setAlertController(_ alertController: AlertControlling) {
-        projectsController.setAlertController(alertController)
+        self.alertController = alertController
     }
 
     func resetNavigation() {
-        navigationController?.dismiss(animated: false, completion: nil)
+        alertController = nil
+        navigationController?.hardReset()
     }
 }
 
 // MARK: - ProjectsControllerDelegate
 
 extension ProjectsCoordinator: ProjectsControllerDelegate {
-    func controllerFinished(_ controller: ProjectsController) {
+    func controllerFinished(_ controller: ProjectsControlling) {
+        alertController = nil
         navigationController?.dismiss(animated: true, completion: nil)
+    }
+
+    func controller(_ controller: ProjectsControlling, showAlert alert: Alert) {
+        alertController?.showAlert(alert)
+    }
+
+    func controller(_ controller: ProjectsControlling, setIsAlertButtonEnabled isEnabled: Bool, at index: Int) {
+        alertController?.setIsButtonEnabled(isEnabled, at: index)
     }
 }
 

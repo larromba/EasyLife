@@ -5,11 +5,11 @@ import TestExtensions
 import UIKit
 import XCTest
 
+//TODO: set navigationcontroller
 // swiftlint:disable type_body_length file_length
 final class ItemDetailTests: XCTestCase {
     private var navigationController: UINavigationController!
     private var viewController: ItemDetailViewController!
-    private var alertController: AlertController!
     private var env: AppTestEnvironment!
 
     override func setUp() {
@@ -18,7 +18,6 @@ final class ItemDetailTests: XCTestCase {
         viewController = UIStoryboard.plan
             .instantiateViewController(withIdentifier: "ItemDetailViewController") as? ItemDetailViewController
         viewController.prepareView()
-        alertController = AlertController(presenter: viewController)
         navigationController.pushViewController(viewController, animated: false)
         env = AppTestEnvironment(navigationController: navigationController)
         UIView.setAnimationsEnabled(false)
@@ -164,7 +163,6 @@ final class ItemDetailTests: XCTestCase {
         let item = env.todoItem(type: .empty, isTransient: true)
         env.itemDetailController.setViewController(viewController)
         env.itemDetailController.setContext(.new(item: item, context: env.childContext))
-        env.itemDetailController.setAlertController(alertController)
         env.addToWindow()
         viewController.titleTextField.setText("foo")
 
@@ -181,7 +179,6 @@ final class ItemDetailTests: XCTestCase {
         let item = env.todoItem(type: .today, isTransient: true)
         env.itemDetailController.setViewController(viewController)
         env.itemDetailController.setContext(.new(item: item, context: env.childContext))
-        env.itemDetailController.setAlertController(alertController)
         env.addToWindow()
 
         // sut
@@ -212,7 +209,6 @@ final class ItemDetailTests: XCTestCase {
         let item = env.todoItem(type: .empty, isTransient: true)
         env.itemDetailController.setViewController(viewController)
         env.itemDetailController.setContext(.new(item: item, context: env.childContext))
-        env.itemDetailController.setAlertController(alertController)
         env.addToWindow()
         viewController.titleTextField.setText("foo")
 
@@ -237,7 +233,6 @@ final class ItemDetailTests: XCTestCase {
         let item = env.todoItem(type: .empty, isTransient: true)
         env.itemDetailController.setViewController(viewController)
         env.itemDetailController.setContext(.new(item: item, context: env.childContext))
-        env.itemDetailController.setAlertController(alertController)
         env.addToWindow()
         viewController.titleTextField.setText("foo")
 
@@ -269,7 +264,6 @@ final class ItemDetailTests: XCTestCase {
         let item = env.todoItem(type: .empty, isTransient: true)
         env.itemDetailController.setViewController(viewController)
         env.itemDetailController.setContext(.new(item: item, context: env.childContext))
-        env.itemDetailController.setAlertController(alertController)
         env.addToWindow()
         viewController.titleTextField.setText("foo")
 
@@ -602,7 +596,6 @@ final class ItemDetailTests: XCTestCase {
         env.addToWindow()
         let item = env.todoItem(type: .empty)
         env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setAlertController(alertController)
         env.itemDetailController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
 
         // test

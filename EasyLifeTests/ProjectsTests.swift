@@ -114,7 +114,7 @@ final class ProjectsTests: XCTestCase {
         // mocks
         env.inject()
         env.projectsController.setViewController(viewController)
-        env.projectsController.setAlertController(alertController)
+        env.projectsCoordinator.setAlertController(alertController)
         env.addToWindow()
 
         // sut
@@ -129,7 +129,7 @@ final class ProjectsTests: XCTestCase {
         // mocks
         env.inject()
         env.projectsController.setViewController(viewController)
-        env.projectsController.setAlertController(alertController)
+        env.projectsCoordinator.setAlertController(alertController)
         env.addToWindow()
 
         // sut
@@ -147,7 +147,7 @@ final class ProjectsTests: XCTestCase {
         // mocks
         env.inject()
         env.projectsController.setViewController(viewController)
-        env.projectsController.setAlertController(alertController)
+        env.projectsCoordinator.setAlertController(alertController)
         env.addToWindow()
 
         // sut
@@ -166,7 +166,7 @@ final class ProjectsTests: XCTestCase {
         // mocks
         env.inject()
         env.projectsController.setViewController(viewController)
-        env.projectsController.setAlertController(alertController)
+        env.projectsCoordinator.setAlertController(alertController)
         env.addToWindow()
         XCTAssertTrue(viewController.addButton.fire())
         guard let alert = viewController.presentedViewController as? UIAlertController else {
@@ -199,7 +199,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
-        env.projectsController.setAlertController(alertController)
+        env.projectsCoordinator.setAlertController(alertController)
         env.addToWindow()
 
         // sut
@@ -215,7 +215,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
-        env.projectsController.setAlertController(alertController)
+        env.projectsCoordinator.setAlertController(alertController)
         env.addToWindow()
 
         // sut
@@ -235,7 +235,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
-        env.projectsController.setAlertController(alertController)
+        env.projectsCoordinator.setAlertController(alertController)
         env.addToWindow()
 
         // sut
@@ -256,7 +256,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         let project = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
-        env.projectsController.setAlertController(alertController)
+        env.projectsCoordinator.setAlertController(alertController)
         env.addToWindow()
         waitSync()
         viewController.tapCell(row: 0, section: .prioritized)
@@ -557,7 +557,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         env.addToWindow()
         env.projectsController.setViewController(viewController)
-        env.projectsController.setAlertController(alertController)
+        env.projectsCoordinator.setAlertController(alertController)
 
         // test
         waitSync()

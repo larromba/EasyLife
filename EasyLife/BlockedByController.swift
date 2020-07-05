@@ -4,15 +4,19 @@ import Foundation
 // sourcery: name = BlockedByController
 protocol BlockedByControlling: TodoItemContexting, Mockable {
     func setViewController(_ viewController: BlockedByViewControlling)
-    func setAlertController(_ alertController: AlertControlling)
+    func setDelegate(_ delegate: BlockedByControllerDelegate)
     func invalidate()
 }
 
+protocol BlockedByControllerDelegate: AnyObject {
+    func controller(_ controller: BlockedByControlling, showAlert alert: Alert)
+}
+
 final class BlockedByController: BlockedByControlling {
-    private weak var viewController: BlockedByViewControlling?
-    private var alertController: AlertControlling?
     private let repository: BlockedByRepositoring
     private var context: EditContext<TodoItem>?
+    private weak var viewController: BlockedByViewControlling?
+    private weak var delegate: BlockedByControllerDelegate?
 
     init(repository: BlockedByRepositoring) {
         self.repository = repository
@@ -23,8 +27,8 @@ final class BlockedByController: BlockedByControlling {
         viewController.setDelegate(self)
     }
 
-    func setAlertController(_ alertController: AlertControlling) {
-        self.alertController = alertController
+    func setDelegate(_ delegate: BlockedByControllerDelegate) {
+        self.delegate = delegate
     }
 
     func setContext(_ context: TodoItemContext) {
@@ -45,7 +49,7 @@ final class BlockedByController: BlockedByControlling {
                 self.viewController?.reload()
             }
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 

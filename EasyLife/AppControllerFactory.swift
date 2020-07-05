@@ -3,6 +3,7 @@ import CoreData
 import UIKit
 
 enum AppControllerFactory {
+    // swiftlint:disable function_body_length
     static func make(window: UIWindow, navigationController: UINavigationController,
                      planViewController: PlanViewControlling) -> Async<AppControlling> {
         return Async { completion in
@@ -19,7 +20,6 @@ enum AppControllerFactory {
                 let planRepository = PlanRepository(dataContextProvider: dataContextProvider)
                 let planController = PlanController(
                     viewController: planViewController,
-                    alertController: AlertController(presenter: planViewController),
                     repository: planRepository,
                     badge: AppBadge()
                 )
@@ -28,8 +28,10 @@ enum AppControllerFactory {
                 let planCoordinator = PlanCoordinator(
                     navigationController: navigationController,
                     planController: planController,
+                    planAlertController: AlertController(presenter: planViewController),
                     itemDetailController: ItemDetailController(repository: itemDetailRepository),
-                    blockedByController: BlockedByController(repository: blockedByRepository)
+                    blockedByController: BlockedByController(repository: blockedByRepository),
+                    holidayModeController: HolidayModeController()
                 )
 
                 let focusRepository = FocusRepository(dataContextProvider: dataContextProvider,

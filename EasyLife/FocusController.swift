@@ -6,12 +6,12 @@ import UIKit
 // sourcery: name = FocusController
 protocol FocusControlling: AnyObject, Mockable {
     func setViewController(_ viewController: FocusViewControlling)
-    func setAlertController(_ alertController: AlertControlling)
     func setDelegate(_ delegate: FocusControllerDelegate)
 }
 
 protocol FocusControllerDelegate: AnyObject {
     func controllerFinished(_ controller: FocusControlling)
+    func controller(_ controller: FocusControlling, showAlert alert: Alert)
 }
 
 final class FocusController: FocusControlling {
@@ -20,7 +20,6 @@ final class FocusController: FocusControlling {
     private let appClosedTimer: AppClosedTiming
     private let alarmNotificationHandler: AlarmNotificationHandling
     private var timer: Timer?
-    private var alertController: AlertControlling?
     private weak var viewController: FocusViewControlling?
     private weak var delegate: FocusControllerDelegate?
 
@@ -37,10 +36,6 @@ final class FocusController: FocusControlling {
         self.viewController = viewController
         viewController.setDelegate(self)
         reload()
-    }
-
-    func setAlertController(_ alertController: AlertControlling) {
-        self.alertController = alertController
     }
 
     func setDelegate(_ delegate: FocusControllerDelegate) {
@@ -84,7 +79,7 @@ final class FocusController: FocusControlling {
                 self.viewController?.reloadTableViewData()
             }
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -100,7 +95,7 @@ final class FocusController: FocusControlling {
                           cancel: cancelAction,
                           actions: [confirmAction],
                           textField: nil)
-        alertController?.showAlert(alert)
+        delegate?.controller(self, showAlert: alert)
     }
 
     private func showRecursivelyBlockedAlert() {
@@ -112,7 +107,7 @@ final class FocusController: FocusControlling {
                           cancel: cancelAction,
                           actions: [],
                           textField: nil)
-        alertController?.showAlert(alert)
+        delegate?.controller(self, showAlert: alert)
     }
 
     private func showTimesUpAlert() {
@@ -121,7 +116,7 @@ final class FocusController: FocusControlling {
                           cancel: Alert.Action(title: L10n.recursivelyBlockedAlertOk, handler: nil),
                           actions: [],
                           textField: nil)
-        alertController?.showAlert(alert)
+        delegate?.controller(self, showAlert: alert)
     }
 
     private func moveMissingItems() {
@@ -130,7 +125,7 @@ final class FocusController: FocusControlling {
             try missingItems.forEach { try await(self.repository.today(item: $0)) }
             self.reload()
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -231,7 +226,7 @@ extension FocusController: FocusViewControllerDelegate {
             }
             self.reload()
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 }

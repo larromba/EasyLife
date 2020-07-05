@@ -1,5 +1,5 @@
 import UIKit
 
-protocol StoryboardRouting {
+protocol StoryboardRouting: AnyObject {
     func handleSegue(_ segue: UIStoryboardSegue)
 }

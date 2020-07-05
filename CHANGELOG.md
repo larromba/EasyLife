@@ -69,6 +69,7 @@ Apple ID: 1229095589
 # Future Work
 
 3.0.0:
+move controllers into coordinators
 holiday mode
 add none selection to project picker
 add clear button to blocked list
@@ -79,6 +80,8 @@ project needs empty selection
 move coredata to new repo
 update libs
 tests alerts - check titles not jsut type
+rename bading -> badge
+fix thinggy tests
 
 3.1.0:
 BUG: missed doesnt change. Split then done doesnt work.

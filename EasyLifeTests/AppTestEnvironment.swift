@@ -38,6 +38,7 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var focusCoordinator: FocusCoordinating!
     private(set) var blockedByRepository: BlockedByRepositoring!
     private(set) var blockedByController: BlockedByControlling!
+    private(set) var holidayModeController: HolidayModeControlling!
     private(set) var archiveRepository: ArchiveRepositoring!
     private(set) var archiveController: ArchiveControlling!
     private(set) var archiveCoordinator: ArchiveCoordinating!
@@ -67,18 +68,20 @@ final class AppTestEnvironment: TestEnvironment {
         planRepository = PlanRepository(dataContextProvider: dataContextProvider)
         alertController = AlertController(presenter: viewController)
         planController = PlanController(viewController: viewController,
-                                        alertController: alertController,
                                         repository: planRepository,
                                         badge: badge)
         blockedByRepository = BlockedByRepository()
         itemDetailRepository = ItemDetailRepository(dataContextProvider: dataContextProvider)
         itemDetailController = ItemDetailController(repository: itemDetailRepository)
         blockedByController = BlockedByController(repository: blockedByRepository)
+        holidayModeController = HolidayModeController()
         planCoordinator = PlanCoordinator(
             navigationController: navigationController,
             planController: planController,
+            planAlertController: alertController,
             itemDetailController: itemDetailController,
-            blockedByController: blockedByController
+            blockedByController: blockedByController,
+            holidayModeController: holidayModeController
         )
         focusRepository = FocusRepository(dataContextProvider: dataContextProvider, planRepository: planRepository)
         focusController = FocusController(repository: focusRepository, alarm: alarm)

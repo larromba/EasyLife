@@ -100,6 +100,8 @@
 		7F7514122492DF8900FF6446 /* TodoItemContexting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7514112492DF8900FF6446 /* TodoItemContexting.swift */; };
 		7F7540111F5AD1A900A0F06C /* Project.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F75400F1F5AD1A900A0F06C /* Project.storyboard */; };
 		7F7770C71EE827F000A58494 /* Archive.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F7770C91EE827F000A58494 /* Archive.storyboard */; };
+		7F79E92924B1E0660003D19D /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F79E92824B1E0660003D19D /* UIViewControllerExtensions.swift */; };
+		7F79E92B24B1E65C0003D19D /* HolidayModeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F79E92A24B1E65C0003D19D /* HolidayModeController.swift */; };
 		7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */; };
 		7F93792F1EA7661B009E33FA /* DateSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792E1EA7661B009E33FA /* DateSegment.swift */; };
 		7F9C62222018BF32006890EB /* DateComponentsFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C62202018BE5E006890EB /* DateComponentsFormatterExtensions.swift */; };
@@ -307,6 +309,8 @@
 		7F7540131F5AD29C00A0F06C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Project.strings; sourceTree = "<group>"; };
 		7F7770C81EE827F000A58494 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Archive.storyboard; sourceTree = "<group>"; };
 		7F7770CB1EE827F200A58494 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Archive.strings; sourceTree = "<group>"; };
+		7F79E92824B1E0660003D19D /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		7F79E92A24B1E65C0003D19D /* HolidayModeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayModeController.swift; sourceTree = "<group>"; };
 		7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleDatePicker.swift; sourceTree = "<group>"; };
 		7F93792E1EA7661B009E33FA /* DateSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegment.swift; sourceTree = "<group>"; };
 		7F9C62202018BE5E006890EB /* DateComponentsFormatterExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateComponentsFormatterExtensions.swift; sourceTree = "<group>"; };
@@ -524,6 +528,7 @@
 				7F429C8621C41B3500195E32 /* AppController.swift */,
 				7F429C7821C3E9D000195E32 /* PlanController.swift */,
 				7F3B8B74246EEB5000B45038 /* FocusController.swift */,
+				7F79E92A24B1E65C0003D19D /* HolidayModeController.swift */,
 				7F3BD2B421CFE9BE0035F540 /* ItemDetailController.swift */,
 				7F3BD2BE21D13D030035F540 /* BlockedByController.swift */,
 				7F429C9C21C5B60100195E32 /* ProjectsController.swift */,
@@ -706,6 +711,7 @@
 				7F163D301EDEE98D00DC52B6 /* BundleExtensions.swift */,
 				7FD2E4E31F8EB2EB00A57FB5 /* UIViewExtensions.swift */,
 				7F429C7C21C3F8E700195E32 /* Mockable.swift */,
+				7F79E92824B1E0660003D19D /* UIViewControllerExtensions.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -1091,6 +1097,7 @@
 				7FD2E4E41F8EB2EB00A57FB5 /* UIViewExtensions.swift in Sources */,
 				7F7514062492833C00FF6446 /* DataContextType.swift in Sources */,
 				7FAC2CB61E9F9B0E00F14ECB /* UITableViewStyle.swift in Sources */,
+				7F79E92924B1E0660003D19D /* UIViewControllerExtensions.swift in Sources */,
 				7F17F41F248F9D4400541282 /* CellIdentifiable.swift in Sources */,
 				7F429C9D21C5B60100195E32 /* ProjectsController.swift in Sources */,
 				7F93792F1EA7661B009E33FA /* DateSegment.swift in Sources */,
@@ -1109,6 +1116,7 @@
 				7F3BD2DA21D3F27F0035F540 /* SimpleDatePickerViewState.swift in Sources */,
 				7F429C9321C53B7800195E32 /* LayoutConstraintCache.swift in Sources */,
 				7FC488D72041A763003F6F19 /* BlockedByViewController.swift in Sources */,
+				7F79E92B24B1E65C0003D19D /* HolidayModeController.swift in Sources */,
 				7F3BD2BF21D13D030035F540 /* BlockedByController.swift in Sources */,
 				7FE4488F2041F49900F2DE77 /* ItemDetailRepository.swift in Sources */,
 				7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */,

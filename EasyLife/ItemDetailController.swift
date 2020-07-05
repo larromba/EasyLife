@@ -4,20 +4,19 @@ import Foundation
 // sourcery: name = ItemDetailController
 protocol ItemDetailControlling: TodoItemContexting, Mockable {
     func setViewController(_ viewController: ItemDetailViewControlling)
-    func setAlertController(_ alertController: AlertControlling)
     func setDelegate(_ delegate: ItemDetailControllerDelegate)
     func invalidate()
 }
 
 protocol ItemDetailControllerDelegate: AnyObject {
     func controllerFinished(_ controller: ItemDetailControlling)
+    func controller(_ controller: ItemDetailControlling, showAlert alert: Alert)
 }
 
 final class ItemDetailController: ItemDetailControlling {
-    private weak var viewController: ItemDetailViewControlling?
     private let repository: ItemDetailRepositoring
-    private var alertController: AlertControlling?
     private var context: EditContext<TodoItem>?
+    private weak var viewController: ItemDetailViewControlling?
     private weak var delegate: ItemDetailControllerDelegate?
 
     init(repository: ItemDetailRepositoring) {
@@ -27,10 +26,6 @@ final class ItemDetailController: ItemDetailControlling {
     func setViewController(_ viewController: ItemDetailViewControlling) {
         self.viewController = viewController
         viewController.setDelegate(self)
-    }
-
-    func setAlertController(_ alertController: AlertControlling) {
-        self.alertController = alertController
     }
 
     func setDelegate(_ delegate: ItemDetailControllerDelegate) {
@@ -69,7 +64,7 @@ final class ItemDetailController: ItemDetailControlling {
             })],
             textField: nil
         )
-        alertController?.showAlert(alert)
+        delegate?.controller(self, showAlert: alert)
     }
 
     private func reload() {
@@ -82,7 +77,7 @@ final class ItemDetailController: ItemDetailControlling {
                 self.viewController?.viewState = viewState
             }
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -113,7 +108,7 @@ final class ItemDetailController: ItemDetailControlling {
             _ = try await(self.repository.save(item: item))
             onMain { self.delegate?.controllerFinished(self) }
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -123,7 +118,7 @@ final class ItemDetailController: ItemDetailControlling {
             _ = try await(self.repository.delete(item: item))
             onMain { self.delegate?.controllerFinished(self) }
         }, onError: { error in
-            onMain { self.alertController?.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 

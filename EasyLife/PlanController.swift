@@ -11,29 +11,27 @@ protocol PlanControlling: Mockable {
 
 protocol PlanControllerDelegate: AnyObject {
     func controller(_ controller: PlanControlling, handleContext context: TodoItemContext, sender: Segueable)
+    func controller(_ controller: PlanControlling, showAlert alert: Alert)
+    func controllerRequestsHolidayMode(_ controller: PlanControlling)
 }
 
 final class PlanController: PlanControlling {
-    private let viewController: PlanViewControlling
-    private let alertController: AlertControlling
     private let repository: PlanRepositoring
     private let badge: Badging
+    private weak var viewController: PlanViewControlling?
     private weak var delegate: PlanControllerDelegate?
-    private var router: StoryboardRouting?
+    private weak var router: StoryboardRouting?
 
-    init(viewController: PlanViewControlling, alertController: AlertControlling, repository: PlanRepositoring,
-         badge: Badging) {
+    init(viewController: PlanViewControlling, repository: PlanRepositoring, badge: Badging) {
         self.viewController = viewController
-        self.alertController = alertController
         self.repository = repository
         self.badge = badge
-
         viewController.setDelegate(self)
     }
 
     func start() {
-        viewController.viewState = PlanViewState(sections: [:], isDoneHidden: true)
-        viewController.setTableHeaderAnimation(RainbowAnimation())
+        viewController?.viewState = PlanViewState(sections: [:], isDoneHidden: true)
+        viewController?.setTableHeaderAnimation(RainbowAnimation())
         reload()
     }
 
@@ -46,7 +44,8 @@ final class PlanController: PlanControlling {
     }
 
     func openNewTodoItem() {
-        viewController(viewController, performAction: .add)
+        guard let viewController = viewController else { return }
+        self.viewController(viewController, performAction: .add)
     }
 
     // MARK: - private
@@ -67,7 +66,7 @@ final class PlanController: PlanControlling {
     }
 
     private func reload() {
-        guard let viewState = self.viewController.viewState else { return }
+        guard let viewState = self.viewController?.viewState else { return }
         async({
             let sections = [
                 PlanSection.today: try await(self.repository.fetchTodayItems()),
@@ -77,11 +76,11 @@ final class PlanController: PlanControlling {
             let newViewState = viewState.copy(sections: sections, isDoneHidden: false)
             _ = try? await(self.badge.setNumber(newViewState.totalMissed + newViewState.totalToday))
             onMain {
-                self.viewController.viewState = newViewState
-                self.viewController.setIsTableHeaderAnimating(!newViewState.isTableHeaderHidden)
+                self.viewController?.viewState = newViewState
+                self.viewController?.setIsTableHeaderAnimating(!newViewState.isTableHeaderHidden)
             }
         }, onError: { error in
-            onMain { self.alertController.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -95,7 +94,7 @@ final class PlanController: PlanControlling {
             }
             self.reload()
         }, onError: { error in
-            onMain { self.alertController.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 }
@@ -117,6 +116,7 @@ extension PlanController: PlanViewControllerDelegate {
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction) {
         switch action {
         case .add: delegate?.controller(self, handleContext: repository.newItemContext(), sender: viewController)
+        case .holidayMode: delegate?.controllerRequestsHolidayMode(self)
         }
     }
 
@@ -139,7 +139,7 @@ extension PlanController: PlanViewControllerDelegate {
             }
             self.reload()
         }, onError: { error in
-            onMain { self.alertController.showAlert(Alert(error: error)) }
+            onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
 
@@ -151,6 +151,6 @@ extension PlanController: PlanViewControllerDelegate {
         }
         let alert = Alert(title: L10n.planItemLongPressActionTitle, message: "", cancel: cancelAction, actions: actions,
                           textField: nil)
-        alertController.showAlert(alert)
+        delegate?.controller(self, showAlert: alert)
     }
 }

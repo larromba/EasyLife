@@ -43,6 +43,8 @@ final class PlanViewController: UIViewController, PlanViewControlling {
                            forCellReuseIdentifier: PlanCell.reuseIdentifier)
         _ = viewState.map(bind)
         tableView.applyDefaultStyleFix()
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:)))
+      //  view.addGestureRecognizer(gestureRecognizer)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -88,6 +90,17 @@ final class PlanViewController: UIViewController, PlanViewControlling {
         tableView.isHidden = viewState.isTableHidden
         tableView.reloadData()
     }
+
+    @objc
+    private func viewTapped(_ sender: UIGestureRecognizer) {
+        guard sender.numberOfTouches == 3 else { return }
+        switch sender.state {
+        case .began: delegate?.viewController(self, performAction: .holidayMode)
+        default: break
+        }
+    }
+
+    // MARK: - actions
 
     @IBAction private func addButtonPressed(_ sender: UIBarButtonItem) {
         delegate?.viewController(self, performAction: .add)
