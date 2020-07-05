@@ -90,7 +90,7 @@ final class PlanTests: XCTestCase {
 
     func test_badge_whenNewItemsAdded_expectNewValue() {
         // mocks
-        let badge = MockBadge()
+        let badge = MockAppBadge()
         env.badge = badge
         env.inject()
         _ = env.todoItem(type: .missed)
@@ -99,8 +99,8 @@ final class PlanTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertEqual(badge.invocations.find(MockBadge.setNumber1.name).first?
-            .parameter(for: MockBadge.setNumber1.params.number) as? Int ?? 0, 2)
+        XCTAssertEqual(badge.invocations.find(MockAppBadge.setNumber1.name).first?
+            .parameter(for: MockAppBadge.setNumber1.params.number) as? Int ?? 0, 2)
     }
 
     // MARK: - missed

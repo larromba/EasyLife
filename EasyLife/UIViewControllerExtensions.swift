@@ -5,7 +5,7 @@ extension UIViewController {
         if let presentedViewController = presentedViewController {
             presentedViewController.hardReset()
         }
-        guard parent == nil else {
+        guard presentingViewController == nil else {
             dismiss(animated: false, completion: nil)
             return
         }

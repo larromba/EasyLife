@@ -5,7 +5,6 @@ import TestExtensions
 import UIKit
 import XCTest
 
-//TODO: set navigationcontroller
 // swiftlint:disable type_body_length file_length
 final class ItemDetailTests: XCTestCase {
     private var navigationController: UINavigationController!
@@ -160,10 +159,10 @@ final class ItemDetailTests: XCTestCase {
     func test_cancel_whenNewAndHasUpdates_expectAlertDisplays() {
         // mocks
         env.inject()
-        let item = env.todoItem(type: .empty, isTransient: true)
-        env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         env.addToWindow()
+        triggerNavigationDelegate()
+        let item = env.todoItem(type: .empty, isTransient: true)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         viewController.titleTextField.setText("foo")
 
         // sut
@@ -176,10 +175,10 @@ final class ItemDetailTests: XCTestCase {
     func test_cancelAlert_whenSaveButtonPressed_expectNewItemSaved() {
         // mocks
         env.inject()
-        let item = env.todoItem(type: .today, isTransient: true)
-        env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         env.addToWindow()
+        triggerNavigationDelegate()
+        let item = env.todoItem(type: .today, isTransient: true)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
 
         // sut
         XCTAssertTrue(viewController.navigationItem.leftBarButtonItem?.fire() ?? false)
@@ -206,10 +205,10 @@ final class ItemDetailTests: XCTestCase {
     func test_cancelAlert_whenSaveButtonPressed_expectHidesView() {
         // mocks
         env.inject()
-        let item = env.todoItem(type: .empty, isTransient: true)
-        env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         env.addToWindow()
+        triggerNavigationDelegate()
+        let item = env.todoItem(type: .empty, isTransient: true)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         viewController.titleTextField.setText("foo")
 
         // sut
@@ -230,10 +229,10 @@ final class ItemDetailTests: XCTestCase {
     func test_cancelAlert_whenNoPressed_expectNotSaved() {
         // mocks
         env.inject()
-        let item = env.todoItem(type: .empty, isTransient: true)
-        env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         env.addToWindow()
+        triggerNavigationDelegate()
+        let item = env.todoItem(type: .empty, isTransient: true)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         viewController.titleTextField.setText("foo")
 
         // sut
@@ -261,10 +260,10 @@ final class ItemDetailTests: XCTestCase {
     func test_cancelAlert_whenNoPressed_expectHidesView() {
         // mocks
         env.inject()
-        let item = env.todoItem(type: .empty, isTransient: true)
-        env.itemDetailController.setViewController(viewController)
-        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         env.addToWindow()
+        triggerNavigationDelegate()
+        let item = env.todoItem(type: .empty, isTransient: true)
+        env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         viewController.titleTextField.setText("foo")
 
         // sut
@@ -594,8 +593,8 @@ final class ItemDetailTests: XCTestCase {
         env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()
         env.addToWindow()
+        triggerNavigationDelegate()
         let item = env.todoItem(type: .empty)
-        env.itemDetailController.setViewController(viewController)
         env.itemDetailController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
 
         // test
@@ -658,6 +657,14 @@ final class ItemDetailTests: XCTestCase {
 
         // test
         XCTAssertTrue(viewController.navigationItem.rightBarButtonItem?.isSave ?? false)
+    }
+
+    // MARK: - private
+
+    private func triggerNavigationDelegate() {
+        waitSync(for: 0.1)
+        navigationController.delegate?
+            .navigationController?(navigationController, willShow: viewController, animated: false)
     }
 }
 

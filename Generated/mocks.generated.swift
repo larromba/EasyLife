@@ -560,7 +560,7 @@ class MockArchiveViewControlling: NSObject, ArchiveViewControlling {
     }
 }
 
-class MockBadge: NSObject, Badging {
+class MockAppBadge: NSObject, Badge {
     var number: Int {
         get { return _number }
         set(value) { _number = value; _numberHistory.append(_Variable(value)) }

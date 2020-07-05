@@ -44,7 +44,13 @@ final class PlanViewController: UIViewController, PlanViewControlling {
         _ = viewState.map(bind)
         tableView.applyDefaultStyleFix()
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:)))
-      //  view.addGestureRecognizer(gestureRecognizer)
+        // can't do 3 taps in simulator
+        #if targetEnvironment(simulator)
+        gestureRecognizer.numberOfTouchesRequired = 2
+        #else
+        gestureRecognizer.numberOfTouchesRequired = 3
+        #endif
+        view.addGestureRecognizer(gestureRecognizer)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -92,10 +98,9 @@ final class PlanViewController: UIViewController, PlanViewControlling {
     }
 
     @objc
-    private func viewTapped(_ sender: UIGestureRecognizer) {
-        guard sender.numberOfTouches == 3 else { return }
+    private func viewTapped(_ sender: UITapGestureRecognizer) {
         switch sender.state {
-        case .began: delegate?.viewController(self, performAction: .holidayMode)
+        case .ended: delegate?.viewController(self, performAction: .holidayMode)
         default: break
         }
     }

@@ -118,13 +118,21 @@ final class BlockedByTests: XCTestCase {
         env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()
         env.addToWindow()
+        triggerNavigationDelegate()
         let item = env.todoItem(type: .empty)
-        env.blockedByController.setViewController(viewController)
         env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
 
         // test
         waitSync()
         XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+    }
+
+    // MARK: - private
+
+    private func triggerNavigationDelegate() {
+        waitSync(for: 0.1)
+        navigationController.delegate?
+            .navigationController?(navigationController, willShow: viewController, animated: false)
     }
 }
 

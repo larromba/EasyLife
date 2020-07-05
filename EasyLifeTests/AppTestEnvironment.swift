@@ -18,7 +18,7 @@ final class AppTestEnvironment: TestEnvironment {
     var navigationController: UINavigationController
     var viewController: PlanViewControlling
     var persistentContainer: NSPersistentContainer
-    var badge: Badging
+    var badge: Badge
     var alarm: Alarming
     var now: Date
 
@@ -50,7 +50,7 @@ final class AppTestEnvironment: TestEnvironment {
          navigationController: UINavigationController = UINavigationController(),
          window: UIWindow = UIWindow(),
          persistentContainer: NSPersistentContainer = .mock(),
-         badge: Badging = MockBadge(),
+         badge: Badge = MockAppBadge(),
          alarm: Alarming = MockAlarm(),
          now: Date = Date()) {
         self.viewController = viewController

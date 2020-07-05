@@ -46,8 +46,8 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
     }
 
     func resetNavigation() {
-        blockedByController.invalidate()
         itemDetailController.invalidate()
+        blockedByController.invalidate()
         invalidate()
         navigationController.hardReset()
     }
@@ -78,7 +78,7 @@ extension PlanCoordinator: PlanControllerDelegate {
     }
 
     func controllerRequestsHolidayMode(_ controller: PlanControlling) {
-        print("TODO")
+        holidayModeController.start()
     }
 }
 
@@ -105,7 +105,7 @@ extension PlanCoordinator: BlockedByControllerDelegate {
 
 extension PlanCoordinator: HolidayModeControllerDelegate {
     func controllerFinished(_ controller: HolidayModeControlling) {
-        print("TODO")
+        // 🦄
     }
 }
 
@@ -114,20 +114,21 @@ extension PlanCoordinator: HolidayModeControllerDelegate {
 extension PlanCoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController,
                               willShow viewController: UIViewController, animated: Bool) {
-        defer { lastNavigationStack = navigationController.viewControllers }
+        let currentViewControllerStack = navigationController.viewControllers
+        defer { lastNavigationStack = currentViewControllerStack }
 
-        // if going back
-        if lastNavigationStack.contains(viewController) {
-            let currentViewController = navigationController.viewControllers.last
-            switch currentViewController {
+        // if going backwards
+        if lastNavigationStack.count > currentViewControllerStack.count {
+            let movingFromViewController = lastNavigationStack.last
+            switch movingFromViewController {
             case is ItemDetailViewControlling:
                 itemDetailAlertController = nil
+                context = nil
             case is BlockedByViewController:
                 blockedByAlertController = nil
-            case is PlanViewController:
-                context = nil
             default:
-                assertionFailureIgnoreTests("unhandled vc: \(String(describing: currentViewController?.classForCoder))")
+                assertionFailureIgnoreTests(
+                    "unhandled vc: \(String(describing: movingFromViewController?.classForCoder))")
             }
             return
         }

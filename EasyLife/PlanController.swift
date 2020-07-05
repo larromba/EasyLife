@@ -17,12 +17,12 @@ protocol PlanControllerDelegate: AnyObject {
 
 final class PlanController: PlanControlling {
     private let repository: PlanRepositoring
-    private let badge: Badging
+    private let badge: Badge
     private weak var viewController: PlanViewControlling?
     private weak var delegate: PlanControllerDelegate?
     private weak var router: StoryboardRouting?
 
-    init(viewController: PlanViewControlling, repository: PlanRepositoring, badge: Badging) {
+    init(viewController: PlanViewControlling, repository: PlanRepositoring, badge: Badge) {
         self.viewController = viewController
         self.repository = repository
         self.badge = badge

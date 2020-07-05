@@ -17,11 +17,12 @@ enum AppControllerFactory {
                 #endif
                 try await(dataContextProvider.load())
 
+                let badge = AppBadge()
                 let planRepository = PlanRepository(dataContextProvider: dataContextProvider)
                 let planController = PlanController(
                     viewController: planViewController,
                     repository: planRepository,
-                    badge: AppBadge()
+                    badge: badge
                 )
                 let itemDetailRepository = ItemDetailRepository(dataContextProvider: dataContextProvider)
                 let blockedByRepository = BlockedByRepository()
@@ -31,9 +32,8 @@ enum AppControllerFactory {
                     planAlertController: AlertController(presenter: planViewController),
                     itemDetailController: ItemDetailController(repository: itemDetailRepository),
                     blockedByController: BlockedByController(repository: blockedByRepository),
-                    holidayModeController: HolidayModeController()
+                    holidayModeController: HolidayModeController(presenter: planViewController, badge: badge)
                 )
-
                 let focusRepository = FocusRepository(dataContextProvider: dataContextProvider,
                                                       planRepository: planRepository)
                 let focusController = FocusController(repository: focusRepository, alarm: Alarm())

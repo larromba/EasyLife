@@ -2,15 +2,15 @@ import AsyncAwait
 import UIKit
 import UserNotifications
 
-// sourcery: name = Badge
-protocol Badging: AnyObject, Mockable {
+// sourcery: name = AppBadge
+protocol Badge: AnyObject, Mockable {
     var number: Int { get }
 
     // sourcery: returnValue = Async.success(())
     func setNumber(_ number: Int) -> Async<Void>
 }
 
-final class AppBadge: Badging {
+final class AppBadge: Badge {
     private let notificationCenter: UNUserNotificationCenter
     private let application: UIApplication
     var number: Int {

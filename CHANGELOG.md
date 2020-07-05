@@ -69,8 +69,7 @@ Apple ID: 1229095589
 # Future Work
 
 3.0.0:
-move controllers into coordinators
-holiday mode
+holiday mode tests / holiday graphics
 add none selection to project picker
 add clear button to blocked list
 search app & check protocols are being used (not direct references)
