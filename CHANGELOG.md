@@ -73,7 +73,6 @@ Apple ID: 1229095589
 
 3.0.0:
 search app & check protocols are being used (not direct references)
-instantiateViewController (make cleaner)
 fix travis tests
 update libs
 move coredata to new repo

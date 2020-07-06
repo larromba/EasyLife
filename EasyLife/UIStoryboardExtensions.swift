@@ -20,4 +20,8 @@ extension UIStoryboard {
     static var components: UIStoryboard {
         return UIStoryboard(name: "Components", bundle: nil)
     }
+
+    func instantiateViewController<T: UIViewController>() -> T {
+        return instantiateViewController(withIdentifier: "\(T.self)") as! T
+    }
 }

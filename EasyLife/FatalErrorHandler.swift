@@ -18,12 +18,12 @@ final class FatalErrorHandler {
 
     @objc
     private func applicationDidReceiveFatalError(_ notification: Notification) {
-        log("applicationDidReceiveFatalError \(notification.object ?? "nil")")
-        guard let error = notification.object as? Error,
-            let fatalViewController = UIStoryboard.components
-                .instantiateViewController(withIdentifier: "FatalViewController") as? FatalViewController else {
-                    return
+        guard let error = notification.object as? Error else {
+            assertionFailure("expected Error")
+            return
         }
+        logError("applicationDidReceiveFatalError: \(error.localizedDescription)")
+        let fatalViewController: FatalViewController = UIStoryboard.components.instantiateViewController()
         fatalViewController.viewState = FatalViewState(error: error)
         window.rootViewController = fatalViewController
     }

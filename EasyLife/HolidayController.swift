@@ -29,11 +29,7 @@ final class HolidayController: HolidayControlling {
     }
 
     func start() {
-        guard let viewController = UIStoryboard.components
-            .instantiateViewController(withIdentifier: "HolidayViewController") as? HolidayViewController else {
-                assertionFailure("expected HolidayViewController")
-                return
-        }
+        let viewController: HolidayViewController = UIStoryboard.components.instantiateViewController()
         holidayRepository.isEnabled = true
         viewController.setDelegate(self)
         viewController.modalPresentationStyle = .fullScreen

@@ -14,8 +14,7 @@ final class ItemDetailTests: XCTestCase {
     override func setUp() {
         super.setUp()
         navigationController = UIStoryboard.plan.instantiateInitialViewController() as? UINavigationController
-        viewController = UIStoryboard.plan
-            .instantiateViewController(withIdentifier: "ItemDetailViewController") as? ItemDetailViewController
+        viewController = UIStoryboard.plan.instantiateViewController()
         viewController.prepareView()
         navigationController.pushViewController(viewController, animated: false)
         env = AppTestEnvironment(navigationController: navigationController)
