@@ -811,6 +811,182 @@ final class PlanTests: XCTestCase {
         XCTAssertTrue(viewController.focusButton.isEnabled)
     }
 
+    // MARK: - holiday
+
+    func test_view_whenDoubleTapped_expectShowsHoidayView() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+
+        // sut
+        waitSync()
+        viewController.view.gestureRecognizers?.first?.state = .ended
+
+        // test
+        waitSync()
+        XCTAssertTrue(viewController.presentedViewController is HolidayViewController)
+    }
+
+    func test_holidayView_whenAppears_expectHolidayEnabled() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+
+        // sut
+        waitSync()
+        viewController.view.gestureRecognizers?.first?.state = .ended
+
+        // test
+        waitSync()
+        XCTAssertTrue(env.userDefaults.bool(forKey: .holiday))
+    }
+
+    func test_holidayView_whenAppears_expectShortcutsCleared() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+
+        // sut
+        waitSync()
+        viewController.view.gestureRecognizers?.first?.state = .ended
+
+        // test
+        waitSync()
+        XCTAssertEqual(UIApplication.shared.shortcutItems?.count, 0)
+    }
+
+    func test_holidayView_whenAppears_expectNotificationsCleared() {
+        // mocks
+        let badge = MockAppBadge()
+        env.badge = badge
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .empty)
+        env.start()
+
+        // sut
+        waitSync()
+        viewController.view.gestureRecognizers?.first?.state = .ended
+
+        // test
+        waitSync()
+        XCTAssertEqual(badge.invocations.find(MockAppBadge.setNumber1.name).first?
+            .parameter(for: MockAppBadge.setNumber1.params.number) as? Int ?? -1, 0)
+    }
+
+    func test_holidayView_whenTapped_expectHidesView() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        waitSync()
+        viewController.view.gestureRecognizers?.first?.state = .ended
+
+        // sut
+        waitSync()
+        guard let holidayViewController = viewController.presentedViewController as? HolidayViewController else {
+            XCTFail("expected HolidayViewController")
+            return
+        }
+        holidayViewController.touchesEnded(Set([]), with: nil)
+
+        // test
+        waitSync()
+        XCTAssertNil(viewController.presentedViewController)
+    }
+
+    func test_holidayView_whenHidden_expectHolidayDisabled() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        waitSync()
+        viewController.view.gestureRecognizers?.first?.state = .ended
+
+        // sut
+        waitSync()
+        guard let holidayViewController = viewController.presentedViewController as? HolidayViewController else {
+            XCTFail("expected HolidayViewController")
+            return
+        }
+        holidayViewController.touchesEnded(Set([]), with: nil)
+
+        // test
+        waitSync()
+        XCTAssertFalse(env.userDefaults.bool(forKey: .holiday))
+    }
+
+    func test_holidayView_whenHidden_expectShortcutsEnabled() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        waitSync()
+        viewController.view.gestureRecognizers?.first?.state = .ended
+
+        // sut
+        waitSync()
+        guard let holidayViewController = viewController.presentedViewController as? HolidayViewController else {
+            XCTFail("expected HolidayViewController")
+            return
+        }
+        holidayViewController.touchesEnded(Set([]), with: nil)
+
+        // test
+        waitSync()
+        XCTAssertEqual(UIApplication.shared.shortcutItems, ShortcutItem.display.map { $0.item })
+    }
+
+    func test_holidayView_whenHidden_expectNotifications() {
+        // mocks
+        let badge = MockAppBadge()
+        env.badge = badge
+        env.addToWindow()
+        env.inject()
+        _ = env.todoItem(type: .today)
+        env.start()
+        waitSync()
+        viewController.view.gestureRecognizers?.first?.state = .ended
+
+        // sut
+        waitSync()
+        guard let holidayViewController = viewController.presentedViewController as? HolidayViewController else {
+            XCTFail("expected HolidayViewController")
+            return
+        }
+        holidayViewController.touchesEnded(Set([]), with: nil)
+
+        // test
+        waitSync()
+        XCTAssertEqual(badge.invocations.find(MockAppBadge.setNumber1.name).last?
+            .parameter(for: MockAppBadge.setNumber1.params.number) as? Int ?? 0, 1)
+    }
+
+    func test_holidayIsEnabled_whenAppIsRestarted_expectShowingView() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        env.holidayRepository.isEnabled = true
+
+        // sut
+        env.start()
+
+        // test
+        waitSync()
+        XCTAssertTrue(viewController.presentedViewController is HolidayViewController)
+    }
+
+    func test_holidayIsDisabled_whenAppIsRestarted_expectNotShowingView() {
+        // mocks
+        env.inject()
+        env.addToWindow()
+        env.holidayRepository.isEnabled = false
+
+        // sut
+        env.start()
+
+        // test
+        waitSync()
+        XCTAssertNil(viewController.presentedViewController)
+    }
+
     // MARK: - order
 
     func test_missedSection_whenLoaded_expectOrder() {

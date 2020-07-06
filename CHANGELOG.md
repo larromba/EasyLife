@@ -4,6 +4,7 @@
     minor bug fixes and improvements
     fix: coredata threading issues
     added focus mode
+    addded holiday mode
 
 ## v2.0.3 (30/07/2019)
     fixed ordering bug in later section
@@ -69,18 +70,16 @@ Apple ID: 1229095589
 # Future Work
 
 3.0.0:
-holiday mode tests / holiday graphics
 add none selection to project picker
 add clear button to blocked list
 search app & check protocols are being used (not direct references)
-fix initial load flickers: plan table fade on reload
 simple date picker not clearing date
 project needs empty selection
 move coredata to new repo
 update libs
 tests alerts - check titles not jsut type
-rename bading -> badge
-fix thinggy tests
+fix travis tests
+instantiateViewController (make cleaner)
 
 3.1.0:
 BUG: missed doesnt change. Split then done doesnt work.
@@ -92,6 +91,8 @@ Minor:
 plancell ui tests rather than ui tests in each test class?
 use plan cell everywhere?
 refactor out uitableviewaction from tests?
+search bars in all views?
+fix initial load flickers: plan table fade on reload
 
 Future:
 short instructional video

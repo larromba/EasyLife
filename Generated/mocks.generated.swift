@@ -1170,7 +1170,7 @@ class MockFocusViewController: NSObject, FocusViewControlling {
     }
 }
 
-class MockHolidayModeController: NSObject, HolidayModeControlling {
+class MockHolidayController: NSObject, HolidayControlling {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -1190,7 +1190,7 @@ class MockHolidayModeController: NSObject, HolidayModeControlling {
 
     // MARK: - setDelegate
 
-    func setDelegate(_ delegate: HolidayModeControllerDelegate) {
+    func setDelegate(_ delegate: HolidayControllerDelegate) {
         let functionName = setDelegate2.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: delegate, forKey: setDelegate2.params.delegate)
@@ -1200,7 +1200,50 @@ class MockHolidayModeController: NSObject, HolidayModeControlling {
     enum setDelegate2: String, _StringRawRepresentable {
         case name = "setDelegate2"
         enum params: String, _StringRawRepresentable {
-            case delegate = "setDelegate(_delegate:HolidayModeControllerDelegate).delegate"
+            case delegate = "setDelegate(_delegate:HolidayControllerDelegate).delegate"
+        }
+    }
+}
+
+class MockHolidayViewController: NSObject, HolidayViewControlling {
+    let invocations = _Invocations()
+    let actions = _Actions()
+    static let invocations = _Invocations()
+    static let actions = _Actions()
+
+    // MARK: - setDelegate
+
+    func setDelegate(_ delegate: HolidayViewControllerDelegate) {
+        let functionName = setDelegate1.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: delegate, forKey: setDelegate1.params.delegate)
+        invocations.record(invocation)
+    }
+
+    enum setDelegate1: String, _StringRawRepresentable {
+        case name = "setDelegate1"
+        enum params: String, _StringRawRepresentable {
+            case delegate = "setDelegate(_delegate:HolidayViewControllerDelegate).delegate"
+        }
+    }
+
+    // MARK: - dismiss
+
+    func dismiss(animated flag: Bool, completion: (() -> Void)?) {
+        let functionName = dismiss2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: flag, forKey: dismiss2.params.flag)
+        if let completion = completion {
+            invocation.set(parameter: completion, forKey: dismiss2.params.completion)
+        }
+        invocations.record(invocation)
+    }
+
+    enum dismiss2: String, _StringRawRepresentable {
+        case name = "dismiss2"
+        enum params: String, _StringRawRepresentable {
+            case flag = "dismiss(animatedflag:Bool,completion:(()->Void)?).flag"
+            case completion = "dismiss(animatedflag:Bool,completion:(()->Void)?).completion"
         }
     }
 }

@@ -15,26 +15,26 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
     private var itemDetailAlertController: AlertControlling?
     private let blockedByController: BlockedByControlling
     private var blockedByAlertController: AlertControlling?
-    private let holidayModeController: HolidayModeControlling
+    private let holidayController: HolidayControlling
     private let navigationController: UINavigationController
     private var context: TodoItemContext?
     private var lastNavigationStack = [UIViewController]()
 
     init(navigationController: UINavigationController, planController: PlanControlling,
          planAlertController: AlertControlling, itemDetailController: ItemDetailControlling,
-         blockedByController: BlockedByControlling, holidayModeController: HolidayModeControlling) {
+         blockedByController: BlockedByControlling, holidayController: HolidayControlling) {
         self.navigationController = navigationController
         self.planController = planController
         self.planAlertController = planAlertController
         self.itemDetailController = itemDetailController
         self.blockedByController = blockedByController
-        self.holidayModeController = holidayModeController
+        self.holidayController = holidayController
         super.init()
         onMain { navigationController.delegate = self } // warning thrown if set on bg thread
         planController.setDelegate(self)
         itemDetailController.setDelegate(self)
         blockedByController.setDelegate(self)
-        holidayModeController.setDelegate(self)
+        holidayController.setDelegate(self)
     }
 
     func start() {
@@ -77,8 +77,8 @@ extension PlanCoordinator: PlanControllerDelegate {
         planAlertController.showAlert(alert)
     }
 
-    func controllerRequestsHolidayMode(_ controller: PlanControlling) {
-        holidayModeController.start()
+    func controllerRequestsHoliday(_ controller: PlanControlling) {
+        holidayController.start()
     }
 }
 
@@ -101,10 +101,10 @@ extension PlanCoordinator: BlockedByControllerDelegate {
     }
 }
 
-// MARK: - HolidayModeControllerDelegate
+// MARK: - HolidayControllerDelegate
 
-extension PlanCoordinator: HolidayModeControllerDelegate {
-    func controllerFinished(_ controller: HolidayModeControlling) {
+extension PlanCoordinator: HolidayControllerDelegate {
+    func controllerFinished(_ controller: HolidayControlling) {
         // 🦄
     }
 }

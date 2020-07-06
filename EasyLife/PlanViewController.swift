@@ -100,7 +100,7 @@ final class PlanViewController: UIViewController, PlanViewControlling {
     @objc
     private func viewTapped(_ sender: UITapGestureRecognizer) {
         switch sender.state {
-        case .ended: delegate?.viewController(self, performAction: .holidayMode)
+        case .ended: delegate?.viewController(self, performAction: .holiday)
         default: break
         }
     }

@@ -12,19 +12,22 @@ protocol PlanControlling: Mockable {
 protocol PlanControllerDelegate: AnyObject {
     func controller(_ controller: PlanControlling, handleContext context: TodoItemContext, sender: Segueable)
     func controller(_ controller: PlanControlling, showAlert alert: Alert)
-    func controllerRequestsHolidayMode(_ controller: PlanControlling)
+    func controllerRequestsHoliday(_ controller: PlanControlling)
 }
 
 final class PlanController: PlanControlling {
-    private let repository: PlanRepositoring
+    private let planRepository: PlanRepositoring
+    private let holidayRepository: HolidayRepositoring
     private let badge: Badge
     private weak var viewController: PlanViewControlling?
     private weak var delegate: PlanControllerDelegate?
     private weak var router: StoryboardRouting?
 
-    init(viewController: PlanViewControlling, repository: PlanRepositoring, badge: Badge) {
+    init(viewController: PlanViewControlling, planRepository: PlanRepositoring,
+         holidayRepository: HolidayRepositoring, badge: Badge) {
         self.viewController = viewController
-        self.repository = repository
+        self.planRepository = planRepository
+        self.holidayRepository = holidayRepository
         self.badge = badge
         viewController.setDelegate(self)
     }
@@ -32,6 +35,10 @@ final class PlanController: PlanControlling {
     func start() {
         viewController?.viewState = PlanViewState(sections: [:], isDoneHidden: true)
         viewController?.setTableHeaderAnimation(RainbowAnimation())
+        guard !holidayRepository.isEnabled else {
+            delegate?.controllerRequestsHoliday(self)
+            return
+        }
         reload()
     }
 
@@ -69,9 +76,9 @@ final class PlanController: PlanControlling {
         guard let viewState = self.viewController?.viewState else { return }
         async({
             let sections = [
-                PlanSection.today: try await(self.repository.fetchTodayItems()),
-                PlanSection.missed: try await(self.repository.fetchMissedItems()),
-                PlanSection.later: try await(self.repository.fetchLaterItems())
+                PlanSection.today: try await(self.planRepository.fetchTodayItems()),
+                PlanSection.missed: try await(self.planRepository.fetchMissedItems()),
+                PlanSection.later: try await(self.planRepository.fetchLaterItems())
             ]
             let newViewState = viewState.copy(sections: sections, isDoneHidden: false)
             _ = try? await(self.badge.setNumber(newViewState.totalMissed + newViewState.totalToday))
@@ -87,10 +94,10 @@ final class PlanController: PlanControlling {
     private func handleLongPressAction(_ action: PlanItemLongPressAction, forItem item: TodoItem) {
         async({
             switch action {
-            case .doToday: try await(self.repository.makeToday(item: item))
-            case .doTomorrow: try await(self.repository.makeTomorrow(item: item))
-            case .moveAllToday(let items): try await(self.repository.makeAllToday(items: items))
-            case .moveAllTomorrow(let items): try await(self.repository.makeAllTomorrow(items: items))
+            case .doToday: try await(self.planRepository.makeToday(item: item))
+            case .doTomorrow: try await(self.planRepository.makeTomorrow(item: item))
+            case .moveAllToday(let items): try await(self.planRepository.makeAllToday(items: items))
+            case .moveAllTomorrow(let items): try await(self.planRepository.makeAllTomorrow(items: items))
             }
             self.reload()
         }, onError: { error in
@@ -115,8 +122,8 @@ extension PlanController: PlanViewControllerDelegate {
 
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction) {
         switch action {
-        case .add: delegate?.controller(self, handleContext: repository.newItemContext(), sender: viewController)
-        case .holidayMode: delegate?.controllerRequestsHolidayMode(self)
+        case .add: delegate?.controller(self, handleContext: planRepository.newItemContext(), sender: viewController)
+        case .holiday: delegate?.controllerRequestsHoliday(self)
         }
     }
 
@@ -125,17 +132,18 @@ extension PlanController: PlanViewControllerDelegate {
     }
 
     func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem) {
-        delegate?.controller(self, handleContext: repository.existingItemContext(item: item), sender: viewController)
+        delegate?.controller(self, handleContext: planRepository.existingItemContext(item: item),
+                             sender: viewController)
     }
 
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,
                         onItem item: TodoItem) {
         async({
             switch action {
-            case .delete: _ = try await(self.repository.delete(item: item))
-            case .done: _ = try await(self.repository.done(item: item))
-            case .later: _ = try await(self.repository.later(item: item))
-            case .split: _ = try await(self.repository.split(item: item))
+            case .delete: _ = try await(self.planRepository.delete(item: item))
+            case .done: _ = try await(self.planRepository.done(item: item))
+            case .later: _ = try await(self.planRepository.later(item: item))
+            case .split: _ = try await(self.planRepository.split(item: item))
             }
             self.reload()
         }, onError: { error in

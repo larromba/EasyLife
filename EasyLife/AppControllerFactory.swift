@@ -19,29 +19,37 @@ enum AppControllerFactory {
 
                 let badge = AppBadge()
                 let planRepository = PlanRepository(dataContextProvider: dataContextProvider)
+                let holidayRepository = HolidayRepository()
                 let planController = PlanController(
                     viewController: planViewController,
-                    repository: planRepository,
+                    planRepository: planRepository,
+                    holidayRepository: holidayRepository,
                     badge: badge
                 )
                 let itemDetailRepository = ItemDetailRepository(dataContextProvider: dataContextProvider)
                 let blockedByRepository = BlockedByRepository()
+                let holidayController = HolidayController(
+                    presenter: planViewController,
+                    holidayRepository: holidayRepository,
+                    badge: badge
+                )
                 let planCoordinator = PlanCoordinator(
                     navigationController: navigationController,
                     planController: planController,
                     planAlertController: AlertController(presenter: planViewController),
                     itemDetailController: ItemDetailController(repository: itemDetailRepository),
                     blockedByController: BlockedByController(repository: blockedByRepository),
-                    holidayModeController: HolidayModeController(presenter: planViewController, badge: badge)
+                    holidayController: holidayController
                 )
-                let focusRepository = FocusRepository(dataContextProvider: dataContextProvider,
-                                                      planRepository: planRepository)
+                let focusRepository = FocusRepository(
+                    dataContextProvider: dataContextProvider,
+                    planRepository: planRepository
+                )
                 let focusController = FocusController(repository: focusRepository, alarm: Alarm())
                 let archiveRepository = ArchiveRepository(dataContextProvider: dataContextProvider)
                 let archiveController = ArchiveController(repository: archiveRepository)
                 let projectsRepository = ProjectsRepository(dataContextProvider: dataContextProvider)
                 let projectsController = ProjectsController(repository: projectsRepository)
-
                 let appRouter = AppRouter(
                     planCoordinator: planCoordinator,
                     focusCoordinator: FocusCoordinator(focusController: focusController),
@@ -49,9 +57,11 @@ enum AppControllerFactory {
                     projectsCoordinator: ProjectsCoordinator(projectsController: projectsController)
                 )
                 planController.setRouter(appRouter)
-
-                let appController = AppController(dataContextProvider: dataContextProvider, appRouter: appRouter,
-                                                  fatalErrorHandler: FatalErrorHandler(window: window))
+                let appController = AppController(
+                    dataContextProvider: dataContextProvider,
+                    appRouter: appRouter,
+                    fatalErrorHandler: FatalErrorHandler(window: window)
+                )
                 completion(.success(appController))
             }, onError: { error in
                 completion(.failure(error))

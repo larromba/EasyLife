@@ -21,6 +21,7 @@ final class AppTestEnvironment: TestEnvironment {
     var badge: Badge
     var alarm: Alarming
     var now: Date
+    var userDefaults: UserDefaults
 
     private(set) var appRouter: AppRouting!
     private(set) var fatalErrorHandler: FatalErrorHandler!
@@ -38,7 +39,8 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var focusCoordinator: FocusCoordinating!
     private(set) var blockedByRepository: BlockedByRepositoring!
     private(set) var blockedByController: BlockedByControlling!
-    private(set) var holidayModeController: HolidayModeControlling!
+    private(set) var holidayController: HolidayControlling!
+    private(set) var holidayRepository: HolidayRepositoring!
     private(set) var archiveRepository: ArchiveRepositoring!
     private(set) var archiveController: ArchiveControlling!
     private(set) var archiveCoordinator: ArchiveCoordinating!
@@ -52,7 +54,8 @@ final class AppTestEnvironment: TestEnvironment {
          persistentContainer: NSPersistentContainer = .mock(),
          badge: Badge = MockAppBadge(),
          alarm: Alarming = MockAlarm(),
-         now: Date = Date()) {
+         now: Date = Date(),
+         userDefaults: UserDefaults = .mock) {
         self.viewController = viewController
         self.navigationController = navigationController
         self.window = window
@@ -60,28 +63,38 @@ final class AppTestEnvironment: TestEnvironment {
         self.badge = badge
         self.alarm = alarm
         self.now = now
+        self.userDefaults = userDefaults
     }
 
+    // swiftlint:disable function_body_length
     func inject() {
         dataContextProvider = DataContextProvider(persistentContainer: persistentContainer)
         childContext = dataContextProvider.childContext(thread: .main)
         planRepository = PlanRepository(dataContextProvider: dataContextProvider)
+        holidayRepository = HolidayRepository(userDefaults: userDefaults)
         alertController = AlertController(presenter: viewController)
-        planController = PlanController(viewController: viewController,
-                                        repository: planRepository,
-                                        badge: badge)
+        planController = PlanController(
+            viewController: viewController,
+            planRepository: planRepository,
+            holidayRepository: holidayRepository,
+            badge: badge
+        )
         blockedByRepository = BlockedByRepository()
         itemDetailRepository = ItemDetailRepository(dataContextProvider: dataContextProvider)
         itemDetailController = ItemDetailController(repository: itemDetailRepository)
         blockedByController = BlockedByController(repository: blockedByRepository)
-        holidayModeController = HolidayModeController()
+        holidayController = HolidayController(
+            presenter: viewController,
+            holidayRepository: holidayRepository,
+            badge: badge
+        )
         planCoordinator = PlanCoordinator(
             navigationController: navigationController,
             planController: planController,
             planAlertController: alertController,
             itemDetailController: itemDetailController,
             blockedByController: blockedByController,
-            holidayModeController: holidayModeController
+            holidayController: holidayController
         )
         focusRepository = FocusRepository(dataContextProvider: dataContextProvider, planRepository: planRepository)
         focusController = FocusController(repository: focusRepository, alarm: alarm)

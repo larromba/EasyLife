@@ -29,6 +29,8 @@ final class FocusTests: XCTestCase {
         navigationController = nil
         kvo = nil
         UIView.setAnimationsEnabled(true)
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         super.tearDown()
     }
 
@@ -255,7 +257,7 @@ final class FocusTests: XCTestCase {
         XCTAssertTrue(viewController.timerButton.fire())
 
         // test
-        waitAsync(delay: 1.0) { completion in
+        waitAsync { completion in
             UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
                 XCTAssertEqual(requests.count, 0)
                 completion()
@@ -332,7 +334,7 @@ final class FocusTests: XCTestCase {
         XCTAssertTrue(viewController.toolbar.items?[safe: 2]?.fire() ?? false)
 
         // test
-        waitAsync(delay: 1.0) { completion in
+        waitAsync { completion in
             UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
                 XCTAssertEqual(requests.count, 1)
                 completion()

@@ -65,8 +65,8 @@ final class RoutingTests: XCTestCase {
 
     private func routeProjectsView(thenFireShortcut shortcutItem: ShortcutItem) {
         // mock
-        env.inject()
         env.addToWindow()
+        env.inject()
         env.start()
 
         // sut
@@ -83,8 +83,8 @@ final class RoutingTests: XCTestCase {
 
     private func routeFocusView(thenFireShortcut shortcutItem: ShortcutItem) {
         // mock
-        env.inject()
         env.addToWindow()
+        env.inject()
         env.start()
 
         // sut
@@ -101,8 +101,8 @@ final class RoutingTests: XCTestCase {
 
     private func routeItemDetail(thenFireShortcut shortcutItem: ShortcutItem) {
         // mock
-        env.inject()
         env.addToWindow()
+        env.inject()
         env.start()
 
         // sut
@@ -119,8 +119,8 @@ final class RoutingTests: XCTestCase {
 
     private func routeBlockedView(thenFireShortcut shortcutItem: ShortcutItem) {
         // mock
-        env.inject()
         env.addToWindow()
+        env.inject()
         env.start()
 
         // sut

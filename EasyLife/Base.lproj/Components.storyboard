@@ -20,13 +20,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kM8-Bd-IpQ">
-                                <rect key="frame" x="27.5" y="272.5" width="320.5" height="122"/>
+                                <rect key="frame" x="30.5" y="272.5" width="314.5" height="122"/>
                                 <string key="text">There has been a fatal error.
 
 Please restart the app and try again.
 
 If the problem persists, either contact the developer, or delete and reinstall the app.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -49,10 +49,10 @@ If the problem persists, either contact the developer, or delete and reinstall t
             </objects>
             <point key="canvasLocation" x="-1605.5999999999999" y="714.69265367316348"/>
         </scene>
-        <!--Holiday Mode View Controller-->
+        <!--Holiday View Controller-->
         <scene sceneID="vYZ-K0-7f9">
             <objects>
-                <viewController storyboardIdentifier="HolidayModeViewController" id="u5G-k7-Iou" customClass="HolidayModeViewController" customModule="EasyLife" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HolidayViewController" id="u5G-k7-Iou" customClass="HolidayViewController" customModule="EasyLife" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Vim-Ly-Cxn"/>
                         <viewControllerLayoutGuide type="bottom" id="hHJ-jy-j2O"/>
@@ -60,7 +60,21 @@ If the problem persists, either contact the developer, or delete and reinstall t
                     <view key="view" contentMode="scaleToFill" id="gdq-oG-q3D">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="taking a break" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vdz-Ug-jXc">
+                                <rect key="frame" x="94" y="314.5" width="187" height="38.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="32"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="vdz-Ug-jXc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gdq-oG-q3D" secondAttribute="leadingMargin" constant="20" id="Hu7-vQ-fBZ"/>
+                            <constraint firstItem="vdz-Ug-jXc" firstAttribute="centerY" secondItem="gdq-oG-q3D" secondAttribute="centerY" id="PkW-7a-ASc"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="vdz-Ug-jXc" secondAttribute="trailing" constant="20" id="QbE-5l-1Ec"/>
+                            <constraint firstItem="vdz-Ug-jXc" firstAttribute="centerX" secondItem="gdq-oG-q3D" secondAttribute="centerX" id="cEc-pS-f6J"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kzl-Da-qDy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

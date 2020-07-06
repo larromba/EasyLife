@@ -1,6 +1,5 @@
 import Foundation
 
-enum PlanAction {
-    case add
+enum UserDefaultsKey: String {
     case holiday
 }
