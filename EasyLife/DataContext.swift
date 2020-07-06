@@ -2,7 +2,6 @@ import AsyncAwait
 import CoreData
 import Foundation
 import Logging
-import Result
 
 // sourcery: name = DataContext
 protocol DataContexting {
@@ -10,8 +9,8 @@ protocol DataContexting {
     func perform(_ block: @escaping () -> Void)
     func performAndWait(_ block: () -> Void)
     func insert<T: NSManagedObject>(entityClass: T.Type) -> T
-    func insertTransient<T: NSManagedObject>(entityClass: T.Type) -> Result<T>
-    func copy<T: NSManagedObject>(_ entity: T) -> Result<T>
+    func insertTransient<T: NSManagedObject>(entityClass: T.Type) -> Result<T, DataError>
+    func copy<T: NSManagedObject>(_ entity: T) -> Result<T, DataError>
     func delete<T: NSManagedObject>(_ entity: T)
     func deleteAll(_ objects: [NSManagedObject])
     func deleteAll(_ classTypes: [NSManagedObject.Type]) -> Async<Void, Error>
@@ -45,15 +44,15 @@ final class DataContext: DataContexting {
         return insert(entityName: entityName(entityClass)) as! T
     }
 
-    func insertTransient<T: NSManagedObject>(entityClass: T.Type) -> Result<T> {
+    func insertTransient<T: NSManagedObject>(entityClass: T.Type) -> Result<T, DataError> {
         return insertTransient(entityName: entityName(entityClass)).flatMap { .success($0 as! T) }
     }
 
     // see https://stackoverflow.com/questions/2730832/how-can-i-duplicate-or-copy-a-core-data-managed-object
-    func copy<T: NSManagedObject>(_ object: T) -> Result<T> {
+    func copy<T: NSManagedObject>(_ object: T) -> Result<T, DataError> {
         guard let name = object.entity.name else {
             logError(DataError.missingEntitiyName)
-            return .failure(DataError.missingEntitiyName)
+            return .failure(.missingEntitiyName)
         }
         let copy = insert(entityClass: T.self)
         let description = NSEntityDescription.entity(forEntityName: name, in: managedObjectContext)
@@ -61,7 +60,7 @@ final class DataContext: DataContexting {
             let attributess = description?.attributesByName,
             let relationships = description?.relationshipsByName else {
                 logError(DataError.entityDescription)
-                return .failure(DataError.entityDescription)
+                return .failure(.entityDescription)
         }
         managedObjectContext.performAndWait {
             attributess.forEach { attribute in
@@ -156,11 +155,11 @@ final class DataContext: DataContexting {
         return object
     }
 
-    private func insertTransient(entityName: String) -> Result<NSManagedObject> {
+    private func insertTransient(entityName: String) -> Result<NSManagedObject, DataError> {
         guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName,
                                                                  in: managedObjectContext) else {
             logError("couldnt create NSEntityDescription for: \(entityName)")
-            return .failure(DataError.entityDescription)
+            return .failure(.entityDescription)
         }
         return .success(NSManagedObject(entity: entityDescription, insertInto: nil))
     }

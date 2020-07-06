@@ -69,7 +69,6 @@
 		7F429C7F21C4040E00195E32 /* PlanSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7E21C4040E00195E32 /* PlanSection.swift */; };
 		7F429C8121C4041B00195E32 /* PlanItemAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C8021C4041B00195E32 /* PlanItemAction.swift */; };
 		7F429C8321C40D2200195E32 /* AsyncAwait.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F429C8221C40D2200195E32 /* AsyncAwait.framework */; };
-		7F429C8521C40D2E00195E32 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F429C8421C40D2E00195E32 /* Result.framework */; };
 		7F429C8721C41B3500195E32 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C8621C41B3500195E32 /* AppController.swift */; };
 		7F429C8921C41BFD00195E32 /* AppControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C8821C41BFD00195E32 /* AppControllerFactory.swift */; };
 		7F429C8E21C42FF600195E32 /* PlanCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C8D21C42FF600195E32 /* PlanCoordinator.swift */; };
@@ -285,7 +284,6 @@
 		7F429C7E21C4040E00195E32 /* PlanSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSection.swift; sourceTree = "<group>"; };
 		7F429C8021C4041B00195E32 /* PlanItemAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanItemAction.swift; sourceTree = "<group>"; };
 		7F429C8221C40D2200195E32 /* AsyncAwait.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AsyncAwait.framework; path = Carthage/Build/iOS/AsyncAwait.framework; sourceTree = "<group>"; };
-		7F429C8421C40D2E00195E32 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		7F429C8621C41B3500195E32 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		7F429C8821C41BFD00195E32 /* AppControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppControllerFactory.swift; sourceTree = "<group>"; };
 		7F429C8D21C42FF600195E32 /* PlanCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCoordinator.swift; sourceTree = "<group>"; };
@@ -427,7 +425,6 @@
 				7FA59D8A21BEBDB100538013 /* Logging.framework in Frameworks */,
 				7FA59DEE21BEC4DE00538013 /* PPBadgeView.framework in Frameworks */,
 				7F429C8321C40D2200195E32 /* AsyncAwait.framework in Frameworks */,
-				7F429C8521C40D2E00195E32 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,7 +598,6 @@
 		7FA59D8721BEBDB000538013 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7F429C8421C40D2E00195E32 /* Result.framework */,
 				7F429C8221C40D2200195E32 /* AsyncAwait.framework */,
 				7FA59DED21BEC4DE00538013 /* PPBadgeView.framework */,
 				7FA59D8821BEBDB000538013 /* Logging.framework */,
@@ -1066,7 +1062,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Logging.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PPBadgeView.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/AsyncAwait.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
 			);
 			outputFileListPaths = (
 			);
@@ -1074,7 +1069,6 @@
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Logging.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/PPBadgeView.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AsyncAwait.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Result.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

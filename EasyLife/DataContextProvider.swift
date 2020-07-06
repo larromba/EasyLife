@@ -2,7 +2,6 @@ import AsyncAwait
 import CoreData
 import Foundation
 import Logging
-import Result
 
 // sourcery: name = DataContextProvider
 protocol DataContextProviding: AnyObject, Mockable {

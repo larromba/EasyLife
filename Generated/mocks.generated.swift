@@ -14,7 +14,6 @@ import AppKit
 import AsyncAwait
 import CoreData
 @testable import EasyLife
-import Result
 
 // MARK: - Sourcery Helper
 

@@ -1,7 +1,6 @@
 import AsyncAwait
 import CoreData
 import Foundation
-import Result
 
 // sourcery: name = PlanRepository
 protocol PlanRepositoring: Mockable {
