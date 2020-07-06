@@ -141,13 +141,13 @@ extension ProjectsController: ProjectsViewControllerDelegate {
                 let viewState = viewController.viewState,
                 let sourceSection = ProjectSection(rawValue: sourceIndexPath.section),
                 let sourceProject = viewState.project(at: sourceIndexPath),
-                let destinationSection = ProjectSection(rawValue: destinationIndexPath.section),
-                let destinationProject = viewState.project(at: destinationIndexPath) else {
+                let destinationSection = ProjectSection(rawValue: destinationIndexPath.section) else {
                     return
             }
             if sourceSection == .prioritized, destinationSection == .other {
                 _ = try await(self.repository.deprioritize(project: sourceProject))
             } else if sourceSection == .prioritized && destinationSection == .prioritized {
+                guard let destinationProject = viewState.project(at: destinationIndexPath) else { return }
                 if sourceIndexPath.row < destinationIndexPath.row {
                     _ = try await(self.repository.prioritise(sourceProject, below: destinationProject))
                 } else if sourceIndexPath.row > destinationIndexPath.row {

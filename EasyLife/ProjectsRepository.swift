@@ -97,8 +97,10 @@ final class ProjectsRepository: ProjectsRepositoring {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
-                let predicate = NSPredicate(format: "%K > %d",
-                                            argumentArray: ["priority", project.priority])
+                var predicate: NSPredicate!
+                context.performAndWait {
+                    predicate = NSPredicate(format: "%K > %d", argumentArray: ["priority", project.priority])
+                }
                 let projects = try await(context.fetch(
                     entityClass: Project.self,
                     sortBy: nil,
@@ -120,11 +122,15 @@ final class ProjectsRepository: ProjectsRepositoring {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
-                let projectADestinationPriority = projectB.priority
-                let predicate = NSPredicate(
-                    format: "%K >= %d AND %K < %d",
-                    argumentArray: ["priority", projectB.priority, "priority", projectA.priority]
-                )
+                var predicate: NSPredicate!
+                var projectADestinationPriority: Int16!
+                context.performAndWait {
+                    predicate = NSPredicate(
+                        format: "%K >= %d AND %K < %d",
+                        argumentArray: ["priority", projectB.priority, "priority", projectA.priority]
+                    )
+                    projectADestinationPriority = projectB.priority
+                }
                 let projects = try await(context.fetch(
                     entityClass: Project.self,
                     sortBy: nil,
@@ -146,11 +152,15 @@ final class ProjectsRepository: ProjectsRepositoring {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
-                let projectADestinationPriority = projectB.priority
-                let predicate = NSPredicate(
-                    format: "%K <= %d AND %K != %d",
-                    argumentArray: ["priority", projectB.priority, "priority", Project.defaultPriority]
-                )
+                var predicate: NSPredicate!
+                var projectADestinationPriority: Int16!
+                context.performAndWait {
+                    projectADestinationPriority = projectB.priority
+                    predicate = NSPredicate(
+                        format: "%K <= %d AND %K != %d",
+                        argumentArray: ["priority", projectB.priority, "priority", Project.defaultPriority]
+                    )
+                }
                 let projects = try await(context.fetch(
                     entityClass: Project.self,
                     sortBy: nil,

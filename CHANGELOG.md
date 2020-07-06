@@ -71,13 +71,13 @@ Apple ID: 1229095589
 # Future Work
 
 3.0.0:
-search app & check protocols are being used (not direct references)
-move coredata to new repo
-update libs
-tests alerts - check titles not jsut type
-fix travis tests
-instantiateViewController (make cleaner)
 fix initial load flickers: plan table fade on reload
+tests alerts - check titles not jsut type
+search app & check protocols are being used (not direct references)
+instantiateViewController (make cleaner)
+fix travis tests
+update libs
+move coredata to new repo
 
 3.1.0:
 BUG: missed doesnt change. Split then done doesnt work.
@@ -85,17 +85,17 @@ BUG: typing in notes is wierd
 BUG: later done if recurring doesnt work
 BUG: app becomes active not always updating
 
-Minor:
+Future Minor:
 plancell ui tests rather than ui tests in each test class?
 use plan cell everywhere?
 refactor out uitableviewaction from tests?
 search bars in all views?
 should done recurring items add copy to archive?
 
-Future:
+Future Major:
 short instructional video?
 how to update badge at midnight?
 add noise when items done ?
 siri integration?
 are project buttons in weird order?
-revisit action rules for sections
+revisit action rules for sections?
