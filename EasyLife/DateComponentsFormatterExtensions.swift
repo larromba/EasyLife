@@ -10,7 +10,6 @@ extension DateComponentsFormatter {
         formatter.unitsStyle = unitsStyle
         formatter.allowedUnits = allowedUnits
         formatter.collapsesLargestUnit = collapsesLargestUnit
-
         let time = fabs(time) // flip any negative values
         let timeString = formatter.string(from: time)
         return timeString

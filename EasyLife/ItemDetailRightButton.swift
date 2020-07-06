@@ -1,7 +1,6 @@
 import Foundation
 
-enum ItemDetailAction {
+enum ItemDetailRightButton {
     case save
     case delete
-    case cancel
 }

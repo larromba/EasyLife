@@ -1,5 +1,6 @@
 import UIKit
 
+// sourcery: name = AppRouter
 protocol AppRouting: StoryboardRouting, Mockable {
     func start()
     func routeToNewTodoItem()

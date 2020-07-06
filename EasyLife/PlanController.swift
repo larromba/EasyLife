@@ -158,8 +158,12 @@ extension PlanController: PlanViewControllerDelegate {
         let actions = actions.map { action in
             Alert.Action(title: action.title, handler: { self.handleLongPressAction(action, forItem: item) })
         }
-        let alert = Alert(title: L10n.planItemLongPressActionTitle, message: "", cancel: cancelAction, actions: actions,
-                          textField: nil)
-        delegate?.controller(self, showAlert: alert)
+        delegate?.controller(self, showAlert: Alert(
+            title: L10n.planItemLongPressActionTitle,
+            message: "",
+            cancel: cancelAction,
+            actions: actions,
+            textField: nil
+        ))
     }
 }

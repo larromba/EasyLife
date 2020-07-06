@@ -1,6 +1,7 @@
 import PPBadgeView
 import UIKit
 
+// sourcery: name = ItemDetailViewController
 protocol ItemDetailViewControlling: ResponderSelection, Presentable, Mockable {
     var viewState: ItemDetailViewStating? { get set }
 
@@ -399,7 +400,7 @@ extension ItemDetailViewController: UITextViewDelegate {
 // MARK: - SimpleDatePickerDelegate
 
 extension ItemDetailViewController: SimpleDatePickerDelegate {
-    func datePicker(_ picker: SimpleDatePicker, didSelectDate date: Date?) {
+    func datePicker(_ picker: SimpleDatePicking, didSelectDate date: Date?) {
         viewState?.date = date
         notifyStateUpdated()
     }

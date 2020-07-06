@@ -7,6 +7,6 @@ protocol CellIdentifiable {
 extension CellIdentifiable {
     // defaults to class name if not implemented
     static var reuseIdentifier: String {
-        return "\(Self.self)"
+        return "\(self)"
     }
 }

@@ -109,7 +109,7 @@ final class ProjectsController: ProjectsControlling {
 // MARK: - ProjectsViewControllerDelegate
 
 extension ProjectsController: ProjectsViewControllerDelegate {
-    func viewController(_ viewController: ProjectsViewController, performAction action: ProjectsAction) {
+    func viewController(_ viewController: ProjectsViewControlling, performAction action: ProjectsAction) {
         switch action {
         case .add: editProject(nil)
         case .edit(let project): editProject(project)
@@ -118,7 +118,7 @@ extension ProjectsController: ProjectsViewControllerDelegate {
         }
     }
 
-    func viewController(_ viewController: ProjectsViewController, performAction action: ProjectItemAction,
+    func viewController(_ viewController: ProjectsViewControlling, performAction action: ProjectItemAction,
                         forProject project: Project) {
         guard let viewState = viewController.viewState else { return }
         async({
@@ -134,7 +134,7 @@ extension ProjectsController: ProjectsViewControllerDelegate {
         })
     }
 
-    func viewController(_ viewController: ProjectsViewController, moveRowAt sourceIndexPath: IndexPath,
+    func viewController(_ viewController: ProjectsViewControlling, moveRowAt sourceIndexPath: IndexPath,
                         to destinationIndexPath: IndexPath) {
         async({
             guard

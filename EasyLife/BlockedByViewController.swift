@@ -1,6 +1,7 @@
 import Logging
 import UIKit
 
+// sourcery: name = BlockedByViewController
 protocol BlockedByViewControlling: Presentable, Mockable {
     var viewState: BlockedByViewStating? { get set }
 

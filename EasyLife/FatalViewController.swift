@@ -1,5 +1,6 @@
 import UIKit
 
+// sourcery: name = FatalViewController
 protocol FatalViewControlling: AnyObject, Mockable {
     var viewState: FatalViewStating? { get set }
 }

@@ -15,12 +15,13 @@ protocol ArchiveControllerDelegate: AnyObject {
 
 final class ArchiveController: ArchiveControlling {
     private let repository: ArchiveRepositoring
-    private var sections = [Character: [TodoItem]]()
+    private let dataProvider: ArchiveDataProviding
     private weak var delegate: ArchiveControllerDelegate?
     private weak var viewController: ArchiveViewControlling?
 
-    init(repository: ArchiveRepositoring) {
+    init(repository: ArchiveRepositoring, dataProvider: ArchiveDataProviding = ArchiveDataProvider()) {
         self.repository = repository
+        self.dataProvider = dataProvider
     }
 
     func setDelegate(_ delegate: ArchiveControllerDelegate) {
@@ -41,8 +42,8 @@ final class ArchiveController: ArchiveControlling {
         async({
             let items = try await(self.repository.fetchItems())
             onMain {
-                self.sections = self.sections(for: items)
-                self.viewController?.viewState = viewState.copy(sections: self.sections)
+                self.dataProvider.setupWithItems(items)
+                self.viewController?.viewState = viewState.copy(sections: self.dataProvider.sections)
             }
         }, onError: { error in
             onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
@@ -79,45 +80,12 @@ final class ArchiveController: ArchiveControlling {
             onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
         })
     }
-
-    private func sections(for items: [TodoItem]) -> [Character: [TodoItem]] {
-        var sections = [Character: [TodoItem]]()
-        items.forEach {
-            let section: Character
-            if let name = $0.name, !name.isEmpty {
-                section = Character(String(name[name.startIndex]).uppercased())
-            } else {
-                section = Character("-")
-            }
-            var items = sections[section] ?? [TodoItem]()
-            items.append($0)
-            sections[section] = items.sorted(by: { ($0.name ?? "") < ($1.name ?? "") })
-        }
-        return sections
-    }
-
-    private func sections(for term: String) -> [Character: [TodoItem]] {
-        guard !term.isEmpty else {
-            return sections
-        }
-        var filteredSections = [Character: [TodoItem]]()
-        sections.keys.forEach {
-            if let result = sections[$0]?.filter({
-                $0.name?.lowercased().range(of: term, options: .caseInsensitive) != nil
-            }), !result.isEmpty {
-                filteredSections[$0] = result
-            } else {
-                filteredSections.removeValue(forKey: $0)
-            }
-        }
-        return filteredSections
-    }
 }
 
 // MARK: - PlanViewControllerDelegate
 
 extension ArchiveController: ArchiveViewControllerDelegate {
-    func viewController(_ viewController: ArchiveViewController, performAction action: ArchiveAction) {
+    func viewController(_ viewController: ArchiveViewControlling, performAction action: ArchiveAction) {
         switch action {
         case .clear:
             viewController.viewState = viewController.viewState?.copy(text: nil)
@@ -128,22 +96,22 @@ extension ArchiveController: ArchiveViewControllerDelegate {
         }
     }
 
-    func viewControllerStartedSearch(_ viewController: ArchiveViewController) {
+    func viewControllerStartedSearch(_ viewController: ArchiveViewControlling) {
         guard let viewState = viewController.viewState else { return }
-        viewController.viewState = viewState.copy(sections: sections, isSearching: true)
+        viewController.viewState = viewState.copy(sections: dataProvider.sections, isSearching: true)
     }
 
-    func viewController(_ viewController: ArchiveViewController, performSearch term: String) {
+    func viewController(_ viewController: ArchiveViewControlling, performSearch term: String) {
         guard let viewState = viewController.viewState else { return }
-        viewController.viewState = viewState.copy(sections: sections(for: term))
+        viewController.viewState = viewState.copy(sections: dataProvider.sections(for: term))
     }
 
-    func viewControllerEndedSearch(_ viewController: ArchiveViewController) {
+    func viewControllerEndedSearch(_ viewController: ArchiveViewControlling) {
         guard let viewState = viewController.viewState else { return }
-        viewController.viewState = viewState.copy(sections: sections, isSearching: false)
+        viewController.viewState = viewState.copy(sections: dataProvider.sections, isSearching: false)
     }
 
-    func viewControllerTapped(_ viewController: ArchiveViewController) {
+    func viewControllerTapped(_ viewController: ArchiveViewControlling) {
         viewController.viewState = viewController.viewState?.copy(text: nil)
         viewController.endEditing()
     }

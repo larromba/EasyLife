@@ -124,7 +124,7 @@ extension PlanCoordinator: UINavigationControllerDelegate {
             case is ItemDetailViewControlling:
                 itemDetailAlertController = nil
                 context = nil
-            case is BlockedByViewController:
+            case is BlockedByViewControlling:
                 blockedByAlertController = nil
             default:
                 assertionFailureIgnoreTests(

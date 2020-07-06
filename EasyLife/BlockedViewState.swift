@@ -8,9 +8,9 @@ protocol BlockedByViewStating {
     var rowHeight: CGFloat { get }
     var isUnblockButtonEnabled: Bool { get }
 
-    func cellViewState(at indexPath: IndexPath) -> BlockedCellViewState?
+    func cellViewState(at indexPath: IndexPath) -> BlockedCellViewStating?
 
-    func copy(data: [BlockingContext<TodoItem>]) -> BlockedByViewState
+    func copy(data: [BlockingContext<TodoItem>]) -> BlockedByViewStating
 }
 
 struct BlockedByViewState: BlockedByViewStating {
@@ -32,14 +32,14 @@ struct BlockedByViewState: BlockedByViewStating {
         self.data = data
     }
 
-    func cellViewState(at indexPath: IndexPath) -> BlockedCellViewState? {
+    func cellViewState(at indexPath: IndexPath) -> BlockedCellViewStating? {
         let context = data[indexPath.row]
         return BlockedCellViewState(item: context.object, isBlocking: context.isBlocking)
     }
 }
 
 extension BlockedByViewState {
-    func copy(data: [BlockingContext<TodoItem>]) -> BlockedByViewState {
+    func copy(data: [BlockingContext<TodoItem>]) -> BlockedByViewStating {
         return BlockedByViewState(data: data)
     }
 }

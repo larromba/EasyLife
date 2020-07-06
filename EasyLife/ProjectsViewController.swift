@@ -1,5 +1,6 @@
 import UIKit
 
+// sourcery: name = ProjectsViewController
 protocol ProjectsViewControlling: Presentable, Mockable {
     var viewState: ProjectsViewStating? { get set }
 
@@ -7,10 +8,10 @@ protocol ProjectsViewControlling: Presentable, Mockable {
 }
 
 protocol ProjectsViewControllerDelegate: AnyObject {
-    func viewController(_ viewController: ProjectsViewController, performAction action: ProjectsAction)
-    func viewController(_ viewController: ProjectsViewController, performAction action: ProjectItemAction,
+    func viewController(_ viewController: ProjectsViewControlling, performAction action: ProjectsAction)
+    func viewController(_ viewController: ProjectsViewControlling, performAction action: ProjectItemAction,
                         forProject project: Project)
-    func viewController(_ viewController: ProjectsViewController, moveRowAt sourceIndexPath: IndexPath,
+    func viewController(_ viewController: ProjectsViewControlling, moveRowAt sourceIndexPath: IndexPath,
                         to destinationIndexPath: IndexPath)
 }
 

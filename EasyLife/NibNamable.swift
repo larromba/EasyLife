@@ -7,6 +7,6 @@ protocol NibNameable {
 extension NibNameable {
     // defaults to class name if not implemented
     static var nibName: String {
-        return "\(Self.self)"
+        return "\(self)"
     }
 }

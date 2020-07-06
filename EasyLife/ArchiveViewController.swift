@@ -1,5 +1,6 @@
 import UIKit
 
+// sourcery: name = ArchiveViewController
 protocol ArchiveViewControlling: Presentable, Mockable {
     var viewState: ArchiveViewStating? { get set }
 
@@ -8,11 +9,11 @@ protocol ArchiveViewControlling: Presentable, Mockable {
 }
 
 protocol ArchiveViewControllerDelegate: AnyObject {
-    func viewController(_ viewController: ArchiveViewController, performAction action: ArchiveAction)
-    func viewControllerStartedSearch(_ viewController: ArchiveViewController)
-    func viewController(_ viewController: ArchiveViewController, performSearch term: String)
-    func viewControllerEndedSearch(_ viewController: ArchiveViewController)
-    func viewControllerTapped(_ viewController: ArchiveViewController)
+    func viewController(_ viewController: ArchiveViewControlling, performAction action: ArchiveAction)
+    func viewControllerStartedSearch(_ viewController: ArchiveViewControlling)
+    func viewController(_ viewController: ArchiveViewControlling, performSearch term: String)
+    func viewControllerEndedSearch(_ viewController: ArchiveViewControlling)
+    func viewControllerTapped(_ viewController: ArchiveViewControlling)
 }
 
 final class ArchiveViewController: UIViewController, ArchiveViewControlling {

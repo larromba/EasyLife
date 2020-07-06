@@ -234,7 +234,7 @@ extension FocusController: FocusViewControllerDelegate {
 // MARK: - AppClosedTimerDelegate
 
 extension FocusController: AppClosedTimerDelegate {
-    func timer(_ timer: AppClosedTimer, isReopenedAfterTime time: TimeInterval) {
+    func timer(_ timer: AppClosedTiming, isReopenedAfterTime time: TimeInterval) {
         guard var viewState = viewController?.viewState,
             viewState.timerButtonViewState.action == .stop else { return }
         guard time < viewState.focusTime else {

@@ -281,7 +281,7 @@ class MockAppController: NSObject, AppControlling {
     }
 }
 
-class MockAppRouting: NSObject, AppRouting {
+class MockAppRouter: NSObject, AppRouting {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -497,7 +497,7 @@ class MockArchiveRepository: NSObject, ArchiveRepositoring {
     }
 }
 
-class MockArchiveViewControlling: NSObject, ArchiveViewControlling {
+class MockArchiveViewController: NSObject, ArchiveViewControlling {
     var viewState: ArchiveViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
@@ -716,7 +716,7 @@ class MockBlockedByRepository: NSObject, BlockedByRepositoring {
     }
 }
 
-class MockBlockedByViewControlling: NSObject, BlockedByViewControlling {
+class MockBlockedByViewController: NSObject, BlockedByViewControlling {
     var viewState: BlockedByViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
@@ -876,7 +876,7 @@ class MockDataContextProvider: NSObject, DataContextProviding {
     }
 }
 
-class MockFatalViewControlling: NSObject, FatalViewControlling {
+class MockFatalViewController: NSObject, FatalViewControlling {
     var viewState: FatalViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
@@ -1424,7 +1424,7 @@ class MockItemDetailRepository: NSObject, ItemDetailRepositoring {
     }
 }
 
-class MockItemDetailViewControlling: NSObject, ItemDetailViewControlling {
+class MockItemDetailViewController: NSObject, ItemDetailViewControlling {
     var viewState: ItemDetailViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
@@ -2252,7 +2252,7 @@ class MockProjectsRepository: NSObject, ProjectsRepositoring {
     }
 }
 
-class MockProjectsViewControlling: NSObject, ProjectsViewControlling {
+class MockProjectsViewController: NSObject, ProjectsViewControlling {
     var viewState: ProjectsViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }
@@ -2303,7 +2303,7 @@ class MockProjectsViewControlling: NSObject, ProjectsViewControlling {
     }
 }
 
-class MockSimpleDatePicker: NSObject, SimpleDatePickering {
+class MockSimpleDatePicker: NSObject, SimpleDatePicking {
     var viewState: SimpleDatePickerViewStating? {
         get { return _viewState }
         set(value) { _viewState = value; _viewStateHistory.append(_Variable(value)) }

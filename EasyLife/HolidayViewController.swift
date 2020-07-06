@@ -11,7 +11,7 @@ protocol HolidayViewControllerDelegate: AnyObject {
 }
 
 final class HolidayViewController: UIViewController, HolidayViewControlling {
-    weak var delegate: HolidayViewControllerDelegate?
+    private weak var delegate: HolidayViewControllerDelegate?
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)

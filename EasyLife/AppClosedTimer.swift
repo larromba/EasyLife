@@ -1,14 +1,14 @@
 import UIKit
 
-protocol AppClosedTimerDelegate: AnyObject {
-    func timer(_ timer: AppClosedTimer, isReopenedAfterTime time: TimeInterval)
-}
-
 // sourcery: name = AppClosedTimer
 protocol AppClosedTiming {
     func setDelegate(_ delegate: AppClosedTimerDelegate)
     func startListening()
     func stopListening()
+}
+
+protocol AppClosedTimerDelegate: AnyObject {
+    func timer(_ timer: AppClosedTiming, isReopenedAfterTime time: TimeInterval)
 }
 
 final class AppClosedTimer: AppClosedTiming {

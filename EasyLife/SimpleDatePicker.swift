@@ -1,15 +1,15 @@
 import UIKit
 
 protocol SimpleDatePickerDelegate: AnyObject {
-    func datePicker(_ picker: SimpleDatePicker, didSelectDate date: Date?)
+    func datePicker(_ picker: SimpleDatePicking, didSelectDate date: Date?)
 }
 
 // sourcery: name = SimpleDatePicker
-protocol SimpleDatePickering: Mockable {
+protocol SimpleDatePicking: Mockable {
     var viewState: SimpleDatePickerViewStating? { get set }
 }
 
-final class SimpleDatePicker: UIPickerView, SimpleDatePickering {
+final class SimpleDatePicker: UIPickerView, SimpleDatePicking {
     private weak var datePickerDelegate: SimpleDatePickerDelegate?
     var viewState: SimpleDatePickerViewStating? {
         didSet { _ = viewState.map(bind) }

@@ -14,7 +14,7 @@ protocol ItemDetailViewStating: ItemDetailUIUpdatable {
     var minimumDate: Date? { get }
     var simpleDatePickerViewState: SimpleDatePickerViewStating { get }
     var dateString: String? { get }
-    var datePickerType: ItemDetailDatePickerType { get }
+    var datePickerType: ItemDetailDatePicker { get }
     var leftButton: ItemDetailLeftButton { get }
     var rightButton: ItemDetailRightButton { get }
     var numOfPickerComponents: Int { get }
@@ -33,11 +33,6 @@ protocol ItemDetailViewStating: ItemDetailUIUpdatable {
     func copy(item: TodoItem, items: [TodoItem], projects: [Project]) -> ItemDetailViewStating
 }
 
-enum ItemDetailDatePickerType {
-    case simple
-    case normal
-}
-
 struct ItemDetailViewState: ItemDetailViewStating {
     private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -54,7 +49,7 @@ struct ItemDetailViewState: ItemDetailViewStating {
         guard let date = date else { return nil }
         return dateFormatter.string(from: date)
     }
-    var datePickerType: ItemDetailDatePickerType {
+    var datePickerType: ItemDetailDatePicker {
         return date == nil ? .simple : .normal
     }
     let leftButton: ItemDetailLeftButton

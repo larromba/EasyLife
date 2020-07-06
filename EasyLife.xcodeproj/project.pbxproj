@@ -103,6 +103,10 @@
 		7F79E92924B1E0660003D19D /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F79E92824B1E0660003D19D /* UIViewControllerExtensions.swift */; };
 		7F79E92B24B1E65C0003D19D /* HolidayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F79E92A24B1E65C0003D19D /* HolidayController.swift */; };
 		7F79E92D24B263260003D19D /* HolidayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F79E92C24B263260003D19D /* HolidayViewController.swift */; };
+		7F7B640224B3B9FA0071F225 /* ArchiveDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7B640124B3B9FA0071F225 /* ArchiveDataProvider.swift */; };
+		7F7B640424B3BDD60071F225 /* ItemDetailDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7B640324B3BDD60071F225 /* ItemDetailDatePicker.swift */; };
+		7F7B640624B3BE760071F225 /* ItemDetailLeftButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7B640524B3BE760071F225 /* ItemDetailLeftButton.swift */; };
+		7F7B640824B3BE850071F225 /* ItemDetailRightButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7B640724B3BE850071F225 /* ItemDetailRightButton.swift */; };
 		7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */; };
 		7F93792F1EA7661B009E33FA /* DateSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93792E1EA7661B009E33FA /* DateSegment.swift */; };
 		7F9C62222018BF32006890EB /* DateComponentsFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C62202018BE5E006890EB /* DateComponentsFormatterExtensions.swift */; };
@@ -317,6 +321,10 @@
 		7F79E92824B1E0660003D19D /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		7F79E92A24B1E65C0003D19D /* HolidayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayController.swift; sourceTree = "<group>"; };
 		7F79E92C24B263260003D19D /* HolidayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayViewController.swift; sourceTree = "<group>"; };
+		7F7B640124B3B9FA0071F225 /* ArchiveDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveDataProvider.swift; sourceTree = "<group>"; };
+		7F7B640324B3BDD60071F225 /* ItemDetailDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailDatePicker.swift; sourceTree = "<group>"; };
+		7F7B640524B3BE760071F225 /* ItemDetailLeftButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailLeftButton.swift; sourceTree = "<group>"; };
+		7F7B640724B3BE850071F225 /* ItemDetailRightButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailRightButton.swift; sourceTree = "<group>"; };
 		7F93792C1EA761F9009E33FA /* SimpleDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleDatePicker.swift; sourceTree = "<group>"; };
 		7F93792E1EA7661B009E33FA /* DateSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegment.swift; sourceTree = "<group>"; };
 		7F9C62202018BE5E006890EB /* DateComponentsFormatterExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateComponentsFormatterExtensions.swift; sourceTree = "<group>"; };
@@ -684,6 +692,9 @@
 				7FE9D89124ACEEDB00C564D9 /* ProjectPickerItem.swift */,
 				7FE9D89324ACEEE800C564D9 /* RepeatStatePickerItem.swift */,
 				7F3BD2B821CFEC970035F540 /* ItemDetailAction.swift */,
+				7F7B640524B3BE760071F225 /* ItemDetailLeftButton.swift */,
+				7F7B640724B3BE850071F225 /* ItemDetailRightButton.swift */,
+				7F7B640324B3BDD60071F225 /* ItemDetailDatePicker.swift */,
 				7F3BD2D021D2D82D0035F540 /* BlockedState.swift */,
 				7FE4489020420B2C00F2DE77 /* BlockingContext.swift */,
 				7FCEE05E24B37D54008CFA87 /* BlockedAction.swift */,
@@ -777,6 +788,7 @@
 				7FA1696521DE642300D8BA3F /* KeyboardNotification.swift */,
 				7FE9D8A624AE4D7B00C564D9 /* AppClosedTimer.swift */,
 				7FE9D8A824AE5B4F00C564D9 /* AlarmNotificationHandler.swift */,
+				7F7B640124B3B9FA0071F225 /* ArchiveDataProvider.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -1114,6 +1126,8 @@
 				7FAC2C5F1E9E673400F14ECB /* PlanViewController.swift in Sources */,
 				7FD2E4E41F8EB2EB00A57FB5 /* UIViewExtensions.swift in Sources */,
 				7F7514062492833C00FF6446 /* DataContextType.swift in Sources */,
+				7F7B640424B3BDD60071F225 /* ItemDetailDatePicker.swift in Sources */,
+				7F7B640624B3BE760071F225 /* ItemDetailLeftButton.swift in Sources */,
 				7FAC2CB61E9F9B0E00F14ECB /* UITableViewStyle.swift in Sources */,
 				7F79E92924B1E0660003D19D /* UIViewControllerExtensions.swift in Sources */,
 				7F17F41F248F9D4400541282 /* CellIdentifiable.swift in Sources */,
@@ -1206,6 +1220,7 @@
 				7F79E92D24B263260003D19D /* HolidayViewController.swift in Sources */,
 				7FBA028D1EE1E85800C3103A /* ArchiveRepository.swift in Sources */,
 				7FAC2C941E9EBC9A00F14ECB /* TodoItemExtensions.swift in Sources */,
+				7F7B640824B3BE850071F225 /* ItemDetailRightButton.swift in Sources */,
 				7F3BD2CD21D2D4E40035F540 /* BlockedCellViewState.swift in Sources */,
 				7FAC2CA81E9ED67200F14ECB /* ArrayExtensions.swift in Sources */,
 				7FBA028B1EE1E60D00C3103A /* ArchiveCell.swift in Sources */,
@@ -1228,6 +1243,7 @@
 				7F429CA521C6663500195E32 /* ProjectSection.swift in Sources */,
 				7FAC2CB21E9F7EDF00F14ECB /* NotificationName.swift in Sources */,
 				7F3BD2B721CFE9C70035F540 /* ItemDetailViewState.swift in Sources */,
+				7F7B640224B3B9FA0071F225 /* ArchiveDataProvider.swift in Sources */,
 				7F3BD2EF21D6D6440035F540 /* Utility.swift in Sources */,
 				7F429C9721C5413400195E32 /* ArchiveViewState.swift in Sources */,
 				7F17F421248F9F6800541282 /* NibNamable.swift in Sources */,

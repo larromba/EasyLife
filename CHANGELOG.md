@@ -72,7 +72,6 @@ Apple ID: 1229095589
 # Future Work
 
 3.0.0:
-search app & check protocols are being used (not direct references)
 fix travis tests
 update libs
 move coredata to new repo
@@ -82,13 +81,13 @@ BUG: missed doesnt change. Split then done doesnt work.
 BUG: typing in notes is wierd
 BUG: later done if recurring doesnt work
 BUG: app becomes active not always updating
+should done recurring items add copy to archive?
+search bars in all views?
 
 Future Minor:
-plancell ui tests rather than ui tests in each test class?
 use plan cell everywhere?
+    - if so, plancell ui tests rather than ui tests in each test class?
 refactor out uitableviewaction from tests?
-search bars in all views?
-should done recurring items add copy to archive?
 
 Future Major:
 short instructional video?
