@@ -60,6 +60,7 @@ final class RainbowAnimation: NSObject, RepeatColorViewAnimation {
 extension RainbowAnimation: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         guard let view = view, isAnimating else { return }
+        view.layer.removeAllAnimations()
         view.backgroundColor = backgroundColor
         hue = nextHue()
         addAnimation()

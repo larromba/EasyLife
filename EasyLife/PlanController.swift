@@ -85,6 +85,7 @@ final class PlanController: PlanControlling {
             onMain {
                 self.viewController?.viewState = newViewState
                 self.viewController?.setIsTableHeaderAnimating(!newViewState.isTableHeaderHidden)
+                self.viewController?.reload()
             }
         }, onError: { error in
             onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }

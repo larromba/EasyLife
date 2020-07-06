@@ -19,6 +19,7 @@ protocol PlanViewStating {
     var isTableHidden: Bool { get }
     var isFocusButtonEnabled: Bool { get }
     var numOfSections: Int { get }
+    var tableReloadAnimationDuration: TimeInterval { get }
 
     func color(for action: PlanItemAction) -> UIColor
     func text(for action: PlanItemAction) -> String
@@ -75,6 +76,7 @@ struct PlanViewState: PlanViewStating {
     var numOfSections: Int {
         return sections.count
     }
+    let tableReloadAnimationDuration: TimeInterval = 0.3
 
     init(sections: [PlanSection: [TodoItem]], isDoneHidden: Bool) {
         self.sections = sections

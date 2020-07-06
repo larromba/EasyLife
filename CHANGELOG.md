@@ -1,8 +1,9 @@
 # Changelog
 
 ## v3.0.0 (TBC)
-    minor bug fixes and improvements
-    fix: coredata threading issues
+    fixed coredata threading issues
+    fixed table reload flickers
+    other minor bug fixes and improvements
     added focus mode
     added holiday mode
     added unblock button 
@@ -71,7 +72,6 @@ Apple ID: 1229095589
 # Future Work
 
 3.0.0:
-fix initial load flickers: plan table fade on reload
 tests alerts - check titles not jsut type
 search app & check protocols are being used (not direct references)
 instantiateViewController (make cleaner)

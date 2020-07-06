@@ -1922,21 +1922,33 @@ class MockPlanViewController: NSObject, PlanViewControlling {
         }
     }
 
+    // MARK: - reload
+
+    func reload() {
+        let functionName = reload4.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum reload4: String, _StringRawRepresentable {
+        case name = "reload4"
+    }
+
     // MARK: - present
 
     func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
-        let functionName = present4.name
+        let functionName = present5.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: viewControllerToPresent, forKey: present4.params.viewControllerToPresent)
-        invocation.set(parameter: flag, forKey: present4.params.flag)
+        invocation.set(parameter: viewControllerToPresent, forKey: present5.params.viewControllerToPresent)
+        invocation.set(parameter: flag, forKey: present5.params.flag)
         if let completion = completion {
-            invocation.set(parameter: completion, forKey: present4.params.completion)
+            invocation.set(parameter: completion, forKey: present5.params.completion)
         }
         invocations.record(invocation)
     }
 
-    enum present4: String, _StringRawRepresentable {
-        case name = "present4"
+    enum present5: String, _StringRawRepresentable {
+        case name = "present5"
         enum params: String, _StringRawRepresentable {
             case viewControllerToPresent = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
             case flag = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).flag"
@@ -1947,17 +1959,17 @@ class MockPlanViewController: NSObject, PlanViewControlling {
     // MARK: - performSegue
 
     func performSegue(withIdentifier identifier: String, sender: Any?) {
-        let functionName = performSegue5.name
+        let functionName = performSegue6.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: identifier, forKey: performSegue5.params.identifier)
+        invocation.set(parameter: identifier, forKey: performSegue6.params.identifier)
         if let sender = sender {
-            invocation.set(parameter: sender, forKey: performSegue5.params.sender)
+            invocation.set(parameter: sender, forKey: performSegue6.params.sender)
         }
         invocations.record(invocation)
     }
 
-    enum performSegue5: String, _StringRawRepresentable {
-        case name = "performSegue5"
+    enum performSegue6: String, _StringRawRepresentable {
+        case name = "performSegue6"
         enum params: String, _StringRawRepresentable {
             case identifier = "performSegue(withIdentifieridentifier:String,sender:Any?).identifier"
             case sender = "performSegue(withIdentifieridentifier:String,sender:Any?).sender"

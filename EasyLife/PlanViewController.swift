@@ -9,6 +9,7 @@ protocol PlanViewControlling: Presentable, Segueable, Mockable {
     func setDelegate(_ delegate: PlanViewControllerDelegate)
     func setTableHeaderAnimation(_ animation: RepeatColorViewAnimation)
     func setIsTableHeaderAnimating(_ isAnimating: Bool)
+    func reload()
 }
 
 protocol PlanViewControllerDelegate: AnyObject {
@@ -94,7 +95,30 @@ final class PlanViewController: UIViewController, PlanViewControlling {
         tableHeaderView.isHidden = viewState.isTableHeaderHidden
         tableHeaderView.bounds.size.height = tableView.bounds.height * viewState.tableHeaderHeightPercentage
         tableView.isHidden = viewState.isTableHidden
-        tableView.reloadData()
+    }
+
+    func reload() {
+        if tableView.isHidden {
+            tableView.reloadData()
+        } else {
+            guard let viewState = viewState else {
+                tableView.reloadData()
+                return
+            }
+            UIView.transition(
+                with: tableView,
+                duration: viewState.tableReloadAnimationDuration,
+                options: .transitionCrossDissolve,
+                animations: { self.tableView.reloadData() },
+                completion: nil
+            )
+        }
+    }
+
+    // MARK: - actions
+
+    @IBAction private func addButtonPressed(_ sender: UIBarButtonItem) {
+        delegate?.viewController(self, performAction: .add)
     }
 
     @objc
@@ -103,12 +127,6 @@ final class PlanViewController: UIViewController, PlanViewControlling {
         case .ended: delegate?.viewController(self, performAction: .holiday)
         default: break
         }
-    }
-
-    // MARK: - actions
-
-    @IBAction private func addButtonPressed(_ sender: UIBarButtonItem) {
-        delegate?.viewController(self, performAction: .add)
     }
 }
 
