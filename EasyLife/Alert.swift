@@ -31,9 +31,9 @@ struct Alert {
 
 extension Alert {
     init(error: Error) {
-        title = ""
+        title = L10n.genericErrorAlertTitle
         message = error.localizedDescription
-        cancel = Action(title: "", handler: nil)
+        cancel = Action(title: L10n.genericErrorAlertOk, handler: nil)
         actions = []
         textField = nil
     }

@@ -43,7 +43,9 @@
 "archive delete all option yes" = "Yes";
 "archive delete all option no" = "No";
 "empty table text" = "Empty";
-"data error title" = "Error";
+"generic error alert title" = "Error";
+"generic error alert ok" = "OK";
+"notification error message" = "Something went wrong. Please check app permissions in the settings and try again";
 "data error message" = "Something went wrong with the database. Please try again. If the problem persists, please delete and reinstall the app";
 "unsaved changes title" = "Unsaved Changed";
 "unsaved changes message" = "Do you want to save your changes?";

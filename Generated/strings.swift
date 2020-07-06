@@ -31,8 +31,6 @@ internal enum L10n {
   internal static let archiveItemUndoOption = L10n.tr("Localizable", "archive item undo option")
   /// Something went wrong with the database. Please try again. If the problem persists, please delete and reinstall the app
   internal static let dataErrorMessage = L10n.tr("Localizable", "data error message")
-  /// Error
-  internal static let dataErrorTitle = L10n.tr("Localizable", "data error title")
   /// 1 month
   internal static let dateOption1Month = L10n.tr("Localizable", "date option 1 month")
   /// 2 weeks
@@ -85,6 +83,10 @@ internal enum L10n {
   internal static let focusTime45m = L10n.tr("Localizable", "focus time 45m")
   /// 5 Minutes
   internal static let focusTime5m = L10n.tr("Localizable", "focus time 5m")
+  /// OK
+  internal static let genericErrorAlertOk = L10n.tr("Localizable", "generic error alert ok")
+  /// Error
+  internal static let genericErrorAlertTitle = L10n.tr("Localizable", "generic error alert title")
   /// Later...
   internal static let laterSection = L10n.tr("Localizable", "later section")
   /// Missed...
@@ -93,6 +95,8 @@ internal enum L10n {
   internal static let newProjectAlertTitle = L10n.tr("Localizable", "new project alert title")
   /// no date
   internal static let noDate = L10n.tr("Localizable", "no date")
+  /// Something went wrong. Please check app permissions in the settings and try again
+  internal static let notificationErrorMessage = L10n.tr("Localizable", "notification error message")
   /// Cancel
   internal static let planItemLongPressActionCancel = L10n.tr("Localizable", "plan item long press action cancel")
   /// Move all to today

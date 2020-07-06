@@ -11,7 +11,11 @@ enum CoreDataError: LocalizedError {
     }
 }
 
-enum NotificationAuthorizationError: Error {
+enum NotificationAuthorizationError: LocalizedError {
     case unauthorized
     case frameworkError(Error)
+
+    var errorDescription: String? {
+        return L10n.notificationErrorMessage
+    }
 }

@@ -122,7 +122,7 @@ final class ProjectsTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "New Project")
     }
 
     func test_newProjectAlert_whenNoTextEntered_expectOKButtonDisabled() {
@@ -207,7 +207,7 @@ final class ProjectsTests: XCTestCase {
         viewController.tapCell(row: 0, section: .prioritized)
 
         // test
-        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Project Name")
     }
 
     func test_editNameAlert_whenNoText_expectOkButtonDisabled() {
@@ -561,7 +561,7 @@ final class ProjectsTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Error")
     }
 }
 

@@ -72,7 +72,6 @@ Apple ID: 1229095589
 # Future Work
 
 3.0.0:
-tests alerts - check titles not jsut type
 search app & check protocols are being used (not direct references)
 instantiateViewController (make cleaner)
 fix travis tests

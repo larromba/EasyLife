@@ -72,7 +72,7 @@ final class PlanTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Error")
     }
 
     func test_notification_whenDidReceieveFatalError_expectRootViewReplaced() {

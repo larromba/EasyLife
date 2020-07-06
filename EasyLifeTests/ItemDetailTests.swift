@@ -169,7 +169,7 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertTrue(viewController.navigationItem.leftBarButtonItem?.fire() ?? false)
 
         // test
-        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Unsaved Changed")
     }
 
     func test_cancelAlert_whenSaveButtonPressed_expectNewItemSaved() {
@@ -676,7 +676,7 @@ final class ItemDetailTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Error")
     }
 
     // MARK: - ui

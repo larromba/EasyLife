@@ -158,7 +158,7 @@ final class ArchiveTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Empty")
     }
 
     func test_confirmButton_whenPressedInAlert_expectAllItemsDeleted() {
@@ -222,7 +222,7 @@ final class ArchiveTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Error")
     }
 }
 

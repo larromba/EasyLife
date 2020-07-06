@@ -99,7 +99,7 @@ final class FocusTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertEqual((viewController.presentedViewController as? UIAlertController)?.title, "Missing Items")
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Missing Items")
     }
 
     func test_missingItemsAlert_whenNoPressed_expectViewDismissed() {
@@ -164,7 +164,7 @@ final class FocusTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertEqual((viewController.presentedViewController as? UIAlertController)?.title, "All Blocked")
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "All Blocked")
     }
 
     func test_blockedItemsAlert_whenOkPressed_expectViewDismissed() {

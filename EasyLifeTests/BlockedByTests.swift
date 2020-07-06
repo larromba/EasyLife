@@ -178,7 +178,7 @@ final class BlockedByTests: XCTestCase {
 
         // test
         waitSync()
-        XCTAssertTrue(viewController.presentedViewController is UIAlertController)
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Error")
     }
 
     // MARK: - private
