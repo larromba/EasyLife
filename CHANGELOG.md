@@ -70,11 +70,10 @@ Apple ID: 1229095589
 # Future Work
 
 3.0.0:
-add none selection to project picker
+select current value in picker
+simple date picker not clearing date
 add clear button to blocked list
 search app & check protocols are being used (not direct references)
-simple date picker not clearing date
-project needs empty selection
 move coredata to new repo
 update libs
 tests alerts - check titles not jsut type

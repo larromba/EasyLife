@@ -2,7 +2,7 @@ import Foundation
 
 struct ProjectPickerItem: PickerItem {
     var title: String? {
-        return object.name
+        return object?.name
     }
-    let object: Project
+    let object: Project?
 }

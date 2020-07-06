@@ -40,7 +40,7 @@ final class ItemDetailTests: XCTestCase {
         env.itemDetailController.setContext(.new(item: item, context: env.childContext))
 
         // sut
-        viewController.navigationItem.rightBarButtonItem?.fire()
+        XCTAssertTrue(viewController.navigationItem.rightBarButtonItem?.fire() ?? false)
 
         // test
         waitAsync(delay: 0.5) { completion in
@@ -67,8 +67,8 @@ final class ItemDetailTests: XCTestCase {
         waitSync()
 
         // sut
-        viewController.pickerView(viewController.projectPicker, didSelectRow: 0, inComponent: 0)
-        viewController.navigationItem.rightBarButtonItem?.fire()
+        viewController.pickerView(viewController.projectPicker, didSelectRow: 1, inComponent: 0)
+        XCTAssertTrue(viewController.navigationItem.rightBarButtonItem?.fire() ?? false)
 
         // test
         waitAsync(delay: 0.5) { completion in
@@ -114,7 +114,7 @@ final class ItemDetailTests: XCTestCase {
         env.itemDetailController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
 
         // sut
-        viewController.navigationItem.rightBarButtonItem?.fire()
+        XCTAssertTrue(viewController.navigationItem.rightBarButtonItem?.fire() ?? false)
 
         // test
         waitAsync(delay: 0.5) { completion in
@@ -143,7 +143,7 @@ final class ItemDetailTests: XCTestCase {
         viewController.titleTextField?.setText("foo")
         viewController.datePicker(viewController.simpleDatePicker, didSelectDate: .distantFuture)
         viewController.pickerView(viewController.repeatPicker, didSelectRow: 1, inComponent: 0)
-        viewController.pickerView(viewController.projectPicker, didSelectRow: 0, inComponent: 0)
+        viewController.pickerView(viewController.projectPicker, didSelectRow: 1, inComponent: 0)
         viewController.textView.setText("bar")
 
         // test
@@ -343,31 +343,31 @@ final class ItemDetailTests: XCTestCase {
 
         // sut
         waitSync()
-        prev?.fire()
+        XCTAssertTrue(prev?.fire() ?? false)
         // test
         XCTAssertTrue(viewController.textView.isFirstResponder)
 
         // sut
         waitSync()
-        prev?.fire()
+        XCTAssertTrue(prev?.fire() ?? false)
         // test
         XCTAssertTrue(viewController.projectTextField.isFirstResponder)
 
         // sut
         waitSync()
-        prev?.fire()
+        XCTAssertTrue(prev?.fire() ?? false)
         // test
         XCTAssertTrue(viewController.repeatsTextField.isFirstResponder)
 
         // sut
         waitSync()
-        prev?.fire()
+        XCTAssertTrue(prev?.fire() ?? false)
         // test
         XCTAssertTrue(viewController.dateTextField.isFirstResponder)
 
         // sut
         waitSync()
-        prev?.fire()
+        XCTAssertTrue(prev?.fire() ?? false)
         // test
         XCTAssertTrue(viewController.titleTextField.isFirstResponder)
     }
@@ -384,7 +384,7 @@ final class ItemDetailTests: XCTestCase {
 
         // sut
         waitSync()
-        prev?.fire()
+        XCTAssertTrue(prev?.fire() ?? false)
         // test
         XCTAssertTrue(viewController.repeatsTextField.isFirstResponder)
     }
@@ -402,31 +402,31 @@ final class ItemDetailTests: XCTestCase {
 
         // sut
         waitSync()
-        next?.fire()
+        XCTAssertTrue(next?.fire() ?? false)
         // test
         XCTAssertTrue(viewController.dateTextField.isFirstResponder)
 
         // sut
         waitSync()
-        next?.fire()
+        XCTAssertTrue(next?.fire() ?? false)
         // test
         XCTAssertTrue(viewController.repeatsTextField.isFirstResponder)
 
         // sut
         waitSync()
-        next?.fire()
+        XCTAssertTrue(next?.fire() ?? false)
         // test
         XCTAssertTrue(viewController.projectTextField.isFirstResponder)
 
         // sut
         waitSync()
-        next?.fire()
+        XCTAssertTrue(next?.fire() ?? false)
         // test
         XCTAssertTrue(viewController.textView.isFirstResponder)
 
         // sut
         waitSync()
-        next?.fire()
+        XCTAssertTrue(next?.fire() ?? false)
         // test
         XCTAssertTrue(viewController.titleTextField.isFirstResponder)
     }
@@ -443,7 +443,7 @@ final class ItemDetailTests: XCTestCase {
 
         // sut
         waitSync()
-        next?.fire()
+        XCTAssertTrue(next?.fire() ?? false)
 
         // test
         XCTAssertTrue(viewController.textView.isFirstResponder)

@@ -65,10 +65,10 @@ struct ItemDetailViewState: ItemDetailViewStating {
         return projectPickerItems.count
     }
     var isProjectTextFieldEnabled: Bool {
-        return projectCount > 0
+        return projectCount > 1
     }
     var projectTextFieldAlpha: CGFloat {
-        return projectCount > 0 ? 1.0 : 0.5
+        return isProjectTextFieldEnabled ? 1.0 : 0.5
     }
     let isBlockedButtonEnabled: Bool
     let blockedCount: Int
@@ -95,7 +95,7 @@ struct ItemDetailViewState: ItemDetailViewStating {
         rightButton = isNew ? .save : .delete
         leftButton = isNew ? .cancel : .back
         repeatStatePickerItems = RepeatState.display.map { RepeatStatePickerItem(object: $0) }
-        projectPickerItems = projects.map { ProjectPickerItem(object: $0) }
+        projectPickerItems = [ProjectPickerItem(object: nil)] + projects.map { ProjectPickerItem(object: $0) }
     }
 
     func repeatStatePickerItem(at row: Int) -> RepeatStatePickerItem {
