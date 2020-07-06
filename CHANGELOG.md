@@ -80,6 +80,7 @@ update libs
 tests alerts - check titles not jsut type
 fix travis tests
 instantiateViewController (make cleaner)
+fix initial load flickers: plan table fade on reload
 
 3.1.0:
 BUG: missed doesnt change. Split then done doesnt work.
@@ -92,13 +93,12 @@ plancell ui tests rather than ui tests in each test class?
 use plan cell everywhere?
 refactor out uitableviewaction from tests?
 search bars in all views?
-fix initial load flickers: plan table fade on reload
+should done recurring items add copy to archive?
 
 Future:
-short instructional video
+short instructional video?
 how to update badge at midnight?
-add noise when items done 
-siri integration
+add noise when items done ?
+siri integration?
 are project buttons in weird order?
 revisit action rules for sections
-should done recurring items add copy to archive?
