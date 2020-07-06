@@ -6,6 +6,7 @@ protocol BlockedByViewStating {
     var sectionCount: Int { get }
     var rowCount: Int { get }
     var rowHeight: CGFloat { get }
+    var isUnblockButtonEnabled: Bool { get }
 
     func cellViewState(at indexPath: IndexPath) -> BlockedCellViewState?
 
@@ -19,6 +20,9 @@ struct BlockedByViewState: BlockedByViewStating {
         return data.count
     }
     let rowHeight: CGFloat = 50.0
+    var isUnblockButtonEnabled: Bool {
+        return !data.filter { $0.isBlocking }.isEmpty
+    }
 
     init(item: TodoItem, items: [TodoItem]) {
         data = items.map { BlockingContext(object: $0, isBlocking: $0.blocking?.contains(item) ?? false) }

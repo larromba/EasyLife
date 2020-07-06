@@ -73,4 +73,14 @@ extension BlockedByController: BlockedByViewControllerDelegate {
         viewController.viewState = viewState.copy(data: data)
         viewController.reloadRows(at: indexPath)
     }
+
+    func viewController(_ viewController: BlockedByViewControlling, performAction action: BlockedAction) {
+        guard let viewState = viewController.viewState else { return }
+        switch action {
+        case .unblock:
+            let data = viewState.data.map { BlockingContext(object: $0.object, isBlocking: false) }
+            viewController.viewState = viewState.copy(data: data)
+            viewController.reload()
+        }
+    }
 }

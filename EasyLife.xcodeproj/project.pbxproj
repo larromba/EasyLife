@@ -150,6 +150,7 @@
 		7FCEC9221EA7C88400BA5187 /* RepeatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */; };
 		7FCEC9241EA7C88B00BA5187 /* DateSegmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */; };
 		7FCEC9281EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEC9271EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift */; };
+		7FCEE05F24B37D54008CFA87 /* BlockedAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCEE05E24B37D54008CFA87 /* BlockedAction.swift */; };
 		7FD1EE241F8E8CCC0042C317 /* TagView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7FD1EE231F8E8CCC0042C317 /* TagView.xib */; };
 		7FD1EE261F8E8D750042C317 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD1EE251F8E8D750042C317 /* TagView.swift */; };
 		7FD2E4E41F8EB2EB00A57FB5 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD2E4E31F8EB2EB00A57FB5 /* UIViewExtensions.swift */; };
@@ -373,6 +374,8 @@
 		7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatTests.swift; sourceTree = "<group>"; };
 		7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSegmentTests.swift; sourceTree = "<group>"; };
 		7FCEC9271EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSPersistentContainerExtensions.swift; sourceTree = "<group>"; };
+		7FCEE05D24B37CFD008CFA87 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Plan.strings; sourceTree = "<group>"; };
+		7FCEE05E24B37D54008CFA87 /* BlockedAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAction.swift; sourceTree = "<group>"; };
 		7FD1EE231F8E8CCC0042C317 /* TagView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagView.xib; sourceTree = "<group>"; };
 		7FD1EE251F8E8D750042C317 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		7FD2E4E31F8EB2EB00A57FB5 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
@@ -400,7 +403,6 @@
 		7FE9D8A624AE4D7B00C564D9 /* AppClosedTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppClosedTimer.swift; sourceTree = "<group>"; };
 		7FE9D8A824AE5B4F00C564D9 /* AlarmNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmNotificationHandler.swift; sourceTree = "<group>"; };
 		7FEEF2CD2042FB3500616041 /* ProjectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectExtensions.swift; sourceTree = "<group>"; };
-		7FEEF2D02043094200616041 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Plan.strings; sourceTree = "<group>"; };
 		7FEEF2D12043522900616041 /* EasyLife 1.5.0.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EasyLife 1.5.0.sqlite"; sourceTree = "<group>"; };
 		7FFB4A6921F4C13A0011DA66 /* BlockedByTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedByTests.swift; sourceTree = "<group>"; };
 		7FFB4A6B21F4DB510011DA66 /* ArchiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTests.swift; sourceTree = "<group>"; };
@@ -684,6 +686,7 @@
 				7F3BD2B821CFEC970035F540 /* ItemDetailAction.swift */,
 				7F3BD2D021D2D82D0035F540 /* BlockedState.swift */,
 				7FE4489020420B2C00F2DE77 /* BlockingContext.swift */,
+				7FCEE05E24B37D54008CFA87 /* BlockedAction.swift */,
 				7F429CA421C6663500195E32 /* ProjectSection.swift */,
 				7F429CA621C66B5000195E32 /* ProjectsAction.swift */,
 				7F429CA821C66B5C00195E32 /* ProjectItemAction.swift */,
@@ -1174,6 +1177,7 @@
 				7F3BD2D521D389330035F540 /* Segueable.swift in Sources */,
 				7F429CA121C6578D00195E32 /* Error.swift in Sources */,
 				7FBB17CC249B64F700E350E1 /* FocusItemAction.swift in Sources */,
+				7FCEE05F24B37D54008CFA87 /* BlockedAction.swift in Sources */,
 				7F3B8B75246EEB5000B45038 /* FocusController.swift in Sources */,
 				7F429C7721C3D99E00195E32 /* strings.swift in Sources */,
 				7FE59BC224B33ADF00511457 /* UserDefaultsExtensions.swift in Sources */,
@@ -1339,7 +1343,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				7FAC2C611E9E673400F14ECB /* Base */,
-				7FEEF2D02043094200616041 /* en */,
+				7FCEE05D24B37CFD008CFA87 /* en */,
 			);
 			name = Plan.storyboard;
 			sourceTree = "<group>";

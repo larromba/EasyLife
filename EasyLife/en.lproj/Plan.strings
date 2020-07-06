@@ -5,8 +5,8 @@
 /* Class = "UITextField"; placeholder = "Project"; ObjectID = "AYs-OU-hc2"; */
 "AYs-OU-hc2.placeholder" = "Project";
 
-/* Class = "UILabel"; text = "..."; ObjectID = "G7f-5r-7SM"; */
-"G7f-5r-7SM.text" = "...";
+/* Class = "UIBarButtonItem"; title = "Unblock"; ObjectID = "B4d-CY-aHt"; */
+"B4d-CY-aHt.title" = "Unblock";
 
 /* Class = "UITextField"; placeholder = "Date"; ObjectID = "N9X-29-Ok4"; */
 "N9X-29-Ok4.placeholder" = "Date";

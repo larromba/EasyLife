@@ -357,9 +357,16 @@
                             <constraint firstItem="yhh-Ta-ESN" firstAttribute="leading" secondItem="EFR-we-4VX" secondAttribute="leading" id="naX-bb-nKB"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Blocked by" id="nEt-aF-qwP"/>
+                    <navigationItem key="navigationItem" title="Blocked by" id="nEt-aF-qwP">
+                        <barButtonItem key="rightBarButtonItem" title="Unblock" id="B4d-CY-aHt">
+                            <connections>
+                                <action selector="unblockPressed:" destination="8kt-14-cvv" id="brx-Gg-Os1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="yhh-Ta-ESN" id="n1q-og-brU"/>
+                        <outlet property="unblockButton" destination="B4d-CY-aHt" id="Nbb-mY-eUS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fGP-2S-cya" userLabel="First Responder" sceneMemberID="firstResponder"/>

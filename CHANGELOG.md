@@ -4,7 +4,8 @@
     minor bug fixes and improvements
     fix: coredata threading issues
     added focus mode
-    addded holiday mode
+    added holiday mode
+    added unblock button 
 
 ## v2.0.3 (30/07/2019)
     fixed ordering bug in later section
@@ -70,7 +71,6 @@ Apple ID: 1229095589
 # Future Work
 
 3.0.0:
-add clear button to blocked list
 search app & check protocols are being used (not direct references)
 move coredata to new repo
 update libs

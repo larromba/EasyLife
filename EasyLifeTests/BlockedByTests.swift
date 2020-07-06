@@ -27,6 +27,8 @@ final class BlockedByTests: XCTestCase {
         super.tearDown()
     }
 
+    // MARK: - ui
+
     func test_item_whenHasName_expectDisplayed() {
         // mocks
         env.inject()
@@ -41,17 +43,65 @@ final class BlockedByTests: XCTestCase {
         XCTAssertEqual(viewController.title(row: 0), "b")
     }
 
-    func test_item_whenHasNoName_expectNotDisplayed() {
+    func test_item_whenBlockingItems_expectThoseItemsNotShown() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty, name: "a")
-        _ = env.todoItem(type: .empty)
+        _ = env.todoItem(type: .empty, name: "b", blockedBy: [item])
+        _ = env.todoItem(type: .empty, name: "c", blockedBy: [item])
         env.blockedByController.setViewController(viewController)
         env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
 
         // test
         waitSync()
         XCTAssertEqual(viewController.rows(section: 0), 0)
+    }
+
+    func test_unblockButton_whenNoItemsBlocked_expectDisabled() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .empty, name: "a")
+        _ = env.todoItem(type: .empty, name: "b")
+        env.blockedByController.setViewController(viewController)
+        env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
+
+        // test
+        waitSync()
+        XCTAssertFalse(viewController.unblockButton.isEnabled)
+    }
+
+    func test_unblockButton_whenItemsBlocked_expectEnabled() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .empty, name: "a")
+        let item2 = env.todoItem(type: .empty, name: "b", blockedBy: [item])
+        env.blockedByController.setViewController(viewController)
+        env.blockedByController.setContext(.existing(item: item2, context: env.dataContextProvider.mainContext()))
+
+        // test
+        waitSync()
+        XCTAssertTrue(viewController.unblockButton.isEnabled)
+    }
+
+    // MARK: - action
+
+    func test_back_whenTapped_expectItemUpdated() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .empty, name: "a")
+        _ = env.todoItem(type: .empty, name: "b")
+        env.blockedByController.setViewController(viewController)
+        env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
+        env.addToWindow()
+        waitSync()
+        viewController.selectRow(0)
+
+        // sut
+        navigationController.popViewController(animated: false)
+
+        // test
+        waitSync()
+        XCTAssertEqual(item.blockedBy?.count, 1)
     }
 
     func test_item_whenTapped_expectTogglesTick() {
@@ -77,24 +127,26 @@ final class BlockedByTests: XCTestCase {
         XCTAssertNil(viewController.cell(row: 0)?.iconImageView.image)
     }
 
-    func test_back_whenTapped_expectItemUpdated() {
+    func test_unblockButton_whenPressed_expectAllItemsUnblocked() {
         // mocks
         env.inject()
         let item = env.todoItem(type: .empty, name: "a")
-        _ = env.todoItem(type: .empty, name: "b")
+        let item2 = env.todoItem(type: .empty, name: "b", blockedBy: [item])
+        _ = env.todoItem(type: .empty, name: "c", blockedBy: [item])
+        _ = env.todoItem(type: .empty, name: "d", blockedBy: [item])
         env.blockedByController.setViewController(viewController)
-        env.blockedByController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
-        env.addToWindow()
-        waitSync()
-        viewController.selectRow(0)
+        env.blockedByController.setContext(.existing(item: item2, context: env.dataContextProvider.mainContext()))
 
         // sut
-        navigationController.popViewController(animated: false)
+        waitSync()
+        XCTAssertTrue(viewController.unblockButton.fire())
 
         // test
         waitSync()
-        XCTAssertEqual(item.blockedBy?.count, 1)
+        for i in 0..<4 { XCTAssertNil(viewController.cell(row: i)?.iconImageView.image) }
     }
+
+    // MARK: - order
 
     func test_rows_whenAppear_expectOrder() {
         // mocks
@@ -112,6 +164,8 @@ final class BlockedByTests: XCTestCase {
         XCTAssertEqual(viewController.title(row: 1), "b")
         XCTAssertEqual(viewController.title(row: 2), "c")
     }
+
+    // MARK: - alert
 
     func test_alert_whenDataError_expectThrown() {
         // mocks

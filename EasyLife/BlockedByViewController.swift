@@ -12,10 +12,12 @@ protocol BlockedByViewControlling: Presentable, Mockable {
 protocol BlockedByViewControllerDelegate: AnyObject {
     func viewControllerWillDismiss(_ viewController: BlockedByViewControlling)
     func viewController(_ viewController: BlockedByViewControlling, didSelectRowAtIndexPath indexPath: IndexPath)
+    func viewController(_ viewController: BlockedByViewControlling, performAction action: BlockedAction)
 }
 
 final class BlockedByViewController: UIViewController, BlockedByViewControlling {
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private(set) weak var tableView: UITableView!
+    @IBOutlet private(set) weak var unblockButton: UIBarButtonItem!
     private weak var delegate: BlockedByViewControllerDelegate?
 
     var viewState: BlockedByViewStating? {
@@ -46,11 +48,17 @@ final class BlockedByViewController: UIViewController, BlockedByViewControlling 
         tableView.reloadRows(at: [indexPath], with: .fade)
     }
 
+    // MARK: - actions
+
+    @IBAction private func unblockPressed(_ sender: UIBarButtonItem) {
+        delegate?.viewController(self, performAction: .unblock)
+    }
+
     // MARK: - private
 
     private func bind(_ viewState: BlockedByViewStating) {
         guard isViewLoaded else { return }
-        // 🦄
+        unblockButton.isEnabled = viewState.isUnblockButtonEnabled
     }
 }
 
