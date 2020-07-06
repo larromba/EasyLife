@@ -310,6 +310,48 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertEqual(viewController.dateTextField.inputView, viewController.datePicker)
     }
 
+    func test_datePicker_whenTomorrowSelectedAndDateButtonPressed_expectRowSelected() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .empty)
+        env.itemDetailController.setViewController(viewController)
+        env.itemDetailController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
+        env.addToWindow()
+        viewController.dateTextField.becomeFirstResponder()
+        waitSync()
+
+        // sut
+        let date = Date()
+        viewController.simpleDatePicker.pickerView(viewController.simpleDatePicker, didSelectRow: 2, inComponent: 0)
+        XCTAssertTrue(viewController.toolbar.items?[safe: 4]?.fire() ?? false)
+
+        // test
+        waitSync()
+        XCTAssertEqual(viewController.datePicker.date.timeIntervalSince1970,
+                       date.addingTimeInterval(24 * 60 * 60).timeIntervalSince1970, accuracy: 1.0)
+    }
+
+    func test_simpleDatePicker_whenDateButtonPressed_expectDateClearedAndRowSelected() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .empty)
+        env.itemDetailController.setViewController(viewController)
+        env.itemDetailController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
+        env.addToWindow()
+        viewController.viewState?.date = Date()
+        viewController.dateTextField.becomeFirstResponder()
+        waitSync()
+
+        // sut
+        XCTAssertTrue(viewController.toolbar.items?[safe: 4]?.fire() ?? false)
+
+        // test
+        waitSync()
+        XCTAssertEqual(viewController.dateTextField.text, "")
+        XCTAssertNil(viewController.viewState?.date)
+        XCTAssertEqual(viewController.simpleDatePicker.selectedRow(inComponent: 0), 0)
+    }
+
     func test_repeatField_whenPressed_expectRepeatPicker() {
         // mocks
         env.inject()
@@ -319,6 +361,23 @@ final class ItemDetailTests: XCTestCase {
         XCTAssertEqual(viewController.repeatsTextField.inputView, viewController.repeatPicker)
     }
 
+    func test_repeatPicker_whenOpened_expectRowSelected() {
+        // mocks
+        env.inject()
+        let item = env.todoItem(type: .empty, repeatState: .halfyear)
+        env.itemDetailController.setViewController(viewController)
+        env.itemDetailController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
+        env.addToWindow()
+
+        // sut
+        waitSync()
+        viewController.repeatsTextField.becomeFirstResponder()
+
+        // test
+        waitSync()
+        XCTAssertEqual(viewController.repeatPicker.selectedRow(inComponent: 0), RepeatState.halfyear.rawValue)
+    }
+
     func test_projectField_whenPressed_expectProjectPicker() {
         // mocks
         env.inject()
@@ -326,6 +385,24 @@ final class ItemDetailTests: XCTestCase {
 
         // test
         XCTAssertEqual(viewController.projectTextField.inputView, viewController.projectPicker)
+    }
+
+    func test_projectPicker_whenOpened_expectRowSelected() {
+        // mocks
+        env.inject()
+        let project = env.project(priority: 0)
+        let item = env.todoItem(type: .empty, project: project)
+        env.itemDetailController.setViewController(viewController)
+        env.itemDetailController.setContext(.existing(item: item, context: env.dataContextProvider.mainContext()))
+        env.addToWindow()
+
+        // sut
+        waitSync()
+        viewController.projectTextField.becomeFirstResponder()
+
+        // test
+        waitSync()
+        XCTAssertEqual(viewController.projectPicker.selectedRow(inComponent: 0), 1)
     }
 
     // MARK: - keyboard toolbar
@@ -499,7 +576,7 @@ final class ItemDetailTests: XCTestCase {
 
         // sut
         let button1 = viewController.toolbar.items?[safe: 4]
-        button1?.fire()
+        XCTAssertTrue(button1?.fire() ?? false)
         let button2 = viewController.toolbar.items?[safe: 4]
 
         // test

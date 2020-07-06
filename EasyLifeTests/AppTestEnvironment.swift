@@ -20,7 +20,6 @@ final class AppTestEnvironment: TestEnvironment {
     var persistentContainer: NSPersistentContainer
     var badge: Badge
     var alarm: Alarming
-    var now: Date
     var userDefaults: UserDefaults
 
     private(set) var appRouter: AppRouting!
@@ -54,7 +53,6 @@ final class AppTestEnvironment: TestEnvironment {
          persistentContainer: NSPersistentContainer = .mock(),
          badge: Badge = MockAppBadge(),
          alarm: Alarming = MockAlarm(),
-         now: Date = Date(),
          userDefaults: UserDefaults = .mock) {
         self.viewController = viewController
         self.navigationController = navigationController
@@ -62,7 +60,6 @@ final class AppTestEnvironment: TestEnvironment {
         self.persistentContainer = persistentContainer
         self.badge = badge
         self.alarm = alarm
-        self.now = now
         self.userDefaults = userDefaults
     }
 

@@ -14,6 +14,7 @@ protocol ItemDetailViewControllerDelegate: AnyObject {
     func viewControllerWillDismiss(_ viewController: ItemDetailViewControlling)
 }
 
+// swiftlint:disable file_length
 final class ItemDetailViewController: UIViewController, ItemDetailViewControlling {
     @IBOutlet private(set) weak var titleTextField: UITextField!
     @IBOutlet private(set) weak var dateTextField: UITextField!
@@ -237,12 +238,17 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
     private func calendarButtonPressed(_ sender: UIBarButtonItem) {
         switch dateTextField.inputView {
         case datePicker:
+            viewState?.date = nil
+            notifyStateUpdated()
             dateTextField.inputView = simpleDatePicker
+            simpleDatePicker.selectRow(0, inComponent: 0, animated: true)
         case simpleDatePicker:
             dateTextField.inputView = datePicker
+            if let date = viewState?.date {
+                datePicker.setDate(date, animated: true)
+            }
         default:
             assertionFailure("unexpected input view")
-            return
         }
         dateTextField.reloadInputViews()
         toggleCalendarButton()
@@ -355,8 +361,11 @@ extension ItemDetailViewController: UITextFieldDelegate {
                 assertionFailure("unhandled date picker")
             }
         case repeatsTextField:
-            guard let row = viewState?.repeatState.rawValue else { return }
+            guard let row = viewState?.rowForRepeatState() else { return }
             repeatPicker.selectRow(row, inComponent: 0, animated: true)
+        case projectTextField:
+            guard let row = viewState?.rowForProject() else { return }
+            projectPicker.selectRow(row, inComponent: 0, animated: true)
         default:
             break
         }

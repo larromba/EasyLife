@@ -27,6 +27,8 @@ protocol ItemDetailViewStating: ItemDetailUIUpdatable {
 
     func repeatStatePickerItem(at row: Int) -> RepeatStatePickerItem
     func projectPickerItem(at row: Int) -> ProjectPickerItem
+    func rowForProject() -> Int
+    func rowForRepeatState() -> Int
 
     func copy(item: TodoItem, items: [TodoItem], projects: [Project]) -> ItemDetailViewStating
 }
@@ -104,6 +106,14 @@ struct ItemDetailViewState: ItemDetailViewStating {
 
     func projectPickerItem(at row: Int) -> ProjectPickerItem {
         return projectPickerItems[row]
+    }
+
+    func rowForRepeatState() -> Int {
+        return repeatState.rawValue
+    }
+
+    func rowForProject() -> Int {
+        return projectPickerItems.firstIndex(where: { $0.object == project }) ?? 0
     }
 }
 
