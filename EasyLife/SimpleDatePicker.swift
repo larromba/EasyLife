@@ -42,8 +42,7 @@ extension SimpleDatePicker: UIPickerViewDelegate {
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        guard let date = viewState?.date(for: row) else { return }
-        datePickerDelegate?.datePicker(self, didSelectDate: date)
+        datePickerDelegate?.datePicker(self, didSelectDate: viewState?.date(for: row))
     }
 }
 

@@ -70,7 +70,6 @@ Apple ID: 1229095589
 # Future Work
 
 3.0.0:
-simple date picker not clearing date
 add clear button to blocked list
 search app & check protocols are being used (not direct references)
 move coredata to new repo
