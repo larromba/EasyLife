@@ -244,6 +244,8 @@ final class FocusTests: XCTestCase {
 
     func test_timerButton_whenStopPressed_expectAllLocalNotificationsRemoved() {
         // mocks
+        let alarmNotificationHandler = MockAlarmNotificationHandler()
+        env.alarmNotificationHandler = alarmNotificationHandler
         env.inject()
         env.addToWindow()
         _ = env.todoItem(type: .today)
@@ -257,12 +259,7 @@ final class FocusTests: XCTestCase {
         XCTAssertTrue(viewController.timerButton.fire())
 
         // test
-        waitAsync(delay: 0.5) { completion in
-            UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-                XCTAssertEqual(requests.count, 0)
-                completion()
-            }
-        }
+        XCTAssertTrue(alarmNotificationHandler.invocations.isInvoked(MockAlarmNotificationHandler.stop2.name))
     }
 
     // MARK: - toolbar
@@ -322,6 +319,8 @@ final class FocusTests: XCTestCase {
 
     func test_toolbarStartButton_whenPressed_expectLocalNotificationTriggered() {
         // mocks
+        let alarmNotificationHandler = MockAlarmNotificationHandler()
+        env.alarmNotificationHandler = alarmNotificationHandler
         env.inject()
         env.addToWindow()
         _ = env.todoItem(type: .today)
@@ -334,12 +333,7 @@ final class FocusTests: XCTestCase {
         XCTAssertTrue(viewController.toolbar.items?[safe: 2]?.fire() ?? false)
 
         // test
-        waitAsync(delay: 0.5) { completion in
-            UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-                XCTAssertEqual(requests.count, 1)
-                completion()
-            }
-        }
+        XCTAssertTrue(alarmNotificationHandler.invocations.isInvoked(MockAlarmNotificationHandler.start1.name))
     }
 
     // MARK: - timer

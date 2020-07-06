@@ -21,6 +21,7 @@ final class AppTestEnvironment: TestEnvironment {
     var badge: Badge
     var alarm: Alarming
     var userDefaults: UserDefaults
+    var alarmNotificationHandler: AlarmNotificationHandling
 
     private(set) var appRouter: AppRouting!
     private(set) var fatalErrorHandler: FatalErrorHandler!
@@ -33,7 +34,7 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var planCoordinator: PlanCoordinating!
     private(set) var itemDetailRepository: ItemDetailRepositoring!
     private(set) var itemDetailController: ItemDetailControlling!
-    private(set) var focusRepository: FocusRepository!
+    private(set) var focusRepository: FocusRepositoring!
     private(set) var focusController: FocusControlling!
     private(set) var focusCoordinator: FocusCoordinating!
     private(set) var blockedByRepository: BlockedByRepositoring!
@@ -53,7 +54,8 @@ final class AppTestEnvironment: TestEnvironment {
          persistentContainer: NSPersistentContainer = .mock(),
          badge: Badge = MockAppBadge(),
          alarm: Alarming = MockAlarm(),
-         userDefaults: UserDefaults = .mock) {
+         userDefaults: UserDefaults = .mock,
+         alarmNotificationHandler: AlarmNotificationHandling = MockAlarmNotificationHandler()) {
         self.viewController = viewController
         self.navigationController = navigationController
         self.window = window
@@ -61,6 +63,7 @@ final class AppTestEnvironment: TestEnvironment {
         self.badge = badge
         self.alarm = alarm
         self.userDefaults = userDefaults
+        self.alarmNotificationHandler = alarmNotificationHandler
     }
 
     // swiftlint:disable function_body_length
@@ -94,7 +97,11 @@ final class AppTestEnvironment: TestEnvironment {
             holidayController: holidayController
         )
         focusRepository = FocusRepository(dataContextProvider: dataContextProvider, planRepository: planRepository)
-        focusController = FocusController(repository: focusRepository, alarm: alarm)
+        focusController = FocusController(
+            repository: focusRepository,
+            alarm: alarm,
+            alarmNotificationHandler: alarmNotificationHandler
+        )
         focusCoordinator = FocusCoordinator(focusController: focusController)
         archiveRepository = ArchiveRepository(dataContextProvider: dataContextProvider)
         archiveController = ArchiveController(repository: archiveRepository)
