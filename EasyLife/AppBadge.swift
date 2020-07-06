@@ -6,8 +6,8 @@ import UserNotifications
 protocol Badge: AnyObject, Mockable {
     var number: Int { get }
 
-    // sourcery: returnValue = Async.success(())
-    func setNumber(_ number: Int) -> Async<Void>
+    // sourcery: returnValue = Async<Void, Error>.success(())
+    func setNumber(_ number: Int) -> Async<Void, Error>
 }
 
 final class AppBadge: Badge {
@@ -22,7 +22,7 @@ final class AppBadge: Badge {
         self.application = application
     }
 
-    func setNumber(_ number: Int) -> Async<Void> {
+    func setNumber(_ number: Int) -> Async<Void, Error> {
         return Async { completion in
             #if DEBUG
             if __isSnapshot { return completion(.success(())) }

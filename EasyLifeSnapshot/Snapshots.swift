@@ -5,7 +5,6 @@ final class Snapshots: XCTestCase {
 
     override func setUp() {
         super.setUp()
-
         app = XCUIApplication()
         setupSnapshot(app)
         continueAfterFailure = false
@@ -20,6 +19,9 @@ final class Snapshots: XCTestCase {
         // Plan
         app.launch()
         snapshot("Plan")
+
+        // Focus
+
 
         // ItemDetail
         app.navigationBars["Todo"].buttons["Add"].tap()

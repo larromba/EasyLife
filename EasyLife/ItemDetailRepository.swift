@@ -6,10 +6,10 @@ import Logging
 protocol ItemDetailRepositoring: Mockable {
     func setContext(_ context: DataContexting)
     func update(_ item: TodoItem, with update: ItemDetailUpdate)
-    func fetchItems(for item: TodoItem) -> Async<[TodoItem]>
-    func fetchProjects(for item: TodoItem) -> Async<[Project]>
-    func save(item: TodoItem) -> Async<Void>
-    func delete(item: TodoItem) -> Async<Void>
+    func fetchItems(for item: TodoItem) -> Async<[TodoItem], Error>
+    func fetchProjects(for item: TodoItem) -> Async<[Project], Error>
+    func save(item: TodoItem) -> Async<Void, Error>
+    func delete(item: TodoItem) -> Async<Void, Error>
 }
 
 final class ItemDetailRepository: ItemDetailRepositoring {
@@ -32,7 +32,7 @@ final class ItemDetailRepository: ItemDetailRepositoring {
         item.project = update.project
     }
 
-    func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {
+    func fetchItems(for item: TodoItem) -> Async<[TodoItem], Error> {
         return Async { completion in
             async({
                 let descriptor = NSSortDescriptor(key: "name", ascending: true,
@@ -49,7 +49,7 @@ final class ItemDetailRepository: ItemDetailRepositoring {
         }
     }
 
-    func fetchProjects(for item: TodoItem) -> Async<[Project]> {
+    func fetchProjects(for item: TodoItem) -> Async<[Project], Error> {
         return Async { completion in
             async({
                 let descriptor = NSSortDescriptor(key: "name", ascending: true)
@@ -65,7 +65,7 @@ final class ItemDetailRepository: ItemDetailRepositoring {
         }
     }
 
-    func save(item: TodoItem) -> Async<Void> {
+    func save(item: TodoItem) -> Async<Void, Error> {
         return Async { completion in
             async({
                 _ = try await(self.context.save()) // might be child context, so save first
@@ -77,7 +77,7 @@ final class ItemDetailRepository: ItemDetailRepositoring {
         }
     }
 
-    func delete(item: TodoItem) -> Async<Void> {
+    func delete(item: TodoItem) -> Async<Void, Error> {
         return Async { completion in
             async({
                 self.context.delete(item)

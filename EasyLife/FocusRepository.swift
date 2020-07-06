@@ -3,11 +3,11 @@ import Foundation
 
 // sourcery: name = FocusRepository
 protocol FocusRepositoring: Mockable {
-    func fetchItems() -> Async<[TodoItem]>
-    func fetchMissingItems() -> Async<[TodoItem]>
-    func isDoable() -> Async<Bool>
-    func today(item: TodoItem) -> Async<Void>
-    func done(item: TodoItem) -> Async<Void>
+    func fetchItems() -> Async<[TodoItem], Error>
+    func fetchMissingItems() -> Async<[TodoItem], Error>
+    func isDoable() -> Async<Bool, Error>
+    func today(item: TodoItem) -> Async<Void, Error>
+    func done(item: TodoItem) -> Async<Void, Error>
 }
 
 final class FocusRepository: FocusRepositoring {
@@ -19,11 +19,11 @@ final class FocusRepository: FocusRepositoring {
         self.planRepository = planRepository
     }
 
-    func fetchItems() -> Async<[TodoItem]> {
+    func fetchItems() -> Async<[TodoItem], Error> {
         return planRepository.fetchTodayItems()
     }
 
-    func fetchMissingItems() -> Async<[TodoItem]> {
+    func fetchMissingItems() -> Async<[TodoItem], Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -40,7 +40,7 @@ final class FocusRepository: FocusRepositoring {
         }
     }
 
-    func isDoable() -> Async<Bool> {
+    func isDoable() -> Async<Bool, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -56,7 +56,7 @@ final class FocusRepository: FocusRepositoring {
         }
     }
 
-    func today(item: TodoItem) -> Async<Void> {
+    func today(item: TodoItem) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -71,7 +71,7 @@ final class FocusRepository: FocusRepositoring {
         }
     }
 
-    func done(item: TodoItem) -> Async<Void> {
+    func done(item: TodoItem) -> Async<Void, Error> {
         return planRepository.done(item: item)
     }
 }

@@ -4,6 +4,7 @@ import Foundation
 import Logging
 import Result
 
+// sourcery: name = DataContext
 protocol DataContexting {
     func object<T: NSManagedObject>(for object: T) -> T?
     func perform(_ block: @escaping () -> Void)
@@ -13,10 +14,10 @@ protocol DataContexting {
     func copy<T: NSManagedObject>(_ entity: T) -> Result<T>
     func delete<T: NSManagedObject>(_ entity: T)
     func deleteAll(_ objects: [NSManagedObject])
-    func deleteAll(_ classTypes: [NSManagedObject.Type]) -> Async<Void>
+    func deleteAll(_ classTypes: [NSManagedObject.Type]) -> Async<Void, Error>
     func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: DataSort<T>?,
-                                   predicate: NSPredicate?) -> Async<[T]>
-    func save() -> Async<Void>
+                                   predicate: NSPredicate?) -> Async<[T], Error>
+    func save() -> Async<Void, Error>
 }
 
 final class DataContext: DataContexting {
@@ -51,16 +52,16 @@ final class DataContext: DataContexting {
     // see https://stackoverflow.com/questions/2730832/how-can-i-duplicate-or-copy-a-core-data-managed-object
     func copy<T: NSManagedObject>(_ object: T) -> Result<T> {
         guard let name = object.entity.name else {
-            logError(CoreDataError.missingEntitiyName)
-            return .failure(CoreDataError.missingEntitiyName)
+            logError(DataError.missingEntitiyName)
+            return .failure(DataError.missingEntitiyName)
         }
         let copy = insert(entityClass: T.self)
         let description = NSEntityDescription.entity(forEntityName: name, in: managedObjectContext)
         guard
             let attributess = description?.attributesByName,
             let relationships = description?.relationshipsByName else {
-                logError(CoreDataError.entityDescription)
-                return .failure(CoreDataError.entityDescription)
+                logError(DataError.entityDescription)
+                return .failure(DataError.entityDescription)
         }
         managedObjectContext.performAndWait {
             attributess.forEach { attribute in
@@ -87,7 +88,7 @@ final class DataContext: DataContexting {
         objects.forEach { delete($0) }
     }
 
-    func deleteAll(_ classTypes: [NSManagedObject.Type]) -> Async<Void> {
+    func deleteAll(_ classTypes: [NSManagedObject.Type]) -> Async<Void, Error> {
         return Async { completion in
             self.managedObjectContext.perform { [unowned self] in
                 do {
@@ -98,7 +99,7 @@ final class DataContext: DataContexting {
                     }
                     completion(.success(()))
                 } catch {
-                    completion(.failure(CoreDataError.frameworkError(error)))
+                    completion(.failure(DataError.frameworkError(error)))
                     self.notificationCenter.post(name: .applicationDidReceiveFatalError, object: error)
                 }
             }
@@ -106,7 +107,7 @@ final class DataContext: DataContexting {
     }
 
     func fetch<T: NSManagedObject>(entityClass: T.Type, sortBy: DataSort<T>? = nil,
-                                   predicate: NSPredicate? = nil) -> Async<[T]> {
+                                   predicate: NSPredicate? = nil) -> Async<[T], Error> {
         return Async { completion in
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName(entityClass))
             request.returnsObjectsAsFaults = false
@@ -120,14 +121,14 @@ final class DataContext: DataContexting {
                     }
                     completion(.success(items))
                 } catch {
-                    logError(CoreDataError.frameworkError(error))
-                    completion(.failure(CoreDataError.frameworkError(error)))
+                    logError(DataError.frameworkError(error))
+                    completion(.failure(DataError.frameworkError(error)))
                 }
             }
         }
     }
 
-    func save() -> Async<Void> {
+    func save() -> Async<Void, Error> {
         return Async { completion in
             self.managedObjectContext.perform({ [unowned self] in
                 guard self.managedObjectContext.hasChanges else {
@@ -138,7 +139,7 @@ final class DataContext: DataContexting {
                     try self.managedObjectContext.save()
                     completion(.success(()))
                 } catch {
-                    completion(.failure(CoreDataError.frameworkError(error)))
+                    completion(.failure(DataError.frameworkError(error)))
                     self.notificationCenter.post(name: .applicationDidReceiveFatalError, object: error)
                 }
             })
@@ -159,7 +160,7 @@ final class DataContext: DataContexting {
         guard let entityDescription = NSEntityDescription.entity(forEntityName: entityName,
                                                                  in: managedObjectContext) else {
             logError("couldnt create NSEntityDescription for: \(entityName)")
-            return .failure(CoreDataError.entityDescription)
+            return .failure(DataError.entityDescription)
         }
         return .success(NSManagedObject(entity: entityDescription, insertInto: nil))
     }

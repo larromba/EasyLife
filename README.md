@@ -50,8 +50,6 @@ fastlane frameit silver
 ```
 
 ## How it works
-The idea is to merge all your todo lists together and make context switching easier to manage.
-
 There are 3 sections in the todo list:
 * Missed... - all items missed before today. missed items require attention to be rescheduled
 * Today - all items for today
@@ -74,8 +72,8 @@ General:
     - a red indicator: the item is blocked by something
     - a grey indicator: the item is blocking something else
     - a red + grey indicator: the item is both blocked by something and blocking something else
-* Long pressing missed items brings up useful shortcuts
-* Triple tapping the plan view puts the app into 'holiday mode'
+* Long-pressing missed items brings up useful shortcuts
+* Triple-tapping the plan view puts the app into 'holiday mode'
 
 ## Licence
 [![licensebuttons by-nc-sa](https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0) 

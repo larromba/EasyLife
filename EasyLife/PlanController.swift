@@ -22,6 +22,7 @@ final class PlanController: PlanControlling {
     private weak var viewController: PlanViewControlling?
     private weak var delegate: PlanControllerDelegate?
     private weak var router: StoryboardRouting?
+    private var isReloading = false
 
     init(viewController: PlanViewControlling, planRepository: PlanRepositoring,
          holidayRepository: HolidayRepositoring, badge: Badge) {
@@ -73,7 +74,8 @@ final class PlanController: PlanControlling {
     }
 
     private func reload() {
-        guard let viewState = self.viewController?.viewState else { return }
+        guard let viewState = self.viewController?.viewState, !isReloading else { return }
+        isReloading = true
         async({
             let sections = [
                 PlanSection.today: try await(self.planRepository.fetchTodayItems()),
@@ -86,9 +88,11 @@ final class PlanController: PlanControlling {
                 self.viewController?.viewState = newViewState
                 self.viewController?.setIsTableHeaderAnimating(!newViewState.isTableHeaderHidden)
                 self.viewController?.reload()
+                self.isReloading = false
             }
         }, onError: { error in
             onMain { self.delegate?.controller(self, showAlert: Alert(error: error)) }
+            self.isReloading = false
         })
     }
 

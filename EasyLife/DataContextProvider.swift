@@ -9,7 +9,7 @@ protocol DataContextProviding: AnyObject, Mockable {
     func mainContext() -> DataContexting
     func backgroundContext() -> DataContexting
     func childContext(thread: ThreadType) -> DataContexting
-    func load() -> Async<Void>
+    func load() -> Async<Void, DataError>
 }
 
 //
@@ -58,12 +58,12 @@ final class DataContextProvider: DataContextProviding {
         return DataContext(managedObjectContext: context, notificationCenter: notificationCenter)
     }
 
-    func load() -> Async<Void> {
+    func load() -> Async<Void, DataError> {
         return Async { completion in
             let container = self.persistentContainer
             container.loadPersistentStores(completionHandler: { [unowned container] _, error in
                 if let error = error {
-                    completion(.failure(CoreDataError.frameworkError(error)))
+                    completion(.failure(.frameworkError(error)))
                     self.notificationCenter.post(name: .applicationDidReceiveFatalError, object: error)
                     return
                 }

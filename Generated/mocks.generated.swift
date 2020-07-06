@@ -451,12 +451,12 @@ class MockArchiveRepository: NSObject, ArchiveRepositoring {
 
     // MARK: - undo
 
-    func undo(item: TodoItem) -> Async<Void> {
+    func undo(item: TodoItem) -> Async<Void, Error> {
         let functionName = undo1.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: undo1.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum undo1: String, _StringRawRepresentable {
@@ -468,12 +468,12 @@ class MockArchiveRepository: NSObject, ArchiveRepositoring {
 
     // MARK: - clearAll
 
-    func clearAll(items: [TodoItem]) -> Async<Void> {
+    func clearAll(items: [TodoItem]) -> Async<Void, Error> {
         let functionName = clearAll2.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: items, forKey: clearAll2.params.items)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum clearAll2: String, _StringRawRepresentable {
@@ -485,11 +485,11 @@ class MockArchiveRepository: NSObject, ArchiveRepositoring {
 
     // MARK: - fetchItems
 
-    func fetchItems() -> Async<[TodoItem]> {
+    func fetchItems() -> Async<[TodoItem], Error> {
         let functionName = fetchItems3.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[TodoItem]>
+        return actions.returnValue(for: functionName) as! Async<[TodoItem], Error>
     }
 
     enum fetchItems3: String, _StringRawRepresentable {
@@ -574,13 +574,13 @@ class MockAppBadge: NSObject, Badge {
 
     // MARK: - setNumber
 
-    func setNumber(_ number: Int) -> Async<Void> {
+    func setNumber(_ number: Int) -> Async<Void, Error> {
         let functionName = setNumber1.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: number, forKey: setNumber1.params.number)
         invocations.record(invocation)
-        actions.set(defaultReturnValue: Async.success(()), for: functionName)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        actions.set(defaultReturnValue: Async<Void, Error>.success(()), for: functionName)
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum setNumber1: String, _StringRawRepresentable {
@@ -700,12 +700,12 @@ class MockBlockedByRepository: NSObject, BlockedByRepositoring {
 
     // MARK: - fetchItems
 
-    func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {
+    func fetchItems(for item: TodoItem) -> Async<[TodoItem], Error> {
         let functionName = fetchItems3.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: fetchItems3.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[TodoItem]>
+        return actions.returnValue(for: functionName) as! Async<[TodoItem], Error>
     }
 
     enum fetchItems3: String, _StringRawRepresentable {
@@ -864,11 +864,11 @@ class MockDataContextProvider: NSObject, DataContextProviding {
 
     // MARK: - load
 
-    func load() -> Async<Void> {
+    func load() -> Async<Void, DataError> {
         let functionName = load4.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, DataError>
     }
 
     enum load4: String, _StringRawRepresentable {
@@ -999,11 +999,11 @@ class MockFocusRepository: NSObject, FocusRepositoring {
 
     // MARK: - fetchItems
 
-    func fetchItems() -> Async<[TodoItem]> {
+    func fetchItems() -> Async<[TodoItem], Error> {
         let functionName = fetchItems1.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[TodoItem]>
+        return actions.returnValue(for: functionName) as! Async<[TodoItem], Error>
     }
 
     enum fetchItems1: String, _StringRawRepresentable {
@@ -1012,11 +1012,11 @@ class MockFocusRepository: NSObject, FocusRepositoring {
 
     // MARK: - fetchMissingItems
 
-    func fetchMissingItems() -> Async<[TodoItem]> {
+    func fetchMissingItems() -> Async<[TodoItem], Error> {
         let functionName = fetchMissingItems2.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[TodoItem]>
+        return actions.returnValue(for: functionName) as! Async<[TodoItem], Error>
     }
 
     enum fetchMissingItems2: String, _StringRawRepresentable {
@@ -1025,11 +1025,11 @@ class MockFocusRepository: NSObject, FocusRepositoring {
 
     // MARK: - isDoable
 
-    func isDoable() -> Async<Bool> {
+    func isDoable() -> Async<Bool, Error> {
         let functionName = isDoable3.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Bool>
+        return actions.returnValue(for: functionName) as! Async<Bool, Error>
     }
 
     enum isDoable3: String, _StringRawRepresentable {
@@ -1038,12 +1038,12 @@ class MockFocusRepository: NSObject, FocusRepositoring {
 
     // MARK: - today
 
-    func today(item: TodoItem) -> Async<Void> {
+    func today(item: TodoItem) -> Async<Void, Error> {
         let functionName = today4.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: today4.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum today4: String, _StringRawRepresentable {
@@ -1055,12 +1055,12 @@ class MockFocusRepository: NSObject, FocusRepositoring {
 
     // MARK: - done
 
-    func done(item: TodoItem) -> Async<Void> {
+    func done(item: TodoItem) -> Async<Void, Error> {
         let functionName = done5.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: done5.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum done5: String, _StringRawRepresentable {
@@ -1357,12 +1357,12 @@ class MockItemDetailRepository: NSObject, ItemDetailRepositoring {
 
     // MARK: - fetchItems
 
-    func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {
+    func fetchItems(for item: TodoItem) -> Async<[TodoItem], Error> {
         let functionName = fetchItems3.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: fetchItems3.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[TodoItem]>
+        return actions.returnValue(for: functionName) as! Async<[TodoItem], Error>
     }
 
     enum fetchItems3: String, _StringRawRepresentable {
@@ -1374,12 +1374,12 @@ class MockItemDetailRepository: NSObject, ItemDetailRepositoring {
 
     // MARK: - fetchProjects
 
-    func fetchProjects(for item: TodoItem) -> Async<[Project]> {
+    func fetchProjects(for item: TodoItem) -> Async<[Project], Error> {
         let functionName = fetchProjects4.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: fetchProjects4.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[Project]>
+        return actions.returnValue(for: functionName) as! Async<[Project], Error>
     }
 
     enum fetchProjects4: String, _StringRawRepresentable {
@@ -1391,12 +1391,12 @@ class MockItemDetailRepository: NSObject, ItemDetailRepositoring {
 
     // MARK: - save
 
-    func save(item: TodoItem) -> Async<Void> {
+    func save(item: TodoItem) -> Async<Void, Error> {
         let functionName = save5.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: save5.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum save5: String, _StringRawRepresentable {
@@ -1408,12 +1408,12 @@ class MockItemDetailRepository: NSObject, ItemDetailRepositoring {
 
     // MARK: - delete
 
-    func delete(item: TodoItem) -> Async<Void> {
+    func delete(item: TodoItem) -> Async<Void, Error> {
         let functionName = delete6.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: delete6.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum delete6: String, _StringRawRepresentable {
@@ -1688,12 +1688,12 @@ class MockPlanRepository: NSObject, PlanRepositoring {
 
     // MARK: - makeToday
 
-    func makeToday(item: TodoItem) -> Async<Void> {
+    func makeToday(item: TodoItem) -> Async<Void, Error> {
         let functionName = makeToday3.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: makeToday3.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum makeToday3: String, _StringRawRepresentable {
@@ -1705,12 +1705,12 @@ class MockPlanRepository: NSObject, PlanRepositoring {
 
     // MARK: - makeTomorrow
 
-    func makeTomorrow(item: TodoItem) -> Async<Void> {
+    func makeTomorrow(item: TodoItem) -> Async<Void, Error> {
         let functionName = makeTomorrow4.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: makeTomorrow4.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum makeTomorrow4: String, _StringRawRepresentable {
@@ -1722,12 +1722,12 @@ class MockPlanRepository: NSObject, PlanRepositoring {
 
     // MARK: - makeAllToday
 
-    func makeAllToday(items: [TodoItem]) -> Async<Void> {
+    func makeAllToday(items: [TodoItem]) -> Async<Void, Error> {
         let functionName = makeAllToday5.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: items, forKey: makeAllToday5.params.items)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum makeAllToday5: String, _StringRawRepresentable {
@@ -1739,12 +1739,12 @@ class MockPlanRepository: NSObject, PlanRepositoring {
 
     // MARK: - makeAllTomorrow
 
-    func makeAllTomorrow(items: [TodoItem]) -> Async<Void> {
+    func makeAllTomorrow(items: [TodoItem]) -> Async<Void, Error> {
         let functionName = makeAllTomorrow6.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: items, forKey: makeAllTomorrow6.params.items)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum makeAllTomorrow6: String, _StringRawRepresentable {
@@ -1756,11 +1756,11 @@ class MockPlanRepository: NSObject, PlanRepositoring {
 
     // MARK: - fetchMissedItems
 
-    func fetchMissedItems() -> Async<[TodoItem]> {
+    func fetchMissedItems() -> Async<[TodoItem], Error> {
         let functionName = fetchMissedItems7.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[TodoItem]>
+        return actions.returnValue(for: functionName) as! Async<[TodoItem], Error>
     }
 
     enum fetchMissedItems7: String, _StringRawRepresentable {
@@ -1769,11 +1769,11 @@ class MockPlanRepository: NSObject, PlanRepositoring {
 
     // MARK: - fetchLaterItems
 
-    func fetchLaterItems() -> Async<[TodoItem]> {
+    func fetchLaterItems() -> Async<[TodoItem], Error> {
         let functionName = fetchLaterItems8.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[TodoItem]>
+        return actions.returnValue(for: functionName) as! Async<[TodoItem], Error>
     }
 
     enum fetchLaterItems8: String, _StringRawRepresentable {
@@ -1782,11 +1782,11 @@ class MockPlanRepository: NSObject, PlanRepositoring {
 
     // MARK: - fetchTodayItems
 
-    func fetchTodayItems() -> Async<[TodoItem]> {
+    func fetchTodayItems() -> Async<[TodoItem], Error> {
         let functionName = fetchTodayItems9.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[TodoItem]>
+        return actions.returnValue(for: functionName) as! Async<[TodoItem], Error>
     }
 
     enum fetchTodayItems9: String, _StringRawRepresentable {
@@ -1795,12 +1795,12 @@ class MockPlanRepository: NSObject, PlanRepositoring {
 
     // MARK: - delete
 
-    func delete(item: TodoItem) -> Async<Void> {
+    func delete(item: TodoItem) -> Async<Void, Error> {
         let functionName = delete10.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: delete10.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum delete10: String, _StringRawRepresentable {
@@ -1812,12 +1812,12 @@ class MockPlanRepository: NSObject, PlanRepositoring {
 
     // MARK: - later
 
-    func later(item: TodoItem) -> Async<Void> {
+    func later(item: TodoItem) -> Async<Void, Error> {
         let functionName = later11.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: later11.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum later11: String, _StringRawRepresentable {
@@ -1829,12 +1829,12 @@ class MockPlanRepository: NSObject, PlanRepositoring {
 
     // MARK: - done
 
-    func done(item: TodoItem) -> Async<Void> {
+    func done(item: TodoItem) -> Async<Void, Error> {
         let functionName = done12.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: done12.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum done12: String, _StringRawRepresentable {
@@ -1846,12 +1846,12 @@ class MockPlanRepository: NSObject, PlanRepositoring {
 
     // MARK: - split
 
-    func split(item: TodoItem) -> Async<Void> {
+    func split(item: TodoItem) -> Async<Void, Error> {
         let functionName = split13.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: item, forKey: split13.params.item)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum split13: String, _StringRawRepresentable {
@@ -2100,12 +2100,12 @@ class MockProjectsRepository: NSObject, ProjectsRepositoring {
 
     // MARK: - delete
 
-    func delete(project: Project) -> Async<Void> {
+    func delete(project: Project) -> Async<Void, Error> {
         let functionName = delete1.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: project, forKey: delete1.params.project)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum delete1: String, _StringRawRepresentable {
@@ -2117,12 +2117,12 @@ class MockProjectsRepository: NSObject, ProjectsRepositoring {
 
     // MARK: - addProject
 
-    func addProject(name: String) -> Async<Project> {
+    func addProject(name: String) -> Async<Project, Error> {
         let functionName = addProject2.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: name, forKey: addProject2.params.name)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Project>
+        return actions.returnValue(for: functionName) as! Async<Project, Error>
     }
 
     enum addProject2: String, _StringRawRepresentable {
@@ -2134,13 +2134,13 @@ class MockProjectsRepository: NSObject, ProjectsRepositoring {
 
     // MARK: - updateName
 
-    func updateName(_ name: String, for project: Project) -> Async<Void> {
+    func updateName(_ name: String, for project: Project) -> Async<Void, Error> {
         let functionName = updateName3.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: name, forKey: updateName3.params.name)
         invocation.set(parameter: project, forKey: updateName3.params.project)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum updateName3: String, _StringRawRepresentable {
@@ -2153,13 +2153,13 @@ class MockProjectsRepository: NSObject, ProjectsRepositoring {
 
     // MARK: - prioritize
 
-    func prioritize(project: Project, max: Int) -> Async<Void> {
+    func prioritize(project: Project, max: Int) -> Async<Void, Error> {
         let functionName = prioritize4.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: project, forKey: prioritize4.params.project)
         invocation.set(parameter: max, forKey: prioritize4.params.max)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum prioritize4: String, _StringRawRepresentable {
@@ -2172,13 +2172,13 @@ class MockProjectsRepository: NSObject, ProjectsRepositoring {
 
     // MARK: - prioritise
 
-    func prioritise(_ projectA: Project, above projectB: Project) -> Async<Void> {
+    func prioritise(_ projectA: Project, above projectB: Project) -> Async<Void, Error> {
         let functionName = prioritise5.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: projectA, forKey: prioritise5.params.projectA)
         invocation.set(parameter: projectB, forKey: prioritise5.params.projectB)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum prioritise5: String, _StringRawRepresentable {
@@ -2191,13 +2191,13 @@ class MockProjectsRepository: NSObject, ProjectsRepositoring {
 
     // MARK: - prioritise
 
-    func prioritise(_ projectA: Project, below projectB: Project) -> Async<Void> {
+    func prioritise(_ projectA: Project, below projectB: Project) -> Async<Void, Error> {
         let functionName = prioritise6.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: projectA, forKey: prioritise6.params.projectA)
         invocation.set(parameter: projectB, forKey: prioritise6.params.projectB)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum prioritise6: String, _StringRawRepresentable {
@@ -2210,12 +2210,12 @@ class MockProjectsRepository: NSObject, ProjectsRepositoring {
 
     // MARK: - deprioritize
 
-    func deprioritize(project: Project) -> Async<Void> {
+    func deprioritize(project: Project) -> Async<Void, Error> {
         let functionName = deprioritize7.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocation.set(parameter: project, forKey: deprioritize7.params.project)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<Void>
+        return actions.returnValue(for: functionName) as! Async<Void, Error>
     }
 
     enum deprioritize7: String, _StringRawRepresentable {
@@ -2227,11 +2227,11 @@ class MockProjectsRepository: NSObject, ProjectsRepositoring {
 
     // MARK: - fetchPrioritizedProjects
 
-    func fetchPrioritizedProjects() -> Async<[Project]> {
+    func fetchPrioritizedProjects() -> Async<[Project], Error> {
         let functionName = fetchPrioritizedProjects8.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[Project]>
+        return actions.returnValue(for: functionName) as! Async<[Project], Error>
     }
 
     enum fetchPrioritizedProjects8: String, _StringRawRepresentable {
@@ -2240,11 +2240,11 @@ class MockProjectsRepository: NSObject, ProjectsRepositoring {
 
     // MARK: - fetchOtherProjects
 
-    func fetchOtherProjects() -> Async<[Project]> {
+    func fetchOtherProjects() -> Async<[Project], Error> {
         let functionName = fetchOtherProjects9.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
-        return actions.returnValue(for: functionName) as! Async<[Project]>
+        return actions.returnValue(for: functionName) as! Async<[Project], Error>
     }
 
     enum fetchOtherProjects9: String, _StringRawRepresentable {

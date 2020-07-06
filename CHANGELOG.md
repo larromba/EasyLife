@@ -3,7 +3,7 @@
 ## v3.0.0 (TBC)
     fixed coredata threading issues
     fixed table reload flickers
-    other minor bug fixes and improvements
+    minor bug fixes and improvements
     added focus mode
     added holiday mode
     added unblock button 
@@ -73,7 +73,6 @@ Apple ID: 1229095589
 
 3.0.0:
 fix travis tests
-update libs
 move coredata to new repo
 
 3.1.0:

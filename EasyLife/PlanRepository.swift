@@ -7,17 +7,17 @@ import Result
 protocol PlanRepositoring: Mockable {
     func newItemContext() -> TodoItemContext
     func existingItemContext(item: TodoItem) -> TodoItemContext
-    func makeToday(item: TodoItem) -> Async<Void>
-    func makeTomorrow(item: TodoItem) -> Async<Void>
-    func makeAllToday(items: [TodoItem]) -> Async<Void>
-    func makeAllTomorrow(items: [TodoItem]) -> Async<Void>
-    func fetchMissedItems() -> Async<[TodoItem]>
-    func fetchLaterItems() -> Async<[TodoItem]>
-    func fetchTodayItems() -> Async<[TodoItem]>
-    func delete(item: TodoItem) -> Async<Void>
-    func later(item: TodoItem) -> Async<Void>
-    func done(item: TodoItem) -> Async<Void>
-    func split(item: TodoItem) -> Async<Void>
+    func makeToday(item: TodoItem) -> Async<Void, Error>
+    func makeTomorrow(item: TodoItem) -> Async<Void, Error>
+    func makeAllToday(items: [TodoItem]) -> Async<Void, Error>
+    func makeAllTomorrow(items: [TodoItem]) -> Async<Void, Error>
+    func fetchMissedItems() -> Async<[TodoItem], Error>
+    func fetchLaterItems() -> Async<[TodoItem], Error>
+    func fetchTodayItems() -> Async<[TodoItem], Error>
+    func delete(item: TodoItem) -> Async<Void, Error>
+    func later(item: TodoItem) -> Async<Void, Error>
+    func done(item: TodoItem) -> Async<Void, Error>
+    func split(item: TodoItem) -> Async<Void, Error>
 }
 
 final class PlanRepository: PlanRepositoring {
@@ -57,7 +57,7 @@ final class PlanRepository: PlanRepositoring {
         return .existing(item: item, context: context)
     }
 
-    func makeToday(item: TodoItem) -> Async<Void> {
+    func makeToday(item: TodoItem) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -72,7 +72,7 @@ final class PlanRepository: PlanRepositoring {
         }
     }
 
-    func makeTomorrow(item: TodoItem) -> Async<Void> {
+    func makeTomorrow(item: TodoItem) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -87,7 +87,7 @@ final class PlanRepository: PlanRepositoring {
         }
     }
 
-    func makeAllToday(items: [TodoItem]) -> Async<Void> {
+    func makeAllToday(items: [TodoItem]) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -102,7 +102,7 @@ final class PlanRepository: PlanRepositoring {
         }
     }
 
-    func makeAllTomorrow(items: [TodoItem]) -> Async<Void> {
+    func makeAllTomorrow(items: [TodoItem]) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -117,7 +117,7 @@ final class PlanRepository: PlanRepositoring {
         }
     }
 
-    func fetchMissedItems() -> Async<[TodoItem]> {
+    func fetchMissedItems() -> Async<[TodoItem], Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -132,7 +132,7 @@ final class PlanRepository: PlanRepositoring {
         }
     }
 
-    func fetchLaterItems() -> Async<[TodoItem]> {
+    func fetchLaterItems() -> Async<[TodoItem], Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -147,7 +147,7 @@ final class PlanRepository: PlanRepositoring {
         }
     }
 
-    func fetchTodayItems() -> Async<[TodoItem]> {
+    func fetchTodayItems() -> Async<[TodoItem], Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -162,7 +162,7 @@ final class PlanRepository: PlanRepositoring {
         }
     }
 
-    func delete(item: TodoItem) -> Async<Void> {
+    func delete(item: TodoItem) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -175,7 +175,7 @@ final class PlanRepository: PlanRepositoring {
         }
     }
 
-    func later(item: TodoItem) -> Async<Void> {
+    func later(item: TodoItem) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -195,7 +195,7 @@ final class PlanRepository: PlanRepositoring {
         }
     }
 
-    func done(item: TodoItem) -> Async<Void> {
+    func done(item: TodoItem) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -216,7 +216,7 @@ final class PlanRepository: PlanRepositoring {
         }
     }
 
-    func split(item: TodoItem) -> Async<Void> {
+    func split(item: TodoItem) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()

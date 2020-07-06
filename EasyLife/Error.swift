@@ -1,6 +1,6 @@
 import Foundation
 
-enum CoreDataError: LocalizedError {
+enum DataError: LocalizedError {
     case missingEntitiyName
     case notLoaded
     case entityDescription

@@ -3,15 +3,15 @@ import Foundation
 
 // sourcery: name = ProjectsRepository
 protocol ProjectsRepositoring: Mockable {
-    func delete(project: Project) -> Async<Void>
-    func addProject(name: String) -> Async<Project>
-    func updateName(_ name: String, for project: Project) -> Async<Void>
-    func prioritize(project: Project, max: Int) -> Async<Void>
-    func prioritise(_ projectA: Project, above projectB: Project) -> Async<Void>
-    func prioritise(_ projectA: Project, below projectB: Project) -> Async<Void>
-    func deprioritize(project: Project) -> Async<Void>
-    func fetchPrioritizedProjects() -> Async<[Project]>
-    func fetchOtherProjects() -> Async<[Project]>
+    func delete(project: Project) -> Async<Void, Error>
+    func addProject(name: String) -> Async<Project, Error>
+    func updateName(_ name: String, for project: Project) -> Async<Void, Error>
+    func prioritize(project: Project, max: Int) -> Async<Void, Error>
+    func prioritise(_ projectA: Project, above projectB: Project) -> Async<Void, Error>
+    func prioritise(_ projectA: Project, below projectB: Project) -> Async<Void, Error>
+    func deprioritize(project: Project) -> Async<Void, Error>
+    func fetchPrioritizedProjects() -> Async<[Project], Error>
+    func fetchOtherProjects() -> Async<[Project], Error>
 }
 
 final class ProjectsRepository: ProjectsRepositoring {
@@ -24,7 +24,7 @@ final class ProjectsRepository: ProjectsRepositoring {
         self.dataContextProvider = dataContextProvider
     }
 
-    func delete(project: Project) -> Async<Void> {
+    func delete(project: Project) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -37,7 +37,7 @@ final class ProjectsRepository: ProjectsRepositoring {
         }
     }
 
-    func addProject(name: String) -> Async<Project> {
+    func addProject(name: String) -> Async<Project, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -53,7 +53,7 @@ final class ProjectsRepository: ProjectsRepositoring {
         }
     }
 
-    func updateName(_ name: String, for project: Project) -> Async<Void> {
+    func updateName(_ name: String, for project: Project) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -68,7 +68,7 @@ final class ProjectsRepository: ProjectsRepositoring {
         }
     }
 
-    func prioritize(project: Project, max: Int) -> Async<Void> {
+    func prioritize(project: Project, max: Int) -> Async<Void, Error> {
         assert(max > 0)
         return Async { completion in
             async({
@@ -93,7 +93,7 @@ final class ProjectsRepository: ProjectsRepositoring {
         }
     }
 
-    func deprioritize(project: Project) -> Async<Void> {
+    func deprioritize(project: Project) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -118,7 +118,7 @@ final class ProjectsRepository: ProjectsRepositoring {
         }
     }
 
-    func prioritise(_ projectA: Project, above projectB: Project) -> Async<Void> {
+    func prioritise(_ projectA: Project, above projectB: Project) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -148,7 +148,7 @@ final class ProjectsRepository: ProjectsRepositoring {
         }
     }
 
-    func prioritise(_ projectA: Project, below projectB: Project) -> Async<Void> {
+    func prioritise(_ projectA: Project, below projectB: Project) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -178,7 +178,7 @@ final class ProjectsRepository: ProjectsRepositoring {
         }
     }
 
-    func fetchPrioritizedProjects() -> Async<[Project]> {
+    func fetchPrioritizedProjects() -> Async<[Project], Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -194,7 +194,7 @@ final class ProjectsRepository: ProjectsRepositoring {
         }
     }
 
-    func fetchOtherProjects() -> Async<[Project]> {
+    func fetchOtherProjects() -> Async<[Project], Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()

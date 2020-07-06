@@ -51,7 +51,7 @@ final class AlarmNotificationHandler: AlarmNotificationHandling {
         return UNNotificationRequest(identifier: self.identifier, content: content, trigger: trigger)
     }
 
-    private func requestAuthentication() -> Async<Void> {
+    private func requestAuthentication() -> Async<Void, Error> {
         return Async { completion in
             self.notificationCenter.requestAuthorization(options: [.alert]) { granted, error in
                 if let error = error {

@@ -5,7 +5,7 @@ import UIKit
 enum AppControllerFactory {
     // swiftlint:disable function_body_length
     static func make(window: UIWindow, navigationController: UINavigationController,
-                     planViewController: PlanViewControlling) -> Async<AppControlling> {
+                     planViewController: PlanViewControlling) -> Async<AppControlling, Error> {
         return Async { completion in
             async({
                 let persistentContainer = NSPersistentContainer(name: "EasyLife")

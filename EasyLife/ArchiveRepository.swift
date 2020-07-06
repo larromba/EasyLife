@@ -4,9 +4,9 @@ import Foundation
 
 // sourcery: name = ArchiveRepository
 protocol ArchiveRepositoring: Mockable {
-    func undo(item: TodoItem) -> Async<Void>
-    func clearAll(items: [TodoItem]) -> Async<Void>
-    func fetchItems() -> Async<[TodoItem]>
+    func undo(item: TodoItem) -> Async<Void, Error>
+    func clearAll(items: [TodoItem]) -> Async<Void, Error>
+    func fetchItems() -> Async<[TodoItem], Error>
 }
 
 final class ArchiveRepository: ArchiveRepositoring {
@@ -17,7 +17,7 @@ final class ArchiveRepository: ArchiveRepositoring {
         self.dataContextProvider = dataContextProvider
     }
 
-    func undo(item: TodoItem) -> Async<Void> {
+    func undo(item: TodoItem) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -34,7 +34,7 @@ final class ArchiveRepository: ArchiveRepositoring {
         }
     }
 
-    func clearAll(items: [TodoItem]) -> Async<Void> {
+    func clearAll(items: [TodoItem]) -> Async<Void, Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()
@@ -49,7 +49,7 @@ final class ArchiveRepository: ArchiveRepositoring {
         }
     }
 
-    func fetchItems() -> Async<[TodoItem]> {
+    func fetchItems() -> Async<[TodoItem], Error> {
         return Async { completion in
             async({
                 let context = self.dataContextProvider.mainContext()

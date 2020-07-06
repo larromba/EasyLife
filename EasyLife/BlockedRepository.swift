@@ -5,7 +5,7 @@ import Foundation
 protocol BlockedByRepositoring: Mockable {
     func setContext(_ context: DataContexting)
     func update(_ item: TodoItem, with update: [BlockingContext<TodoItem>])
-    func fetchItems(for item: TodoItem) -> Async<[TodoItem]>
+    func fetchItems(for item: TodoItem) -> Async<[TodoItem], Error>
 }
 
 final class BlockedByRepository: BlockedByRepositoring {
@@ -21,7 +21,7 @@ final class BlockedByRepository: BlockedByRepositoring {
         }
     }
 
-    func fetchItems(for item: TodoItem) -> Async<[TodoItem]> {
+    func fetchItems(for item: TodoItem) -> Async<[TodoItem], Error> {
         return Async { completion in
             async({
                 let descriptor = NSSortDescriptor(key: "name", ascending: true,
