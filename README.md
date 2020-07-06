@@ -67,14 +67,15 @@ Swiping left on each item displays some actions:
 * Delete - deletes an item
 * Done - marks item as done
 * Later - if the item is non-recurring, the date is deleted. If the item is recurring, it's rescheduled to the next date
-* Split (recurring items only) - Recurring items can be split in two. The original original item is rescheduled to the next date, and an independant copy is kept in the current section. This allows you to reschedule a recurring item without affecting the original recurring date.
+* Split (recurring items only) - Recurring items can be split in two. The original original item is rescheduled to the next date, and an independent copy is kept in the current section. This allows you to reschedule a recurring item without affecting the original recurring date.
 
 General:
 * Items can block the progress of other items. Blocking items must be done before blocked items. Their blocking status is represented by:
     - a red indicator: the item is blocked by something
     - a grey indicator: the item is blocking something else
     - a red + grey indicator: the item is both blocked by something and blocking something else
-* Long pressing missed items brings up useful shortcuts!
+* Long pressing missed items brings up useful shortcuts
+* Triple tapping the plan view puts the app into 'holiday mode'
 
 ## Licence
 [![licensebuttons by-nc-sa](https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0) 
