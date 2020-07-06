@@ -1,6 +1,6 @@
 import UIKit
 
-final class RainbowAnimation: NSObject, ViewAnimation, RepeatAnimation, ColorAnimation, Mockable {
+final class RainbowAnimation: NSObject, RepeatColorViewAnimation {
     private enum Key: String {
         case backgroundColorAnimation
     }
