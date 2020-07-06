@@ -257,7 +257,7 @@ final class FocusTests: XCTestCase {
         XCTAssertTrue(viewController.timerButton.fire())
 
         // test
-        waitAsync { completion in
+        waitAsync(delay: 0.5) { completion in
             UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
                 XCTAssertEqual(requests.count, 0)
                 completion()
@@ -334,7 +334,7 @@ final class FocusTests: XCTestCase {
         XCTAssertTrue(viewController.toolbar.items?[safe: 2]?.fire() ?? false)
 
         // test
-        waitAsync { completion in
+        waitAsync(delay: 0.5) { completion in
             UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
                 XCTAssertEqual(requests.count, 1)
                 completion()
