@@ -48,6 +48,18 @@ final class PlanTests: XCTestCase {
         XCTAssertFalse(viewController.tableView.isHidden)
     }
 
+    func test_alert_whenDataError_expectThrown() {
+        // mocks
+        env.persistentContainer = .mock(fetchError: MockError.mock)
+        env.inject()
+        env.addToWindow()
+        env.start()
+
+        // test
+        waitSync()
+        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Error")
+    }
+
     func test_notification_whenWillEnterForeground_expectReload() {
         // mocks
         env.inject()
@@ -61,18 +73,6 @@ final class PlanTests: XCTestCase {
         // test
         waitSync()
         XCTAssertNotEqual(isHidden, viewController.tableView.isHidden)
-    }
-
-    func test_alert_whenDataError_expectThrown() {
-        // mocks
-        env.persistentContainer = .mock(fetchError: MockError.mock)
-        env.inject()
-        env.addToWindow()
-        env.start()
-
-        // test
-        waitSync()
-        XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Error")
     }
 
     func test_notification_whenDidReceieveFatalError_expectRootViewReplaced() {
