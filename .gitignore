@@ -1,7 +1,5 @@
 # xcode.gitignore
 
-alarm.logicx
-
 ## Mac
 .DS_Store
 
