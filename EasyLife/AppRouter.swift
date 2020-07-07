@@ -1,3 +1,5 @@
+import AsyncAwait
+import Logging
 import UIKit
 
 // sourcery: name = AppRouter
@@ -11,17 +13,26 @@ final class AppRouter: AppRouting {
     private let focusCoordinator: FocusCoordinating
     private let archiveCoordinator: ArchiveCoordinating
     private let projectsCoordinator: ProjectsCoordinating
+    private let alarmNotificationHandler: AlarmNotificationHandling
 
     init(planCoordinator: PlanCoordinating, focusCoordinator: FocusCoordinating,
-         archiveCoordinator: ArchiveCoordinating, projectsCoordinator: ProjectsCoordinating) {
+         archiveCoordinator: ArchiveCoordinating, projectsCoordinator: ProjectsCoordinating,
+         alarmNotificationHandler: AlarmNotificationHandling) {
         self.planCoordinator = planCoordinator
         self.focusCoordinator = focusCoordinator
         self.archiveCoordinator = archiveCoordinator
         self.projectsCoordinator = projectsCoordinator
+        self.alarmNotificationHandler = alarmNotificationHandler
     }
 
     func start() {
         planCoordinator.start()
+        async({
+            guard let date = try await(self.alarmNotificationHandler.currentNotificationDate()) else { return }
+            onMain { self.routeToFocusWithDate(date: date) }
+        }, onError: { error in
+            logError(error.localizedDescription)
+        })
     }
 
     func routeToNewTodoItem() {
@@ -31,20 +42,26 @@ final class AppRouter: AppRouting {
 
     // MARK: - StoryboardRouting
 
-    func handleSegue(_ segue: UIStoryboardSegue) {
+    func handleSegue(_ segue: UIStoryboardSegue, sender: Any?) {
         guard let navigationController = segue.destination as? UINavigationController else { return }
         if let viewController = navigationController.viewControllers.first as? ProjectsViewControlling {
             projectsCoordinator.setViewController(viewController)
             projectsCoordinator.setNavigationController(navigationController)
             projectsCoordinator.setAlertController(AlertController(presenter: viewController))
+            projectsCoordinator.start()
         } else if let viewController = navigationController.viewControllers.first as? ArchiveViewControlling {
             archiveCoordinator.setViewController(viewController)
             archiveCoordinator.setNavigationController(navigationController)
             archiveCoordinator.setAlertController(AlertController(presenter: viewController))
+            archiveCoordinator.start()
         } else if let viewController = navigationController.viewControllers.first as? FocusViewControlling {
             focusCoordinator.setViewController(viewController)
             focusCoordinator.setNavigationController(navigationController)
             focusCoordinator.setAlertController(AlertController(presenter: viewController))
+            if let date = sender as? Date {
+                focusCoordinator.setTriggerDate(date)
+            }
+            focusCoordinator.start()
         } else {
             assertionFailure("unhandled route for view controller")
         }
@@ -57,5 +74,10 @@ final class AppRouter: AppRouting {
         focusCoordinator.resetNavigation()
         archiveCoordinator.resetNavigation()
         projectsCoordinator.resetNavigation()
+    }
+
+    private func routeToFocusWithDate(date: Date) {
+        resetAllNavigation()
+        planCoordinator.openFocusWithDate(date)
     }
 }

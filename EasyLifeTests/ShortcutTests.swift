@@ -29,7 +29,7 @@ final class ShortcutTests: XCTestCase {
         env.inject()
 
         // sut
-        env.start()
+        env.appController.start()
 
         // test
         XCTAssertEqual(UIApplication.shared.shortcutItems, ShortcutItem.display.map { $0.item })

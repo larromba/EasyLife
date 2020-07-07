@@ -7,6 +7,7 @@ protocol ProjectsCoordinating: Mockable {
     func setViewController(_ viewController: ProjectsViewControlling)
     func setAlertController(_ alertController: AlertControlling)
     func resetNavigation()
+    func start()
 }
 
 final class ProjectsCoordinator: NSObject, ProjectsCoordinating {
@@ -31,6 +32,10 @@ final class ProjectsCoordinator: NSObject, ProjectsCoordinating {
 
     func setAlertController(_ alertController: AlertControlling) {
         self.alertController = alertController
+    }
+
+    func start() {
+        projectsController.start()
     }
 
     func resetNavigation() {

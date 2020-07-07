@@ -6,6 +6,7 @@ protocol BlockedByControlling: TodoItemContexting, Mockable {
     func setViewController(_ viewController: BlockedByViewControlling)
     func setDelegate(_ delegate: BlockedByControllerDelegate)
     func invalidate()
+    func start()
 }
 
 protocol BlockedByControllerDelegate: AnyObject {
@@ -42,6 +43,10 @@ final class BlockedByController: BlockedByControlling {
             repository.setContext(context)
         }
         self.context = EditContext(value: item)
+    }
+
+    func start() {
+        guard let item = context?.value else { return }
         async({
             let items = try await(self.repository.fetchItems(for: item))
             onMain {

@@ -35,6 +35,7 @@ final class ProjectsTests: XCTestCase {
         // mocks
         env.inject()
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
 
         // test
         XCTAssertTrue(viewController.tableView.isHidden)
@@ -45,6 +46,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
 
         // test
         waitSync()
@@ -57,6 +59,7 @@ final class ProjectsTests: XCTestCase {
         _ = env.project(priority: 0)
         _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
 
         // test
         waitSync()
@@ -69,6 +72,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
 
         // test
         waitSync()
@@ -80,6 +84,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
 
         // test
         waitSync()
@@ -91,6 +96,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
 
         // test
         waitSync()
@@ -102,6 +108,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
 
         // test
         waitSync()
@@ -113,9 +120,10 @@ final class ProjectsTests: XCTestCase {
     func test_addButton_whenPressed_expectAlert() {
         // mocks
         env.inject()
+        env.addToWindow()
         env.projectsController.setViewController(viewController)
         env.projectsCoordinator.setAlertController(alertController)
-        env.addToWindow()
+        env.projectsController.start()
 
         // sut
         XCTAssertTrue(viewController.addButton.fire())
@@ -130,6 +138,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         env.projectsController.setViewController(viewController)
         env.projectsCoordinator.setAlertController(alertController)
+        env.projectsController.start()
         env.addToWindow()
 
         // sut
@@ -146,9 +155,10 @@ final class ProjectsTests: XCTestCase {
     func test_newProjectAlert_whenTextEntered_expectOKButtonEnabled() {
         // mocks
         env.inject()
+        env.addToWindow()
         env.projectsController.setViewController(viewController)
         env.projectsCoordinator.setAlertController(alertController)
-        env.addToWindow()
+        env.projectsController.start()
 
         // sut
         XCTAssertTrue(viewController.addButton.fire())
@@ -165,9 +175,10 @@ final class ProjectsTests: XCTestCase {
     func test_newProjectAlert_whenOkButtonPressed_expectNewProjectCreated() {
         // mocks
         env.inject()
+        env.addToWindow()
         env.projectsController.setViewController(viewController)
         env.projectsCoordinator.setAlertController(alertController)
-        env.addToWindow()
+        env.projectsController.start()
         XCTAssertTrue(viewController.addButton.fire())
         guard let alert = viewController.presentedViewController as? UIAlertController else {
             XCTFail("expected alert")
@@ -197,10 +208,11 @@ final class ProjectsTests: XCTestCase {
     func test_cell_whenTapped_expectShowsAlert() {
         // mocks
         env.inject()
+        env.addToWindow()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
         env.projectsCoordinator.setAlertController(alertController)
-        env.addToWindow()
+        env.projectsController.start()
 
         // sut
         waitSync()
@@ -213,10 +225,11 @@ final class ProjectsTests: XCTestCase {
     func test_editNameAlert_whenNoText_expectOkButtonDisabled() {
         // mocks
         env.inject()
+        env.addToWindow()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
         env.projectsCoordinator.setAlertController(alertController)
-        env.addToWindow()
+        env.projectsController.start()
 
         // sut
         waitSync()
@@ -233,10 +246,11 @@ final class ProjectsTests: XCTestCase {
     func test_editNameAlert_whenHasText_expectOkButtonEnabled() {
         // mocks
         env.inject()
+        env.addToWindow()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
         env.projectsCoordinator.setAlertController(alertController)
-        env.addToWindow()
+        env.projectsController.start()
 
         // sut
         waitSync()
@@ -254,10 +268,11 @@ final class ProjectsTests: XCTestCase {
     func test_editNameAlert_whenOkButtonPressed_expectProjectIsUpdated() {
         // mocks
         env.inject()
+        env.addToWindow()
         let project = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
         env.projectsCoordinator.setAlertController(alertController)
-        env.addToWindow()
+        env.projectsController.start()
         waitSync()
         viewController.tapCell(row: 0, section: .prioritized)
         guard let alert = viewController.presentedViewController as? UIAlertController else {
@@ -281,6 +296,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
 
         // test
         waitSync()
@@ -298,6 +314,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
 
         // test
         waitSync()
@@ -320,6 +337,7 @@ final class ProjectsTests: XCTestCase {
         _ = env.project(priority: 3)
         _ = env.project(priority: 4)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
 
         // test
         waitSync()
@@ -336,6 +354,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         let project = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
         waitSync()
         guard let action = viewController.actions(row: 0, section: .other)?[safe: 1] else {
             XCTFail("expected action")
@@ -361,6 +380,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         let project = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
         waitSync()
         guard let action = viewController.actions(row: 0, section: .prioritized)?[safe: 1] else {
             XCTFail("expected action")
@@ -386,6 +406,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
         waitSync()
         guard let action = viewController.actions(row: 0, section: .prioritized)?[safe: 0] else {
             XCTFail("expected action")
@@ -417,6 +438,7 @@ final class ProjectsTests: XCTestCase {
         _ = env.project(priority: 0)
         let project = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
         waitSync()
 
         // precondition
@@ -439,6 +461,7 @@ final class ProjectsTests: XCTestCase {
         let project = env.project(priority: 0)
         _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
         waitSync()
 
         // precondition
@@ -462,6 +485,7 @@ final class ProjectsTests: XCTestCase {
         let project1 = env.project(priority: 1)
         let project2 = env.project(priority: 2)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
         waitSync()
 
         // sut
@@ -482,6 +506,7 @@ final class ProjectsTests: XCTestCase {
         let project1 = env.project(priority: 1)
         let project2 = env.project(priority: 2)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
         waitSync()
 
         // sut
@@ -505,6 +530,7 @@ final class ProjectsTests: XCTestCase {
         _ = env.project(priority: 4)
         _ = env.project(priority: Project.defaultPriority)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
         waitSync()
 
         // test
@@ -517,6 +543,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         _ = env.project(priority: 0)
         env.projectsController.setViewController(viewController)
+        env.projectsController.start()
         waitSync()
 
         // precondition
@@ -538,6 +565,7 @@ final class ProjectsTests: XCTestCase {
         env.inject()
         env.projectsController.setViewController(viewController)
         env.projectsCoordinator.setNavigationController(navigationController)
+        env.projectsController.start()
         let presenter = UIViewController()
         env.window.rootViewController = presenter
         env.window.makeKeyAndVisible()
@@ -558,6 +586,7 @@ final class ProjectsTests: XCTestCase {
         env.addToWindow()
         env.projectsController.setViewController(viewController)
         env.projectsCoordinator.setAlertController(alertController)
+        env.projectsController.start()
 
         // test
         waitSync()

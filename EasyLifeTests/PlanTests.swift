@@ -103,6 +103,35 @@ final class PlanTests: XCTestCase {
             .parameter(for: MockAppBadge.setNumber1.params.number) as? Int ?? 0, 2)
     }
 
+    func test_openApp_whenAlarmNotificationExists_expectFocusViewWithState() {
+        // mocks
+        let alarmNotificationHandler = MockAlarmNotificationHandler()
+        env.alarmNotificationHandler = alarmNotificationHandler
+        env.inject()
+        env.addToWindow()
+        _ = env.todoItem(type: .today)
+        alarmNotificationHandler.actions.set(
+            returnValue: Async<Date?, Error> { completion in
+                completion(.success(Date().addingTimeInterval(60)))
+            },
+            for: MockAlarmNotificationHandler.currentNotificationDate3.name
+        )
+        viewController.prepareView()
+
+        // sut
+        env.appController.start()
+
+        // test
+        waitSync()
+        guard let navigationController = viewController.presentedViewController as? UINavigationController,
+            let focusViewController = navigationController.viewControllers.first as? FocusViewController else {
+                XCTFail("expected FocusViewController")
+                return
+        }
+        XCTAssertEqual(focusViewController.timeLabel.text, "00:00:59")
+        XCTAssertEqual(focusViewController.timerButton.titleLabel?.text, "Stop")
+    }
+
     // MARK: - missed
 
     func test_missedItem_whenAppears_expectAppearsInMissedSection() {

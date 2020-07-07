@@ -34,6 +34,7 @@ final class ArchiveTests: XCTestCase {
         // mocks
         env.inject()
         env.archiveController.setViewController(viewController)
+        env.archiveController.start()
 
         // test
         XCTAssertTrue(viewController.tableView.isHidden)
@@ -44,6 +45,7 @@ final class ArchiveTests: XCTestCase {
         env.inject()
         _ = env.todoItem(type: .empty, isDone: true)
         env.archiveController.setViewController(viewController)
+        env.archiveController.start()
 
         // test
         waitSync()
@@ -59,6 +61,7 @@ final class ArchiveTests: XCTestCase {
         _ = env.todoItem(type: .empty, name: "x1", isDone: true)
         _ = env.todoItem(type: .empty, isDone: true)
         env.archiveController.setViewController(viewController)
+        env.archiveController.start()
 
         // test
         waitSync()
@@ -82,6 +85,7 @@ final class ArchiveTests: XCTestCase {
         _ = env.todoItem(type: .empty, name: "cats definately arent part of it", isDone: true)
         _ = env.todoItem(type: .empty, name: "dogs definately arent part of it", isDone: true)
         env.archiveController.setViewController(viewController)
+        env.archiveController.start()
 
         // precondition
         waitSync()
@@ -103,6 +107,7 @@ final class ArchiveTests: XCTestCase {
         _ = env.todoItem(type: .empty, name: "cats", isDone: true)
         _ = env.todoItem(type: .empty, name: "dogs", isDone: true)
         env.archiveController.setViewController(viewController)
+        env.archiveController.start()
 
         // precondition
         waitSync()
@@ -122,6 +127,7 @@ final class ArchiveTests: XCTestCase {
         env.inject()
         _ = env.todoItem(type: .empty, isDone: true)
         env.archiveController.setViewController(viewController)
+        env.archiveController.start()
 
         // test
         waitSync()
@@ -134,6 +140,7 @@ final class ArchiveTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .empty, isDone: true)
         env.archiveController.setViewController(viewController)
+        env.archiveController.start()
 
         // sut
         waitSync()
@@ -148,10 +155,11 @@ final class ArchiveTests: XCTestCase {
     func test_clearButton_whenPressed_expectAlertShown() {
         // mocks
         env.inject()
+        env.addToWindow()
         _ = env.todoItem(type: .empty, isDone: true)
         env.archiveController.setViewController(viewController)
         env.archiveCoordinator.setAlertController(alertController)
-        env.addToWindow()
+        env.archiveController.start()
 
         // sut
         viewController.clearButton.fire()
@@ -164,10 +172,11 @@ final class ArchiveTests: XCTestCase {
     func test_confirmButton_whenPressedInAlert_expectAllItemsDeleted() {
         // mocks
         env.inject()
+        env.addToWindow()
         _ = env.todoItem(type: .empty, isDone: true)
         env.archiveController.setViewController(viewController)
         env.archiveCoordinator.setAlertController(alertController)
-        env.addToWindow()
+        env.archiveController.start()
         waitSync()
         viewController.clearButton.fire()
         guard let alertController = viewController.presentedViewController as? UIAlertController else {
@@ -199,6 +208,7 @@ final class ArchiveTests: XCTestCase {
         env.inject()
         env.archiveController.setViewController(viewController)
         env.archiveCoordinator.setNavigationController(navigationController)
+        env.archiveController.start()
         let presenter = UIViewController()
         env.window.rootViewController = presenter
         env.window.makeKeyAndVisible()
@@ -219,6 +229,7 @@ final class ArchiveTests: XCTestCase {
         env.addToWindow()
         env.archiveController.setViewController(viewController)
         env.archiveCoordinator.setAlertController(alertController)
+        env.archiveController.start()
 
         // test
         waitSync()

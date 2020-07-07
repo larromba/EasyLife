@@ -14,7 +14,7 @@ protocol PlanViewControlling: Presentable, Segueable, Mockable {
 
 protocol PlanViewControllerDelegate: AnyObject {
     func viewController(_ viewController: PlanViewControlling, handleViewAction viewAction: ViewAction)
-    func viewController(_ viewController: PlanViewControlling, prepareForSegue segue: UIStoryboardSegue)
+    func viewController(_ viewController: PlanViewControlling, prepareForSegue segue: UIStoryboardSegue, sender: Any?)
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanAction)
     func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem)
     func viewController(_ viewController: PlanViewControlling, performAction action: PlanItemAction,
@@ -66,7 +66,7 @@ final class PlanViewController: UIViewController, PlanViewControlling {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        delegate?.viewController(self, prepareForSegue: segue)
+        delegate?.viewController(self, prepareForSegue: segue, sender: sender)
     }
 
     func setDelegate(_ delegate: PlanViewControllerDelegate) {

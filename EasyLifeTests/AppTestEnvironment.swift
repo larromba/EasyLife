@@ -113,7 +113,8 @@ final class AppTestEnvironment: TestEnvironment {
             planCoordinator: planCoordinator,
             focusCoordinator: focusCoordinator,
             archiveCoordinator: archiveCoordinator,
-            projectsCoordinator: projectsCoordinator
+            projectsCoordinator: projectsCoordinator,
+            alarmNotificationHandler: alarmNotificationHandler
         )
         planController.setRouter(appRouter)
         fatalErrorHandler = FatalErrorHandler(window: window)

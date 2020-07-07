@@ -7,6 +7,8 @@ import UIKit
 protocol FocusControlling: AnyObject, Mockable {
     func setViewController(_ viewController: FocusViewControlling)
     func setDelegate(_ delegate: FocusControllerDelegate)
+    func setTriggerDate(_ date: Date)
+    func start()
 }
 
 protocol FocusControllerDelegate: AnyObject {
@@ -20,11 +22,12 @@ final class FocusController: FocusControlling {
     private let appClosedTimer: AppClosedTiming
     private let alarmNotificationHandler: AlarmNotificationHandling
     private var timer: Timer?
+    private var triggerDate: Date?
     private weak var viewController: FocusViewControlling?
     private weak var delegate: FocusControllerDelegate?
 
     init(repository: FocusRepositoring, alarm: Alarming, appClosedTimer: AppClosedTiming = AppClosedTimer(),
-         alarmNotificationHandler: AlarmNotificationHandling = AlarmNotificationHandler()) {
+         alarmNotificationHandler: AlarmNotificationHandling) {
         self.repository = repository
         self.alarm = alarm
         self.appClosedTimer = appClosedTimer
@@ -35,11 +38,18 @@ final class FocusController: FocusControlling {
     func setViewController(_ viewController: FocusViewControlling) {
         self.viewController = viewController
         viewController.setDelegate(self)
-        reload()
     }
 
     func setDelegate(_ delegate: FocusControllerDelegate) {
         self.delegate = delegate
+    }
+
+    func setTriggerDate(_ date: Date) {
+        triggerDate = date
+    }
+
+    func start() {
+        reload()
     }
 
     // MARK: - private
@@ -69,12 +79,22 @@ final class FocusController: FocusControlling {
                 return
             }
             onMain {
-                self.viewController?.viewState = FocusViewState(
-                    items: items,
-                    backgroundColor: .black,
-                    timerButtonViewState: TimerButtonViewState(action: .start),
-                    focusTime: .none
-                )
+                if let triggerDate = self.triggerDate {
+                    self.viewController?.viewState = FocusViewState(
+                        items: items,
+                        backgroundColor: .black,
+                        timerButtonViewState: TimerButtonViewState(action: .start),
+                        focusTime: .custom(triggerDate.timeIntervalSinceNow)
+                    )
+                    self.startLocalTimer()
+                } else {
+                    self.viewController?.viewState = FocusViewState(
+                        items: items,
+                        backgroundColor: .black,
+                        timerButtonViewState: TimerButtonViewState(action: .start),
+                        focusTime: .none
+                    )
+                }
                 self.viewController?.flashTableView()
                 self.viewController?.reloadTableViewData()
             }
@@ -139,7 +159,7 @@ final class FocusController: FocusControlling {
         viewController?.closeDatePicker()
     }
 
-    private func startTimer() {
+    private func startLocalTimer() {
         viewController?.viewState = viewController?.viewState?.copy(
             backgroundColor: .darkGray,
             timerButtonViewState: TimerButtonViewState(action: .stop)
@@ -147,6 +167,10 @@ final class FocusController: FocusControlling {
         viewController?.closeDatePicker()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timerTick), userInfo: nil,
                                      repeats: true)
+    }
+
+    private func startTimer() {
+        startLocalTimer()
         alarmNotificationHandler.start(in: viewController?.viewState?.focusTime.timeValue() ?? 0)
     }
 
@@ -172,6 +196,7 @@ final class FocusController: FocusControlling {
     }
 
     private func stopAllProcesses() {
+        triggerDate = nil
         timer?.invalidate()
         alarm.stop()
         alarmNotificationHandler.stop()

@@ -6,6 +6,7 @@ import UIKit
 protocol ArchiveControlling: Mockable {
     func setDelegate(_ delegate: ArchiveControllerDelegate)
     func setViewController(_ viewController: ArchiveViewControlling)
+    func start()
 }
 
 protocol ArchiveControllerDelegate: AnyObject {
@@ -32,6 +33,9 @@ final class ArchiveController: ArchiveControlling {
         self.viewController = viewController
         viewController.setDelegate(self)
         viewController.viewState = ArchiveViewState(sections: [:], text: nil, isSearching: false)
+    }
+
+    func start() {
         reload()
     }
 

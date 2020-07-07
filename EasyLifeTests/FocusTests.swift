@@ -41,6 +41,7 @@ final class FocusTests: XCTestCase {
         env.inject()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
 
         // test
         waitSync()
@@ -57,6 +58,7 @@ final class FocusTests: XCTestCase {
         let firstItem = env.todoItem(type: .today, name: "a")
         _ = env.todoItem(type: .today, name: "b")
         env.focusController.setViewController(viewController)
+        env.focusController.start()
 
         // sut
         waitSync()
@@ -75,6 +77,7 @@ final class FocusTests: XCTestCase {
         let item = env.todoItem(type: .today, name: "a")
         let presenter = addToPresenter()
         env.focusController.setViewController(viewController)
+        env.focusController.start()
 
         // sut
         waitSync()
@@ -96,6 +99,7 @@ final class FocusTests: XCTestCase {
         setupMissingItems()
         env.focusCoordinator.setAlertController(alertController)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
 
         // test
         waitSync()
@@ -109,6 +113,7 @@ final class FocusTests: XCTestCase {
         let presenter = addToPresenter()
         env.focusCoordinator.setAlertController(alertController)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
 
         // sut
         waitSync()
@@ -130,6 +135,7 @@ final class FocusTests: XCTestCase {
         _ = addToPresenter()
         env.focusCoordinator.setAlertController(alertController)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
 
         // sut
         waitSync()
@@ -161,6 +167,7 @@ final class FocusTests: XCTestCase {
         setupBlockedItems()
         env.focusCoordinator.setAlertController(alertController)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
 
         // test
         waitSync()
@@ -175,6 +182,7 @@ final class FocusTests: XCTestCase {
         let presenter = addToPresenter()
         env.focusCoordinator.setAlertController(alertController)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
 
         // sut
         waitSync()
@@ -196,6 +204,7 @@ final class FocusTests: XCTestCase {
         env.inject()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
 
         // test
         waitSync()
@@ -212,6 +221,7 @@ final class FocusTests: XCTestCase {
         env.addToWindow()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
 
         // sut
         waitSync()
@@ -228,6 +238,7 @@ final class FocusTests: XCTestCase {
         env.addToWindow()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
         waitSync()
         XCTAssertTrue(viewController.timerButton.fire())
         XCTAssertTrue(viewController.toolbar.items?[safe: 2]?.fire() ?? false)
@@ -250,6 +261,7 @@ final class FocusTests: XCTestCase {
         env.addToWindow()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
         waitSync()
         XCTAssertTrue(viewController.timerButton.fire())
         XCTAssertTrue(viewController.toolbar.items?[safe: 2]?.fire() ?? false)
@@ -270,6 +282,7 @@ final class FocusTests: XCTestCase {
         env.addToWindow()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
         waitSync()
         XCTAssertTrue(viewController.timerButton.fire())
 
@@ -286,6 +299,7 @@ final class FocusTests: XCTestCase {
         env.addToWindow()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
         waitSync()
         XCTAssertTrue(viewController.timerButton.fire())
 
@@ -304,6 +318,7 @@ final class FocusTests: XCTestCase {
         env.addToWindow()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
         waitSync()
         XCTAssertTrue(viewController.timerButton.fire())
 
@@ -325,6 +340,7 @@ final class FocusTests: XCTestCase {
         env.addToWindow()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
         waitSync()
         XCTAssertTrue(viewController.timerButton.fire())
 
@@ -346,6 +362,7 @@ final class FocusTests: XCTestCase {
         env.addToWindow()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
         waitSync()
         XCTAssertTrue(viewController.timerButton.fire())
         XCTAssertTrue(viewController.toolbar.items?[safe: 2]?.fire() ?? false)
@@ -373,6 +390,7 @@ final class FocusTests: XCTestCase {
         env.addToWindow()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
         waitSync()
         var viewState = viewController.viewState
         viewState?.focusTime = .custom(2.0)
@@ -395,6 +413,7 @@ final class FocusTests: XCTestCase {
         env.addToWindow()
         _ = env.todoItem(type: .today)
         env.focusController.setViewController(viewController)
+        env.focusController.start()
         waitSync()
         var viewState = viewController.viewState
         viewState?.focusTime = .custom(0.5)

@@ -6,6 +6,7 @@ protocol ArchiveCoordinating: Mockable {
     func setViewController(_ viewController: ArchiveViewControlling)
     func setAlertController(_ alertController: AlertControlling)
     func resetNavigation()
+    func start()
 }
 
 final class ArchiveCoordinator: NSObject, ArchiveCoordinating {
@@ -30,6 +31,10 @@ final class ArchiveCoordinator: NSObject, ArchiveCoordinating {
 
     func setAlertController(_ alertController: AlertControlling) {
         self.alertController = alertController
+    }
+
+    func start() {
+        archiveController.start()
     }
 
     func resetNavigation() {

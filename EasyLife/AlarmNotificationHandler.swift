@@ -7,6 +7,8 @@ import UserNotifications
 protocol AlarmNotificationHandling: AnyObject, Mockable {
     func start(in timeInterval: TimeInterval)
     func stop()
+    // sourcery: returnValue = Async<Date?, Error>.success(nil)
+    func currentNotificationDate() -> Async<Date?, Error>
 }
 
 final class AlarmNotificationHandler: AlarmNotificationHandling {
@@ -39,6 +41,20 @@ final class AlarmNotificationHandler: AlarmNotificationHandling {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
     }
 
+    func currentNotificationDate() -> Async<Date?, Error> {
+        return Async { completion in
+            self.notificationCenter.getPendingNotificationRequests { [weak self] requests in
+                guard let request = requests.first(where: { $0.identifier == self?.identifier }),
+                    let trigger = request.trigger as? UNCalendarNotificationTrigger,
+                    let date = Calendar.current.date(from: trigger.dateComponents) else {
+                        completion(.success(nil))
+                        return
+                }
+                completion(.success(date))
+            }
+        }
+    }
+
     // MARK: - private
 
     private func makeRequest(for date: Date) -> UNNotificationRequest {
@@ -46,7 +62,8 @@ final class AlarmNotificationHandler: AlarmNotificationHandling {
         content.title = L10n.alarmNotificationTitle
         content.body = L10n.alarmNotificationBody
         content.categoryIdentifier = self.categoryIdentifier
-        let components = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: date)
+        let dateComponents: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute, .second, .timeZone]
+        let components = Calendar.current.dateComponents(dateComponents, from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
         return UNNotificationRequest(identifier: self.identifier, content: content, trigger: trigger)
     }

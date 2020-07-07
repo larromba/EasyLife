@@ -7,12 +7,14 @@ protocol PlanControlling: Mockable {
     func setDelegate(_ delegate: PlanControllerDelegate)
     func setRouter(_ router: StoryboardRouting)
     func openNewTodoItem()
+    func openFocusWithDate(_ date: Date)
 }
 
 protocol PlanControllerDelegate: AnyObject {
     func controller(_ controller: PlanControlling, handleContext context: TodoItemContext, sender: Segueable)
     func controller(_ controller: PlanControlling, showAlert alert: Alert)
     func controllerRequestsHoliday(_ controller: PlanControlling)
+    func controllerRequestsFocus(_ controller: PlanControlling, withDate date: Date, sender: Segueable)
 }
 
 final class PlanController: PlanControlling {
@@ -54,6 +56,11 @@ final class PlanController: PlanControlling {
     func openNewTodoItem() {
         guard let viewController = viewController else { return }
         self.viewController(viewController, performAction: .add)
+    }
+
+    func openFocusWithDate(_ date: Date) {
+        guard let viewController = viewController else { return }
+        delegate?.controllerRequestsFocus(self, withDate: date, sender: viewController)
     }
 
     // MARK: - private
@@ -132,8 +139,8 @@ extension PlanController: PlanViewControllerDelegate {
         }
     }
 
-    func viewController(_ viewController: PlanViewControlling, prepareForSegue segue: UIStoryboardSegue) {
-        router?.handleSegue(segue)
+    func viewController(_ viewController: PlanViewControlling, prepareForSegue segue: UIStoryboardSegue, sender: Any?) {
+        router?.handleSegue(segue, sender: sender)
     }
 
     func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem) {

@@ -6,6 +6,7 @@ protocol ItemDetailControlling: TodoItemContexting, Mockable {
     func setViewController(_ viewController: ItemDetailViewControlling)
     func setDelegate(_ delegate: ItemDetailControllerDelegate)
     func invalidate()
+    func start()
 }
 
 protocol ItemDetailControllerDelegate: AnyObject {
@@ -43,6 +44,9 @@ final class ItemDetailController: ItemDetailControlling {
             viewController?.viewState = ItemDetailViewState(item: item, isNew: false, items: [], projects: [])
             repository.setContext(dataContext)
         }
+    }
+
+    func start() {
         reload()
     }
 

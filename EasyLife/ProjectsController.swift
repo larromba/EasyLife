@@ -6,6 +6,7 @@ import UIKit
 protocol ProjectsControlling: AnyObject, Mockable {
     func setViewController(_ viewController: ProjectsViewControlling)
     func setDelegate(_ delegate: ProjectsControllerDelegate)
+    func start()
 }
 
 protocol ProjectsControllerDelegate: AnyObject {
@@ -28,11 +29,14 @@ final class ProjectsController: ProjectsControlling {
         self.viewController = viewController
         viewController.setDelegate(self)
         viewController.viewState = ProjectsViewState(sections: [:], isEditing: false)
-        reload()
     }
 
     func setDelegate(_ delegate: ProjectsControllerDelegate) {
         self.delegate = delegate
+    }
+
+    func start() {
+        reload()
     }
 
     // MARK: - private

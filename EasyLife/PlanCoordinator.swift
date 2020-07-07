@@ -6,6 +6,7 @@ protocol PlanCoordinating: Mockable {
     func start()
     func resetNavigation()
     func openNewTodoItem()
+    func openFocusWithDate(_ date: Date)
 }
 
 final class PlanCoordinator: NSObject, PlanCoordinating {
@@ -45,6 +46,10 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
         planController.openNewTodoItem()
     }
 
+    func openFocusWithDate(_ date: Date) {
+        planController.openFocusWithDate(date)
+    }
+
     func resetNavigation() {
         itemDetailController.invalidate()
         blockedByController.invalidate()
@@ -70,7 +75,7 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
 extension PlanCoordinator: PlanControllerDelegate {
     func controller(_ controller: PlanControlling, handleContext context: TodoItemContext, sender: Segueable) {
         self.context = context
-        sender.performSegue(withIdentifier: "openItemDetailViewController", sender: self)
+        sender.performSegue(withIdentifier: "openItemDetailViewController", sender: nil)
     }
 
     func controller(_ controller: PlanControlling, showAlert alert: Alert) {
@@ -79,6 +84,10 @@ extension PlanCoordinator: PlanControllerDelegate {
 
     func controllerRequestsHoliday(_ controller: PlanControlling) {
         holidayController.start()
+    }
+
+    func controllerRequestsFocus(_ controller: PlanControlling, withDate date: Date, sender: Segueable) {
+        sender.performSegue(withIdentifier: "openFocusViewController", sender: date)
     }
 }
 
@@ -139,6 +148,7 @@ extension PlanCoordinator: UINavigationControllerDelegate {
             if let context = context {
                 itemDetailController.setContext(context)
             }
+            itemDetailController.start()
         // if going forwards to BlockedByViewControlling
         } else if let viewController = viewController as? BlockedByViewControlling {
             blockedByAlertController = AlertController(presenter: viewController)
@@ -146,6 +156,7 @@ extension PlanCoordinator: UINavigationControllerDelegate {
             if let context = context {
                 blockedByController.setContext(context)
             }
+            blockedByController.start()
         } else {
             assertionFailureIgnoreTests("unhandled vc: \(viewController.classForCoder)")
         }

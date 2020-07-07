@@ -45,7 +45,12 @@ enum AppControllerFactory {
                     dataContextProvider: dataContextProvider,
                     planRepository: planRepository
                 )
-                let focusController = FocusController(repository: focusRepository, alarm: Alarm())
+                let alarmNotificationHandler = AlarmNotificationHandler()
+                let focusController = FocusController(
+                    repository: focusRepository,
+                    alarm: Alarm(),
+                    alarmNotificationHandler: alarmNotificationHandler
+                )
                 let archiveRepository = ArchiveRepository(dataContextProvider: dataContextProvider)
                 let archiveController = ArchiveController(repository: archiveRepository)
                 let projectsRepository = ProjectsRepository(dataContextProvider: dataContextProvider)
@@ -54,7 +59,8 @@ enum AppControllerFactory {
                     planCoordinator: planCoordinator,
                     focusCoordinator: FocusCoordinator(focusController: focusController),
                     archiveCoordinator: ArchiveCoordinator(archiveController: archiveController),
-                    projectsCoordinator: ProjectsCoordinator(projectsController: projectsController)
+                    projectsCoordinator: ProjectsCoordinator(projectsController: projectsController),
+                    alarmNotificationHandler: alarmNotificationHandler
                 )
                 planController.setRouter(appRouter)
                 let appController = AppController(
