@@ -10,12 +10,12 @@ enum AppControllerFactory {
             async({
                 let persistentContainer = NSPersistentContainer(name: "EasyLife")
                 let dataContextProvider = DataContextProvider(persistentContainer: persistentContainer)
+                try await(dataContextProvider.load())
                 #if DEBUG
                 if __isSnapshot {
                     try setSnapshotData(dataContextProvider: dataContextProvider)
                 }
                 #endif
-                try await(dataContextProvider.load())
 
                 let badge = AppBadge()
                 let planRepository = PlanRepository(dataContextProvider: dataContextProvider)

@@ -20,9 +20,6 @@ final class Snapshots: XCTestCase {
         app.launch()
         snapshot("Plan")
 
-        // Focus
-
-
         // ItemDetail
         app.navigationBars["Todo"].buttons["Add"].tap()
         let elementsQuery = app.scrollViews.otherElements
@@ -47,5 +44,11 @@ final class Snapshots: XCTestCase {
         app.navigationBars["Archive"].buttons["Done"].tap()
         app.navigationBars["Todo"].buttons["Compose"].tap()
         snapshot("Projects")
+
+        // Focus
+        app.navigationBars["Projects"].buttons["Done"].tap()
+        app.navigationBars["Todo"].buttons["Play"].tap()
+        app.buttons["Focus"].tap()
+        snapshot("Focus")
     }
 }

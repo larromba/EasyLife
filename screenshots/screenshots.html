@@ -8,8 +8,26 @@
         font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
         font-weight: 300;
       }
-      .language {
-
+      #sortMenu {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        display: none;
+      }
+      #sortMenu button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        font-size: 17px;
+      }
+      #sortMenu button:hover {
+        background-color: #ddd;
+      }
+      #sortMenu button.active {
+        background-color: #ccc;
       }
       .deviceName {
         display: block;
@@ -21,6 +39,14 @@
         cursor: pointer;
         border: 1px #EEE solid;
         z-index: 0;
+      }
+      .caption {
+        font-size: 24px;
+        padding-bottom: 24px;
+        padding-top: 30px;
+      }
+      h1, h2 {
+        font-weight: bold;
       }
       th {
         text-align: left;
@@ -65,138 +91,502 @@
     </style>
   </head>
   <body>
-    <h1 id="en-UK" class="language">en-UK</h1>
-    <hr>
-    <table>
-      <tr>
-        <th colspan="5">
-          <a id="en-UK-iPad Pro (12.9-inch) (2nd generation)" class="deviceName" href="#en-UK-iPad Pro (12.9-inch) (2nd generation)">iPad Pro (12.9-inch) (2nd generation)</a>
-        </th>
-      </tr>
-      <tr>
-        <td>
-          <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Archive.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Archive.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-counter="1">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-BlockedBy.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-BlockedBy.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-counter="2">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-ItemDetail.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-ItemDetail.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-counter="3">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Plan.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Plan.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-counter="4">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Projects.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Projects.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-counter="5">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <th colspan="5">
-          <a id="en-UK-iPad Pro (12.9-inch)" class="deviceName" href="#en-UK-iPad Pro (12.9-inch)">iPad Pro (12.9-inch)</a>
-        </th>
-      </tr>
-      <tr>
-        <td>
-          <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Archive.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Archive.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch)" data-counter="6">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-BlockedBy.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-BlockedBy.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch)" data-counter="7">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-ItemDetail.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-ItemDetail.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch)" data-counter="8">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Plan.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Plan.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch)" data-counter="9">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Projects.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Projects.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch)" data-counter="10">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <th colspan="5">
-          <a id="en-UK-iPhone 7 Plus (5.5-Inch)" class="deviceName" href="#en-UK-iPhone 7 Plus (5.5-Inch)">iPhone 7 Plus (5.5-Inch)</a>
-        </th>
-      </tr>
-      <tr>
-        <td>
-          <a href="./en-UK/iPhone 7 Plus-Archive.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPhone 7 Plus-Archive.png" style="width: 100%;" alt="en-UK iPhone 7 Plus (5.5-Inch)" data-counter="11">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPhone 7 Plus-BlockedBy.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPhone 7 Plus-BlockedBy.png" style="width: 100%;" alt="en-UK iPhone 7 Plus (5.5-Inch)" data-counter="12">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPhone 7 Plus-ItemDetail.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPhone 7 Plus-ItemDetail.png" style="width: 100%;" alt="en-UK iPhone 7 Plus (5.5-Inch)" data-counter="13">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPhone 7 Plus-Plan.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPhone 7 Plus-Plan.png" style="width: 100%;" alt="en-UK iPhone 7 Plus (5.5-Inch)" data-counter="14">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPhone 7 Plus-Projects.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPhone 7 Plus-Projects.png" style="width: 100%;" alt="en-UK iPhone 7 Plus (5.5-Inch)" data-counter="15">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <th colspan="5">
-          <a id="en-UK-iPhone XS Max" class="deviceName" href="#en-UK-iPhone XS Max">iPhone XS Max</a>
-        </th>
-      </tr>
-      <tr>
-        <td>
-          <a href="./en-UK/iPhone XS Max-Archive.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPhone XS Max-Archive.png" style="width: 100%;" alt="en-UK iPhone XS Max" data-counter="16">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPhone XS Max-BlockedBy.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPhone XS Max-BlockedBy.png" style="width: 100%;" alt="en-UK iPhone XS Max" data-counter="17">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPhone XS Max-ItemDetail.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPhone XS Max-ItemDetail.png" style="width: 100%;" alt="en-UK iPhone XS Max" data-counter="18">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPhone XS Max-Plan.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPhone XS Max-Plan.png" style="width: 100%;" alt="en-UK iPhone XS Max" data-counter="19">
-          </a>
-        </td>
-        <td>
-          <a href="./en-UK/iPhone XS Max-Projects.png" target="_blank" class="screenshotLink">
-            <img class="screenshot" src="./en-UK/iPhone XS Max-Projects.png" style="width: 100%;" alt="en-UK iPhone XS Max" data-counter="20">
-          </a>
-        </td>
-      </tr>
-    </table>
+    <div id="sortMenu">
+      <button id="defaultTab" class="tabLink" onclick="openTab(event, 'byLanguage')">By Language</button>
+      <button class="tabLink" onclick="openTab(event, 'byScreen')">By Screen</button>
+    </div>
+    <div id="byLanguage" class="tabContent"><h1 class="tabTitle">By Language:</h1>
+      <h2 id="en-UK">en-UK</h2>
+      <hr>
+      <table>
+        <tr>
+          <th colspan="6">
+            <a id="en-UK-iPad Pro (12.9-inch) (2nd generation)" class="deviceName" href="#en-UK-iPad Pro (12.9-inch) (2nd generation)">iPad Pro (12.9-inch) (2nd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Archive.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Archive.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="1" data-counter="1">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-BlockedBy.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-BlockedBy.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="1" data-counter="2">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Focus.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Focus.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="1" data-counter="3">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-ItemDetail.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-ItemDetail.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="1" data-counter="4">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Plan.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Plan.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="1" data-counter="5">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Projects.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Projects.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="1" data-counter="6">
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="6">
+            <a id="en-UK-iPad Pro (12.9-inch) (3rd generation)" class="deviceName" href="#en-UK-iPad Pro (12.9-inch) (3rd generation)">iPad Pro (12.9-inch) (3rd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Archive.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Archive.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="1" data-counter="7">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-BlockedBy.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-BlockedBy.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="1" data-counter="8">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Focus.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Focus.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="1" data-counter="9">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-ItemDetail.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-ItemDetail.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="1" data-counter="10">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Plan.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Plan.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="1" data-counter="11">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Projects.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Projects.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="1" data-counter="12">
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="6">
+            <a id="en-UK-iPhone 11 Pro Max" class="deviceName" href="#en-UK-iPhone 11 Pro Max">iPhone 11 Pro Max</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-Archive.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-Archive.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="1" data-counter="13">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-BlockedBy.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-BlockedBy.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="1" data-counter="14">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-Focus.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-Focus.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="1" data-counter="15">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-ItemDetail.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-ItemDetail.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="1" data-counter="16">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-Plan.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-Plan.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="1" data-counter="17">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-Projects.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-Projects.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="1" data-counter="18">
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="6">
+            <a id="en-UK-iPhone 8 Plus" class="deviceName" href="#en-UK-iPhone 8 Plus">iPhone 8 Plus</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-Archive.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-Archive.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="1" data-counter="19">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-BlockedBy.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-BlockedBy.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="1" data-counter="20">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-Focus.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-Focus.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="1" data-counter="21">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-ItemDetail.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-ItemDetail.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="1" data-counter="22">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-Plan.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-Plan.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="1" data-counter="23">
+            </a>
+          </td>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-Projects.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-Projects.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="1" data-counter="24">
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id="byScreen" class="tabContent"><h1 class="tabTitle">By Screen:</h1>
+      <h2 id="Archive" class="screen">Archive</h2>
+      <hr>
+      <table>
+        <tr>
+          <th colspan="1">
+            <a id="Archive-iPad Pro (12.9-inch) (2nd generation)" class="deviceName" href="#Archive-iPad Pro (12.9-inch) (2nd generation)">iPad Pro (12.9-inch) (2nd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Archive.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Archive.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="2" data-counter="1">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Archive-iPad Pro (12.9-inch) (3rd generation)" class="deviceName" href="#Archive-iPad Pro (12.9-inch) (3rd generation)">iPad Pro (12.9-inch) (3rd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Archive.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Archive.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="2" data-counter="2">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Archive-iPhone 11 Pro Max" class="deviceName" href="#Archive-iPhone 11 Pro Max">iPhone 11 Pro Max</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-Archive.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-Archive.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="2" data-counter="3">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Archive-iPhone 8 Plus" class="deviceName" href="#Archive-iPhone 8 Plus">iPhone 8 Plus</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-Archive.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-Archive.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="2" data-counter="4">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+      </table>
+      <h2 id="BlockedBy" class="screen">BlockedBy</h2>
+      <hr>
+      <table>
+        <tr>
+          <th colspan="1">
+            <a id="BlockedBy-iPad Pro (12.9-inch) (2nd generation)" class="deviceName" href="#BlockedBy-iPad Pro (12.9-inch) (2nd generation)">iPad Pro (12.9-inch) (2nd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-BlockedBy.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-BlockedBy.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="2" data-counter="5">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="BlockedBy-iPad Pro (12.9-inch) (3rd generation)" class="deviceName" href="#BlockedBy-iPad Pro (12.9-inch) (3rd generation)">iPad Pro (12.9-inch) (3rd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-BlockedBy.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-BlockedBy.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="2" data-counter="6">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="BlockedBy-iPhone 11 Pro Max" class="deviceName" href="#BlockedBy-iPhone 11 Pro Max">iPhone 11 Pro Max</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-BlockedBy.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-BlockedBy.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="2" data-counter="7">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="BlockedBy-iPhone 8 Plus" class="deviceName" href="#BlockedBy-iPhone 8 Plus">iPhone 8 Plus</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-BlockedBy.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-BlockedBy.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="2" data-counter="8">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+      </table>
+      <h2 id="Focus" class="screen">Focus</h2>
+      <hr>
+      <table>
+        <tr>
+          <th colspan="1">
+            <a id="Focus-iPad Pro (12.9-inch) (2nd generation)" class="deviceName" href="#Focus-iPad Pro (12.9-inch) (2nd generation)">iPad Pro (12.9-inch) (2nd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Focus.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Focus.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="2" data-counter="9">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Focus-iPad Pro (12.9-inch) (3rd generation)" class="deviceName" href="#Focus-iPad Pro (12.9-inch) (3rd generation)">iPad Pro (12.9-inch) (3rd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Focus.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Focus.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="2" data-counter="10">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Focus-iPhone 11 Pro Max" class="deviceName" href="#Focus-iPhone 11 Pro Max">iPhone 11 Pro Max</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-Focus.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-Focus.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="2" data-counter="11">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Focus-iPhone 8 Plus" class="deviceName" href="#Focus-iPhone 8 Plus">iPhone 8 Plus</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-Focus.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-Focus.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="2" data-counter="12">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+      </table>
+      <h2 id="ItemDetail" class="screen">ItemDetail</h2>
+      <hr>
+      <table>
+        <tr>
+          <th colspan="1">
+            <a id="ItemDetail-iPad Pro (12.9-inch) (2nd generation)" class="deviceName" href="#ItemDetail-iPad Pro (12.9-inch) (2nd generation)">iPad Pro (12.9-inch) (2nd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-ItemDetail.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-ItemDetail.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="2" data-counter="13">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="ItemDetail-iPad Pro (12.9-inch) (3rd generation)" class="deviceName" href="#ItemDetail-iPad Pro (12.9-inch) (3rd generation)">iPad Pro (12.9-inch) (3rd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-ItemDetail.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-ItemDetail.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="2" data-counter="14">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="ItemDetail-iPhone 11 Pro Max" class="deviceName" href="#ItemDetail-iPhone 11 Pro Max">iPhone 11 Pro Max</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-ItemDetail.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-ItemDetail.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="2" data-counter="15">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="ItemDetail-iPhone 8 Plus" class="deviceName" href="#ItemDetail-iPhone 8 Plus">iPhone 8 Plus</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-ItemDetail.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-ItemDetail.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="2" data-counter="16">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+      </table>
+      <h2 id="Plan" class="screen">Plan</h2>
+      <hr>
+      <table>
+        <tr>
+          <th colspan="1">
+            <a id="Plan-iPad Pro (12.9-inch) (2nd generation)" class="deviceName" href="#Plan-iPad Pro (12.9-inch) (2nd generation)">iPad Pro (12.9-inch) (2nd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Plan.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Plan.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="2" data-counter="17">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Plan-iPad Pro (12.9-inch) (3rd generation)" class="deviceName" href="#Plan-iPad Pro (12.9-inch) (3rd generation)">iPad Pro (12.9-inch) (3rd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Plan.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Plan.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="2" data-counter="18">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Plan-iPhone 11 Pro Max" class="deviceName" href="#Plan-iPhone 11 Pro Max">iPhone 11 Pro Max</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-Plan.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-Plan.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="2" data-counter="19">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Plan-iPhone 8 Plus" class="deviceName" href="#Plan-iPhone 8 Plus">iPhone 8 Plus</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-Plan.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-Plan.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="2" data-counter="20">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+      </table>
+      <h2 id="Projects" class="screen">Projects</h2>
+      <hr>
+      <table>
+        <tr>
+          <th colspan="1">
+            <a id="Projects-iPad Pro (12.9-inch) (2nd generation)" class="deviceName" href="#Projects-iPad Pro (12.9-inch) (2nd generation)">iPad Pro (12.9-inch) (2nd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Projects.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (2nd generation)-Projects.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (2nd generation)" data-tab="2" data-counter="21">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Projects-iPad Pro (12.9-inch) (3rd generation)" class="deviceName" href="#Projects-iPad Pro (12.9-inch) (3rd generation)">iPad Pro (12.9-inch) (3rd generation)</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Projects.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPad Pro (12.9-inch) (3rd generation)-Projects.png" style="width: 100%;" alt="en-UK iPad Pro (12.9-inch) (3rd generation)" data-tab="2" data-counter="22">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Projects-iPhone 11 Pro Max" class="deviceName" href="#Projects-iPhone 11 Pro Max">iPhone 11 Pro Max</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 11 Pro Max-Projects.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 11 Pro Max-Projects.png" style="width: 100%;" alt="en-UK iPhone 11 Pro Max" data-tab="2" data-counter="23">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="1">
+            <a id="Projects-iPhone 8 Plus" class="deviceName" href="#Projects-iPhone 8 Plus">iPhone 8 Plus</a>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a href="./en-UK/iPhone 8 Plus-Projects.png" target="_blank" class="screenshotLink">
+              <img class="screenshot" src="./en-UK/iPhone 8 Plus-Projects.png" style="width: 100%;" alt="en-UK iPhone 8 Plus" data-tab="2" data-counter="24">
+            </a>
+            <div class="caption">en-UK</div>
+          </td>
+        </tr>
+      </table>
+    </div>
     <div id="overlay">
       <img id="imageDisplay" src="" alt="" />
       <div id="imageInfo"></div>
@@ -206,6 +596,48 @@
       var imageDisplay   = document.getElementById('imageDisplay');
       var imageInfo      = document.getElementById('imageInfo');
       var screenshotLink = document.getElementsByClassName('screenshotLink');
+
+      window.onload = setup();
+
+      function setup() {
+        var i, menu, tabTitles;
+
+        // Since JS is enabled, show sort menu and hide tab titles
+        menu = document.getElementById("sortMenu");
+        menu.style.display = "block";
+
+        tabTitles = document.getElementsByClassName("tabTitle");
+        for (i = 0; i < tabTitles.length; i++) {
+          tabTitles[i].style.display = "none";
+        }
+
+        doClick(document.getElementById("defaultTab"));
+      }
+
+      function getCurrentTab() {
+        var i, tabs;
+        tabs = document.getElementsByClassName("tabContent");
+        for (i = 0; i < tabs.length; i++) {
+          if (tabs[i].style.display != "none") {
+            return i + 1;
+          }
+        }
+        return 1; // fallback
+      }
+
+      function openTab(evt, tabName) {
+        var i, tabContent, tabLinks;
+        tabs = document.getElementsByClassName("tabContent");
+        for (i = 0; i < tabs.length; i++) {
+          tabs[i].style.display = "none";
+        }
+        tabLinks = document.getElementsByClassName("tabLink");
+        for (i = 0; i < tabLinks.length; i++) {
+          tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
 
       function doClick(el) {
         if (document.createEvent) {
@@ -232,6 +664,7 @@
           tmpImg.src = img.src;
           imageDisplay.style.height     = 'auto';
           imageDisplay.style.width     = 'auto';
+          imageDisplay.style.paddingTop = 0;
           if (window.innerHeight < tmpImg.height) {
             imageDisplay.style.height = document.documentElement.clientHeight+'px';
           } else if (window.innerWidth < tmpImg.width) {
@@ -257,12 +690,13 @@
 
         overlay.style.display = "none";
 
+        img_tab = parseInt(getCurrentTab());
         img_counter = parseInt(e.target.dataset.counter) + 1;
         try {
-          link = document.body.querySelector('img[data-counter="'+img_counter+'"]').parentNode;
+          link = document.body.querySelector('img[data-tab="'+img_tab+'"][data-counter="'+img_counter+'"]').parentNode;
         } catch (e) {
           try {
-            link = document.body.querySelector('img[data-counter="0"]').parentNode;
+            link = document.body.querySelector('img[data-tab="'+img_tab+'"][data-counter="0"]').parentNode;
           } catch (e) {
             return false;
           }
