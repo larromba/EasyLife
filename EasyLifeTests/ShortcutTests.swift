@@ -3,7 +3,7 @@ import Foundation
 import TestExtensions
 import XCTest
 
-final class RoutingTests: XCTestCase {
+final class ShortcutTests: XCTestCase {
     private var navigationController: UINavigationController!
     private var viewController: PlanViewController!
     private var env: AppTestEnvironment!
@@ -22,6 +22,17 @@ final class RoutingTests: XCTestCase {
         env = nil
         UIView.setAnimationsEnabled(true)
         super.tearDown()
+    }
+
+    func test_shortcuts_whenAppStarted_expectShortcutsSet() {
+        // mock
+        env.inject()
+
+        // sut
+        env.start()
+
+        // test
+        XCTAssertEqual(UIApplication.shared.shortcutItems, ShortcutItem.display.map { $0.item })
     }
 
     // MARK: - homescreen shortcut: new todo item

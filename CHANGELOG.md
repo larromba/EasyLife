@@ -71,11 +71,10 @@ Apple ID: 1229095589
 
 # Future Work
 
-3.0.0:
-fix travis tests
+3.1.0:
 move coredata to new repo
 
-3.1.0:
+3.2.0:
 BUG: missed doesnt change. Split then done doesnt work.
 BUG: typing in notes is wierd
 BUG: later done if recurring doesnt work
@@ -87,6 +86,7 @@ Future Minor:
 use plan cell everywhere?
     - if so, plancell ui tests rather than ui tests in each test class?
 refactor out uitableviewaction from tests?
+find better way of testing tableview cell order
 
 Future Major:
 short instructional video?

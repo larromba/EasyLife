@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7F0821C024AF4E320099E589 /* ShortcutItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0821BF24AF4E320099E589 /* ShortcutItem.swift */; };
-		7F0821C224AF59320099E589 /* RoutingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0821C124AF59320099E589 /* RoutingTests.swift */; };
+		7F0821C224AF59320099E589 /* ShortcutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0821C124AF59320099E589 /* ShortcutTests.swift */; };
 		7F0821C624AF82C90099E589 /* PlanItemLongPressAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0821C524AF82C90099E589 /* PlanItemLongPressAction.swift */; };
 		7F0D9248204619DF00D9AE6B /* BlockedIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F0D9247204619DF00D9AE6B /* BlockedIndicatorView.xib */; };
 		7F0D924A20461A1F00D9AE6B /* BlockedIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0D924920461A1F00D9AE6B /* BlockedIndicatorView.swift */; };
@@ -220,7 +220,7 @@
 
 /* Begin PBXFileReference section */
 		7F0821BF24AF4E320099E589 /* ShortcutItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutItem.swift; sourceTree = "<group>"; };
-		7F0821C124AF59320099E589 /* RoutingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingTests.swift; sourceTree = "<group>"; };
+		7F0821C124AF59320099E589 /* ShortcutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutTests.swift; sourceTree = "<group>"; };
 		7F0821C524AF82C90099E589 /* PlanItemLongPressAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanItemLongPressAction.swift; sourceTree = "<group>"; };
 		7F0D9247204619DF00D9AE6B /* BlockedIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockedIndicatorView.xib; sourceTree = "<group>"; };
 		7F0D924920461A1F00D9AE6B /* BlockedIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedIndicatorView.swift; sourceTree = "<group>"; };
@@ -654,13 +654,13 @@
 		7FAC2C731E9E673400F14ECB /* EasyLifeTests */ = {
 			isa = PBXGroup;
 			children = (
-				7F0821C124AF59320099E589 /* RoutingTests.swift */,
 				7FA1696A21DE795E00D8BA3F /* PlanTests.swift */,
 				7F3B8B78246F26AC00B45038 /* FocusTests.swift */,
 				7F61898B21E8DCC40047832C /* ItemDetailTests.swift */,
 				7FFB4A6921F4C13A0011DA66 /* BlockedByTests.swift */,
 				7FFB4A6B21F4DB510011DA66 /* ArchiveTests.swift */,
 				7FFB4A6D21F4EC740011DA66 /* ProjectsTests.swift */,
+				7F0821C124AF59320099E589 /* ShortcutTests.swift */,
 				7FCEC9211EA7C88400BA5187 /* RepeatTests.swift */,
 				7FCEC9231EA7C88B00BA5187 /* DateSegmentTests.swift */,
 				7F1711E81FB1B7C600ED08D8 /* ItemTests.swift */,
@@ -1274,7 +1274,7 @@
 				7FA1696821DE68DB00D8BA3F /* AppTestEnvironment.swift in Sources */,
 				7FCEC9281EA8E3B500BA5187 /* NSPersistentContainerExtensions.swift in Sources */,
 				7F0E1497249A670D000B15CE /* MockError.swift in Sources */,
-				7F0821C224AF59320099E589 /* RoutingTests.swift in Sources */,
+				7F0821C224AF59320099E589 /* ShortcutTests.swift in Sources */,
 				7F48FEE121F7D63200EACC03 /* UITextViewExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
