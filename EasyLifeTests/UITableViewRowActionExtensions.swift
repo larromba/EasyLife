@@ -1,12 +1,12 @@
 import UIKit
 
-extension UITableViewRowAction {
-    typealias Handler = @convention(block) (UITableViewRowAction, IndexPath) -> Void
+private typealias RowActionHandler = @convention(block) (UITableViewRowAction, IndexPath) -> Void
 
+extension UITableViewRowAction {
     @discardableResult
     func fire(_ indexPath: IndexPath = IndexPath()) -> Bool {
         guard let block = value(forKey: "handler") else { return false }
-        let handler = unsafeBitCast(block as AnyObject, to: Handler.self)
+        let handler = unsafeBitCast(block as AnyObject, to: RowActionHandler.self)
         handler(self, indexPath)
         return true
     }

@@ -20,7 +20,6 @@ final class ItemTests: XCTestCase {
     }
 }
 
-//swiftlint:disable lower_acl_than_parent
 private final class MockTodoItem: TodoItem {
     private var _name: String?
     override var name: String? {

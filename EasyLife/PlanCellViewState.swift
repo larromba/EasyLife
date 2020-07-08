@@ -118,7 +118,8 @@ struct PlanCellViewState: PlanCellViewStating {
         }
     }
 
-    // swiftlint:disable empty_count (sets dont have isEmpty)
+    // swiftlint:disable empty_count
+    // (sets dont have isEmpty)
     static func blockedIndicatorViewState(for item: TodoItem) -> BlockedIndicatorViewStating {
         if let blockedBy = item.blockedBy, let blocking = item.blocking, blockedBy.count > 0 && blocking.count > 0 {
             return BlockedIndicatorViewState(state: .both)

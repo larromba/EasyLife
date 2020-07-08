@@ -40,7 +40,6 @@ extension NSPersistentContainer {
 
 // MARK: - private
 
-// swiftlint:disable lower_acl_than_parent
 private final class ErrorPersistentContainer: NSPersistentContainer {
     private let error: Error
 
@@ -67,7 +66,6 @@ private final class ErrorPersistentContainer: NSPersistentContainer {
 
 // MARK: - private
 
-// swiftlint:disable lower_acl_than_parent
 private final class ErrorManagedObjectContext: NSManagedObjectContext {
     private let error: Error
 

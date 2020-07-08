@@ -1,12 +1,12 @@
 import UIKit
 
-extension UIAlertAction {
-    typealias Handler = @convention(block) (UIAlertAction) -> Void
+private typealias AlertActionHandler = @convention(block) (UIAlertAction) -> Void
 
+extension UIAlertAction {
     @discardableResult
     func fire() -> Bool {
         guard let block = value(forKey: "handler") else { return false }
-        let handler = unsafeBitCast(block as AnyObject, to: Handler.self)
+        let handler = unsafeBitCast(block as AnyObject, to: AlertActionHandler.self)
         handler(self)
         return true
     }
