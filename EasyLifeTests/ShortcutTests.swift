@@ -32,6 +32,7 @@ final class ShortcutTests: XCTestCase {
         env.appController.start()
 
         // test
+        waitSync()
         XCTAssertEqual(UIApplication.shared.shortcutItems, ShortcutItem.display.map { $0.item })
     }
 

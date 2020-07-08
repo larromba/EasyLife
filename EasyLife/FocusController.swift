@@ -247,7 +247,9 @@ extension FocusController: FocusViewControllerDelegate {
                         onItem item: TodoItem, at indexPath: IndexPath) {
         async({
             switch action {
-            case .done: _ = try await(self.repository.done(item: item))
+            case .done:
+                onMain { self.stopTimer() }
+                _ = try await(self.repository.done(item: item))
             }
             self.reload()
         }, onError: { error in

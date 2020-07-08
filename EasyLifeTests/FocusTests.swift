@@ -90,6 +90,24 @@ final class FocusTests: XCTestCase {
         XCTAssertNil(presenter.presentedViewController)
     }
 
+    func test_item_whenDone_expectTimeIsReset() {
+        // mocks
+        env.inject()
+        _ = env.todoItem(type: .today, name: "a")
+        env.focusController.setViewController(viewController)
+        env.focusController.start()
+
+        // sut
+        waitSync()
+        viewController.viewState?.focusTime = .custom(60)
+        guard let action = viewController.actions(row: 0)?.first else { return XCTFail("expected actions") }
+        XCTAssertTrue(action.fire())
+
+        // test
+        waitSync()
+        XCTAssertEqual(viewController.timeLabel.text, "00:00:00")
+    }
+
     // MARK: - missing item alert
 
     func test_onAppear_whenMissingItems_expectAlertDisplayed() {
