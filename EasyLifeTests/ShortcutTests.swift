@@ -12,6 +12,7 @@ final class ShortcutTests: XCTestCase {
         super.setUp()
         navigationController = UIStoryboard.plan.instantiateInitialViewController() as? UINavigationController
         viewController = navigationController.viewControllers.first as? PlanViewController
+        viewController.prepareView()
         env = AppTestEnvironment(viewController: viewController, navigationController: navigationController)
         UIView.setAnimationsEnabled(false)
     }
@@ -25,14 +26,10 @@ final class ShortcutTests: XCTestCase {
     }
 
     func test_shortcuts_whenAppStarted_expectShortcutsSet() {
-        // mock
-        env.inject()
-
         // sut
-        env.appController.start()
+        _ = UIApplication.shared.delegate?.application?(UIApplication.shared, didFinishLaunchingWithOptions: nil)
 
         // test
-        waitSync()
         XCTAssertEqual(UIApplication.shared.shortcutItems, ShortcutItem.display.map { $0.item })
     }
 
@@ -42,7 +39,7 @@ final class ShortcutTests: XCTestCase {
         // mock
         env.inject()
         env.addToWindow()
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -79,7 +76,7 @@ final class ShortcutTests: XCTestCase {
         // mock
         env.addToWindow()
         env.inject()
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -97,7 +94,7 @@ final class ShortcutTests: XCTestCase {
         // mock
         env.addToWindow()
         env.inject()
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -115,7 +112,7 @@ final class ShortcutTests: XCTestCase {
         // mock
         env.addToWindow()
         env.inject()
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -133,7 +130,7 @@ final class ShortcutTests: XCTestCase {
         // mock
         env.addToWindow()
         env.inject()
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()

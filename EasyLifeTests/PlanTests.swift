@@ -14,6 +14,7 @@ final class PlanTests: XCTestCase {
         super.setUp()
         navigationController = UIStoryboard.plan.instantiateInitialViewController() as? UINavigationController
         viewController = navigationController.viewControllers.first as? PlanViewController
+        viewController.prepareView()
         env = AppTestEnvironment(viewController: viewController, navigationController: navigationController)
         UIView.setAnimationsEnabled(false)
     }
@@ -31,7 +32,7 @@ final class PlanTests: XCTestCase {
     func test_tableView_whenNoData_expectIsHidden() {
         // mocks
         env.inject()
-        env.start()
+        env.planController.start()
 
         // test
         XCTAssertTrue(viewController.tableView.isHidden)
@@ -41,7 +42,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -53,7 +54,7 @@ final class PlanTests: XCTestCase {
         env.persistentContainer = .mock(fetchError: MockError.mock)
         env.inject()
         env.addToWindow()
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -63,7 +64,7 @@ final class PlanTests: XCTestCase {
     func test_notification_whenWillEnterForeground_expectReload() {
         // mocks
         env.inject()
-        env.start()
+        env.planController.start()
         let isHidden = viewController.tableView.isHidden
 
         // sut
@@ -95,7 +96,7 @@ final class PlanTests: XCTestCase {
         env.inject()
         _ = env.todoItem(type: .missed)
         _ = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -138,7 +139,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .missed)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -149,7 +150,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .missed, name: "test")
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -163,7 +164,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .missed)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -177,7 +178,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .missed, repeatState: .daily)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -194,7 +195,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -205,7 +206,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today, name: "test")
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -219,7 +220,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -231,7 +232,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -246,7 +247,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today, repeatState: .daily)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -264,7 +265,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .later)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -275,7 +276,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -286,7 +287,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .later, name: "test")
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -300,7 +301,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .later)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -318,7 +319,7 @@ final class PlanTests: XCTestCase {
         let item = env.todoItem(type: .today)
         let item2 = env.todoItem(type: .later)
         item.addToBlockedBy(item2)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -332,7 +333,7 @@ final class PlanTests: XCTestCase {
         let item = env.todoItem(type: .today)
         let item2 = env.todoItem(type: .later)
         item.addToBlockedBy(item2)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -344,7 +345,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -359,7 +360,7 @@ final class PlanTests: XCTestCase {
         let item = env.todoItem(type: .today)
         let item2 = env.todoItem(type: .later)
         item.addToBlockedBy(item2)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -374,7 +375,7 @@ final class PlanTests: XCTestCase {
         let item = env.todoItem(type: .today)
         let item2 = env.todoItem(type: .later)
         item.addToBlockedBy(item2)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -391,7 +392,7 @@ final class PlanTests: XCTestCase {
         let item3 = env.todoItem(type: .later)
         item.addToBlockedBy(item2)
         item.addToBlocking(item3)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -407,7 +408,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today, notes: "test")
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -419,7 +420,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -431,7 +432,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today, repeatState: .daily)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -443,7 +444,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -455,7 +456,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .empty)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -469,7 +470,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -487,7 +488,7 @@ final class PlanTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .today)
         let date = item.date!
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -504,7 +505,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -528,7 +529,7 @@ final class PlanTests: XCTestCase {
         let item2 = env.todoItem(type: .empty)
         item.addToBlockedBy(item2)
         let date = item.date!
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -551,7 +552,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         let item = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -569,7 +570,7 @@ final class PlanTests: XCTestCase {
         env.inject()
         let item = env.todoItem(type: .today, repeatState: .daily)
         let date = item.date!
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -589,7 +590,7 @@ final class PlanTests: XCTestCase {
         env.inject()
         env.addToWindow()
         _ = env.todoItem(type: .missed)
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -605,7 +606,7 @@ final class PlanTests: XCTestCase {
         env.inject()
         env.addToWindow()
         _ = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -621,7 +622,7 @@ final class PlanTests: XCTestCase {
         env.inject()
         env.addToWindow()
         _ = env.todoItem(type: .later)
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -637,7 +638,7 @@ final class PlanTests: XCTestCase {
         env.inject()
         env.addToWindow()
         _ = env.todoItem(type: .missed)
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -654,7 +655,7 @@ final class PlanTests: XCTestCase {
         env.addToWindow()
         _ = env.todoItem(type: .missed)
         _ = env.todoItem(type: .missed)
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -670,7 +671,7 @@ final class PlanTests: XCTestCase {
         env.inject()
         env.addToWindow()
         let item = env.todoItem(type: .missed)
-        env.start()
+        env.planController.start()
         waitSync()
         viewController.longPressCell(row: 0, section: .missed)
 
@@ -688,7 +689,7 @@ final class PlanTests: XCTestCase {
         env.inject()
         env.addToWindow()
         let item = env.todoItem(type: .missed)
-        env.start()
+        env.planController.start()
         waitSync()
         viewController.longPressCell(row: 0, section: .missed)
 
@@ -707,7 +708,7 @@ final class PlanTests: XCTestCase {
         env.addToWindow()
         let item1 = env.todoItem(type: .missed)
         let item2 = env.todoItem(type: .missed)
-        env.start()
+        env.planController.start()
         waitSync()
         viewController.longPressCell(row: 0, section: .missed)
 
@@ -727,7 +728,7 @@ final class PlanTests: XCTestCase {
         env.addToWindow()
         let item1 = env.todoItem(type: .missed)
         let item2 = env.todoItem(type: .missed)
-        env.start()
+        env.planController.start()
         waitSync()
         viewController.longPressCell(row: 0, section: .missed)
 
@@ -746,7 +747,7 @@ final class PlanTests: XCTestCase {
     func test_addButton_whenTapped_expectItemDetailShown() {
         // mocks
         env.inject()
-        env.start()
+        env.planController.start()
 
         // sut
         XCTAssertTrue(viewController.addButton.fire())
@@ -823,7 +824,7 @@ final class PlanTests: XCTestCase {
     func test_focusButton_whenNoTodayItems_expectDisabled() {
         // mocks
         env.inject()
-        env.start()
+        env.planController.start()
 
         // test
         XCTAssertFalse(viewController.focusButton.isEnabled)
@@ -833,7 +834,7 @@ final class PlanTests: XCTestCase {
         // mocks
         env.inject()
         _ = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -891,7 +892,7 @@ final class PlanTests: XCTestCase {
         env.inject()
         env.addToWindow()
         _ = env.todoItem(type: .empty)
-        env.start()
+        env.planController.start()
 
         // sut
         waitSync()
@@ -970,7 +971,7 @@ final class PlanTests: XCTestCase {
         env.addToWindow()
         env.inject()
         _ = env.todoItem(type: .today)
-        env.start()
+        env.planController.start()
         waitSync()
         viewController.view.gestureRecognizers?.first?.state = .ended
 
@@ -995,7 +996,7 @@ final class PlanTests: XCTestCase {
         env.holidayRepository.isEnabled = true
 
         // sut
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -1009,7 +1010,7 @@ final class PlanTests: XCTestCase {
         env.holidayRepository.isEnabled = false
 
         // sut
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -1065,7 +1066,7 @@ final class PlanTests: XCTestCase {
                          blockedBy: [blocker, sharedBlocker1, sharedBlocker2])
         _ = env.todoItem(type: .laterDay(1), name: "blockedBy2", project: project4,
                          blockedBy: [blocker, sharedBlocker1, sharedBlocker2])
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()
@@ -1122,7 +1123,7 @@ final class PlanTests: XCTestCase {
                          blockedBy: [blocker, sharedBlocker1, sharedBlocker2])
         _ = env.todoItem(type: type, name: "blockedBy2", project: project4,
                          blockedBy: [blocker, sharedBlocker1, sharedBlocker2])
-        env.start()
+        env.planController.start()
 
         // test
         waitSync()

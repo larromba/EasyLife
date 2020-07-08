@@ -125,11 +125,6 @@ final class AppTestEnvironment: TestEnvironment {
         )
     }
 
-    func start() {
-        (viewController as? UIViewController)?.prepareView()
-        planController.start()
-    }
-
     func addToWindow() {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()

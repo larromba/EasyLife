@@ -5,7 +5,7 @@
 | [![Build Status](https://travis-ci.com/larromba/EasyLife.svg?branch=master)](https://travis-ci.com/larromba/EasyLife) | [![Build Status](https://travis-ci.com/larromba/EasyLife.svg?branch=develop)](https://travis-ci.com/larromba/EasyLife) |
 
 ## About
-EasyLife [(app store)](https://itunes.apple.com/app/id1229095589) is a simple app designed to streamline and focus your todo items by combining them all into 1 organized view.
+EasyLife [(app store)](https://itunes.apple.com/app/id1229095589) is a simple app designed to streamline and focus your todo items by combining them all into 1 organised view.
 
 ## Installation from Source
 
@@ -66,6 +66,7 @@ Swiping left on each item displays some actions:
 * Done - finishes an item
 * Later - if the item is non-recurring, the date is deleted. If the item is recurring, it's rescheduled to the next date
 * Split (recurring items only) - Recurring items can be split in two. The original original item is rescheduled to the next date, and an independent copy is kept in the current section. This allows you to reschedule a recurring item without affecting the original recurring date.
+* In 'Focus Mode', only 'Done' will be displayed.
 
 General:
 * Items can block the progress of other items. Blocking items must be done before blocked items. Their blocking status is represented by:
@@ -79,6 +80,7 @@ Tips:
 * Check the app every morning to see an overview of your day. Make this a habit.
 * When you have a thought, record it straight away. Don't worry about setting a date. You can reschedule it later. Make this a habit.
 * Think about key areas of your life and set them as projects. Update their priorities based on what needs your attention in the present. This will change over time.
+* Before using 'Focus Mode', organise the 'Today' section.
 
 ## Licence
 [![licensebuttons by-nc-sa](https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0) 
