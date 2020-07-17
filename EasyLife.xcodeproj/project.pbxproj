@@ -58,7 +58,6 @@
 		7F3BD2E421D68D940035F540 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2E321D68D940035F540 /* AppRouter.swift */; };
 		7F3BD2E621D68E1C0035F540 /* ArchiveCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2E521D68E1C0035F540 /* ArchiveCoordinator.swift */; };
 		7F3BD2E821D68E240035F540 /* ProjectsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2E721D68E240035F540 /* ProjectsCoordinator.swift */; };
-		7F3BD2EB21D6BF640035F540 /* Routing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2EA21D6BF640035F540 /* Routing.swift */; };
 		7F3BD2ED21D6D3590035F540 /* FatalViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2EC21D6D3590035F540 /* FatalViewState.swift */; };
 		7F3BD2EF21D6D6440035F540 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3BD2EE21D6D6440035F540 /* Utility.swift */; };
 		7F429C7621C3D99E00195E32 /* assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7421C3D99E00195E32 /* assets.swift */; };
@@ -69,8 +68,8 @@
 		7F429C7F21C4040E00195E32 /* PlanSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C7E21C4040E00195E32 /* PlanSection.swift */; };
 		7F429C8121C4041B00195E32 /* PlanItemAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C8021C4041B00195E32 /* PlanItemAction.swift */; };
 		7F429C8321C40D2200195E32 /* AsyncAwait.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F429C8221C40D2200195E32 /* AsyncAwait.framework */; };
-		7F429C8721C41B3500195E32 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C8621C41B3500195E32 /* AppController.swift */; };
-		7F429C8921C41BFD00195E32 /* AppControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C8821C41BFD00195E32 /* AppControllerFactory.swift */; };
+		7F429C8721C41B3500195E32 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C8621C41B3500195E32 /* App.swift */; };
+		7F429C8921C41BFD00195E32 /* AppFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C8821C41BFD00195E32 /* AppFactory.swift */; };
 		7F429C8E21C42FF600195E32 /* PlanCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C8D21C42FF600195E32 /* PlanCoordinator.swift */; };
 		7F429C9121C539CD00195E32 /* ArchiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C9021C539CD00195E32 /* ArchiveController.swift */; };
 		7F429C9321C53B7800195E32 /* LayoutConstraintCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F429C9221C53B7800195E32 /* LayoutConstraintCache.swift */; };
@@ -159,6 +158,10 @@
 		7FD2E4E41F8EB2EB00A57FB5 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD2E4E31F8EB2EB00A57FB5 /* UIViewExtensions.swift */; };
 		7FD585F721DE2B36002E9B85 /* mocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD585F621DE2B36002E9B85 /* mocks.generated.swift */; };
 		7FD585FA21DE2B67002E9B85 /* TestEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD585F921DE2B67002E9B85 /* TestEnvironment.swift */; };
+		7FD8C3D024C1C41B0024BCE0 /* HolidayCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD8C3CF24C1C41B0024BCE0 /* HolidayCoordinator.swift */; };
+		7FD8C3D424C1C9640024BCE0 /* NavigationResettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD8C3D324C1C9640024BCE0 /* NavigationResettable.swift */; };
+		7FD8C3D624C1D2370024BCE0 /* Dismissible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD8C3D524C1D2370024BCE0 /* Dismissible.swift */; };
+		7FD8C3D824C1D3850024BCE0 /* ViewControllerCastable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FD8C3D724C1D3850024BCE0 /* ViewControllerCastable.swift */; };
 		7FE4488F2041F49900F2DE77 /* ItemDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE4488E2041F49900F2DE77 /* ItemDetailRepository.swift */; };
 		7FE4489120420B2C00F2DE77 /* BlockingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE4489020420B2C00F2DE77 /* BlockingContext.swift */; };
 		7FE59BBC24B32D4B00511457 /* HolidayRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE59BBB24B32D4B00511457 /* HolidayRepository.swift */; };
@@ -270,7 +273,6 @@
 		7F3BD2E321D68D940035F540 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		7F3BD2E521D68E1C0035F540 /* ArchiveCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveCoordinator.swift; sourceTree = "<group>"; };
 		7F3BD2E721D68E240035F540 /* ProjectsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsCoordinator.swift; sourceTree = "<group>"; };
-		7F3BD2EA21D6BF640035F540 /* Routing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routing.swift; sourceTree = "<group>"; };
 		7F3BD2EC21D6D3590035F540 /* FatalViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatalViewState.swift; sourceTree = "<group>"; };
 		7F3BD2EE21D6D6440035F540 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		7F426E751F59A46B00C55AD2 /* ProjectsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
@@ -284,8 +286,8 @@
 		7F429C7E21C4040E00195E32 /* PlanSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSection.swift; sourceTree = "<group>"; };
 		7F429C8021C4041B00195E32 /* PlanItemAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanItemAction.swift; sourceTree = "<group>"; };
 		7F429C8221C40D2200195E32 /* AsyncAwait.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AsyncAwait.framework; path = Carthage/Build/iOS/AsyncAwait.framework; sourceTree = "<group>"; };
-		7F429C8621C41B3500195E32 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
-		7F429C8821C41BFD00195E32 /* AppControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppControllerFactory.swift; sourceTree = "<group>"; };
+		7F429C8621C41B3500195E32 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		7F429C8821C41BFD00195E32 /* AppFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFactory.swift; sourceTree = "<group>"; };
 		7F429C8D21C42FF600195E32 /* PlanCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCoordinator.swift; sourceTree = "<group>"; };
 		7F429C9021C539CD00195E32 /* ArchiveController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveController.swift; sourceTree = "<group>"; };
 		7F429C9221C53B7800195E32 /* LayoutConstraintCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutConstraintCache.swift; sourceTree = "<group>"; };
@@ -387,6 +389,10 @@
 		7FD2E4E31F8EB2EB00A57FB5 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		7FD585F621DE2B36002E9B85 /* mocks.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = mocks.generated.swift; path = Generated/mocks.generated.swift; sourceTree = SOURCE_ROOT; };
 		7FD585F921DE2B67002E9B85 /* TestEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEnvironment.swift; sourceTree = "<group>"; };
+		7FD8C3CF24C1C41B0024BCE0 /* HolidayCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayCoordinator.swift; sourceTree = "<group>"; };
+		7FD8C3D324C1C9640024BCE0 /* NavigationResettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationResettable.swift; sourceTree = "<group>"; };
+		7FD8C3D524C1D2370024BCE0 /* Dismissible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dismissible.swift; sourceTree = "<group>"; };
+		7FD8C3D724C1D3850024BCE0 /* ViewControllerCastable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerCastable.swift; sourceTree = "<group>"; };
 		7FE4488E2041F49900F2DE77 /* ItemDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailRepository.swift; sourceTree = "<group>"; };
 		7FE4489020420B2C00F2DE77 /* BlockingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingContext.swift; sourceTree = "<group>"; };
 		7FE59BBB24B32D4B00511457 /* HolidayRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayRepository.swift; sourceTree = "<group>"; };
@@ -513,7 +519,7 @@
 		7F429C8A21C42F9500195E32 /* Factory */ = {
 			isa = PBXGroup;
 			children = (
-				7F429C8821C41BFD00195E32 /* AppControllerFactory.swift */,
+				7F429C8821C41BFD00195E32 /* AppFactory.swift */,
 			);
 			name = Factory;
 			sourceTree = "<group>";
@@ -543,7 +549,6 @@
 		7F429C8C21C42FA700195E32 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				7F429C8621C41B3500195E32 /* AppController.swift */,
 				7F429C7821C3E9D000195E32 /* PlanController.swift */,
 				7F3B8B74246EEB5000B45038 /* FocusController.swift */,
 				7F79E92A24B1E65C0003D19D /* HolidayController.swift */,
@@ -561,6 +566,7 @@
 			children = (
 				7F429C8D21C42FF600195E32 /* PlanCoordinator.swift */,
 				7F3B8B66246EE2C700B45038 /* FocusCoordinator.swift */,
+				7FD8C3CF24C1C41B0024BCE0 /* HolidayCoordinator.swift */,
 				7F3BD2E721D68E240035F540 /* ProjectsCoordinator.swift */,
 				7F3BD2E521D68E1C0035F540 /* ArchiveCoordinator.swift */,
 			);
@@ -633,6 +639,7 @@
 			isa = PBXGroup;
 			children = (
 				7FAC2C5C1E9E673400F14ECB /* AppDelegate.swift */,
+				7F429C8621C41B3500195E32 /* App.swift */,
 				7F429C8A21C42F9500195E32 /* Factory */,
 				7F3BD2E921D68F6C0035F540 /* Router */,
 				7F429C8F21C42FFC00195E32 /* Coordinator */,
@@ -795,13 +802,15 @@
 				7FAC2C951E9EBF6400F14ECB /* ResponderSelection.swift */,
 				7FA9C21E1EAA216A0089A87C /* DisplayEnum.swift */,
 				7F429CAA21C7FD0D00195E32 /* Presentable.swift */,
+				7FD8C3D524C1D2370024BCE0 /* Dismissible.swift */,
 				7F3BD2D421D389330035F540 /* Segueable.swift */,
+				7FD8C3D724C1D3850024BCE0 /* ViewControllerCastable.swift */,
 				7F3BD2E121D667EA0035F540 /* Animation.swift */,
-				7F3BD2EA21D6BF640035F540 /* Routing.swift */,
 				7F17F41E248F9D4400541282 /* CellIdentifiable.swift */,
 				7F17F420248F9F6800541282 /* NibNamable.swift */,
 				7F7514112492DF8900FF6446 /* TodoItemContexting.swift */,
 				7FE9D88F24ACEE7E00C564D9 /* PickerItem.swift */,
+				7FD8C3D324C1C9640024BCE0 /* NavigationResettable.swift */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -1128,7 +1137,7 @@
 				7F429C9D21C5B60100195E32 /* ProjectsController.swift in Sources */,
 				7F93792F1EA7661B009E33FA /* DateSegment.swift in Sources */,
 				7F9C62222018BF32006890EB /* DateComponentsFormatterExtensions.swift in Sources */,
-				7F429C8921C41BFD00195E32 /* AppControllerFactory.swift in Sources */,
+				7F429C8921C41BFD00195E32 /* AppFactory.swift in Sources */,
 				7F3BD2B921CFEC970035F540 /* ItemDetailAction.swift in Sources */,
 				7FAC2C821E9E692E00F14ECB /* ItemDetailViewController.swift in Sources */,
 				7F163D311EDEE98D00DC52B6 /* BundleExtensions.swift in Sources */,
@@ -1143,6 +1152,7 @@
 				7F429C9321C53B7800195E32 /* LayoutConstraintCache.swift in Sources */,
 				7FC488D72041A763003F6F19 /* BlockedByViewController.swift in Sources */,
 				7F79E92B24B1E65C0003D19D /* HolidayController.swift in Sources */,
+				7FD8C3D424C1C9640024BCE0 /* NavigationResettable.swift in Sources */,
 				7F3BD2BF21D13D030035F540 /* BlockedByController.swift in Sources */,
 				7FE4488F2041F49900F2DE77 /* ItemDetailRepository.swift in Sources */,
 				7F102DDF1F5ABF8900E262B1 /* ProjectCell.swift in Sources */,
@@ -1161,17 +1171,17 @@
 				7FE9D89C24AD253A00C564D9 /* TimerButton.swift in Sources */,
 				7FE9D8A524AE4B3500C564D9 /* ViewAction.swift in Sources */,
 				7F429CA721C66B5000195E32 /* ProjectsAction.swift in Sources */,
-				7F3BD2EB21D6BF640035F540 /* Routing.swift in Sources */,
 				7FE9D89224ACEEDB00C564D9 /* ProjectPickerItem.swift in Sources */,
 				7F93792D1EA761F9009E33FA /* SimpleDatePicker.swift in Sources */,
 				7F3BD2E821D68E240035F540 /* ProjectsCoordinator.swift in Sources */,
 				7F163D2C1EDD746B00DC52B6 /* AppBadge.swift in Sources */,
 				7F429C7921C3E9D000195E32 /* PlanController.swift in Sources */,
 				7F3BD2E421D68D940035F540 /* AppRouter.swift in Sources */,
-				7F429C8721C41B3500195E32 /* AppController.swift in Sources */,
+				7F429C8721C41B3500195E32 /* App.swift in Sources */,
 				7FAC2CA41E9ED1C800F14ECB /* FatalViewController.swift in Sources */,
 				7F3BD2C321D13D350035F540 /* BlockedRepository.swift in Sources */,
 				7F0E149B249A80A7000B15CE /* ItemDetailUpdate.swift in Sources */,
+				7FD8C3D024C1C41B0024BCE0 /* HolidayCoordinator.swift in Sources */,
 				7F429C9F21C5B7D500195E32 /* ProjectsViewState.swift in Sources */,
 				7FE9D89424ACEEE800C564D9 /* RepeatStatePickerItem.swift in Sources */,
 				7FAC2C9F1E9ECACB00F14ECB /* DateExtensions.swift in Sources */,
@@ -1189,6 +1199,7 @@
 				7F3B8B75246EEB5000B45038 /* FocusController.swift in Sources */,
 				7F429C7721C3D99E00195E32 /* strings.swift in Sources */,
 				7FE59BC224B33ADF00511457 /* UserDefaultsExtensions.swift in Sources */,
+				7FD8C3D824C1D3850024BCE0 /* ViewControllerCastable.swift in Sources */,
 				7FE9D88E24ACECE600C564D9 /* FocusTime.swift in Sources */,
 				7F3BD2B521CFE9BE0035F540 /* ItemDetailController.swift in Sources */,
 				7FD1EE261F8E8D750042C317 /* TagView.swift in Sources */,
@@ -1234,6 +1245,7 @@
 				7F3BD2BB21D016FA0035F540 /* ItemDetailComponent.swift in Sources */,
 				7F429C7B21C3F88800195E32 /* PlanViewState.swift in Sources */,
 				7F0D924A20461A1F00D9AE6B /* BlockedIndicatorView.swift in Sources */,
+				7FD8C3D624C1D2370024BCE0 /* Dismissible.swift in Sources */,
 				7F429CA521C6663500195E32 /* ProjectSection.swift in Sources */,
 				7FAC2CB21E9F7EDF00F14ECB /* NotificationName.swift in Sources */,
 				7F3BD2B721CFE9C70035F540 /* ItemDetailViewState.swift in Sources */,

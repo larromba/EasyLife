@@ -1,19 +1,18 @@
 import UIKit
 
 // sourcery: name = FocusCoordinator
-protocol FocusCoordinating: Mockable {
+protocol FocusCoordinating: NavigationResettable, Mockable {
     func setNavigationController(_ navigationController: UINavigationController)
     func setViewController(_ viewController: FocusViewControlling)
     func setAlertController(_ alertController: AlertControlling)
     func setTriggerDate(_ date: Date)
-    func resetNavigation()
     func start()
 }
 
 final class FocusCoordinator: NSObject, FocusCoordinating {
     private let focusController: FocusControlling
     private var alertController: AlertControlling?
-    private var navigationController: UINavigationController?
+    private weak var navigationController: UINavigationController?
 
     init(focusController: FocusControlling) {
         self.focusController = focusController

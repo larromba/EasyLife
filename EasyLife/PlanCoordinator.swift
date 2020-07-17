@@ -2,11 +2,16 @@ import AsyncAwait
 import UIKit
 
 // sourcery: name = PlanCoordinator
-protocol PlanCoordinating: Mockable {
+protocol PlanCoordinating: NavigationResettable, Mockable {
     func start()
-    func resetNavigation()
+    func setDelegate(_ delegate: PlanCoordinatorDelegate)
     func openNewTodoItem()
     func openFocusWithDate(_ date: Date)
+}
+
+protocol PlanCoordinatorDelegate: AnyObject {
+    func coordinatorRequestsHoliday(_ coordinator: PlanCoordinating)
+    func coordinator(_ coordinator: PlanCoordinating, handleSegue segue: UIStoryboardSegue, sender: Any?)
 }
 
 final class PlanCoordinator: NSObject, PlanCoordinating {
@@ -16,30 +21,32 @@ final class PlanCoordinator: NSObject, PlanCoordinating {
     private var itemDetailAlertController: AlertControlling?
     private let blockedByController: BlockedByControlling
     private var blockedByAlertController: AlertControlling?
-    private let holidayController: HolidayControlling
     private let navigationController: UINavigationController
     private var context: TodoItemContext?
     private var lastNavigationStack = [UIViewController]()
+    private weak var delegate: PlanCoordinatorDelegate?
 
     init(navigationController: UINavigationController, planController: PlanControlling,
          planAlertController: AlertControlling, itemDetailController: ItemDetailControlling,
-         blockedByController: BlockedByControlling, holidayController: HolidayControlling) {
+         blockedByController: BlockedByControlling) {
         self.navigationController = navigationController
         self.planController = planController
         self.planAlertController = planAlertController
         self.itemDetailController = itemDetailController
         self.blockedByController = blockedByController
-        self.holidayController = holidayController
         super.init()
         onMain { navigationController.delegate = self } // warning thrown if set on bg thread
         planController.setDelegate(self)
         itemDetailController.setDelegate(self)
         blockedByController.setDelegate(self)
-        holidayController.setDelegate(self)
     }
 
     func start() {
         planController.start()
+    }
+
+    func setDelegate(_ delegate: PlanCoordinatorDelegate) {
+        self.delegate = delegate
     }
 
     func openNewTodoItem() {
@@ -82,8 +89,12 @@ extension PlanCoordinator: PlanControllerDelegate {
         planAlertController.showAlert(alert)
     }
 
+    func controller(_ controller: PlanControlling, handleSegue segue: UIStoryboardSegue, sender: Any?) {
+        delegate?.coordinator(self, handleSegue: segue, sender: sender)
+    }
+
     func controllerRequestsHoliday(_ controller: PlanControlling) {
-        holidayController.start()
+        delegate?.coordinatorRequestsHoliday(self)
     }
 
     func controllerRequestsFocus(_ controller: PlanControlling, withDate date: Date, sender: Segueable) {
@@ -107,14 +118,6 @@ extension PlanCoordinator: ItemDetailControllerDelegate {
 extension PlanCoordinator: BlockedByControllerDelegate {
     func controller(_ controller: BlockedByControlling, showAlert alert: Alert) {
         blockedByAlertController?.showAlert(alert)
-    }
-}
-
-// MARK: - HolidayControllerDelegate
-
-extension PlanCoordinator: HolidayControllerDelegate {
-    func controllerFinished(_ controller: HolidayControlling) {
-        // 🦄
     }
 }
 

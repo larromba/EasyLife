@@ -25,7 +25,7 @@ final class AppTestEnvironment: TestEnvironment {
 
     private(set) var appRouter: AppRouting!
     private(set) var fatalErrorHandler: FatalErrorHandler!
-    private(set) var appController: AppControlling!
+    private(set) var app: App!
     private(set) var dataContextProvider: DataContextProviding!
     private(set) var childContext: DataContexting!
     private(set) var alertController: AlertControlling!
@@ -41,6 +41,7 @@ final class AppTestEnvironment: TestEnvironment {
     private(set) var blockedByController: BlockedByControlling!
     private(set) var holidayController: HolidayControlling!
     private(set) var holidayRepository: HolidayRepositoring!
+    private(set) var holidayCoordinator: HolidayCoordinating!
     private(set) var archiveRepository: ArchiveRepositoring!
     private(set) var archiveController: ArchiveControlling!
     private(set) var archiveCoordinator: ArchiveCoordinating!
@@ -93,8 +94,7 @@ final class AppTestEnvironment: TestEnvironment {
             planController: planController,
             planAlertController: alertController,
             itemDetailController: itemDetailController,
-            blockedByController: blockedByController,
-            holidayController: holidayController
+            blockedByController: blockedByController
         )
         focusRepository = FocusRepository(dataContextProvider: dataContextProvider, planRepository: planRepository)
         focusController = FocusController(
@@ -109,16 +109,17 @@ final class AppTestEnvironment: TestEnvironment {
         projectsController = ProjectsController(repository: projectsRepository)
         archiveCoordinator = ArchiveCoordinator(archiveController: archiveController)
         projectsCoordinator = ProjectsCoordinator(projectsController: projectsController)
+        holidayCoordinator = HolidayCoordinator(holidayController: holidayController)
         appRouter = AppRouter(
             planCoordinator: planCoordinator,
             focusCoordinator: focusCoordinator,
             archiveCoordinator: archiveCoordinator,
             projectsCoordinator: projectsCoordinator,
+            holidayCoordinator: holidayCoordinator,
             alarmNotificationHandler: alarmNotificationHandler
         )
-        planController.setRouter(appRouter)
         fatalErrorHandler = FatalErrorHandler(window: window)
-        appController = AppController(
+        app = App(
             dataContextProvider: dataContextProvider,
             appRouter: appRouter,
             fatalErrorHandler: fatalErrorHandler

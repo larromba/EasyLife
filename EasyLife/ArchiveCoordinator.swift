@@ -1,18 +1,17 @@
 import UIKit
 
 // sourcery: name = ArchiveCoordinator
-protocol ArchiveCoordinating: Mockable {
+protocol ArchiveCoordinating: NavigationResettable, Mockable {
     func setNavigationController(_ navigationController: UINavigationController)
     func setViewController(_ viewController: ArchiveViewControlling)
     func setAlertController(_ alertController: AlertControlling)
-    func resetNavigation()
     func start()
 }
 
 final class ArchiveCoordinator: NSObject, ArchiveCoordinating {
     private let archiveController: ArchiveControlling
     private var alertController: AlertControlling?
-    private var navigationController: UINavigationController?
+    private weak var navigationController: UINavigationController?
 
     init(archiveController: ArchiveControlling) {
         self.archiveController = archiveController

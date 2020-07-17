@@ -1,6 +1,6 @@
 # Changelog
 
-## v3.0.0 (TBC)
+## v3.0.0 (09/07/2020)
     fixed coredata threading issues
     fixed table reload flickers
     minor bug fixes and improvements
@@ -73,6 +73,7 @@ Apple ID: 1229095589
 
 3.1.0:
 move coredata to new repo
+add move to tomoorrow options to today section
 
 3.2.0:
 BUG: missed doesnt change. Split then done doesnt work.
@@ -87,6 +88,9 @@ use plan cell everywhere?
     - if so, plancell ui tests rather than ui tests in each test class?
 refactor out uitableviewaction from tests?
 find better way of testing tableview cell order
+rename some things to services? 
+_ = try await --> try await
+throwErrorOnMain
 
 Future Major:
 short instructional video?

@@ -2,10 +2,10 @@ import AsyncAwait
 import CoreData
 import UIKit
 
-enum AppControllerFactory {
+enum AppFactory {
     // swiftlint:disable function_body_length
     static func make(window: UIWindow, navigationController: UINavigationController,
-                     planViewController: PlanViewControlling) -> Async<AppControlling, Error> {
+                     planViewController: PlanViewControlling) -> Async<Appable, Error> {
         return Async { completion in
             async({
                 let persistentContainer = NSPersistentContainer(name: "EasyLife")
@@ -38,8 +38,7 @@ enum AppControllerFactory {
                     planController: planController,
                     planAlertController: AlertController(presenter: planViewController),
                     itemDetailController: ItemDetailController(repository: itemDetailRepository),
-                    blockedByController: BlockedByController(repository: blockedByRepository),
-                    holidayController: holidayController
+                    blockedByController: BlockedByController(repository: blockedByRepository)
                 )
                 let focusRepository = FocusRepository(
                     dataContextProvider: dataContextProvider,
@@ -60,15 +59,15 @@ enum AppControllerFactory {
                     focusCoordinator: FocusCoordinator(focusController: focusController),
                     archiveCoordinator: ArchiveCoordinator(archiveController: archiveController),
                     projectsCoordinator: ProjectsCoordinator(projectsController: projectsController),
+                    holidayCoordinator: HolidayCoordinator(holidayController: holidayController),
                     alarmNotificationHandler: alarmNotificationHandler
                 )
-                planController.setRouter(appRouter)
-                let appController = AppController(
+                let app = App(
                     dataContextProvider: dataContextProvider,
                     appRouter: appRouter,
                     fatalErrorHandler: FatalErrorHandler(window: window)
                 )
-                completion(.success(appController))
+                completion(.success(app))
             }, onError: { error in
                 completion(.failure(error))
             })

@@ -4,8 +4,9 @@ import UIKit
 
 // sourcery: name = HolidayController
 protocol HolidayControlling: Mockable {
-    func start()
+    func setViewController(_ viewController: HolidayViewControlling)
     func setDelegate(_ delegate: HolidayControllerDelegate)
+    func start()
 }
 
 protocol HolidayControllerDelegate: AnyObject {
@@ -15,8 +16,8 @@ protocol HolidayControllerDelegate: AnyObject {
 final class HolidayController: HolidayControlling {
     private let badge: Badge
     private let application: UIApplication
-    private var viewController: HolidayViewControlling?
     private let holidayRepository: HolidayRepositoring
+    private weak var viewController: HolidayViewControlling?
     private weak var delegate: HolidayControllerDelegate?
     private weak var presenter: Presentable?
 
@@ -28,8 +29,16 @@ final class HolidayController: HolidayControlling {
         self.badge = badge
     }
 
+    func setDelegate(_ delegate: HolidayControllerDelegate) {
+        self.delegate = delegate
+    }
+
+    func setViewController(_ viewController: HolidayViewControlling) {
+        self.viewController = viewController
+    }
+
     func start() {
-        let viewController: HolidayViewController = UIStoryboard.components.instantiateViewController()
+        guard let viewController = viewController else { return }
         holidayRepository.isEnabled = true
         viewController.setDelegate(self)
         viewController.modalPresentationStyle = .fullScreen
@@ -37,10 +46,6 @@ final class HolidayController: HolidayControlling {
         presenter?.present(viewController, animated: true, completion: nil)
         setIsShortcutsEnabled(false)
         clearNotifications()
-    }
-
-    func setDelegate(_ delegate: HolidayControllerDelegate) {
-        self.delegate = delegate
     }
 
     // MARK: - private
@@ -64,7 +69,6 @@ extension HolidayController: HolidayViewControllerDelegate {
     func viewControllerTapped(_ viewController: HolidayViewControlling) {
         holidayRepository.isEnabled = false
         setIsShortcutsEnabled(true)
-        viewController.dismiss(animated: true, completion: nil)
         delegate?.controllerFinished(self)
     }
 }

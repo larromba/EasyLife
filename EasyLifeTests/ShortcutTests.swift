@@ -43,7 +43,7 @@ final class ShortcutTests: XCTestCase {
 
         // sut
         waitSync()
-        env.appController.processShortcutItem(ShortcutItem.newTodoItem.item)
+        env.app.processShortcutItem(ShortcutItem.newTodoItem.item)
 
         // test
         waitSync()
@@ -82,7 +82,7 @@ final class ShortcutTests: XCTestCase {
         waitSync()
         viewController.projectsButton.fire()
         waitSync()
-        env.appController.processShortcutItem(shortcutItem.item)
+        env.app.processShortcutItem(shortcutItem.item)
 
         // test
         waitSync()
@@ -100,7 +100,7 @@ final class ShortcutTests: XCTestCase {
         waitSync()
         viewController.focusButton.fire()
         waitSync()
-        env.appController.processShortcutItem(shortcutItem.item)
+        env.app.processShortcutItem(shortcutItem.item)
 
         // test
         waitSync()
@@ -118,7 +118,7 @@ final class ShortcutTests: XCTestCase {
         waitSync()
         viewController.addButton.fire()
         waitSync()
-        env.appController.processShortcutItem(shortcutItem.item)
+        env.app.processShortcutItem(shortcutItem.item)
 
         // test
         waitSync()
@@ -142,7 +142,7 @@ final class ShortcutTests: XCTestCase {
         }
         viewController.blockedButton.fire()
         waitSync()
-        env.appController.processShortcutItem(shortcutItem.item)
+        env.app.processShortcutItem(shortcutItem.item)
 
         // test
         waitSync()

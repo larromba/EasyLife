@@ -2,18 +2,17 @@ import AsyncAwait
 import UIKit
 
 // sourcery: name = ProjectsCoordinator
-protocol ProjectsCoordinating: Mockable {
+protocol ProjectsCoordinating: NavigationResettable, Mockable {
     func setNavigationController(_ navigationController: UINavigationController)
     func setViewController(_ viewController: ProjectsViewControlling)
     func setAlertController(_ alertController: AlertControlling)
-    func resetNavigation()
     func start()
 }
 
 final class ProjectsCoordinator: NSObject, ProjectsCoordinating {
     private let projectsController: ProjectsControlling
     private var alertController: AlertControlling?
-    private var navigationController: UINavigationController?
+    private weak var navigationController: UINavigationController?
 
     init(projectsController: ProjectsControlling) {
         self.projectsController = projectsController

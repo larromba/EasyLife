@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.15.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.18.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 // swiftlint:disable line_length
@@ -247,7 +247,38 @@ class MockAlertController: NSObject, AlertControlling {
     }
 }
 
-class MockAppController: NSObject, AppControlling {
+class MockAppRouter: NSObject, AppRouting {
+    let invocations = _Invocations()
+    let actions = _Actions()
+    static let invocations = _Invocations()
+    static let actions = _Actions()
+
+    // MARK: - start
+
+    func start() {
+        let functionName = start1.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum start1: String, _StringRawRepresentable {
+        case name = "start1"
+    }
+
+    // MARK: - routeToNewTodoItem
+
+    func routeToNewTodoItem() {
+        let functionName = routeToNewTodoItem2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum routeToNewTodoItem2: String, _StringRawRepresentable {
+        case name = "routeToNewTodoItem2"
+    }
+}
+
+class MockApp: NSObject, Appable {
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -290,57 +321,6 @@ class MockAppController: NSObject, AppControlling {
         case name = "processShortcutItem3"
         enum params: String, _StringRawRepresentable {
             case item = "processShortcutItem(_item:UIApplicationShortcutItem).item"
-        }
-    }
-}
-
-class MockAppRouter: NSObject, AppRouting {
-    let invocations = _Invocations()
-    let actions = _Actions()
-    static let invocations = _Invocations()
-    static let actions = _Actions()
-
-    // MARK: - start
-
-    func start() {
-        let functionName = start1.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocations.record(invocation)
-    }
-
-    enum start1: String, _StringRawRepresentable {
-        case name = "start1"
-    }
-
-    // MARK: - routeToNewTodoItem
-
-    func routeToNewTodoItem() {
-        let functionName = routeToNewTodoItem2.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocations.record(invocation)
-    }
-
-    enum routeToNewTodoItem2: String, _StringRawRepresentable {
-        case name = "routeToNewTodoItem2"
-    }
-
-    // MARK: - handleSegue
-
-    func handleSegue(_ segue: UIStoryboardSegue, sender: Any?) {
-        let functionName = handleSegue3.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: segue, forKey: handleSegue3.params.segue)
-        if let sender = sender {
-            invocation.set(parameter: sender, forKey: handleSegue3.params.sender)
-        }
-        invocations.record(invocation)
-    }
-
-    enum handleSegue3: String, _StringRawRepresentable {
-        case name = "handleSegue3"
-        enum params: String, _StringRawRepresentable {
-            case segue = "handleSegue(_segue:UIStoryboardSegue,sender:Any?).segue"
-            case sender = "handleSegue(_segue:UIStoryboardSegue,sender:Any?).sender"
         }
     }
 }
@@ -459,28 +439,28 @@ class MockArchiveCoordinator: NSObject, ArchiveCoordinating {
         }
     }
 
-    // MARK: - resetNavigation
-
-    func resetNavigation() {
-        let functionName = resetNavigation4.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocations.record(invocation)
-    }
-
-    enum resetNavigation4: String, _StringRawRepresentable {
-        case name = "resetNavigation4"
-    }
-
     // MARK: - start
 
     func start() {
-        let functionName = start5.name
+        let functionName = start4.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
     }
 
-    enum start5: String, _StringRawRepresentable {
-        case name = "start5"
+    enum start4: String, _StringRawRepresentable {
+        case name = "start4"
+    }
+
+    // MARK: - resetNavigation
+
+    func resetNavigation() {
+        let functionName = resetNavigation5.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum resetNavigation5: String, _StringRawRepresentable {
+        case name = "resetNavigation5"
     }
 }
 
@@ -597,6 +577,28 @@ class MockArchiveViewController: NSObject, ArchiveViewControlling {
             case viewControllerToPresent = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
             case flag = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).flag"
             case completion = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).completion"
+        }
+    }
+
+    // MARK: - present
+
+    func present(_ viewControllerToPresent: ViewControllerCastable, animated flag: Bool, completion: (() -> Void)?) {
+        let functionName = present4.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: viewControllerToPresent, forKey: present4.params.viewControllerToPresent)
+        invocation.set(parameter: flag, forKey: present4.params.flag)
+        if let completion = completion {
+            invocation.set(parameter: completion, forKey: present4.params.completion)
+        }
+        invocations.record(invocation)
+    }
+
+    enum present4: String, _StringRawRepresentable {
+        case name = "present4"
+        enum params: String, _StringRawRepresentable {
+            case viewControllerToPresent = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
+            case flag = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).flag"
+            case completion = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).completion"
         }
     }
 }
@@ -846,6 +848,28 @@ class MockBlockedByViewController: NSObject, BlockedByViewControlling {
             case completion = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).completion"
         }
     }
+
+    // MARK: - present
+
+    func present(_ viewControllerToPresent: ViewControllerCastable, animated flag: Bool, completion: (() -> Void)?) {
+        let functionName = present5.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: viewControllerToPresent, forKey: present5.params.viewControllerToPresent)
+        invocation.set(parameter: flag, forKey: present5.params.flag)
+        if let completion = completion {
+            invocation.set(parameter: completion, forKey: present5.params.completion)
+        }
+        invocations.record(invocation)
+    }
+
+    enum present5: String, _StringRawRepresentable {
+        case name = "present5"
+        enum params: String, _StringRawRepresentable {
+            case viewControllerToPresent = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
+            case flag = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).flag"
+            case completion = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).completion"
+        }
+    }
 }
 
 class MockBlockedCell: NSObject, BlockedCelling {
@@ -1075,28 +1099,28 @@ class MockFocusCoordinator: NSObject, FocusCoordinating {
         }
     }
 
-    // MARK: - resetNavigation
-
-    func resetNavigation() {
-        let functionName = resetNavigation5.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocations.record(invocation)
-    }
-
-    enum resetNavigation5: String, _StringRawRepresentable {
-        case name = "resetNavigation5"
-    }
-
     // MARK: - start
 
     func start() {
-        let functionName = start6.name
+        let functionName = start5.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
     }
 
-    enum start6: String, _StringRawRepresentable {
-        case name = "start6"
+    enum start5: String, _StringRawRepresentable {
+        case name = "start5"
+    }
+
+    // MARK: - resetNavigation
+
+    func resetNavigation() {
+        let functionName = resetNavigation6.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum resetNavigation6: String, _StringRawRepresentable {
+        case name = "resetNavigation6"
     }
 }
 
@@ -1277,6 +1301,28 @@ class MockFocusViewController: NSObject, FocusViewControlling {
             case completion = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).completion"
         }
     }
+
+    // MARK: - present
+
+    func present(_ viewControllerToPresent: ViewControllerCastable, animated flag: Bool, completion: (() -> Void)?) {
+        let functionName = present7.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: viewControllerToPresent, forKey: present7.params.viewControllerToPresent)
+        invocation.set(parameter: flag, forKey: present7.params.flag)
+        if let completion = completion {
+            invocation.set(parameter: completion, forKey: present7.params.completion)
+        }
+        invocations.record(invocation)
+    }
+
+    enum present7: String, _StringRawRepresentable {
+        case name = "present7"
+        enum params: String, _StringRawRepresentable {
+            case viewControllerToPresent = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
+            case flag = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).flag"
+            case completion = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).completion"
+        }
+    }
 }
 
 class MockHolidayController: NSObject, HolidayControlling {
@@ -1285,16 +1331,20 @@ class MockHolidayController: NSObject, HolidayControlling {
     static let invocations = _Invocations()
     static let actions = _Actions()
 
-    // MARK: - start
+    // MARK: - setViewController
 
-    func start() {
-        let functionName = start1.name
+    func setViewController(_ viewController: HolidayViewControlling) {
+        let functionName = setViewController1.name
         let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: viewController, forKey: setViewController1.params.viewController)
         invocations.record(invocation)
     }
 
-    enum start1: String, _StringRawRepresentable {
-        case name = "start1"
+    enum setViewController1: String, _StringRawRepresentable {
+        case name = "setViewController1"
+        enum params: String, _StringRawRepresentable {
+            case viewController = "setViewController(_viewController:HolidayViewControlling).viewController"
+        }
     }
 
     // MARK: - setDelegate
@@ -1312,9 +1362,74 @@ class MockHolidayController: NSObject, HolidayControlling {
             case delegate = "setDelegate(_delegate:HolidayControllerDelegate).delegate"
         }
     }
+
+    // MARK: - start
+
+    func start() {
+        let functionName = start3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum start3: String, _StringRawRepresentable {
+        case name = "start3"
+    }
+}
+
+class MockHolidayCoordinator: NSObject, HolidayCoordinating {
+    let invocations = _Invocations()
+    let actions = _Actions()
+    static let invocations = _Invocations()
+    static let actions = _Actions()
+
+    // MARK: - setViewController
+
+    func setViewController(_ viewController: HolidayViewControlling) {
+        let functionName = setViewController1.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: viewController, forKey: setViewController1.params.viewController)
+        invocations.record(invocation)
+    }
+
+    enum setViewController1: String, _StringRawRepresentable {
+        case name = "setViewController1"
+        enum params: String, _StringRawRepresentable {
+            case viewController = "setViewController(_viewController:HolidayViewControlling).viewController"
+        }
+    }
+
+    // MARK: - start
+
+    func start() {
+        let functionName = start2.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum start2: String, _StringRawRepresentable {
+        case name = "start2"
+    }
 }
 
 class MockHolidayViewController: NSObject, HolidayViewControlling {
+    var modalPresentationStyle: UIModalPresentationStyle {
+        get { return _modalPresentationStyle }
+        set(value) { _modalPresentationStyle = value; _modalPresentationStyleHistory.append(_Variable(value)) }
+    }
+    var _modalPresentationStyle: UIModalPresentationStyle! = UIModalPresentationStyle.fullScreen
+    var _modalPresentationStyleHistory: [_Variable<UIModalPresentationStyle?>] = []
+    var modalTransitionStyle: UIModalTransitionStyle {
+        get { return _modalTransitionStyle }
+        set(value) { _modalTransitionStyle = value; _modalTransitionStyleHistory.append(_Variable(value)) }
+    }
+    var _modalTransitionStyle: UIModalTransitionStyle! = UIModalTransitionStyle.crossDissolve
+    var _modalTransitionStyleHistory: [_Variable<UIModalTransitionStyle?>] = []
+    var casted: UIViewController {
+        get { return _casted }
+        set(value) { _casted = value; _castedHistory.append(_Variable(value)) }
+    }
+    var _casted: UIViewController! = UIViewController()
+    var _castedHistory: [_Variable<UIViewController?>] = []
     let invocations = _Invocations()
     let actions = _Actions()
     static let invocations = _Invocations()
@@ -1619,28 +1734,50 @@ class MockItemDetailViewController: NSObject, ItemDetailViewControlling {
         }
     }
 
+    // MARK: - present
+
+    func present(_ viewControllerToPresent: ViewControllerCastable, animated flag: Bool, completion: (() -> Void)?) {
+        let functionName = present3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: viewControllerToPresent, forKey: present3.params.viewControllerToPresent)
+        invocation.set(parameter: flag, forKey: present3.params.flag)
+        if let completion = completion {
+            invocation.set(parameter: completion, forKey: present3.params.completion)
+        }
+        invocations.record(invocation)
+    }
+
+    enum present3: String, _StringRawRepresentable {
+        case name = "present3"
+        enum params: String, _StringRawRepresentable {
+            case viewControllerToPresent = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
+            case flag = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).flag"
+            case completion = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).completion"
+        }
+    }
+
     // MARK: - nextResponderBecomeFirst
 
     func nextResponderBecomeFirst() {
-        let functionName = nextResponderBecomeFirst3.name
+        let functionName = nextResponderBecomeFirst4.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
     }
 
-    enum nextResponderBecomeFirst3: String, _StringRawRepresentable {
-        case name = "nextResponderBecomeFirst3"
+    enum nextResponderBecomeFirst4: String, _StringRawRepresentable {
+        case name = "nextResponderBecomeFirst4"
     }
 
     // MARK: - previousResponderBecomeFirst
 
     func previousResponderBecomeFirst() {
-        let functionName = previousResponderBecomeFirst4.name
+        let functionName = previousResponderBecomeFirst5.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
     }
 
-    enum previousResponderBecomeFirst4: String, _StringRawRepresentable {
-        case name = "previousResponderBecomeFirst4"
+    enum previousResponderBecomeFirst5: String, _StringRawRepresentable {
+        case name = "previousResponderBecomeFirst5"
     }
 }
 
@@ -1699,45 +1836,29 @@ class MockPlanController: NSObject, PlanControlling {
         }
     }
 
-    // MARK: - setRouter
-
-    func setRouter(_ router: StoryboardRouting) {
-        let functionName = setRouter3.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: router, forKey: setRouter3.params.router)
-        invocations.record(invocation)
-    }
-
-    enum setRouter3: String, _StringRawRepresentable {
-        case name = "setRouter3"
-        enum params: String, _StringRawRepresentable {
-            case router = "setRouter(_router:StoryboardRouting).router"
-        }
-    }
-
     // MARK: - openNewTodoItem
 
     func openNewTodoItem() {
-        let functionName = openNewTodoItem4.name
+        let functionName = openNewTodoItem3.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
     }
 
-    enum openNewTodoItem4: String, _StringRawRepresentable {
-        case name = "openNewTodoItem4"
+    enum openNewTodoItem3: String, _StringRawRepresentable {
+        case name = "openNewTodoItem3"
     }
 
     // MARK: - openFocusWithDate
 
     func openFocusWithDate(_ date: Date) {
-        let functionName = openFocusWithDate5.name
+        let functionName = openFocusWithDate4.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: date, forKey: openFocusWithDate5.params.date)
+        invocation.set(parameter: date, forKey: openFocusWithDate4.params.date)
         invocations.record(invocation)
     }
 
-    enum openFocusWithDate5: String, _StringRawRepresentable {
-        case name = "openFocusWithDate5"
+    enum openFocusWithDate4: String, _StringRawRepresentable {
+        case name = "openFocusWithDate4"
         enum params: String, _StringRawRepresentable {
             case date = "openFocusWithDate(_date:Date).date"
         }
@@ -1762,16 +1883,20 @@ class MockPlanCoordinator: NSObject, PlanCoordinating {
         case name = "start1"
     }
 
-    // MARK: - resetNavigation
+    // MARK: - setDelegate
 
-    func resetNavigation() {
-        let functionName = resetNavigation2.name
+    func setDelegate(_ delegate: PlanCoordinatorDelegate) {
+        let functionName = setDelegate2.name
         let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: delegate, forKey: setDelegate2.params.delegate)
         invocations.record(invocation)
     }
 
-    enum resetNavigation2: String, _StringRawRepresentable {
-        case name = "resetNavigation2"
+    enum setDelegate2: String, _StringRawRepresentable {
+        case name = "setDelegate2"
+        enum params: String, _StringRawRepresentable {
+            case delegate = "setDelegate(_delegate:PlanCoordinatorDelegate).delegate"
+        }
     }
 
     // MARK: - openNewTodoItem
@@ -1800,6 +1925,18 @@ class MockPlanCoordinator: NSObject, PlanCoordinating {
         enum params: String, _StringRawRepresentable {
             case date = "openFocusWithDate(_date:Date).date"
         }
+    }
+
+    // MARK: - resetNavigation
+
+    func resetNavigation() {
+        let functionName = resetNavigation5.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum resetNavigation5: String, _StringRawRepresentable {
+        case name = "resetNavigation5"
     }
 }
 
@@ -2109,20 +2246,42 @@ class MockPlanViewController: NSObject, PlanViewControlling {
         }
     }
 
-    // MARK: - performSegue
+    // MARK: - present
 
-    func performSegue(withIdentifier identifier: String, sender: Any?) {
-        let functionName = performSegue6.name
+    func present(_ viewControllerToPresent: ViewControllerCastable, animated flag: Bool, completion: (() -> Void)?) {
+        let functionName = present6.name
         let invocation = _Invocation(name: functionName.rawValue)
-        invocation.set(parameter: identifier, forKey: performSegue6.params.identifier)
-        if let sender = sender {
-            invocation.set(parameter: sender, forKey: performSegue6.params.sender)
+        invocation.set(parameter: viewControllerToPresent, forKey: present6.params.viewControllerToPresent)
+        invocation.set(parameter: flag, forKey: present6.params.flag)
+        if let completion = completion {
+            invocation.set(parameter: completion, forKey: present6.params.completion)
         }
         invocations.record(invocation)
     }
 
-    enum performSegue6: String, _StringRawRepresentable {
-        case name = "performSegue6"
+    enum present6: String, _StringRawRepresentable {
+        case name = "present6"
+        enum params: String, _StringRawRepresentable {
+            case viewControllerToPresent = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
+            case flag = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).flag"
+            case completion = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).completion"
+        }
+    }
+
+    // MARK: - performSegue
+
+    func performSegue(withIdentifier identifier: String, sender: Any?) {
+        let functionName = performSegue7.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: identifier, forKey: performSegue7.params.identifier)
+        if let sender = sender {
+            invocation.set(parameter: sender, forKey: performSegue7.params.sender)
+        }
+        invocations.record(invocation)
+    }
+
+    enum performSegue7: String, _StringRawRepresentable {
+        case name = "performSegue7"
         enum params: String, _StringRawRepresentable {
             case identifier = "performSegue(withIdentifieridentifier:String,sender:Any?).identifier"
             case sender = "performSegue(withIdentifieridentifier:String,sender:Any?).sender"
@@ -2244,28 +2403,28 @@ class MockProjectsCoordinator: NSObject, ProjectsCoordinating {
         }
     }
 
-    // MARK: - resetNavigation
-
-    func resetNavigation() {
-        let functionName = resetNavigation4.name
-        let invocation = _Invocation(name: functionName.rawValue)
-        invocations.record(invocation)
-    }
-
-    enum resetNavigation4: String, _StringRawRepresentable {
-        case name = "resetNavigation4"
-    }
-
     // MARK: - start
 
     func start() {
-        let functionName = start5.name
+        let functionName = start4.name
         let invocation = _Invocation(name: functionName.rawValue)
         invocations.record(invocation)
     }
 
-    enum start5: String, _StringRawRepresentable {
-        case name = "start5"
+    enum start4: String, _StringRawRepresentable {
+        case name = "start4"
+    }
+
+    // MARK: - resetNavigation
+
+    func resetNavigation() {
+        let functionName = resetNavigation5.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocations.record(invocation)
+    }
+
+    enum resetNavigation5: String, _StringRawRepresentable {
+        case name = "resetNavigation5"
     }
 }
 
@@ -2476,6 +2635,28 @@ class MockProjectsViewController: NSObject, ProjectsViewControlling {
             case viewControllerToPresent = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
             case flag = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).flag"
             case completion = "present(_viewControllerToPresent:UIViewController,animatedflag:Bool,completion:(()->Void)?).completion"
+        }
+    }
+
+    // MARK: - present
+
+    func present(_ viewControllerToPresent: ViewControllerCastable, animated flag: Bool, completion: (() -> Void)?) {
+        let functionName = present3.name
+        let invocation = _Invocation(name: functionName.rawValue)
+        invocation.set(parameter: viewControllerToPresent, forKey: present3.params.viewControllerToPresent)
+        invocation.set(parameter: flag, forKey: present3.params.flag)
+        if let completion = completion {
+            invocation.set(parameter: completion, forKey: present3.params.completion)
+        }
+        invocations.record(invocation)
+    }
+
+    enum present3: String, _StringRawRepresentable {
+        case name = "present3"
+        enum params: String, _StringRawRepresentable {
+            case viewControllerToPresent = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).viewControllerToPresent"
+            case flag = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).flag"
+            case completion = "present(_viewControllerToPresent:ViewControllerCastable,animatedflag:Bool,completion:(()->Void)?).completion"
         }
     }
 }

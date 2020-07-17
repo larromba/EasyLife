@@ -2,14 +2,14 @@ import AsyncAwait
 import Logging
 import UIKit
 
-// sourcery: name = AppController
-protocol AppControlling: Mockable {
+// sourcery: name = App
+protocol Appable: Mockable {
     func start()
     func applicationWillTerminate()
     func processShortcutItem(_ item: UIApplicationShortcutItem)
 }
 
-final class AppController: AppControlling {
+final class App: Appable {
     private let dataContextProvider: DataContextProviding
     private let appRouter: AppRouting
     private let fatalErrorHandler: FatalErrorHandler

@@ -5,7 +5,6 @@ import UIKit
 protocol PlanControlling: Mockable {
     func start()
     func setDelegate(_ delegate: PlanControllerDelegate)
-    func setRouter(_ router: StoryboardRouting)
     func openNewTodoItem()
     func openFocusWithDate(_ date: Date)
 }
@@ -13,6 +12,7 @@ protocol PlanControlling: Mockable {
 protocol PlanControllerDelegate: AnyObject {
     func controller(_ controller: PlanControlling, handleContext context: TodoItemContext, sender: Segueable)
     func controller(_ controller: PlanControlling, showAlert alert: Alert)
+    func controller(_ controller: PlanControlling, handleSegue segue: UIStoryboardSegue, sender: Any?)
     func controllerRequestsHoliday(_ controller: PlanControlling)
     func controllerRequestsFocus(_ controller: PlanControlling, withDate date: Date, sender: Segueable)
 }
@@ -23,7 +23,6 @@ final class PlanController: PlanControlling {
     private let badge: Badge
     private weak var viewController: PlanViewControlling?
     private weak var delegate: PlanControllerDelegate?
-    private weak var router: StoryboardRouting?
     private var isReloading = false
 
     init(viewController: PlanViewControlling, planRepository: PlanRepositoring,
@@ -47,10 +46,6 @@ final class PlanController: PlanControlling {
 
     func setDelegate(_ delegate: PlanControllerDelegate) {
         self.delegate = delegate
-    }
-
-    func setRouter(_ router: StoryboardRouting) {
-        self.router = router
     }
 
     func openNewTodoItem() {
@@ -140,7 +135,7 @@ extension PlanController: PlanViewControllerDelegate {
     }
 
     func viewController(_ viewController: PlanViewControlling, prepareForSegue segue: UIStoryboardSegue, sender: Any?) {
-        router?.handleSegue(segue, sender: sender)
+        delegate?.controller(self, handleSegue: segue, sender: sender)
     }
 
     func viewController(_ viewController: PlanViewControlling, didSelectItem item: TodoItem) {

@@ -1,9 +1,13 @@
 import UIKit
 
 // sourcery: name = HolidayViewController
-protocol HolidayViewControlling: Mockable {
+protocol HolidayViewControlling: AnyObject, ViewControllerCastable, Dismissible, Mockable {
+    // sourcery: value = UIModalPresentationStyle.fullScreen
+    var modalPresentationStyle: UIModalPresentationStyle { get set }
+    // sourcery: value = UIModalTransitionStyle.crossDissolve
+    var modalTransitionStyle: UIModalTransitionStyle { get set }
+
     func setDelegate(_ delegate: HolidayViewControllerDelegate)
-    func dismiss(animated flag: Bool, completion: (() -> Void)?)
 }
 
 protocol HolidayViewControllerDelegate: AnyObject {

@@ -3,7 +3,7 @@ import Logging
 import UIKit
 
 // sourcery: name = AppRouter
-protocol AppRouting: StoryboardRouting, Mockable {
+protocol AppRouting: Mockable {
     func start()
     func routeToNewTodoItem()
 }
@@ -13,16 +13,19 @@ final class AppRouter: AppRouting {
     private let focusCoordinator: FocusCoordinating
     private let archiveCoordinator: ArchiveCoordinating
     private let projectsCoordinator: ProjectsCoordinating
+    private let holidayCoordinator: HolidayCoordinating
     private let alarmNotificationHandler: AlarmNotificationHandling
 
     init(planCoordinator: PlanCoordinating, focusCoordinator: FocusCoordinating,
          archiveCoordinator: ArchiveCoordinating, projectsCoordinator: ProjectsCoordinating,
-         alarmNotificationHandler: AlarmNotificationHandling) {
+         holidayCoordinator: HolidayCoordinating, alarmNotificationHandler: AlarmNotificationHandling) {
         self.planCoordinator = planCoordinator
         self.focusCoordinator = focusCoordinator
         self.archiveCoordinator = archiveCoordinator
         self.projectsCoordinator = projectsCoordinator
+        self.holidayCoordinator = holidayCoordinator
         self.alarmNotificationHandler = alarmNotificationHandler
+        planCoordinator.setDelegate(self)
     }
 
     func start() {
@@ -79,5 +82,19 @@ final class AppRouter: AppRouting {
     private func routeToFocusWithDate(date: Date) {
         resetAllNavigation()
         planCoordinator.openFocusWithDate(date)
+    }
+}
+
+// MARK: - PlanCoordinating
+
+extension AppRouter: PlanCoordinatorDelegate {
+    func coordinatorRequestsHoliday(_ coordinator: PlanCoordinating) {
+        let viewController: HolidayViewController = UIStoryboard.components.instantiateViewController()
+        holidayCoordinator.setViewController(viewController)
+        holidayCoordinator.start()
+    }
+
+    func coordinator(_ coordinator: PlanCoordinating, handleSegue segue: UIStoryboardSegue, sender: Any?) {
+        handleSegue(segue, sender: sender)
     }
 }

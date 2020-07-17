@@ -120,7 +120,7 @@ final class PlanTests: XCTestCase {
         viewController.prepareView()
 
         // sut
-        env.appController.start()
+        env.app.start()
 
         // test
         waitSync()

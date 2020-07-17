@@ -5,7 +5,7 @@ import UIKit
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
-    private var appController: AppControlling?
+    private var app: Appable?
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -27,12 +27,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 return true
         }
         async({
-            self.appController = try await(AppControllerFactory.make(window: window,
-                                                                     navigationController: navigationController,
-                                                                     planViewController: planViewController))
-            onMain {
-                self.appController?.start()
-            }
+            self.app = try await(AppFactory.make(window: window, navigationController: navigationController,
+                                                 planViewController: planViewController))
+            onMain { self.app?.start() }
         }, onError: { error in
             assertionFailure(error.localizedDescription)
         })
@@ -40,11 +37,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        appController?.applicationWillTerminate()
+        app?.applicationWillTerminate()
     }
 
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem,
                      completionHandler: @escaping (Bool) -> Void) {
-        appController?.processShortcutItem(shortcutItem)
+        app?.processShortcutItem(shortcutItem)
     }
 }
