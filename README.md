@@ -82,6 +82,9 @@ Tips:
 * Think about key areas of your life and set them as projects. Update their priorities based on what needs your attention in the present. This will change over time.
 * Before using 'Focus Mode', organise the 'Today' section.
 
+## Contributing
+It might help to read this [architecture and style guide](https://github.com/larromba/ios-code-architecture) before contributing.
+
 ## Licence
 [![licensebuttons by-nc-sa](https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0) 
 
