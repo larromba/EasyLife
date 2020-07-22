@@ -273,6 +273,7 @@ final class ItemDetailTests: XCTestCase {
         let item = env.todoItem(type: .empty, isTransient: true)
         env.itemDetailController.setContext(.new(item: item, context: env.childContext))
         env.itemDetailController.start()
+        waitSync()
         viewController.titleTextField.setText("foo")
 
         // sut
