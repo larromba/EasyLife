@@ -72,14 +72,17 @@ Apple ID: 1229095589
 # Future Work
 
 3.1.0:
+app becomes active (scene delegate?)
+skip in focus mode?
 move coredata to new repo
 add move to tomoorrow options to today section
+search bar in blocked
 
 3.2.0:
 BUG: missed doesnt change. Split then done doesnt work.
 BUG: typing in notes is wierd
 BUG: later done if recurring doesnt work
-BUG: app becomes active not always updating
+BUG: app becomes active not always updating?
 should done recurring items add copy to archive?
 search bars in all views?
 
@@ -99,3 +102,6 @@ add noise when items done ?
 siri integration?
 are project buttons in weird order?
 revisit action rules for sections?
+
+Far future:
+make work on mac - use CoreDat with iCloud?
