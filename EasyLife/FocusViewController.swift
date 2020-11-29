@@ -195,7 +195,8 @@ extension FocusViewController: UIPickerViewDelegate {
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        viewState?.focusTime = viewState?.pickerItem(at: row).object ?? .default
+        guard let focusTime = viewState?.pickerItem(at: row).object else { return }
+        viewState?.focusTime = focusTime
     }
 }
 

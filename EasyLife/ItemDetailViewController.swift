@@ -64,6 +64,13 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
     }()
     private(set) var calendarButton: UIBarButtonItem?
     private(set) var blockedBadgeLabel: PPBadgeLabel?
+    private lazy var textViewTapGesture: UITapGestureRecognizer = {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(textViewTapped(_:)))
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.cancelsTouchesInView = false
+        tapGesture.delaysTouchesEnded = false
+        return tapGesture
+    }()
     private let keyboardNotification = KeyboardNotification()
     private weak var delegate: ItemDetailViewControllerDelegate?
     var responders: [UIResponder]!
@@ -93,12 +100,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         textView.inputAccessoryView = toolbar
         textView.applyTextFieldStyle()
         textView.dataDetectorTypes = .all
-        textView.isEditable = false
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(textViewTapped(_:)))
-        tapGesture.numberOfTapsRequired = 1
-        tapGesture.cancelsTouchesInView = false
-        tapGesture.delaysTouchesEnded = false
-        textView.addGestureRecognizer(tapGesture)
+        setTextViewIsEditable(false)
         _ = viewState.map(bind)
     }
 
@@ -155,8 +157,17 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         blockedButton.pp.setBadgeLabel(attributes: { self.blockedBadgeLabel = $0 })
     }
 
+    private func setTextViewIsEditable(_ isEditable: Bool) {
+        if isEditable {
+            textView.removeGestureRecognizer(textViewTapGesture)
+        } else {
+            textView.addGestureRecognizer(textViewTapGesture)
+        }
+        textView.isEditable = isEditable
+    }
+
     private func makeFirstResponder(_ responder: UIResponder?) {
-        if responder == textView { textView.isEditable = true }
+        if responder == textView { setTextViewIsEditable(true) }
         responder?.becomeFirstResponder()
     }
 
@@ -296,9 +307,11 @@ extension ItemDetailViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case repeatPicker:
-            viewState?.repeatState = viewState?.repeatStatePickerItem(at: row).object ?? .default
+            guard let repeatState = viewState?.repeatStatePickerItem(at: row).object else { return }
+            viewState?.repeatState = repeatState
         case projectPicker:
-            viewState?.project = viewState?.projectPickerItem(at: row).object
+            guard let project = viewState?.projectPickerItem(at: row).object else { return }
+            viewState?.project = project
         default:
             assertionFailure("unhandled picker")
         }
@@ -388,7 +401,7 @@ extension ItemDetailViewController: UITextFieldDelegate {
 
 extension ItemDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        textView.isEditable = false
+        setTextViewIsEditable(false)
     }
 
     func textViewDidChange(_ textView: UITextView) {

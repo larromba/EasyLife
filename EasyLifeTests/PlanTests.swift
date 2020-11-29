@@ -61,7 +61,7 @@ final class PlanTests: XCTestCase {
         XCTAssertEqual(viewController.presentedViewController?.asAlertController?.title, "Error")
     }
 
-    func test_notification_whenWillEnterForeground_expectReload() {
+    func test_notification_whenDidBecomeActive_expectReload() {
         // mocks
         env.inject()
         env.planController.start()
@@ -69,7 +69,7 @@ final class PlanTests: XCTestCase {
 
         // sut
         _ = env.todoItem(type: .empty)
-        NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.post(name: UIApplication.didBecomeActiveNotification, object: nil)
 
         // test
         waitSync()

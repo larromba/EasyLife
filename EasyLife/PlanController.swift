@@ -24,13 +24,15 @@ final class PlanController: PlanControlling {
     private weak var viewController: PlanViewControlling?
     private weak var delegate: PlanControllerDelegate?
     private var isReloading = false
+    private let notificationCenter: NotificationCenter
 
-    init(viewController: PlanViewControlling, planRepository: PlanRepositoring,
-         holidayRepository: HolidayRepositoring, badge: Badge) {
+    init(viewController: PlanViewControlling, planRepository: PlanRepositoring, holidayRepository: HolidayRepositoring,
+         badge: Badge, notificationCenter: NotificationCenter = .default) {
         self.viewController = viewController
         self.planRepository = planRepository
         self.holidayRepository = holidayRepository
         self.badge = badge
+        self.notificationCenter = notificationCenter
         viewController.setDelegate(self)
     }
 
@@ -61,13 +63,13 @@ final class PlanController: PlanControlling {
     // MARK: - private
 
     private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterForeground(_:)),
-                                               name: UIApplication.willEnterForegroundNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(applicationDidEnterForeground(_:)),
+                                       name: UIApplication.didBecomeActiveNotification, object: nil)
     }
 
     private func tearDownNotifications() {
-        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification,
-                                                  object: nil)
+        notificationCenter.removeObserver(self, name: UIApplication.didBecomeActiveNotification,
+                                          object: nil)
     }
 
     @objc

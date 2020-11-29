@@ -417,7 +417,7 @@ final class FocusTests: XCTestCase {
         // sut
         NotificationCenter.default.post(name: UIApplication.willResignActiveNotification, object: nil, userInfo: nil)
         waitSync(for: 0.5)
-        NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: UIApplication.didBecomeActiveNotification, object: nil, userInfo: nil)
 
         // test
         XCTAssertEqual(viewController?.timeLabel.text, "00:00:01")
@@ -440,7 +440,7 @@ final class FocusTests: XCTestCase {
         // sut
         NotificationCenter.default.post(name: UIApplication.willResignActiveNotification, object: nil, userInfo: nil)
         waitSync(for: 1.0)
-        NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: UIApplication.didBecomeActiveNotification, object: nil, userInfo: nil)
 
         // test
         XCTAssertTrue(alarm.invocations.isInvoked(MockAlarm.start1.name))

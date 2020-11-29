@@ -14,6 +14,11 @@ protocol AppClosedTimerDelegate: AnyObject {
 final class AppClosedTimer: AppClosedTiming {
     private var resignActiveDate: Date?
     private weak var delegate: AppClosedTimerDelegate?
+    private let notificationCenter: NotificationCenter
+
+    init(notificationCenter: NotificationCenter = .default) {
+        self.notificationCenter = notificationCenter
+    }
 
     func setDelegate(_ delegate: AppClosedTimerDelegate) {
         self.delegate = delegate
@@ -30,17 +35,15 @@ final class AppClosedTimer: AppClosedTiming {
     // MARK: - private
 
     private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterForeground(_:)),
-                                               name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive(_:)),
-                                               name: UIApplication.willResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(applicationDidEnterForeground(_:)),
+                                       name: UIApplication.didBecomeActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(applicationWillResignActive(_:)),
+                                       name: UIApplication.willResignActiveNotification, object: nil)
     }
 
     private func tearDownNotifications() {
-        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification,
-                                                  object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification,
-                                                  object: nil)
+        notificationCenter.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+        notificationCenter.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
     }
 
     @objc

@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.1 (29/11/2020)
+    fixed app not refreshing on rentry
+    fixed typing in notes
+
 ## v3.0.0 (09/07/2020)
     fixed coredata threading issues
     fixed table reload flickers
@@ -71,20 +75,20 @@ Apple ID: 1229095589
 
 # Future Work
 
-3.1.0:
-app becomes active (scene delegate?)
-skip in focus mode?
+3.0.2:
+BUG: missed doesnt change. Split then done doesnt work.
+BUG: later done if recurring doesnt work
+
+3.0.3:
 move coredata to new repo
+
+3.1.0:
+skip in focus mode?
 add move to tomoorrow options to today section
-search bar in blocked
 
 3.2.0:
-BUG: missed doesnt change. Split then done doesnt work.
-BUG: typing in notes is wierd
-BUG: later done if recurring doesnt work
-BUG: app becomes active not always updating?
 should done recurring items add copy to archive?
-search bars in all views?
+search bars in all views (especially blocked)?
 
 Future Minor:
 use plan cell everywhere?
@@ -104,4 +108,4 @@ are project buttons in weird order?
 revisit action rules for sections?
 
 Far future:
-make work on mac - use CoreDat with iCloud?
+make work on mac - need to use CoreData with iCloud?

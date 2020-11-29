@@ -3,17 +3,19 @@ import UIKit
 
 final class FatalErrorHandler {
     private let window: UIWindow
+    private let notificationCenter: NotificationCenter
 
-    init(window: UIWindow) {
+    init(window: UIWindow, notificationCenter: NotificationCenter = .default) {
         self.window = window
+        self.notificationCenter = notificationCenter
         setupNotifications()
     }
 
     // MARK: - private
 
     private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidReceiveFatalError(_:)),
-                                               name: .applicationDidReceiveFatalError, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(applicationDidReceiveFatalError(_:)),
+                                       name: .applicationDidReceiveFatalError, object: nil)
     }
 
     @objc
