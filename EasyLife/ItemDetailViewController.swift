@@ -42,9 +42,7 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         if #available(iOS 14.0, *) {
-            #if !TRAVIS
             datePicker.preferredDatePickerStyle = .inline
-            #endif
         } else if #available(iOS 13.4, *) {
             datePicker.preferredDatePickerStyle = .wheels
         }
