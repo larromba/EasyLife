@@ -339,8 +339,10 @@ final class ItemDetailTests: XCTestCase {
 
         // test
         waitSync()
+        print(viewController.datePicker.date)
+        print(date)
         XCTAssertEqual(viewController.datePicker.date.timeIntervalSince1970,
-                       date.addingTimeInterval(24 * 60 * 60).timeIntervalSince1970, accuracy: 1.0)
+                       date.addingTimeInterval(24 * 60 * 60).timeIntervalSince1970, accuracy: 60.0)
     }
 
     func test_simpleDatePicker_whenDateButtonPressed_expectDateClearedAndRowSelected() {
