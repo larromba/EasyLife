@@ -41,6 +41,11 @@ final class ItemDetailViewController: UIViewController, ItemDetailViewControllin
     private(set) lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
+        if #available(iOS 14.0, *) {
+            datePicker.preferredDatePickerStyle = .inline
+        } else if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        }
         datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
         let tap = UITapGestureRecognizer(target: self, action: #selector(dateTapped(_:)))
         tap.numberOfTapsRequired = 2

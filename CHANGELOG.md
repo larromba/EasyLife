@@ -1,5 +1,8 @@
 # Changelog
 
+## v3.0.2 (03/12/2020)
+    fixed date picker appearance in iOS 14.0
+
 ## v3.0.1 (29/11/2020)
     fixed app not refreshing on rentry
     fixed typing in notes
@@ -75,11 +78,11 @@ Apple ID: 1229095589
 
 # Future Work
 
-3.0.2:
+3.0.3:
 BUG: missed doesnt change. Split then done doesnt work.
 BUG: later done if recurring doesnt work
 
-3.0.3:
+3.0.4:
 move coredata to new repo
 
 3.1.0:
